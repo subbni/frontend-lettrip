@@ -8,19 +8,17 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
-
-  app.use(
-    createProxyMiddleware({
-      target:
-        "http://ec2-3-35-173-250.ap-northeast-2.compute.amazonaws.com:8080",
-      changeOrigin: true,
-    })
-  );
-
-  app.use(
-    createProxyMiddleware({
-      target: "http://localhost:3000",
-      changeOrigin: true,
-    })
-  );
+  //   app.use(
+  //     createProxyMiddleware({
+  //       target:
+  //         "http://ec2-3-35-173-250.ap-northeast-2.compute.amazonaws.com:8080",
+  //       changeOrigin: true,
+  //     })
+  //   );
+  // app.use(
+  //   createProxyMiddleware({
+  //     target: "http://localhost:3000",
+  //     changeOrigin: true,
+  //   })
+  // );
 };
