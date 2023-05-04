@@ -1,0 +1,24 @@
+.Header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.Header_Container {
+    align-items: center;
+    float: right;
+    margin-top: 10px;
+}
+
+.Header_Button {
+    border: none;
+    background-color: white;
+    color: gray;
+    padding: 3px 3px;
+    font-size: 17px;
+    cursor: pointer;
+}
+.Header_Button + .Header_Button {
+    margin-left: 50px;
+    margin-right: 120px;
+  }
+  

@@ -1,0 +1,57 @@
+.Navbar {
+  display: flex;
+  flex-direction: column;
+  position: inherit;
+  top: 0;
+  z-index: 100;
+}
+
+.Logo_Image {
+  width: 300px;
+  object-fit: contain;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  margin-bottom: -50px;
+  display: block;
+}
+
+.Navbar_Container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.Navbar_Service {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 600;
+  margin-left: 60px;
+}
+
+.Navbar_Travel,
+.Navbar_Friend,
+.Navbar_Mission,
+.Navbar_Community {
+  margin-left: 30px;
+  margin-right: 30px;
+  cursor: pointer;
+}
+
+.Navbar_Option {
+  display: flex;
+  align-items: center;
+  font-size: 30px;
+  margin-right: 60px;
+}
+
+.Navbar_UserIcon {
+  margin: 35px 60px;
+}
+.Navbar_SearchIcon {
+  margin: 35px 60px;
+}
+.Navbar_HeartIcon {
+  margin: 35px 60px;
+}
