@@ -2,7 +2,7 @@ import React from "react";
 import "./TravelList.css";
 import { useNavigate } from "react-router-dom";
 
-function TravelCreate() {
+function TravelList() {
   const navigate = useNavigate();
   function handleCreateCourse() {
     navigate("/Travel/create/course");
@@ -12,15 +12,15 @@ function TravelCreate() {
   }
 
   return (
-    <div>
-      <button onClick={handleCreateCourse} className='create-button'>
+    <div className='create-buttons-container'>
+      <button onClick={handleCreateCourse} className='course-button'>
         여행 코스 등록
       </button>
-      <button onClick={handleCreateReview} className='create-button'>
+      <button onClick={handleCreateReview} className='review-button'>
         여행 코스 후기 등록
       </button>
     </div>
   );
 }
 
-export default TravelCreate;
+export default TravelList;

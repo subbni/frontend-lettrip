@@ -1,60 +1,55 @@
-div{
-  margin:10px auto;
-}
 input {
   border: none;
   border-bottom: 1px solid rgb(172, 172, 172);
   margin-bottom: 10px;
-  width:350px
+  width: 350px;
 }
 h1 {
+  margin-top: 130px;
   border-bottom: 2px solid rgb(61, 58, 86);
-  color:#2E3B4C;
-  width:350px;
+  color: #2e3b4c;
+  width: 350px;
   display: inline-block;
   margin-bottom: 85px;
   text-align: center;
 }
-form{
+form {
   display: block;
   position: absolute;
   top: 160px;
   bottom: auto;
   left: 39%;
   right: 100%;
-
-}
-a{
-  margin-inline: 30px;
-  text-decoration: none;
-  color:#2E3B4C;
 }
 
+.Login_username {
+  margin-bottom: 30px;
+}
 .navigation-item {
   margin-bottom: 16px; /* 네비게이션 항목들 간의 간격 조정 */
 }
-button{
+button {
   margin: 30px;
   text-align: center;
   margin-left: 80px;
+  margin-top: 40px;
   font-size: medium;
-  border-radius: 30px;
 }
-.navbar-brand  {
+.navbar-brand {
   margin: 103px;
 }
-.nav{
+.nav {
   position: relative;
-  left:9%;
+  left: 9%;
   font-style: bold;
 }
-.sns{
+.sns {
   position: absolute;
-  top:600px;
+  top: 600px;
   left: 575px;
 
-  color:rgb(186, 186, 186);
+  color: rgb(186, 186, 186);
 }
-.nav-rlink{
+.nav-rlink {
   margin-left: 195px;
 }

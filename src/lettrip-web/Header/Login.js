@@ -3,6 +3,8 @@ import jwt_decode from "jwt-decode";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import "./Login.css";
+
 const instance = axios.create({
   headers: { "Access-Control-Allow-Origin": "*" },
   baseURL: "http://ec2-3-35-173-250.ap-northeast-2.compute.amazonaws.com:8080",
@@ -108,6 +110,7 @@ function Login() {
 
   return (
     <form className='Login_container' onSubmit={handleLoginFormSubmit}>
+      <h1>LOGIN</h1>
       <label htmlFor='username'>아이디</label>
       <input
         className='Login_username'
@@ -130,7 +133,18 @@ function Login() {
         value={password}
         onChange={handlePasswordChange}
       />
-      <button type='submit'>로그인</button>
+      <button
+        style={{
+          width: "200px",
+          height: "40px",
+          backgroundColor: "#2E3B4C",
+          color: "white",
+          borderRadius: "30px",
+        }}
+        type='submit'
+      >
+        로그인
+      </button>
     </form>
   );
 }
