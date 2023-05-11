@@ -110,7 +110,7 @@ function Login() {
 
   return (
     <form className='Login_container' onSubmit={handleLoginFormSubmit}>
-      <h1>LOGIN</h1>
+      <div className='Login'>LOGIN</div>
       <label htmlFor='username'>아이디</label>
       <input
         className='Login_username'
