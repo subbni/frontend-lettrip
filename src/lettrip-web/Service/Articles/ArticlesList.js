@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
 const instance = axios.create({
-  baseURL: "http://192.168.25.19/api",
+  baseURL: "http://ec2-3-35-173-250.ap-northeast-2.compute.amazonaws.com/api",
 });
 
 function ArticlesList() {
@@ -27,10 +27,10 @@ function ArticlesList() {
   return (
     <div>
       <h1>게시글 목록</h1>
-      <button onClick={handleCreateClick} className='create-button'>
+      <button onClick={handleCreateClick} className="create-button">
         글 작성
       </button>
-      <table className='post-table'>
+      <table className="post-table">
         <thead>
           <tr>
             <th>글 제목</th>
