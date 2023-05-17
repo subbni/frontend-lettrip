@@ -1,5 +1,5 @@
 import { Axios } from "axios";
-import { API_BASE_URL, ACCESS_TOKEN } from "../constant/backendAPI";
+import { API_BASE_URL, ACCESS_TOKEN } from "../Constant/backendAPI";
 
 export const request = (options) => {
   const headers = new Headers({

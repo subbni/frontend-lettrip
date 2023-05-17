@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Comment from "./Comment";
+import Comment from "./Comment/Comment";
 import "./ArticlesPage.css";
 
 const instance = axios.create({
