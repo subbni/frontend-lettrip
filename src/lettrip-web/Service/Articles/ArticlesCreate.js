@@ -41,35 +41,35 @@ function ArticlesCreate() {
   };
 
   return (
-    <div className='board-create-container'>
+    <div className="board-create-container">
       <h1>게시글 작성</h1>
       <form onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <label htmlFor='title'>제목</label>
+        <div className="form-group">
+          <label htmlFor="title">제목</label>
           <input
-            type='text'
-            id='title'
+            type="text"
+            id="title"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
           />
         </div>
-        <div className='form-group-file'>
-          <label htmlFor='file'>사진 첨부</label>
+        <div className="form-group-file">
+          <label htmlFor="file">사진 첨부</label>
           <input
-            type='file'
-            id='file'
+            type="file"
+            id="file"
             onChange={(event) => setFile(event.target.files[0])}
           />
         </div>
-        <div className='form-group'>
-          <label htmlFor='content'>내용</label>
+        <div className="form-group">
+          <label htmlFor="content">내용</label>
           <textarea
-            id='content'
+            id="content"
             value={content}
             onChange={(event) => setContent(event.target.value)}
           />
         </div>
-        <button type='submit'>등록</button>
+        <button type="submit">등록</button>
       </form>
     </div>
   );
