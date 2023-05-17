@@ -1,22 +1,15 @@
 import axios from "axios";
 import React, { useState } from "react";
 import "./ReviewForm.css";
-import ReviewPlaceForm from "./ReviewPlaceForm";
 
-function ReviewForm({ onSave }) {
+function ReviewFormmodify({ onSave, review }) {
   const [files, setFiles] = useState([]);
-  const [arrivalTime, setArrivalTime] = useState("");
-  const [cost, setCost] = useState("");
-  const [review, setReview] = useState("");
-  const [place, setPlace] = useState("");
-  const [isPlaceFormOpen, setIsPlaceFormOpen] = useState(false);
+  const [arrivalTime, setArrivalTime] = useState(review.arrival_time);
+  const [cost, setCost] = useState(review.cost);
+  const [reviewText, setReviewText] = useState(review.review);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!place.trim()) {
-      alert("장소를 입력해주세요");
-      return;
-    }
     if (!arrivalTime.trim()) {
       alert("도착 시간을 입력해주세요");
       return;
@@ -25,7 +18,7 @@ function ReviewForm({ onSave }) {
       alert("비용을 입력해주세요");
       return;
     }
-    if (!review.trim()) {
+    if (!reviewText.trim()) {
       alert("코스 후기를 입력해주세요");
       return;
     }
@@ -35,60 +28,26 @@ function ReviewForm({ onSave }) {
     }
     formData.append("arrival_time", arrivalTime);
     formData.append("cost", cost);
-    formData.append("review", review);
-    formData.append("place", place);
+    formData.append("review", reviewText);
 
     axios
-      .post("/api/review", formData)
+      .put(`/api/reviews/${review.id}`, formData)
       .then((response) => {
         console.log(response.data);
         setFiles([]);
         setArrivalTime("");
         setCost("");
-        setReview("");
-        onSave(formData);
+        setReviewText("");
+        onSave(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
   };
 
-  const handlePlaceFormOpen = () => {
-    setIsPlaceFormOpen(true);
-  };
-
-  const handlePlaceFormClose = () => {
-    setIsPlaceFormOpen(false);
-  };
-
-  const handlePlaceSave = (savedPlace) => {
-    setPlace(savedPlace);
-    setIsPlaceFormOpen(false);
-  };
-
   return (
     <div className='CreateContent'>
       <form onSubmit={handleSubmit}>
-        <div className='form-group'>
-          <label htmlFor='place'>장소</label>
-          <input
-            type='text'
-            id='place'
-            value={place}
-            onChange={(event) => setPlace(event.target.value)}
-          />
-          <button type='button' onClick={handlePlaceFormOpen}>
-            입력하기
-          </button>
-        </div>
-        {isPlaceFormOpen && (
-          <div className='Modal'>
-            <div className='ModalContent'>
-              <ReviewPlaceForm onSave={handlePlaceSave} />
-              <button onClick={handlePlaceFormClose}>닫기</button>
-            </div>
-          </div>
-        )}
         <div className='form-group'>
           <label htmlFor='files'>사진</label>
           <input
@@ -109,7 +68,6 @@ function ReviewForm({ onSave }) {
         </div>
         <div className='form-group'>
           <label htmlFor='cost'>비용</label>
-
           <input
             type='text'
             id='cost'
@@ -121,14 +79,14 @@ function ReviewForm({ onSave }) {
           <label htmlFor='review'>코스 후기</label>
           <textarea
             id='review'
-            value={review}
-            onChange={(event) => setReview(event.target.value)}
+            value={reviewText}
+            onChange={(event) => setReviewText(event.target.value)}
           />
         </div>
-        <button type='submit'>제출</button>
+        <button type='submit'>수정</button>
       </form>
     </div>
   );
 }
 
-export default ReviewForm;
+export default ReviewFormmodify;

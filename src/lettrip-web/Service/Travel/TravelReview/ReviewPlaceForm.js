@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-function Map() {
+function ReviewPlaceForm() {
   const container = useRef();
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
@@ -202,4 +202,4 @@ function Map() {
   );
 }
 
-export default Map;
+export default ReviewPlaceForm;

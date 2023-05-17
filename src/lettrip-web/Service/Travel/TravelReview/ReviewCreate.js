@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./ReviewCreate.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import ReviewForm, { setFormData } from "./ReviewForm";
+import ReviewForm from "./ReviewForm";
 
 const instance = axios.create({
   baseURL: "http://192.168.25.19/api",
@@ -93,11 +93,11 @@ function ReviewCreate() {
     const response = await instance.post("/travel_reviews", formData);
 
     alert("여행 코스 후기가 등록되었습니다.");
-    navigate(`/TravelReviews/${response.data.travel_review.id}`);
+    navigate(`/TravelReview/${response.data.travel_review.id}`);
   };
 
   return (
-    <div className='travel-record-create-container'>
+    <div className='travel-review-create-container'>
       <h1>여행 코스 후기 작성</h1>
       <form onSubmit={handleSubmit}>
         <div className='form-group'>

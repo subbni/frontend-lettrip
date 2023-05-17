@@ -2,12 +2,19 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-function Map() {
+function CoursePlaceForm({ onSave }) {
   const container = useRef();
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [infoWindow, setInfoWindow] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSearch = (event) => {
+    event.preventDefault(); // 페이지 새로고침 방지
+    keywordSearch();
+  };
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -28,23 +35,26 @@ function Map() {
     };
   }, []);
 
+  const keywordSearch = () => {
+    const keyword = document.getElementById("keyword").value;
+
+    if (!keyword.replace(/^\s+|\s+$/g, "")) {
+      alert("키워드를 입력해주세요!");
+      return false;
+    }
+
+    setIsLoading(true);
+    ps.keywordSearch(keyword, placesSearchCB);
+  };
+
   useEffect(() => {
     if (map) {
       const ps = new kakao.maps.services.Places();
 
-      const keywordSearch = () => {
-        const keyword = document.getElementById("keyword").value;
-
-        if (!keyword.replace(/^\s+|\s+$/g, "")) {
-          alert("키워드를 입력해주세요!");
-          return false;
-        }
-
-        ps.keywordSearch(keyword, placesSearchCB);
-      };
-
       const placesSearchCB = (data, status, pagination) => {
+        setIsLoading(false);
         if (status === kakao.maps.services.Status.OK) {
+          setSearchResults(data);
           displayPlaces(data);
           displayPagination(pagination);
           if (data.length > 0) {
@@ -78,16 +88,13 @@ function Map() {
 
       const addMarkers = (places) => {
         removeMarkers();
-
         const newMarkers = places.map((place) => {
           const marker = new kakao.maps.Marker({
             position: new kakao.maps.LatLng(place.y, place.x),
           });
-
           kakao.maps.event.addListener(marker, "click", function () {
             setSelectedPlace(place);
           });
-
           marker.setMap(map);
           return marker;
         });
@@ -101,6 +108,7 @@ function Map() {
         });
         setMarkers([]);
       };
+
       const getListItem = (place) => {
         const el = document.createElement("li");
         const title = document.createElement("span");
@@ -111,6 +119,7 @@ function Map() {
         address.innerHTML = place.address_name;
         el.appendChild(title);
         el.appendChild(address);
+        el.addEventListener("click", () => handlePlaceSave(place));
         return el;
       };
 
@@ -139,13 +148,9 @@ function Map() {
         paginationEl.appendChild(fragment);
       };
 
-      const handleSearch = () => {
-        keywordSearch();
-      };
-
-      document.getElementById("searchBtn").addEventListener("click", () => {
-        handleSearch();
-      });
+      document
+        .getElementById("searchBtn")
+        .addEventListener("click", keywordSearch);
     }
   }, [map, markers]);
 
@@ -157,15 +162,13 @@ function Map() {
       );
       map.setCenter(selectedPlacePosition);
       // Create an info window and set its content
-      const infoContent = `<div>${selectedPlace.place_name}</div>`;
+      const infoContent = <div>${selectedPlace.place_name}</div>;
       const infoWindow = new kakao.maps.InfoWindow({
         content: infoContent,
         position: selectedPlacePosition,
       });
-
       // Open the info window on the map
       infoWindow.open(map);
-
       // Set the info window as a state
       setInfoWindow(infoWindow);
     }
@@ -180,26 +183,45 @@ function Map() {
     };
   }, [infoWindow]);
 
+  const handlePlaceSave = (savedPlace) => {
+    onSave(savedPlace);
+  };
+
   return (
     <div>
       <div>
-        <input type='text' id='keyword' />
-        <button id='searchBtn'>검색</button>
+        <form onSubmit={handleSearch}>
+          <input type='text' id='keyword' />
+          <button type='submit' id='searchBtn'>
+            검색
+          </button>
+        </form>
       </div>
       <div
         id='map'
         ref={container}
         style={{
           width: "500px",
-          height: "500px",
+          height: "300px",
         }}
       ></div>
       <div>
-        <ul id='placesList'></ul>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <ul id='placesList'>
+            {searchResults.map((place) => (
+              <li key={place.id} onClick={() => handlePlaceSave(place)}>
+                <span className='place_title'>{place.place_name}</span>
+                <span className='place_address'>{place.address_name}</span>
+              </li>
+            ))}
+          </ul>
+        )}
         <div id='pagination'></div>
       </div>
     </div>
   );
 }
 
-export default Map;
+export default CoursePlaceForm;
