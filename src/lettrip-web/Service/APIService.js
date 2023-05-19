@@ -1,5 +1,5 @@
 import { Axios } from "axios";
-import { API_BASE_URL, ACCESS_TOKEN } from "../Constant/backendAPI";
+import { ACCESS_TOKEN } from "../Constant/backendAPI";
 
 export const request = (options) => {
   const headers = new Headers({
@@ -26,28 +26,5 @@ export const request = (options) => {
   );
 };
 
-export function login(loginRequest) {
-  return request({
-    url: API_BASE_URL + "/api/auth/login",
-    method: "POST",
-    body: JSON.stringify(loginRequest),
-  });
-}
-
-export function SignUp(signUpRequest) {
-  return request({
-    url: API_BASE_URL + "/api/auth/sign-up",
-    method: "POST",
-    body: JSON.stringify(signUpRequest),
-  });
-}
-
-export function CreateArticle(articleCreateRequest) {
-  return request({
-    url: API_BASE_URL + "/api/articles/create",
-    method: "POST",
-    body: JSON.stringify(articleCreateRequest),
-  });
-}
 class APIService {}
 export default new APIService();
