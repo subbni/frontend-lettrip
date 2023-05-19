@@ -1,0 +1,26 @@
+.Sign_Container {
+  margin: 20px;
+  padding: 100px;
+  border: 1px solid #ccc;
+}
+
+.Sign_username,
+.Sign_password,
+.Sign_nickname,
+.Sign_email {
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.Sign_emailbutton {
+  width: 100px;
+  padding: 5px;
+}
+
+.Sign_button {
+  width: 100px;
+  padding: 5px;
+}
