@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ArticlesList.css";
 import { Link, useNavigate } from "react-router-dom";
-import { ArticleList } from "../../Service/APIService";
+import { ArticleList } from "../../Service/AuthService";
 
 function ArticlesList() {
   const [posts, setPosts] = useState([]);
@@ -29,10 +29,10 @@ function ArticlesList() {
   return (
     <div>
       <h1>게시글 목록</h1>
-      <button onClick={handleCreateClick} className='create-button'>
+      <button onClick={handleCreateClick} className="create-button">
         글 작성
       </button>
-      <table className='post-table'>
+      <table className="post-table">
         <thead>
           <tr>
             <th>글 제목</th>

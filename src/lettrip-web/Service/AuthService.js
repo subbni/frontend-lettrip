@@ -9,7 +9,22 @@ export function login(loginRequest) {
   });
 }
 
-export function SignUp(signUpRequest) {
+export function requestEmailCode(email) {
+  console.log(email);
+  return request({
+    url: API_BASE_URL + `/api/auth/email-code/${email}`,
+    method: "GET",
+  });
+}
+
+export function requestEmailVerify(code) {
+  return request({
+    url: API_BASE_URL + "/api/auth/email-verify/" + code,
+    method: "GET",
+  });
+}
+
+export function signUp(signUpRequest) {
   return request({
     url: API_BASE_URL + "/api/auth/sign-up",
     method: "POST",

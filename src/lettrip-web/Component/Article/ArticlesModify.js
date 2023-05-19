@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./ArticlesModify.css";
-import { Checklogin, ModifyArticle } from "../../Service/APIService";
+import { Checklogin, ModifyArticle } from "../../Service/AuthService";
 
 function ArticlesModify() {
   const navigate = useNavigate();
@@ -82,38 +82,38 @@ function ArticlesModify() {
   };
 
   return (
-    <div className='ArticleModifyContainer'>
+    <div className="ArticleModifyContainer">
       <h1>게시글 수정</h1>
       <form onSubmit={handleArticleFormSubmit}>
-        <div className='Article_title'>
-          <label htmlFor='title'>제목</label>
+        <div className="Article_title">
+          <label htmlFor="title">제목</label>
           <input
-            type='text'
-            id='title'
+            type="text"
+            id="title"
             required
             value={articleForm.title}
             onChange={handleArticleFormChange}
           />
         </div>
-        <div className='Article_file'>
-          <label htmlFor='file'>사진 첨부</label>
+        <div className="Article_file">
+          <label htmlFor="file">사진 첨부</label>
           <input
-            type='file'
-            id='file'
+            type="file"
+            id="file"
             value={articleForm.file}
             onChange={handleArticleFormChange}
           />
         </div>
-        <div className='Article_content'>
-          <label htmlFor='content'>내용</label>
+        <div className="Article_content">
+          <label htmlFor="content">내용</label>
           <textarea
-            id='content'
+            id="content"
             required
             value={articleForm.content}
             onChange={handleArticleFormChange}
           />
         </div>
-        <button type='submit'>수정</button>
+        <button type="submit">수정</button>
       </form>
     </div>
   );
