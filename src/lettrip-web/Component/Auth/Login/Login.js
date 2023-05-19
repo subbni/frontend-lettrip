@@ -1,12 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../../Service/APIService";
 import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
 
 function Login() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [loginForm, setLoginForm] = useState({
     email: "",
     password: "",
@@ -41,9 +39,9 @@ function Login() {
 
   return (
     <form className='Login_container' onSubmit={handleLoginFormSubmit}>
-      <label htmlFor='email'>아이디</label>
+      <label htmlFor='email'>이메일</label>
       <input
-        className='Login_username'
+        className='Login_useremail'
         type='email'
         id='email'
         name='email'

@@ -61,7 +61,7 @@ button[type="submit"] {
 }
 
 /* 게시글 페이지 */
-.container {
+.ArticlePagecontainer {
   max-width: 700px;
   margin: 0 auto;
   padding: 20px;

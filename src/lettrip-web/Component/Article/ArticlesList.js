@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import "./ArticlesList.css";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-
-const instance = axios.create({
-  baseURL: "http://ec2-3-35-173-250.ap-northeast-2.compute.amazonaws.com/api",
-});
+import { ArticleList } from "../../Service/APIService";
 
 function ArticlesList() {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await instance.get("/posts");
-      setPosts(response.data.posts);
-    }
-
-    fetchData();
+    fetchArticles();
   }, []);
+
+  const fetchArticles = () => {
+    ArticleList()
+      .then((response) => {
+        setPosts(response.data.posts);
+      })
+      .catch((e) => {
+        console.log(e);
+        window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
+      });
+  };
 
   const handleCreateClick = () => {
     navigate("/Articles/create");
@@ -27,10 +29,10 @@ function ArticlesList() {
   return (
     <div>
       <h1>게시글 목록</h1>
-      <button onClick={handleCreateClick} className="create-button">
+      <button onClick={handleCreateClick} className='create-button'>
         글 작성
       </button>
-      <table className="post-table">
+      <table className='post-table'>
         <thead>
           <tr>
             <th>글 제목</th>

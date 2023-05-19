@@ -1,63 +1,66 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Comment from "./Comment/Comment";
 import "./ArticlesPage.css";
-
-const instance = axios.create({
-  baseURL: "http://192.168.25.19/api",
-});
+import {
+  Checklogin,
+  ArticlePage,
+  DeleteArticle,
+} from "../../Service/APIService";
 
 function ArticlesPage() {
+  const navigate = useNavigate();
   const [posts, setNewPosts] = useState([]);
-  const [isDataFetched, setIsDataFetched] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await instance.get("/posts");
-      setNewPosts(response.data.posts);
-      setIsDataFetched(true);
-    }
-
-    if (!isDataFetched) {
-      fetchData();
-    }
-  }, [isDataFetched]);
-
-  // 로그인 여부를 확인하는 함수
-  async function checkLogin() {
-    try {
-      const response = await instance.get("/checkLogin");
-      if (response.status === 200) {
-        setIsLoggedIn(true);
-      }
-    } catch (error) {
-      setIsLoggedIn(false);
-    }
-  }
-
-  // 게시글 삭제 함수
-  async function handleDelete(postId) {
-    const confirmResult = window.confirm("게시글을 삭제하시겠습니까?");
-    if (confirmResult) {
-      try {
-        const response = await instance.delete(`/posts/${postId}`);
-        if (response.status === 200) {
-          alert("게시글이 삭제되었습니다.");
-          setNewPosts(posts.filter((post) => post.id !== postId)); // 삭제된 게시글을 제외한 게시글 목록을 다시 설정
-        }
-      } catch (error) {
-        alert("게시글 삭제에 실패했습니다.");
-      }
-    }
-  }
-
-  useEffect(() => {
-    checkLogin();
+    fetchChecklogin();
   }, []);
 
+  const fetchChecklogin = () => {
+    Checklogin()
+      .then((response) => {
+        setIsLoggedIn(true);
+      })
+      .catch((e) => {
+        setIsLoggedIn(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  const fetchArticles = () => {
+    ArticlePage()
+      .then((response) => {
+        setNewPosts(response.data.posts);
+      })
+      .catch((e) => {
+        console.log(e);
+        window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
+      });
+  };
+
+  const handleDelete = (postID) => {
+    if (window.confirm("게시글을 삭제하시겠습니까?")) {
+      DeleteArticle(postID)
+        .then((response) => {
+          window.alert("게시글이 삭제되었습니다.");
+          window.location.reload();
+          navigate("/Articles");
+        })
+        .catch((e) => {
+          console.log(e);
+          window.alert(
+            "게시글 삭제에 실패했습니다. 다시 시도해주시길 바랍니다."
+          );
+        });
+    }
+  };
+
   return (
-    <div className='container'>
+    <div className='ArticlePagecontainer'>
       {posts.map((post) => (
         <div key={post.id}>
           <h1 className='title'>{post.title}</h1>

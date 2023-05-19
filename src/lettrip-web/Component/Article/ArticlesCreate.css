@@ -1,14 +1,18 @@
-.board-create-container {
+.ArticleCreateContainer {
   max-width: 800px;
   margin: 0 auto;
   padding: 50px 20px;
 }
 
-.board-create-container h1 {
+.ArticleCreateContainer h1 {
   margin-bottom: 30px;
 }
 
-.form-group {
+.Article_title {
+  margin-bottom: 20px;
+}
+
+.Article_content {
   margin-bottom: 20px;
 }
 
@@ -27,8 +31,7 @@
   font-size: 16px;
   line-height: 1.5;
 }
-
-.form-group-file {
+.Article_file {
   margin-bottom: 30px;
 }
 
