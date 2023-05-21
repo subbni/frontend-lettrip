@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import "./ArticlesList.css";
+import "./ArticleList.css";
 import { Link, useNavigate } from "react-router-dom";
+<<<<<<< HEAD:src/lettrip-web/Component/Article/ArticlesList.js
 import { ArticleList } from "../../Service/AuthService";
+=======
+import { ListArticle } from "../../Service/APIService";
+>>>>>>> a9f21b3 (댓글 수정 완료 및 여행 코스 상세페이지 완료):src/lettrip-web/Component/Article/ArticleList.js
 
-function ArticlesList() {
+function ArticleList() {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
@@ -12,7 +16,7 @@ function ArticlesList() {
   }, []);
 
   const fetchArticles = () => {
-    ArticleList()
+    ListArticle()
       .then((response) => {
         setPosts(response.data.posts);
       })
@@ -23,7 +27,7 @@ function ArticlesList() {
   };
 
   const handleCreateClick = () => {
-    navigate("/Articles/create");
+    navigate("/Article/Create");
   };
 
   return (
@@ -46,7 +50,7 @@ function ArticlesList() {
           {posts.map((post) => (
             <tr key={post.id}>
               <td>
-                <Link to={`/Articles/${post.id}`}>{post.title}</Link>
+                <Link to={`/Article/${post.id}`}>{post.title}</Link>
               </td>
               <td>{post.author}</td>
               <td>{new Date(post.createdAt).toLocaleDateString()}</td>
@@ -60,4 +64,4 @@ function ArticlesList() {
   );
 }
 
-export default ArticlesList;
+export default ArticleList;

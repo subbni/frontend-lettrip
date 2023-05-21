@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import "./ArticlesModify.css";
-import { Checklogin, ModifyArticle } from "../../Service/AuthService";
+import "./ArticleCreate.css";
+import { useNavigate } from "react-router-dom";
+import { Checklogin, CreateArticle } from "../../Service/AuthService";
 
-function ArticlesModify() {
+function ArticleCreate() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
   const [articleForm, setArticleForm] = useState({
@@ -11,24 +11,6 @@ function ArticlesModify() {
     content: "",
     file: null,
   });
-  const { postId } = useParams(); // URL 파라미터로 받아온 게시글 ID 값
-
-  useEffect(() => {
-    const fetchArticleData = async () => {
-      try {
-        const response = await ModifyArticle(postId);
-        const { title, content } = response.data;
-        setArticleForm({
-          ...articleForm,
-          title,
-          content,
-        });
-      } catch (error) {
-        console.error("오류 발생 :", error);
-      }
-    };
-    fetchArticleData();
-  }, [postId]);
 
   useEffect(() => {
     fetchChecklogin();
@@ -36,10 +18,11 @@ function ArticlesModify() {
 
   const fetchChecklogin = () => {
     Checklogin()
-      .then((response) => {
+      .then(() => {
         setIsLoggedIn(true);
       })
       .catch((e) => {
+        console.log(e);
         setIsLoggedIn(false);
       });
   };
@@ -66,24 +49,24 @@ function ArticlesModify() {
       return;
     }
     if (window.confirm("제출하시겠습니까?")) {
-      ModifyArticle(articleForm)
-        .then((response) => {
-          window.alert("게시글 수정이 완료되었습니다.");
+      CreateArticle(articleForm)
+        .then(() => {
+          window.alert("게시글 작성이 완료되었습니다.");
           window.location.reload();
-          navigate("/Articles");
+          navigate("/Article");
         })
         .catch((e) => {
           console.log(e);
           window.alert(
-            "게시글 수정에 실패했습니다. 다시 시도해주시길 바랍니다."
+            "게시글 작성에 실패했습니다. 다시 시도해주시길 바랍니다."
           );
         });
     }
   };
 
   return (
-    <div className="ArticleModifyContainer">
-      <h1>게시글 수정</h1>
+    <div className="ArticleCreateContainer">
+      <h1>게시글 작성</h1>
       <form onSubmit={handleArticleFormSubmit}>
         <div className="Article_title">
           <label htmlFor="title">제목</label>
@@ -113,10 +96,10 @@ function ArticlesModify() {
             onChange={handleArticleFormChange}
           />
         </div>
-        <button type="submit">수정</button>
+        <button type="submit">등록</button>
       </form>
     </div>
   );
 }
 
-export default ArticlesModify;
+export default ArticleCreate;
