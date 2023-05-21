@@ -5,19 +5,22 @@ import Header from "./lettrip-web/Top/Header";
 import Navbar from "./lettrip-web/Top/Navbar";
 
 //페이지 경로 설정
-import Home from "./lettrip-web/Component/Home"; // ~:8080/ 홈 화면 (미정)
-import Login from "./lettrip-web/Component/Auth/Login/Login"; // ~:8080/Login 로그인 화면
-import Sign from "./lettrip-web/Component/Auth/SignUp/Sign"; // ~:8080/Sign-up 회원가입 화면
+import Home from "./lettrip-web/Component/Home";
+import Login from "./lettrip-web/Component/Auth/Login/Login";
+import SignUp from "./lettrip-web/Component/Auth/SignUp/SignUp";
 
-import CourseCreate from "./lettrip-web/Component/Travel/CoursePlan/CourseCreate"; // ~: /Travel/create/course 코스 등록 계획 화면
-import ReviewCreate from "./lettrip-web/Component/Travel/CourseReview/ReviewCreate"; // ~: /Travel/create/review 코스 후기 등록 화면
-//import ReviewPlaceForm from "./lettrip-web/Component/Travel/CourseReview/ReviewPlaceForm"; // ~: /Travel/create/review/place 코스 후기 장소 검색 화면
-//import CoursePlaceForm from "./lettrip-web/Component/Travel/CoursePlan/CoursePlaceForm"; // ~: /Travle/create/course/place 코스 계획 장소 검색 화면
+//여행코스 경로 설정
+import CourseCreate from "./lettrip-web/Component/Travel/CoursePlan/CourseCreate";
+import CourseModify from "./lettrip-web/Component/Travel/CoursePlan/CourseModify";
+import ReviewCreate from "./lettrip-web/Component/Travel/CourseReview/ReviewCreate";
+import ReviewModify from "./lettrip-web/Component/Travel/CourseReview/ReviewModify";
+import CoursePage from "./lettrip-web/Component/Travel/CourseSearch/CoursePage";
 
-import ArticlesList from "./lettrip-web/Component/Article/ArticlesList"; // ~:8080/Articles 게시판 전체 목록 화면
-import ArticlesCreate from "./lettrip-web/Component/Article/ArticlesCreate"; // ~:8080/Articles/create 게시판 글 등록 화면
-import ArticlesModify from "./lettrip-web/Component/Article/ArticlesModify"; // ~:8080/Articles/modify/{article-id} 게시판 글 수정 화면
-import ArticlesPage from "./lettrip-web/Component/Article/ArticlesPage"; // ~:8080/Articles/{article-id} 게시판 글 상세 화면
+//커뮤니티 경로 설정
+import ArticleList from "./lettrip-web/Component/Article/ArticleList";
+import ArticleCreate from "./lettrip-web/Component/Article/ArticleCreate";
+import ArticleModify from "./lettrip-web/Component/Article/ArticleModify";
+import ArticlePage from "./lettrip-web/Component/Article/ArticlePage";
 
 function App() {
   return (
@@ -28,16 +31,21 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/Login' element={<Login />} />
-          <Route path='/Sign-up' element={<Sign />} />
-          <Route path='/Travel/create/course' element={<CourseCreate />} />
-          <Route path='/Travel/create/review' element={<ReviewCreate />} />
-          <Route path='/Articles' element={<ArticlesList />} />
-          <Route path='/Articles/create' element={<ArticlesCreate />} />
+          <Route path='/SignUp' element={<SignUp />} />
+
+          <Route path='/Travel/Course/Create' element={<CourseCreate />} />
+          <Route path='/Travel/Course/Modify' element={<CourseModify />} />
+          <Route path='/Travel/Review/Create' element={<ReviewCreate />} />
+          <Route path='/Travel/Review/Modify' element={<ReviewModify />} />
+          <Route path='/Travel/:travel-id' element={<CoursePage />} />
+
+          <Route path='/Article' element={<ArticleList />} />
+          <Route path='/Article/create' element={<ArticleCreate />} />
           <Route
-            path='/Articles/modify/:article-id'
-            element={<ArticlesModify />}
+            path='/Article/modify/:article-id'
+            element={<ArticleModify />}
           />
-          <Route path='/Articles/page' element={<ArticlesPage />} />
+          <Route path='/Article/:article-id' element={<ArticlePage />} />
         </Routes>
       </div>
     </Router>

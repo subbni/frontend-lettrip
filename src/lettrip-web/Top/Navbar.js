@@ -55,7 +55,7 @@ function Navbar() {
   }
 
   function handleCommunity() {
-    navigate("/Articles");
+    navigate("/Article");
   }
 
   return (

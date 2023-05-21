@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./ArticlesList.css";
+import "./ArticleList.css";
 import { Link, useNavigate } from "react-router-dom";
-import { ArticleList } from "../../Service/APIService";
+import { ListArticle } from "../../Service/APIService";
 
-function ArticlesList() {
+function ArticleList() {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
@@ -12,7 +12,7 @@ function ArticlesList() {
   }, []);
 
   const fetchArticles = () => {
-    ArticleList()
+    ListArticle()
       .then((response) => {
         setPosts(response.data.posts);
       })
@@ -23,7 +23,7 @@ function ArticlesList() {
   };
 
   const handleCreateClick = () => {
-    navigate("/Articles/create");
+    navigate("/Article/Create");
   };
 
   return (
@@ -46,7 +46,7 @@ function ArticlesList() {
           {posts.map((post) => (
             <tr key={post.id}>
               <td>
-                <Link to={`/Articles/${post.id}`}>{post.title}</Link>
+                <Link to={`/Article/${post.id}`}>{post.title}</Link>
               </td>
               <td>{post.author}</td>
               <td>{new Date(post.createdAt).toLocaleDateString()}</td>
@@ -60,4 +60,4 @@ function ArticlesList() {
   );
 }
 
-export default ArticlesList;
+export default ArticleList;

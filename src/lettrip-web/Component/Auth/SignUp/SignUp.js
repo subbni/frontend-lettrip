@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Sign.css";
+import "./SignUp.css";
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ const instance = axios.create({
   withCredentials: false,
 });
 
-const Sign = () => {
+const SignUp = () => {
   // 초기값 설정
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -205,4 +205,4 @@ const Sign = () => {
   );
 };
 
-export default Sign;
+export default SignUp;

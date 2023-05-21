@@ -1,27 +1,30 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import "./ReplyComment.css";
+import {
+  Checklogin,
+  CreateReplyComment,
+  DeleteReplyComment,
+} from "../../../Service/AuthService";
 
-const instance = axios.create({
-  baseURL: "http://192.168.25.19/api",
-});
-
-function ReplyComment({ commentId, handleNewComment }) {
+function ReplyComment({ commentId, handleNewComment, parentCommentAuthor }) {
   const [content, setContent] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  async function checkLogin() {
-    try {
-      const response = await instance.get("/checkLogin");
-      if (response.status === 200) {
-        setIsLoggedIn(true);
-      }
-    } catch (error) {
-      setIsLoggedIn(false);
-    }
-  }
+  useEffect(() => {
+    fetchChecklogin();
+  }, []);
 
-  const handleSubmit = async (e) => {
+  const fetchChecklogin = () => {
+    Checklogin()
+      .then(() => {
+        setIsLoggedIn(true);
+      })
+      .catch((e) => {
+        setIsLoggedIn(false);
+      });
+  };
+
+  const handleReplyCommentSubmit = (e) => {
     e.preventDefault();
 
     if (content.trim() === "") {
@@ -29,37 +32,42 @@ function ReplyComment({ commentId, handleNewComment }) {
       return;
     }
 
-    try {
-      const response = await instance.post(`/comments/${commentId}/replies`, {
-        content,
-      });
-      handleNewComment(response.data.reply); // 부모 컴포넌트에서 댓글 목록을 업데이트할 수 있도록 새 댓글 정보를 전달
-      setContent("");
-    } catch (error) {
-      console.error(error);
+    if (window.confirm("대댓글을 작성하시겠습니까?")) {
+      CreateReplyComment(commentId, { content })
+        .then((response) => {
+          window.alert("대댓글 작성이 완료되었습니다.");
+          handleNewComment(response.data.reply);
+          setContent("");
+        })
+        .catch((e) => {
+          console.error(e);
+          window.alert(
+            "대댓글 작성에 실패했습니다. 다시 시도해주시길 바랍니다."
+          );
+        });
     }
   };
 
-  const handleDelete = async () => {
-    const confirmResult = window.confirm("대댓글을 삭제하시겠습니까?");
-    if (confirmResult) {
-      try {
-        const response = await instance.delete(`/replies/${commentId}`);
-        if (response.status === 200) {
-          alert("대댓글이 삭제되었습니다.");
+  const handleReplyCommentDelete = () => {
+    if (window.confirm("대댓글을 삭제하시겠습니까?")) {
+      DeleteReplyComment(commentId)
+        .then(() => {
+          window.alert("대댓글이 삭제되었습니다.");
           handleNewComment({ id: commentId, isDeleted: true });
-        }
-      } catch (error) {
-        alert("대댓글 삭제에 실패했습니다.");
-      }
+        })
+        .catch((e) => {
+          console.error(e);
+          window.alert("대댓글 삭제에 실패했습니다.");
+        });
     }
   };
-
-  checkLogin();
 
   return (
-    <form className='reply-comment-form' onSubmit={handleSubmit}>
+    <form className='reply-comment-form' onSubmit={handleReplyCommentSubmit}>
       <div className='reply-comment-textarea-wrapper'>
+        <label className='reply-comment-author-label'>
+          @ {parentCommentAuthor}
+        </label>
         <textarea
           className='reply-comment-textarea'
           name='content'
@@ -72,7 +80,10 @@ function ReplyComment({ commentId, handleNewComment }) {
         등록
       </button>
       {isLoggedIn && (
-        <button className='reply-comment-delete-button' onClick={handleDelete}>
+        <button
+          className='reply-comment-delete-button'
+          onClick={handleReplyCommentDelete}
+        >
           삭제
         </button>
       )}

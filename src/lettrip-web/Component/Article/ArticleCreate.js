@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./ArticlesCreate.css";
+import "./ArticleCreate.css";
 import { useNavigate } from "react-router-dom";
 import { Checklogin, CreateArticle } from "../../Service/APIService";
 
-function ArticlesCreate() {
+function ArticleCreate() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
   const [articleForm, setArticleForm] = useState({
@@ -18,10 +18,11 @@ function ArticlesCreate() {
 
   const fetchChecklogin = () => {
     Checklogin()
-      .then((response) => {
+      .then(() => {
         setIsLoggedIn(true);
       })
       .catch((e) => {
+        console.log(e);
         setIsLoggedIn(false);
       });
   };
@@ -49,10 +50,10 @@ function ArticlesCreate() {
     }
     if (window.confirm("제출하시겠습니까?")) {
       CreateArticle(articleForm)
-        .then((response) => {
+        .then(() => {
           window.alert("게시글 작성이 완료되었습니다.");
           window.location.reload();
-          navigate("/Articles");
+          navigate("/Article");
         })
         .catch((e) => {
           console.log(e);
@@ -101,4 +102,4 @@ function ArticlesCreate() {
   );
 }
 
-export default ArticlesCreate;
+export default ArticleCreate;

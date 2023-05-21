@@ -17,11 +17,11 @@ export function SignUp(signUpRequest) {
   });
 }
 
-export function Checklogin(CheckloginRequest) {
+export function Checklogin(checkloginRequest) {
   return request({
     url: API_BASE_URL + "/api/auth/login",
     method: "GET",
-    body: JSON.stringify(CheckloginRequest),
+    body: JSON.stringify(checkloginRequest),
   });
 }
 
@@ -49,7 +49,7 @@ export function DeleteArticle(articleDeleteRequest) {
   });
 }
 
-export function ArticleList(articleListRequest) {
+export function ListArticle(articleListRequest) {
   return request({
     url: API_BASE_URL + "/api/articles",
     method: "GET",
@@ -57,11 +57,91 @@ export function ArticleList(articleListRequest) {
   });
 }
 
-export function ArticlePage(articlePageRequest) {
+export function PageArticle(articlePageRequest) {
   return request({
     url: API_BASE_URL + "/api/articles",
     method: "GET",
     body: JSON.stringify(articlePageRequest),
+  });
+}
+
+export function ArticleData(articleID) {
+  return request({
+    url: API_BASE_URL + "/api/articles/${articleID}",
+    method: "GET",
+    body: JSON.stringify(articleID),
+  });
+}
+
+export function CreateComment(commentCreateRequest) {
+  return request({
+    url: API_BASE_URL + "/api/comments",
+    method: "POST",
+    body: JSON.stringify(commentCreateRequest),
+  });
+}
+
+export function ModifyComment(commentModifyRequest) {
+  return request({
+    url: API_BASE_URL + "/api/comments",
+    method: "PUT",
+    body: JSON.stringify(commentModifyRequest),
+  });
+}
+
+export function DeleteComment(commentDeleteRequest) {
+  return request({
+    url: API_BASE_URL + "/api/comments",
+    method: "DELETE",
+    body: JSON.stringify(commentDeleteRequest),
+  });
+}
+
+export function ListComment(commentListRequest) {
+  return request({
+    url: API_BASE_URL + "/api/comments",
+    method: "GET",
+    body: JSON.stringify(commentListRequest),
+  });
+}
+
+export function CommentData(commentID) {
+  return request({
+    url: API_BASE_URL + "/api/comments/${commentID}",
+    method: "GET",
+    body: JSON.stringify(commentID),
+  });
+}
+
+export function CreateReplyComment(commentReplyCreateRequest) {
+  return request({
+    url: API_BASE_URL + "/api/comments",
+    method: "POST",
+    body: JSON.stringify(commentReplyCreateRequest),
+  });
+}
+
+export function DeleteReplyComment(commentReplyDeleteRequest) {
+  return request({
+    url: API_BASE_URL + "/api/comments",
+    method: "DELETE",
+    body: JSON.stringify(commentReplyDeleteRequest),
+  });
+}
+
+export function ReplyCommentData(commentID) {
+  return request({
+    url: API_BASE_URL + "/api/comments/${commentID}",
+    method: "GET",
+    body: JSON.stringify(commentID),
+  });
+}
+
+export function PageCourse(coursePageRequest) {
+  return request({
+    url: API_BASE_URL + "/api/travel",
+    method: "GET",
+    body: JSON.stringify(coursePageRequest),
   });
 }
 

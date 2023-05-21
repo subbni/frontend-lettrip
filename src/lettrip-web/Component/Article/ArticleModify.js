@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import "./ArticlesModify.css";
+import { useNavigate } from "react-router-dom";
+import "./ArticleModify.css";
 import { Checklogin, ModifyArticle } from "../../Service/APIService";
+import { ArticleData } from "../../Service/AuthService";
 
-function ArticlesModify() {
+function ArticleModify({ articleId }) {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
   const [articleForm, setArticleForm] = useState({
@@ -11,41 +12,41 @@ function ArticlesModify() {
     content: "",
     file: null,
   });
-  const { postId } = useParams(); // URL 파라미터로 받아온 게시글 ID 값
-
-  useEffect(() => {
-    const fetchArticleData = async () => {
-      try {
-        const response = await ModifyArticle(postId);
-        const { title, content } = response.data;
-        setArticleForm({
-          ...articleForm,
-          title,
-          content,
-        });
-      } catch (error) {
-        console.error("오류 발생 :", error);
-      }
-    };
-    fetchArticleData();
-  }, [postId]);
 
   useEffect(() => {
     fetchChecklogin();
   }, []);
 
+  useEffect(() => {
+    if (articleId) {
+      fetchArticleData(articleId);
+    }
+  }, [articleId]);
+
   const fetchChecklogin = () => {
     Checklogin()
-      .then((response) => {
+      .then(() => {
         setIsLoggedIn(true);
       })
       .catch((e) => {
+        console.log(e);
         setIsLoggedIn(false);
       });
   };
+
   if (!isLoggedIn) {
     window.alert("로그인이 필요합니다.");
   }
+
+  const fetchArticleData = (articleId) => {
+    ArticleData(articleId)
+      .then((response) => {
+        setArticleForm(response.data);
+      })
+      .catch((e) => {
+        console.error("게시글 정보를 가져오는 중에 오류가 발생했습니다:");
+      });
+  };
 
   const handleArticleFormChange = (e) => {
     const changedField = e.target.name;
@@ -67,7 +68,7 @@ function ArticlesModify() {
     }
     if (window.confirm("제출하시겠습니까?")) {
       ModifyArticle(articleForm)
-        .then((response) => {
+        .then(() => {
           window.alert("게시글 수정이 완료되었습니다.");
           window.location.reload();
           navigate("/Articles");
@@ -119,4 +120,4 @@ function ArticlesModify() {
   );
 }
 
-export default ArticlesModify;
+export default ArticleModify;

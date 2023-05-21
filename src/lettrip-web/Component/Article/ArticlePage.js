@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Comment from "./Comment/Comment";
-import "./ArticlesPage.css";
+import Comment from "./Comment/CommentCreate";
+import "./ArticlePage.css";
 import {
   Checklogin,
-  ArticlePage,
+  PageArticle,
   DeleteArticle,
 } from "../../Service/APIService";
 
-function ArticlesPage() {
+function ArticlePage() {
   const navigate = useNavigate();
   const [posts, setNewPosts] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
@@ -19,10 +19,11 @@ function ArticlesPage() {
 
   const fetchChecklogin = () => {
     Checklogin()
-      .then((response) => {
+      .then(() => {
         setIsLoggedIn(true);
       })
       .catch((e) => {
+        console.log(e);
         setIsLoggedIn(false);
       });
   };
@@ -32,7 +33,7 @@ function ArticlesPage() {
   }, []);
 
   const fetchArticles = () => {
-    ArticlePage()
+    PageArticle()
       .then((response) => {
         setNewPosts(response.data.posts);
       })
@@ -45,10 +46,10 @@ function ArticlesPage() {
   const handleDelete = (postID) => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       DeleteArticle(postID)
-        .then((response) => {
+        .then(() => {
           window.alert("게시글이 삭제되었습니다.");
           window.location.reload();
-          navigate("/Articles");
+          navigate("/Article");
         })
         .catch((e) => {
           console.log(e);
@@ -82,4 +83,4 @@ function ArticlesPage() {
   );
 }
 
-export default ArticlesPage;
+export default ArticlePage;
