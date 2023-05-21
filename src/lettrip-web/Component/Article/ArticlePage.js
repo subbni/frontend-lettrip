@@ -6,7 +6,7 @@ import {
   Checklogin,
   PageArticle,
   DeleteArticle,
-} from "../../Service/APIService";
+} from "../../Service/AuthService";
 
 function ArticlePage() {
   const navigate = useNavigate();
@@ -61,18 +61,18 @@ function ArticlePage() {
   };
 
   return (
-    <div className='ArticlePagecontainer'>
+    <div className="ArticlePagecontainer">
       {posts.map((post) => (
         <div key={post.id}>
-          <h1 className='title'>{post.title}</h1>
-          <h3 className='author'>{post.author}</h3>
-          <p className='content'>{post.content}</p>
-          <div className='views-likes'>
+          <h1 className="title">{post.title}</h1>
+          <h3 className="author">{post.author}</h3>
+          <p className="content">{post.content}</p>
+          <div className="views-likes">
             <p>조회수: {post.views}</p>
             <p>좋아요 수: {post.likes}</p>
           </div>
           {isLoggedIn && ( // 로그인 상태이면 수정, 삭제 버튼을 보여줌
-            <div className='edit-buttons'>
+            <div className="edit-buttons">
               <button onClick={() => handleDelete(post.id)}>삭제</button>
             </div>
           )}
