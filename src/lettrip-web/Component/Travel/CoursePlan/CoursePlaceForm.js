@@ -28,6 +28,18 @@ function CoursePlaceForm() {
     };
   }, []);
 
+  const keywordSearch = () => {
+    const keyword = document.getElementById("keyword").value;
+
+    if (!keyword.replace(/^\s+|\s+$/g, "")) {
+      alert("키워드를 입력해주세요!");
+      return false;
+    }
+
+    setIsLoading(true);
+    //ps.keywordSearch(keyword, placesSearchCB);
+  };
+
   useEffect(() => {
     if (map) {
       const ps = new kakao.maps.services.Places();
@@ -183,11 +195,15 @@ function CoursePlaceForm() {
   return (
     <div>
       <div>
-        <input type='text' id='keyword' />
-        <button id='searchBtn'>검색</button>
+        <form onSubmit={handleSearch}>
+          <input type="text" id="keyword" />
+          <button type="submit" id="searchBtn">
+            검색
+          </button>
+        </form>
       </div>
       <div
-        id='map'
+        id="map"
         ref={container}
         style={{
           width: "500px",
@@ -195,8 +211,19 @@ function CoursePlaceForm() {
         }}
       ></div>
       <div>
-        <ul id='placesList'></ul>
-        <div id='pagination'></div>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <ul id="placesList">
+            {searchResults.map((place) => (
+              <li key={place.id} onClick={() => handlePlaceSave(place)}>
+                <span className="place_title">{place.place_name}</span>
+                <span className="place_address">{place.address_name}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div id="pagination"></div>
       </div>
     </div>
   );
