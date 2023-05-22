@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ArticleModify.css";
-import { Checklogin, ModifyArticle } from "../../Service/APIService";
-import { ArticleData } from "../../Service/AuthService";
+import {
+  Checklogin,
+  ModifyArticle,
+  ArticleData,
+} from "../../Service/AuthService";
 
 function ArticleModify({ articleId }) {
   const navigate = useNavigate();

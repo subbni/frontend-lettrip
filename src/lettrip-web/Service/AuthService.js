@@ -64,11 +64,13 @@ export function DeleteArticle(articleDeleteRequest) {
   });
 }
 
-export function ListArticle(articleListRequest) {
+export function ListArticle(pageForm) {
   return request({
-    url: API_BASE_URL + "/api/articles",
+    url:
+      API_BASE_URL +
+      "/api/articles" +
+      `?page=${pageForm.page}&size=${pageForm.size}&sort=${pageForm.sort}`,
     method: "GET",
-    body: JSON.stringify(articleListRequest),
   });
 }
 

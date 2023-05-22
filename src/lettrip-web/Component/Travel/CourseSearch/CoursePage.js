@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import "./CoursePage.css";
-import { PageCourse } from "../../Service/APIService";
+import { PageCourse } from "../../../Service/AuthService";
 
-function ArticlePage() {
-  const { travelId } = useParams();
-  const [courseDetail, setCourseDetail] = useState(null);
+function CoursePage() {
+  const [courseDetail, setCourseDetail] = useState({});
 
   useEffect(() => {
     fetchCourse();
   }, []);
 
   const fetchCourse = () => {
-    PageCourse(travelId)
+    PageCourse()
       .then((response) => {
         setCourseDetail(response.data);
       })
@@ -98,4 +96,4 @@ function ArticlePage() {
   );
 }
 
-export default ArticlePage;
+export default CoursePage;

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./ArticleList.css";
 import { Link, useNavigate } from "react-router-dom";
-import { ListArticle } from "../../Service/APIService";
+import { ListArticle } from "../../Service/AuthService";
 
 function ArticleList() {
-  const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
+  const [pageForm, setPageForm] = useState({
+    page: 0,
+    size: 10,
+    sort: "id,DESC",
+  });
 
   useEffect(() => {
     fetchArticles();
@@ -14,7 +18,7 @@ function ArticleList() {
   const fetchArticles = () => {
     ListArticle()
       .then((response) => {
-        setPosts(response.data.posts);
+        setPageForm(response.data.pageForm);
       })
       .catch((e) => {
         console.log(e);
@@ -43,7 +47,7 @@ function ArticleList() {
           </tr>
         </thead>
         <tbody>
-          {posts.map((post) => (
+          {pageForm.map((post) => (
             <tr key={post.id}>
               <td>
                 <Link to={`/Article/${post.id}`}>{post.title}</Link>

@@ -1,4 +1,3 @@
-import { Axios } from "axios";
 import { ACCESS_TOKEN } from "../Constant/backendAPI";
 
 export const request = (options) => {

@@ -39,7 +39,7 @@ function Navbar() {
   }
 
   function handleTravelCourseSearch() {
-    navigate("/travel/search");
+    navigate("/Travel/Search");
   }
 
   function handleTravelCreate() {
@@ -47,11 +47,11 @@ function Navbar() {
   }
 
   function handleTravelPlan() {
-    navigate("/Travel/plan");
+    navigate("/Travel/Course/Create");
   }
 
   function handleTravelReview() {
-    navigate("/Travel/review");
+    navigate("/Travel/Review/Create");
   }
 
   function handleCommunity() {
