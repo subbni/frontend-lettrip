@@ -10,15 +10,17 @@ function ArticleList() {
     size: 10,
     sort: "id,DESC",
   });
+  const [articleList, setArticleList] = useState([]);
 
   useEffect(() => {
     fetchArticles();
   }, []);
 
   const fetchArticles = () => {
-    ListArticle()
+    ListArticle(pageForm)
       .then((response) => {
-        setPageForm(response.data.pageForm);
+        setArticleList(response.content);
+        console.log(articleList);
       })
       .catch((e) => {
         console.log(e);
@@ -33,29 +35,29 @@ function ArticleList() {
   return (
     <div>
       <h1>게시글 목록</h1>
-      <button onClick={handleCreateClick} className='create-button'>
+      <button onClick={handleCreateClick} className="create-button">
         글 작성
       </button>
-      <table className='post-table'>
+      <table className="post-table">
         <thead>
           <tr>
             <th>글 제목</th>
             <th>작성자</th>
             <th>작성일자</th>
             <th>조회수</th>
-            <th>댓글 수</th>
           </tr>
         </thead>
         <tbody>
-          {pageForm.map((post) => (
+          {articleList.map((post) => (
             <tr key={post.id}>
-              <td>
+              <td key={post.id}>
                 <Link to={`/Article/${post.id}`}>{post.title}</Link>
               </td>
-              <td>{post.author}</td>
-              <td>{new Date(post.createdAt).toLocaleDateString()}</td>
-              <td>{post.views}</td>
-              <td>{post.comments.length}</td>
+              <td key={post.id}>{post.writerNickname}</td>
+              <td key={post.id}>
+                {new Date(post.createdDate).toLocaleDateString()}
+              </td>
+              <td key={post.id}>{post.hit}</td>
             </tr>
           ))}
         </tbody>
