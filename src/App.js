@@ -18,6 +18,7 @@ import ArticlesList from "./lettrip-web/Component/Article/ArticlesList"; // ~:80
 import ArticlesCreate from "./lettrip-web/Component/Article/ArticlesCreate"; // ~:8080/Articles/create 게시판 글 등록 화면
 import ArticlesModify from "./lettrip-web/Component/Article/ArticlesModify"; // ~:8080/Articles/modify/{article-id} 게시판 글 수정 화면
 import ArticlesPage from "./lettrip-web/Component/Article/ArticlesPage"; // ~:8080/Articles/{article-id} 게시판 글 상세 화면
+import CoursePlanTemplate from "./lettrip-web/Component/Travel/Plan/CoursePlanTemplate";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             element={<ArticlesModify />}
           />
           <Route path="/Articles/page" element={<ArticlesPage />} />
+          <Route path="/plan" element={<CoursePlanTemplate />} />
         </Routes>
       </div>
     </Router>

@@ -134,12 +134,12 @@ const SignUp = () => {
     if (isEmailVerified) {
       signUp(signUpForm)
         .then((response) => {
-          if (response.success) {
-            window.alert("회원가입이 완료되었습니다. 환영합니다!");
-            navigate(-1);
-          } else {
+          if (!response.success) {
             console.log(e);
             window.alert(`회원가입에 실패하였습니다. ${response.message}`);
+          } else {
+            window.alert("회원가입이 완료되었습니다. 환영합니다!");
+            navigate(-1);
           }
         })
         .catch((e) => {
