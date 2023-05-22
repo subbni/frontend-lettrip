@@ -50,14 +50,14 @@ function ArticleList() {
         <tbody>
           {articleList.map((post) => (
             <tr key={post.id}>
-              <td key={post.id}>
+              <td id={post.id}>
                 <Link to={`/Article/${post.id}`}>{post.title}</Link>
               </td>
-              <td key={post.id}>{post.writerNickname}</td>
-              <td key={post.id}>
+              <td id={post.id}>{post.writerNickname}</td>
+              <td id={post.id}>
                 {new Date(post.createdDate).toLocaleDateString()}
               </td>
-              <td key={post.id}>{post.hit}</td>
+              <td id={post.id}>{post.hit}</td>
             </tr>
           ))}
         </tbody>
