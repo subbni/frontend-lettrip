@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./ArticleList.css";
 import { Link, useNavigate } from "react-router-dom";
-import { ListArticle } from "../../Service/AuthService";
+import { Checklogin, ListArticle } from "../../Service/AuthService";
 
 function ArticleList() {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
   const [pageForm, setPageForm] = useState({
     page: 0,
     size: 10,
@@ -13,9 +14,20 @@ function ArticleList() {
   const [articleList, setArticleList] = useState([]);
 
   useEffect(() => {
+    fetchChecklogin();
     fetchArticles();
   }, []);
 
+  const fetchChecklogin = () => {
+    Checklogin()
+      .then(() => {
+        setIsLoggedIn(true);
+      })
+      .catch((e) => {
+        console.log(e);
+        setIsLoggedIn(false);
+      });
+  };
   const fetchArticles = () => {
     ListArticle(pageForm)
       .then((response) => {
@@ -27,18 +39,23 @@ function ArticleList() {
         window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
       });
   };
-
-  const handleCreateClick = () => {
-    navigate("/Article/Create");
+  const handleCreateClick = (e) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      window.alert("로그인이 필요합니다.");
+      return;
+    } else {
+      navigate("/Article/Create");
+    }
   };
 
   return (
     <div>
       <h1>게시글 목록</h1>
-      <button onClick={handleCreateClick} className="create-button">
+      <button onClick={handleCreateClick} className='create-button'>
         글 작성
       </button>
-      <table className="post-table">
+      <table className='post-table'>
         <thead>
           <tr>
             <th>글 제목</th>

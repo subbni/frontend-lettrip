@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import "./ReviewCreate.css";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ReviewForm from "./ReviewForm";
-
-const instance = axios.create({
-  baseURL: "http://192.168.25.19/api",
-});
+import { CreateReview } from "../../Service/AuthService";
 
 function ReviewCreate() {
-  const [title, setTitle] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [HeaderForm, HeaderForm] = useState({
+    title: "",
+    startDate: "",
+    endDate: "",
+    province: "",
+    city: "",
+    totalCost: "",
+    theme: "",
+    numberOfCourse: "",
+  });
   const [contentsData, setContentsData] = useState([]);
   const [isAddContentClicked, setIsAddContentClicked] = useState(false);
 

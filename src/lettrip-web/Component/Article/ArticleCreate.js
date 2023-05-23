@@ -1,34 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./ArticleCreate.css";
 import { useNavigate } from "react-router-dom";
-import { Checklogin, CreateArticle } from "../../Service/AuthService";
+import { CreateArticle } from "../../Service/AuthService";
 
 function ArticleCreate() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
   const [articleForm, setArticleForm] = useState({
     title: "",
     content: "",
     file: null,
   });
-
-  useEffect(() => {
-    fetchChecklogin();
-  }, []);
-
-  const fetchChecklogin = () => {
-    Checklogin()
-      .then(() => {
-        setIsLoggedIn(true);
-      })
-      .catch((e) => {
-        console.log(e);
-        setIsLoggedIn(false);
-      });
-  };
-  if (!isLoggedIn) {
-    window.alert("로그인이 필요합니다.");
-  }
 
   const handleArticleFormChange = (e) => {
     const changedField = e.target.name;
@@ -65,38 +46,38 @@ function ArticleCreate() {
   };
 
   return (
-    <div className="ArticleCreateContainer">
+    <div className='ArticleCreateContainer'>
       <h1>게시글 작성</h1>
       <form onSubmit={handleArticleFormSubmit}>
-        <div className="Article_title">
-          <label htmlFor="title">제목</label>
+        <div className='Article_title'>
+          <label htmlFor='title'>제목</label>
           <input
-            type="text"
-            id="title"
+            type='text'
+            id='title'
             required
             value={articleForm.title}
             onChange={handleArticleFormChange}
           />
         </div>
-        <div className="Article_file">
-          <label htmlFor="file">사진 첨부</label>
+        <div className='Article_file'>
+          <label htmlFor='file'>사진 첨부</label>
           <input
-            type="file"
-            id="file"
+            type='file'
+            id='file'
             value={articleForm.file}
             onChange={handleArticleFormChange}
           />
         </div>
-        <div className="Article_content">
-          <label htmlFor="content">내용</label>
+        <div className='Article_content'>
+          <label htmlFor='content'>내용</label>
           <textarea
-            id="content"
+            id='content'
             required
             value={articleForm.content}
             onChange={handleArticleFormChange}
           />
         </div>
-        <button type="submit">등록</button>
+        <button type='submit'>등록</button>
       </form>
     </div>
   );

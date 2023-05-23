@@ -8,6 +8,8 @@ function CoursePlaceForm() {
   const [markers, setMarkers] = useState([]);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const [infoWindow, setInfoWindow] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -28,18 +30,6 @@ function CoursePlaceForm() {
     };
   }, []);
 
-  const keywordSearch = () => {
-    const keyword = document.getElementById("keyword").value;
-
-    if (!keyword.replace(/^\s+|\s+$/g, "")) {
-      alert("키워드를 입력해주세요!");
-      return false;
-    }
-
-    setIsLoading(true);
-    //ps.keywordSearch(keyword, placesSearchCB);
-  };
-
   useEffect(() => {
     if (map) {
       const ps = new kakao.maps.services.Places();
@@ -51,12 +41,13 @@ function CoursePlaceForm() {
           alert("키워드를 입력해주세요!");
           return false;
         }
-
         ps.keywordSearch(keyword, placesSearchCB);
       };
 
       const placesSearchCB = (data, status, pagination) => {
+        setIsLoading(false);
         if (status === kakao.maps.services.Status.OK) {
+          setSearchResults(data);
           displayPlaces(data);
           displayPagination(pagination);
           if (data.length > 0) {
@@ -113,6 +104,7 @@ function CoursePlaceForm() {
         });
         setMarkers([]);
       };
+
       const getListItem = (place) => {
         const el = document.createElement("li");
         const title = document.createElement("span");
@@ -151,13 +143,14 @@ function CoursePlaceForm() {
         paginationEl.appendChild(fragment);
       };
 
-      const handleSearch = () => {
+      const handleSearch = (event) => {
+        event.preventDefault();
         keywordSearch();
       };
 
-      document.getElementById("searchBtn").addEventListener("click", () => {
-        handleSearch();
-      });
+      document
+        .getElementById("searchBtn")
+        .addEventListener("click", handleSearch);
     }
   }, [map, markers]);
 
@@ -168,23 +161,18 @@ function CoursePlaceForm() {
         selectedPlace.x
       );
       map.setCenter(selectedPlacePosition);
-      // Create an info window and set its content
       const infoContent = `<div>${selectedPlace.place_name}</div>`;
       const infoWindow = new kakao.maps.InfoWindow({
         content: infoContent,
         position: selectedPlacePosition,
       });
 
-      // Open the info window on the map
       infoWindow.open(map);
-
-      // Set the info window as a state
       setInfoWindow(infoWindow);
     }
   }, [selectedPlace, map]);
 
   useEffect(() => {
-    // Close the info window when the component unmounts
     return () => {
       if (infoWindow) {
         infoWindow.close();
@@ -196,14 +184,14 @@ function CoursePlaceForm() {
     <div>
       <div>
         <form onSubmit={handleSearch}>
-          <input type="text" id="keyword" />
-          <button type="submit" id="searchBtn">
+          <input type='text' id='keyword' />
+          <button type='submit' id='searchBtn'>
             검색
           </button>
         </form>
       </div>
       <div
-        id="map"
+        id='map'
         ref={container}
         style={{
           width: "500px",
@@ -214,16 +202,16 @@ function CoursePlaceForm() {
         {isLoading ? (
           <div>Loading...</div>
         ) : (
-          <ul id="placesList">
+          <ul id='placesList'>
             {searchResults.map((place) => (
               <li key={place.id} onClick={() => handlePlaceSave(place)}>
-                <span className="place_title">{place.place_name}</span>
-                <span className="place_address">{place.address_name}</span>
+                <span className='place_title'>{place.place_name}</span>
+                <span className='place_address'>{place.address_name}</span>
               </li>
             ))}
           </ul>
         )}
-        <div id="pagination"></div>
+        <div id='pagination'></div>
       </div>
     </div>
   );

@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import ReviewForm from "./ReviewForm";
-
-const instance = axios.create({
-  baseURL: "http://192.168.25.19/api",
-});
+import { ModifyReview } from "../../Service/AuthService";
 
 function ReviewModify() {
   const [title, setTitle] = useState("");

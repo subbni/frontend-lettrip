@@ -1,16 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Header.css";
-
 import { Link, useNavigate } from "react-router-dom";
+import { Checklogin } from "../Service/AuthService";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 상태 저장
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
   const navigate = useNavigate();
 
-  function handleLogout() {
+  useEffect(() => {
+    fetchChecklogin();
+  }, []);
+
+  const fetchChecklogin = () => {
+    Checklogin()
+      .then(() => {
+        setIsLoggedIn(true);
+      })
+      .catch((e) => {
+        console.log(e);
+        setIsLoggedIn(false);
+      });
+  };
+
+  const handleLogout = () => {
     setIsLoggedIn(false);
     navigate("/");
-  }
+  };
 
   return (
     <div className='Header'>
