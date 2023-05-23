@@ -26,28 +26,28 @@ import ArticlePage from "./lettrip-web/Component/Article/ArticlePage";
 function App() {
   return (
     <Router>
-      <div className='App'>
+      <div className="App">
         <Header />
         <Navbar />
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/Login' element={<Login />} />
-          <Route path='/SignUp' element={<SignUp />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/SignUp" element={<SignUp />} />
 
-          <Route path='/Travel/Search' element={<TravelSearch />} />
-          <Route path='/Travel/course/:travel-id' element={<CoursePage />} />
-          <Route path='/Travel/Course/Create' element={<CourseCreate />} />
-          <Route path='/Travel/Course/Modify' element={<CourseModify />} />
-          <Route path='/Travel/Review/Create' element={<ReviewCreate />} />
-          <Route path='/Travel/Review/Modify' element={<ReviewModify />} />
+          <Route path="/Travel/Search" element={<TravelSearch />} />
+          <Route path="/Travel/course/:travel-id" element={<CoursePage />} />
+          <Route path="/Travel/Course/Create" element={<CourseCreate />} />
+          <Route path="/Travel/Course/Modify" element={<CourseModify />} />
+          <Route path="/Travel/Review/Create" element={<ReviewCreate />} />
+          <Route path="/Travel/Review/Modify" element={<ReviewModify />} />
 
-          <Route path='/Article' element={<ArticleList />} />
-          <Route path='/Article/create' element={<ArticleCreate />} />
+          <Route path="/Article" element={<ArticleList />} />
+          <Route path="/Article/create" element={<ArticleCreate />} />
           <Route
-            path='/Article/modify/:article-id'
+            path="/Article/modify/:article-id"
             element={<ArticleModify />}
           />
-          <Route path='/Article/:article-id' element={<ArticlePage />} />
+          <Route path="/Article/:article-id" element={<ArticlePage />} />
         </Routes>
       </div>
     </Router>
