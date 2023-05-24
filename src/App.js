@@ -23,6 +23,8 @@ import ArticleCreate from "./lettrip-web/Component/Article/ArticleCreate";
 import ArticleModify from "./lettrip-web/Component/Article/ArticleModify";
 import ArticlePage from "./lettrip-web/Component/Article/ArticlePage";
 
+import CoursePlanTemplate from "./lettrip-web/Component/Travel/Plan/CoursePlanTemplate";
+
 function App() {
   return (
     <Router>
@@ -36,7 +38,10 @@ function App() {
 
           <Route path="/Travel/Search" element={<TravelSearch />} />
           <Route path="/Travel/course/:travel-id" element={<CoursePage />} />
-          <Route path="/Travel/Course/Create" element={<CourseCreate />} />
+          <Route
+            path="/Travel/Course/Create"
+            element={<CoursePlanTemplate />}
+          />
           <Route path="/Travel/Course/Modify" element={<CourseModify />} />
           <Route path="/Travel/Review/Create" element={<ReviewCreate />} />
           <Route path="/Travel/Review/Modify" element={<ReviewModify />} />
@@ -48,6 +53,7 @@ function App() {
             element={<ArticleModify />}
           />
           <Route path="/Article/:article-id" element={<ArticlePage />} />
+          <Route path="travel/plan" element={<CoursePlanTemplate />} />
         </Routes>
       </div>
     </Router>
