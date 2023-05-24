@@ -3,7 +3,12 @@ import "./Plan.css";
 import MapForm from "./MapForm";
 import CourseItem from "./CourseItem";
 
-const CourseContainer = ({ onCourseInsert, dayCount, containerIdx }) => {
+const CourseContainer = ({
+  onCourseInsert,
+  departDate,
+  dayCount,
+  containerIdx,
+}) => {
   const [courseList, setCourseList] = useState([]);
   const [isSearchClickedList, setIsSearchClickedList] = useState([]);
 
@@ -26,6 +31,7 @@ const CourseContainer = ({ onCourseInsert, dayCount, containerIdx }) => {
     console.log(courseList);
   }, [courseList]);
 
+  useEffect(() => {}, [departDate]);
   return (
     <div className="courseContainer">
       <div>
@@ -36,6 +42,7 @@ const CourseContainer = ({ onCourseInsert, dayCount, containerIdx }) => {
           <CourseItem
             key={index}
             onCourseInsert={onCourseInsert}
+            departDate={departDate}
             dayCount={dayCount}
             containerIdx={containerIdx}
             courseIdx={index}
