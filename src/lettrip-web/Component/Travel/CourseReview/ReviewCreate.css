@@ -1,13 +1,16 @@
-.travel-review-create-container {
+.Travel_review_container {
   max-width: 800px;
   margin: 0 auto;
   padding: 50px 20px;
 }
 
-.travel-review-create-container h1 {
+.Travel_course_text {
   margin-bottom: 30px;
 }
 
+.Travel_review_title {
+  margin-bottom: 20px;
+}
 .form-group {
   margin-bottom: 20px;
 }

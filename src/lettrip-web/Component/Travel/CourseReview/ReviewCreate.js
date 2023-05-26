@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ReviewCreate.css";
-import { useNavigate } from "react-router-dom";
-import ReviewForm from "./ReviewForm";
-import { CreateReview } from "../../Service/AuthService";
+import { CreateReview } from "../../../Service/AuthService";
 
 function ReviewCreate() {
-  const [HeaderForm, HeaderForm] = useState({
+  const [TravelForm, setTravelForm] = useState({
     title: "",
     startDate: "",
     endDate: "",
@@ -13,143 +11,147 @@ function ReviewCreate() {
     city: "",
     totalCost: "",
     theme: "",
-    numberOfCourse: "",
+    numberOfCourses: "",
   });
-  const [contentsData, setContentsData] = useState([]);
-  const [isAddContentClicked, setIsAddContentClicked] = useState(false);
+  const [totalCost, setTotalCost] = useState(0);
+  const [numberOfCourses, setNumberOfCourses] = useState(0);
+  const [days, setDays] = useState(0);
+  const [matchedCitys, setMatchedCitys] = useState([]);
+  const [courses, setCourses] = new useState([]);
+  const [isFormSubmit, setIsFormSubmit] = new useState(false);
 
-  const navigate = useNavigate();
+  const travelThemes = TravelThemes;
+  const travelThemeOptions = travelThemes.map((theme, idx) => (
+    <option key={idx}>{theme}</option>
+  ));
+  const provinces = Provinces;
+  const provincesOptions = provinces.map((province, idx) => (
+    <option key={idx}>{province}</option>
+  ));
+  const citys = Citys;
+  const citiysOptions = citys.map((city, idx) => (
+    <option key={idx}>{city}</option>
+  ));
 
-  const handleStartDateChange = (event) => {
-    const selectedDate = new Date(event.target.value);
-    const currentDate = new Date();
-
-    if (selectedDate > currentDate) {
-      alert("출발 날짜는 현재 날짜 이전로 선택해주세요.");
-      return;
-    }
-    setStartDate(event.target.value);
-  };
-
-  const handleEndDateChange = (event) => {
-    const selectedDate = new Date(event.target.value);
-    const startDateObject = new Date(startDate);
-
-    if (selectedDate < startDateObject) {
-      alert("도착 날짜는 출발 날짜 이후로 선택해주세요.");
-      return;
-    }
-
-    const diffInDays = Math.ceil(
-      Math.abs(selectedDate - startDateObject) / (1000 * 60 * 60 * 24)
+  useEffect(() => {
+    const selectedProvinceObject = citys.find(
+      (object) => object.province === planForm.province
     );
-
-    if (diffInDays > 10) {
-      alert("최대 10일까지 선택 가능합니다.");
-      return;
+    if (selectedProvinceObject) {
+      setMatchedCitys(selectedProvinceObject.citys);
     }
+  }, [planForm.province]);
 
-    setEndDate(event.target.value);
+  const handleTravelFormChange = (e) => {
+    const changedField = e.target.name;
+    let newValue = e.target.value;
+    setTravelForm({
+      ...TravelForm,
+      [changedField]: newValue,
+    });
   };
 
-  const handleAddContentClick = () => {
-    setIsAddContentClicked(true);
-  };
-  const handleContentDelete = (index) => {
-    const newContents = [...contentsData];
-    newContents.splice(index, 1);
-    setContentsData(newContents);
-  };
-  const handleContentSave = (index, contentData, isNew) => {
-    const newContents = [...contentsData];
-
-    if (isNew) {
-      newContents.push(contentData);
-    } else {
-      newContents[index] = contentData;
+  const handleTravelFormSubmit = (e) => {
+    e.preventDefault();
+    if (window.confirm("여행 코스 후기를 등록하시겠습니까?")) {
+      CreateReview(TravelForm)
+        .then((response) => {
+          if (response.success) {
+            window.alert("여행 코스 후기 작성이 완료되었습니다.");
+          } else {
+            console.log(response);
+            window.alert(`실패 원인: ${response.message}`);
+          }
+        })
+        .catch((e) => {
+          window.alert(
+            "여행 코스 후기 작성에 실패했습니다. 다시 시도해주시길 바랍니다."
+          );
+          console.log(e);
+        });
     }
-
-    setContentsData(newContents);
-    setIsAddContentClicked(false);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!title.trim()) {
-      alert("제목을 입력해주세요");
-      return;
-    }
-    if (!startDate.trim() || !endDate.trim()) {
-      alert("여행 일자를 입력해주세요");
-      return;
-    }
-    const confirmResult = window.confirm("여행 코스 후기를 등록하시겠습니까?");
-    if (!confirmResult) return;
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("start_date", startDate);
-    formData.append("end_date", endDate);
-    formData.append("contents", JSON.stringify(contentsData));
-
-    const response = await instance.post("/travel_reviews", formData);
-
-    alert("여행 코스 후기가 등록되었습니다.");
-    navigate(`/TravelReview/${response.data.travel_review.id}`);
   };
 
   return (
-    <div className='travel-review-create-container'>
-      <h1>여행 코스 후기 작성</h1>
-      <form onSubmit={handleSubmit}>
-        <div className='form-group'>
+    <div className='Travel_review_container'>
+      <h1 className='Travel_course_text'>여행 코스 후기 작성</h1>
+      <form onSubmit={handleTravelFormSubmit}>
+        <div className='Travel_review_title'>
           <label htmlFor='title'>제목</label>
           <input
             type='text'
             id='title'
-            value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            required
+            value={TravelForm.title}
+            onChange={handleTravelFormChange}
           />
         </div>
-        <div className='form-group'>
+        <div className='Travel_review_theme'>
+          <label htmlFor='theme'>테마</label>
+          <select
+            name='theme'
+            id='theme'
+            required
+            defaultValue='default'
+            onChange={handleTravelFormChange}
+          >
+            <option value='default' disabled>
+              테마 선택
+            </option>
+            {travelThemeOptions}
+          </select>
+        </div>
+        <div className='Travel_review_startDate'>
           <label htmlFor='startDate'>출발 날짜</label>
           <input
             type='date'
             id='startDate'
-            value={startDate}
-            onChange={handleStartDateChange}
+            required
+            value={TravelForm.startDate}
+            onChange={handleTravelFormChange}
           />
         </div>
-        <div className='form-group'>
+        <div className='Travel_review_endDate'>
           <label htmlFor='endDate'>도착 날짜</label>
           <input
             type='date'
             id='endDate'
-            value={endDate}
-            onChange={handleEndDateChange}
+            required
+            value={TravelForm.endDate}
+            onChange={handleTravelFormChange}
           />
         </div>
-        {contentsData.map((blockData, index) => (
-          <ReviewForm
-            key={index}
-            blockData={blockData}
-            index={index}
-            onDelete={handleContentDelete}
-            onSave={handleContentSave}
-          />
-        ))}
+        <div className='Travel_review_province_city'>
+          <label htmlFor='province'>행정구역</label>
+          <select
+            name='text'
+            id='province'
+            required
+            value={TravelForm.title}
+            defaultValue='default'
+            onChange={handleTravelFormChange}
+          >
+            <option value='default' disabled>
+              시도 선택
+            </option>
+            {provincesOptions}
+          </select>
+          <label htmlFor='city'>지역</label>
+          <select
+            name='city'
+            id='city'
+            value={TravelForm.city}
+            defaultValue='default'
+            onChange={handleTravelFormChange}
+          >
+            <option value='default' disabled>
+              지역 선택
+            </option>
+          </select>
+        </div>
+        <div>코스 수 : {TravelForm.numberOfCourses}</div>
+        <div>총 비용: {TravelForm.totalCost}</div>
 
-        {isAddContentClicked ? (
-          <ReviewForm
-            onSave={handleContentSave}
-            onCancel={() => setIsAddContentClicked(false)}
-          />
-        ) : (
-          <button type='button' onClick={handleAddContentClick}>
-            본문 추가하기
-          </button>
-        )}
         <button type='submit'>등록</button>
       </form>
     </div>
