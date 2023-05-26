@@ -13,34 +13,6 @@ function ReviewCreate() {
     theme: "",
     numberOfCourses: "",
   });
-  const [totalCost, setTotalCost] = useState(0);
-  const [numberOfCourses, setNumberOfCourses] = useState(0);
-  const [days, setDays] = useState(0);
-  const [matchedCitys, setMatchedCitys] = useState([]);
-  const [courses, setCourses] = new useState([]);
-  const [isFormSubmit, setIsFormSubmit] = new useState(false);
-
-  const travelThemes = TravelThemes;
-  const travelThemeOptions = travelThemes.map((theme, idx) => (
-    <option key={idx}>{theme}</option>
-  ));
-  const provinces = Provinces;
-  const provincesOptions = provinces.map((province, idx) => (
-    <option key={idx}>{province}</option>
-  ));
-  const citys = Citys;
-  const citiysOptions = citys.map((city, idx) => (
-    <option key={idx}>{city}</option>
-  ));
-
-  useEffect(() => {
-    const selectedProvinceObject = citys.find(
-      (object) => object.province === planForm.province
-    );
-    if (selectedProvinceObject) {
-      setMatchedCitys(selectedProvinceObject.citys);
-    }
-  }, [planForm.province]);
 
   const handleTravelFormChange = (e) => {
     const changedField = e.target.name;
@@ -98,7 +70,6 @@ function ReviewCreate() {
             <option value='default' disabled>
               테마 선택
             </option>
-            {travelThemeOptions}
           </select>
         </div>
         <div className='Travel_review_startDate'>
@@ -134,7 +105,6 @@ function ReviewCreate() {
             <option value='default' disabled>
               시도 선택
             </option>
-            {provincesOptions}
           </select>
           <label htmlFor='city'>지역</label>
           <select
