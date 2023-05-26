@@ -23,6 +23,8 @@ import ArticleCreate from "./lettrip-web/Component/Article/ArticleCreate";
 import ArticleModify from "./lettrip-web/Component/Article/ArticleModify";
 import ArticlePage from "./lettrip-web/Component/Article/ArticlePage";
 
+import CoursePlanTemplate from "./lettrip-web/Component/Travel/Plan/CoursePlanTemplate";
+
 function App() {
   return (
     <Router>
@@ -31,23 +33,27 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/Login" element={<Login />} />
-          <Route path="/SignUp" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signUp" element={<SignUp />} />
 
-          <Route path="/Travel/Search" element={<TravelSearch />} />
-          <Route path="/Travel/course/:travel-id" element={<CoursePage />} />
-          <Route path="/Travel/Course/Create" element={<CourseCreate />} />
-          <Route path="/Travel/Course/Modify" element={<CourseModify />} />
-          <Route path="/Travel/Review/Create" element={<ReviewCreate />} />
-          <Route path="/Travel/Review/Modify" element={<ReviewModify />} />
-
-          <Route path="/Article" element={<ArticleList />} />
-          <Route path="/Article/create" element={<ArticleCreate />} />
+          <Route path="/travel/search" element={<TravelSearch />} />
+          <Route path="/travel/course/:travel-id" element={<CoursePage />} />
           <Route
-            path="/Article/modify/:article-id"
+            path="/travel/course/create"
+            element={<CoursePlanTemplate />}
+          />
+          <Route path="/travel/course/modify" element={<CourseModify />} />
+          <Route path="/travel/review/create" element={<ReviewCreate />} />
+          <Route path="/travel/review/modify" element={<ReviewModify />} />
+
+          <Route path="/article" element={<ArticleList />} />
+          <Route path="/article/create" element={<ArticleCreate />} />
+          <Route
+            path="/article/modify/:article-id"
             element={<ArticleModify />}
           />
-          <Route path="/Article/:article-id" element={<ArticlePage />} />
+          <Route path="/article/:article-id" element={<ArticlePage />} />
+          <Route path="travel/plan" element={<CoursePlanTemplate />} />
         </Routes>
       </div>
     </Router>

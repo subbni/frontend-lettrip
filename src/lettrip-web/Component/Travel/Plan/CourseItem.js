@@ -2,7 +2,13 @@
 import { useCallback, useEffect, useState } from "react";
 import MapForm from "./MapForm";
 
-const CourseItem = ({ onCourseInsert, dayCount, containerIdx, courseIdx }) => {
+const CourseItem = ({
+  onCourseInsert,
+  departDate,
+  dayCount,
+  containerIdx,
+  courseIdx,
+}) => {
   const [staticMapId, setStaticMapId] = useState(
     containerIdx + "staticMap" + courseIdx
   );
@@ -14,18 +20,13 @@ const CourseItem = ({ onCourseInsert, dayCount, containerIdx, courseIdx }) => {
     dayCount: dayCount,
     place: {
       name: "",
+      categoryCode: "",
+      categoryName: "",
       xpoint: "",
       ypoint: "",
       province: "",
       city: "",
     },
-  });
-  const [place, setPlace] = useState({
-    name: "",
-    xpoint: "",
-    ypoint: "",
-    province: "",
-    city: "",
   });
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
   const [confirm, setConfirm] = useState(false);
@@ -42,6 +43,8 @@ const CourseItem = ({ onCourseInsert, dayCount, containerIdx, courseIdx }) => {
     (placeInfo) => {
       const newPlace = {
         name: placeInfo.name,
+        categoryCode: placeInfo.categoryCode,
+        categoryName: placeInfo.categoryName,
         xpoint: placeInfo.xpoint,
         ypoint: placeInfo.ypoint,
         province: placeInfo.province,
