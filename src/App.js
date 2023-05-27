@@ -23,7 +23,9 @@ import ArticleCreate from "./lettrip-web/Component/Article/ArticleCreate";
 import ArticleModify from "./lettrip-web/Component/Article/ArticleModify";
 import ArticlePage from "./lettrip-web/Component/Article/ArticlePage";
 
-import CoursePlanTemplate from "./lettrip-web/Component/Travel/Plan/CoursePlanTemplate";
+import TravelPlanTemplate from "./lettrip-web/Component/Travel/TravelPlan/TravelPlanTemplate";
+import TravelReviewTemplate from "./lettrip-web/Component/Travel/TravelReview/TravelReviewTemplate";
+import MissionPage from "./lettrip-web/Component/Mission/MissionPage";
 
 function App() {
   return (
