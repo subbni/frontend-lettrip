@@ -3,8 +3,8 @@ import "./Plan.css";
 import CourseContainer from "./CourseContainer";
 import TravelData, { Citys, Provinces, TravelThemes } from "./TravelData";
 import { createTravelPlan } from "../../../Service/TravelService";
-const CoursePlanTemplate = () => {
-  //// state 관리
+const TravelPlanTemplate = () => {
+  //////// state 관리
   const [planForm, setPlanForm] = useState({
     title: "",
     travelTheme: "",
@@ -22,9 +22,9 @@ const CoursePlanTemplate = () => {
   const [days, setDays] = useState(0);
   const [matchedCitys, setMatchedCitys] = useState([]);
   const [courses, setCourses] = new useState([]);
-  const [isFormSubmit, setIsFormSubmit] = new useState(false);
+  const [isPlanDataSubmit, setIsPlanDataSubmit] = new useState(false);
 
-  //// data list
+  //////// data list
   // 여행 테마
   const travelThemes = TravelThemes;
   const travelThemeOptions = travelThemes.map((theme, idx) => (
@@ -38,7 +38,7 @@ const CoursePlanTemplate = () => {
   // 지역명
   const citys = Citys;
 
-  //// useEffect
+  //////// useEffect
 
   // 행정구역 선택에 따른 지역 option 동적 처리
   useEffect(() => {
@@ -74,7 +74,7 @@ const CoursePlanTemplate = () => {
     return diffDate;
   };
 
-  //// course 관련 설정
+  //////// course 관련 설정
   const courseId = useRef(1);
   const onCourseInsert = useCallback(
     (courseInfo, placeInfo) => {
@@ -99,19 +99,9 @@ const CoursePlanTemplate = () => {
       };
 
       setCourses(courses.concat(newCourse));
-      // const increaseTotalCost = (amount) => {
-      //   return parseInt(planForm.totalCost) + parseInt(amount);
-      // };
-      // const addNumberOfCourses = (amount) => {
-      //   return planForm.numberOfCourses + 1;
-      // };
       setNumberOfCourses((num) => num + 1);
       setTotalCost((cost) => parseInt(cost) + parseInt(newCourse.cost));
-      // setPlanForm((planForm) => ({
-      //   ...planForm,
-      //   totalCost: increaseTotalCost(newCourse.cost),
-      //   numberOfCourses: addNumberOfCourses(1),
-      // }));
+
       courseId.current += 1;
     },
     [courses, planForm]
@@ -125,7 +115,8 @@ const CoursePlanTemplate = () => {
 
     return `${year}-${month}-${day}`;
   };
-  //// event 관리
+
+  //////// event 핸들링
   const onPlanFormChange = (e) => {
     const changingField = e.target.name;
     setPlanForm((planForm) => ({
@@ -136,13 +127,15 @@ const CoursePlanTemplate = () => {
 
   const onPlanDataSubmit = (e) => {
     e.preventDefault();
-    console.log("코스 짜기 버튼 눌림");
     console.log(planForm);
-    setIsFormSubmit(true);
+    setIsPlanDataSubmit(true);
   };
 
   const onPlanFormSubmit = (e) => {
     e.preventDefault();
+    if (courses.length < 1) {
+      return alert("반드시 1개 이상의 코스가 등록되어야 합니다.");
+    }
     const cost = totalCost;
     const number = numberOfCourses;
     const courseList = courses;
@@ -173,7 +166,7 @@ const CoursePlanTemplate = () => {
   return (
     <div className="templateBlock">
       <div className="formContainer">
-        <h1>여행 코스 계획 작성</h1>
+        <h1>여행 코스 계획</h1>
         <form className="formBox" onSubmit={onPlanDataSubmit}>
           <div className="formComponent">
             <label htmlFor="title">제목</label>
@@ -208,7 +201,7 @@ const CoursePlanTemplate = () => {
               id="province"
               defaultValue="default"
               onChange={onPlanFormChange}
-              disabled={isFormSubmit}
+              disabled={isPlanDataSubmit}
             >
               <option value="default" disabled>
                 시도 선택
@@ -221,7 +214,7 @@ const CoursePlanTemplate = () => {
               id="city"
               defaultValue="default"
               onChange={onPlanFormChange}
-              disabled={isFormSubmit}
+              disabled={isPlanDataSubmit}
             >
               <option value="default" disabled>
                 지역 선택
@@ -239,7 +232,7 @@ const CoursePlanTemplate = () => {
               id="departDate"
               value={planForm.departDate}
               onChange={onPlanFormChange}
-              disabled={isFormSubmit}
+              disabled={isPlanDataSubmit}
               required
             />
             <label>~</label>
@@ -249,7 +242,7 @@ const CoursePlanTemplate = () => {
               id="lastDate"
               value={planForm.lastDate}
               onChange={onPlanFormChange}
-              disabled={isFormSubmit}
+              disabled={isPlanDataSubmit}
               required
             />
           </div>
@@ -258,12 +251,12 @@ const CoursePlanTemplate = () => {
           <button
             className="planCourseBtn"
             type="submit"
-            disabled={isFormSubmit}
+            disabled={isPlanDataSubmit}
           >
             코스 짜기
           </button>
         </form>
-        {isFormSubmit ? (
+        {isPlanDataSubmit ? (
           <div className="formComponent">
             <label>코스 짜기</label>
             <br />
@@ -284,16 +277,16 @@ const CoursePlanTemplate = () => {
                 })}
               </div>
             ) : (
-              <div>여행 기간을 설정해주세요 ! </div>
+              <div>여행 계획에 대한 정보를 먼저 입력해주세요</div>
             )}
+            <div className="formComponent">
+              <button onClick={onPlanFormSubmit}>계획 마치기</button>
+            </div>
           </div>
         ) : null}
-        <div className="formComponent">
-          <button onClick={onPlanFormSubmit}>계획 마치기</button>
-        </div>
       </div>
     </div>
   );
 };
 
-export default CoursePlanTemplate;
+export default TravelPlanTemplate;

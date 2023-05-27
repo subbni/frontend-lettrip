@@ -45,76 +45,76 @@ function ReviewCreate() {
   };
 
   return (
-    <div className='Travel_review_container'>
-      <h1 className='Travel_course_text'>여행 코스 후기 작성</h1>
+    <div className="Travel_review_container">
+      <h1 className="Travel_course_text">여행 코스 후기 작성</h1>
       <form onSubmit={handleTravelFormSubmit}>
-        <div className='Travel_review_title'>
-          <label htmlFor='title'>제목</label>
+        <div className="Travel_review_title">
+          <label htmlFor="title">제목</label>
           <input
-            type='text'
-            id='title'
+            type="text"
+            id="title"
             required
             value={TravelForm.title}
             onChange={handleTravelFormChange}
           />
         </div>
-        <div className='Travel_review_theme'>
-          <label htmlFor='theme'>테마</label>
+        <div className="Travel_review_theme">
+          <label htmlFor="theme">테마</label>
           <select
-            name='theme'
-            id='theme'
+            name="theme"
+            id="theme"
             required
-            defaultValue='default'
+            defaultValue="default"
             onChange={handleTravelFormChange}
           >
-            <option value='default' disabled>
+            <option value="default" disabled>
               테마 선택
             </option>
           </select>
         </div>
-        <div className='Travel_review_startDate'>
-          <label htmlFor='startDate'>출발 날짜</label>
+        <div className="Travel_review_startDate">
+          <label htmlFor="startDate">출발 날짜</label>
           <input
-            type='date'
-            id='startDate'
+            type="date"
+            id="startDate"
             required
             value={TravelForm.startDate}
             onChange={handleTravelFormChange}
           />
         </div>
-        <div className='Travel_review_endDate'>
-          <label htmlFor='endDate'>도착 날짜</label>
+        <div className="Travel_review_endDate">
+          <label htmlFor="endDate">도착 날짜</label>
           <input
-            type='date'
-            id='endDate'
+            type="date"
+            id="endDate"
             required
             value={TravelForm.endDate}
             onChange={handleTravelFormChange}
           />
         </div>
-        <div className='Travel_review_province_city'>
-          <label htmlFor='province'>행정구역</label>
+        <div className="Travel_review_province_city">
+          <label htmlFor="province">행정구역</label>
           <select
-            name='text'
-            id='province'
+            name="text"
+            id="province"
             required
             value={TravelForm.title}
-            defaultValue='default'
+            defaultValue="default"
             onChange={handleTravelFormChange}
           >
-            <option value='default' disabled>
+            <option value="default" disabled>
               시도 선택
             </option>
           </select>
-          <label htmlFor='city'>지역</label>
+          <label htmlFor="city">지역</label>
           <select
-            name='city'
-            id='city'
+            name="city"
+            id="city"
             value={TravelForm.city}
-            defaultValue='default'
+            defaultValue="default"
             onChange={handleTravelFormChange}
           >
-            <option value='default' disabled>
+            <option value="default" disabled>
               지역 선택
             </option>
           </select>
@@ -122,10 +122,10 @@ function ReviewCreate() {
         <div>코스 수 : {TravelForm.numberOfCourses}</div>
         <div>총 비용: {TravelForm.totalCost}</div>
 
-        <button type='submit'>등록</button>
+        <button type="submit">등록</button>
       </form>
     </div>
   );
 }
 
-export default ReviewCreate;
+// export default ReviewCreate;

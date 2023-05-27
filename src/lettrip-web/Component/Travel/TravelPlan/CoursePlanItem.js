@@ -2,17 +2,12 @@
 import { useCallback, useEffect, useState } from "react";
 import MapForm from "./MapForm";
 
-const CourseItem = ({
+const CoursePlanItem = ({
   onCourseInsert,
-  departDate,
   dayCount,
   containerIdx,
   courseIdx,
 }) => {
-  const [staticMapId, setStaticMapId] = useState(
-    containerIdx + "staticMap" + courseIdx
-  );
-  const [staticMap, setStaticMap] = useState("");
   const [course, setCourse] = useState({
     id: courseIdx,
     arrivedTime: "",
@@ -27,16 +22,16 @@ const CourseItem = ({
       province: "",
       city: "",
     },
+    review: {
+      fileNames: [],
+      detailedReview: "",
+      rating: "",
+      soloFriendlyRating: "",
+    },
   });
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [btnMessage, setBtnMessage] = useState("확인");
-
-  useEffect(() => {
-    if (isPlaceSelected) {
-      drawStaticMap();
-    }
-  }, [isPlaceSelected]);
 
   // MapForm에 전달할 place 선택 함수
   const onPlaceSelect = useCallback(
@@ -58,23 +53,6 @@ const CourseItem = ({
     },
     [course.place]
   );
-
-  const drawStaticMap = () => {
-    // const marker = {
-    //   position: new kakao.maps.LatLng(course.place.xpoint, course.place.ypoint),
-    // };
-    // const staticMapContainer = document.getElementById({ staticMapId }), // 이미지 지도를 표시할 div
-    //   staticMapOption = {
-    //     center: new kakao.maps.LatLng(course.place.xpoint, course.place.ypoint), // 이미지 지도의 중심좌표
-    //     level: 3, // 이미지 지도의 확대 레벨
-    //      marker: marker, // 이미지 지도에 표시할 마커
-    //   };
-    // // 이미지 지도를 생성합니다
-    // const staticMap = new kakao.maps.StaticMap(
-    //   staticMapContainer,
-    //   staticMapOption
-    // );
-  };
 
   const onChange = (e) => {
     setCourse({
@@ -140,4 +118,4 @@ const CourseItem = ({
   );
 };
 
-export default CourseItem;
+export default CoursePlanItem;

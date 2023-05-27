@@ -1,0 +1,35 @@
+.imageContainer {
+  display: flex;
+  /* width: 220px;
+  height: 180px; */
+  overflow: auto;
+
+  /* 좌우 스크롤 */
+  flex-flow: row nowrap;
+  scroll-snap-type: x mandatory;
+}
+
+.reviewImg {
+  flex: none;
+  scroll-snap-align: center;
+}
+
+.reviewImg_input {
+  display: none;
+}
+
+.reviewImg_label {
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid rgb(156, 156, 156);
+  border-radius: 5px;
+}
+
+.delete_btn {
+  border: 1px solid rgb(156, 156, 156);
+  border-radius: 5px;
+}
+
+.courseComponent {
+  padding: 0.5rem 0;
+}

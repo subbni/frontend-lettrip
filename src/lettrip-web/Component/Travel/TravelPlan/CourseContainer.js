@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Plan.css";
 import MapForm from "./MapForm";
-import CourseItem from "./CourseItem";
+import CoursePlanItem from "./CoursePlanItem";
 
 const CourseContainer = ({
   onCourseInsert,
@@ -39,7 +39,7 @@ const CourseContainer = ({
       </div>
       {courseList.map((course, index) => (
         <div key={index} className="course">
-          <CourseItem
+          <CoursePlanItem
             key={index}
             onCourseInsert={onCourseInsert}
             departDate={departDate}

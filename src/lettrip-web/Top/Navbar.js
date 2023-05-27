@@ -59,44 +59,44 @@ function Navbar() {
   }
 
   return (
-    <div className='Navbar'>
-      <Link to='/'>
+    <div className="Navbar">
+      <Link to="/">
         <img
           onClick={handleClick}
-          className='Logo_Image'
-          src='logo.png'
-          alt='Logo'
+          className="Logo_Image"
+          src="logo.png"
+          alt="Logo"
         ></img>
       </Link>
 
-      <div className='Navbar_Container'>
-        <div className='Navbar_Service'>
-          <div className='Navbar_Dropdown' ref={menuRef}>
-            <span className='Navbar_Travel' onClick={handleTravel}>
+      <div className="Navbar_Container">
+        <div className="Navbar_Service">
+          <div className="Navbar_Dropdown" ref={menuRef}>
+            <span className="Navbar_Travel" onClick={handleTravel}>
               여행코스
             </span>
             {showSubMenu && (
-              <div className='Navbar_DropdownContent'>
+              <div className="Navbar_DropdownContent">
                 <span
-                  className='Navbar_DropdownItem'
+                  className="Navbar_DropdownItem"
                   onClick={handleTravelCourseSearch}
                 >
                   여행코스 검색
                 </span>
                 <span
-                  className='Navbar_DropdownItem'
+                  className="Navbar_DropdownItem"
                   onClick={handleTravelCreate}
                 >
                   여행코스 등록
                 </span>
                 <span
-                  className='Navbar_DropdownItem'
+                  className="Navbar_DropdownItem"
                   onClick={handleTravelPlan}
                 >
                   여행코스 계획 등록
                 </span>
                 <span
-                  className='Navbar_DropdownItem'
+                  className="Navbar_DropdownItem"
                   onClick={handleTravelReview}
                 >
                   여행코스 후기 등록
@@ -104,16 +104,16 @@ function Navbar() {
               </div>
             )}
           </div>
-          <span className='Navbar_Friend'> 친구매칭</span>
-          <span className='Navbar_Mission'> 미션</span>
-          <span className='Navbar_Community' onClick={handleCommunity}>
+          <span className="Navbar_Friend"> 친구매칭</span>
+          <span className="Navbar_Mission"> 미션</span>
+          <span className="Navbar_Community" onClick={handleCommunity}>
             커뮤니티
           </span>
         </div>
-        <div className='Navbar_Option'>
-          <AiOutlineUser className='Navbar_UserIcon' />
-          <AiOutlineSearch className='Navbar_SearchIcon' />
-          <AiFillHeart className='Navbar_HeartIcon' />
+        <div className="Navbar_Option">
+          <AiOutlineUser className="Navbar_UserIcon" />
+          <AiOutlineSearch className="Navbar_SearchIcon" />
+          <AiFillHeart className="Navbar_HeartIcon" />
         </div>
       </div>
     </div>

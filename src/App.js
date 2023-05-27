@@ -28,32 +28,35 @@ import CoursePlanTemplate from "./lettrip-web/Component/Travel/Plan/CoursePlanTe
 function App() {
   return (
     <Router>
-      <div className='App'>
+      <div className="App">
         <Header />
         <Navbar />
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signUp' element={<SignUp />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signUp" element={<SignUp />} />
 
-          <Route path='/travel/search' element={<TravelSearch />} />
-          <Route path='/travel/course/:travel-id' element={<CoursePage />} />
+          <Route path="/travel/search" element={<TravelSearch />} />
+          <Route path="/travel/course/:travel-id" element={<CoursePage />} />
           <Route
-            path='/travel/course/create'
-            element={<CoursePlanTemplate />}
+            path="/travel/course/create"
+            element={<TravelPlanTemplate />}
           />
-          <Route path='/travel/course/modify' element={<CourseModify />} />
-          <Route path='/travel/review/create' element={<ReviewCreate />} />
-          <Route path='/travel/review/modify' element={<ReviewModify />} />
-
-          <Route path='/articles' element={<ArticleList />} />
-          <Route path='/articles/create' element={<ArticleCreate />} />
+          <Route path="/travel/course/modify" element={<CourseModify />} />
           <Route
-            path='/articles/modify/:article-id'
+            path="/travel/review/create"
+            element={<TravelReviewTemplate />}
+          />
+          <Route path="/travel/review/modify" element={<ReviewModify />} />
+
+          <Route path="/articles" element={<ArticleList />} />
+          <Route path="/articles/create" element={<ArticleCreate />} />
+          <Route
+            path="/articles/modify/:article-id"
             element={<ArticleModify />}
           />
-          <Route path='/articles/:id' element={<ArticlePage />} />
-          <Route path='travel/plan' element={<CoursePlanTemplate />} />
+          <Route path="/articles/:id" element={<ArticlePage />} />
+          <Route path="travel/plan" element={<CoursePlanTemplate />} />
         </Routes>
       </div>
     </Router>
