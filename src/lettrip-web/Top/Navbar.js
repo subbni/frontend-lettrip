@@ -39,7 +39,7 @@ function Navbar() {
   }
 
   function handleTravelCourseSearch() {
-    navigate("/Travel/Search");
+    navigate("/travel/search");
   }
 
   function handleTravelCreate() {
@@ -47,15 +47,15 @@ function Navbar() {
   }
 
   function handleTravelPlan() {
-    navigate("/Travel/Course/Create");
+    navigate("/travel/course/create");
   }
 
   function handleTravelReview() {
-    navigate("/Travel/Review/Create");
+    navigate("/travel/review/create");
   }
 
   function handleCommunity() {
-    navigate("/Article");
+    navigate("/articles");
   }
 
   return (

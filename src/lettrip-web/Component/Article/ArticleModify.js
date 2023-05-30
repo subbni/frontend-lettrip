@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ArticleModify.css";
+import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 import {
   Checklogin,
   ModifyArticle,
   ArticleData,
+  ListArticle,
 } from "../../Service/AuthService";
 
 function ArticleModify({ articleId }) {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
   const [articleForm, setArticleForm] = useState({
+    email: "",
     title: "",
     content: "",
-    file: null,
+    file: "",
   });
-
+  const [pageForm, setPageForm] = useState({
+    page: 0,
+    size: 10,
+    sort: "id,DESC",
+  });
   useEffect(() => {
     fetchChecklogin();
+    fetchArticles();
   }, []);
 
   useEffect(() => {
@@ -41,13 +49,15 @@ function ArticleModify({ articleId }) {
     window.alert("로그인이 필요합니다.");
   }
 
-  const fetchArticleData = (articleId) => {
+  const fetchArticleData = () => {
     ArticleData(articleId)
       .then((response) => {
-        setArticleForm(response.data);
+        setArticleForm(response.content);
+        console.log(response.content);
       })
       .catch((e) => {
-        console.error("게시글 정보를 가져오는 중에 오류가 발생했습니다:");
+        console.log(e);
+        window.alert("게시글 정보를 가져오는 중에 오류가 발생했습니다:");
       });
   };
 
@@ -63,6 +73,10 @@ function ArticleModify({ articleId }) {
     });
   };
 
+  const getAuthToken = () => {
+    return localStorage.getItem(ACCESS_TOKEN);
+  };
+
   const handleArticleFormSubmit = (e) => {
     e.preventDefault();
     if (!articleForm.title.trim() || !articleForm.content.trim()) {
@@ -70,11 +84,17 @@ function ArticleModify({ articleId }) {
       return;
     }
     if (window.confirm("제출하시겠습니까?")) {
-      ModifyArticle(articleForm)
-        .then(() => {
+      const authToken = getAuthToken();
+      if (!authToken) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+      ModifyArticle(articleForm, authToken)
+        .then((response) => {
           window.alert("게시글 수정이 완료되었습니다.");
-          window.location.reload();
-          navigate("/Articles");
+          navigate("/articles");
+          fetchArticles();
+          console.log(response);
         })
         .catch((e) => {
           console.log(e);
@@ -83,6 +103,17 @@ function ArticleModify({ articleId }) {
           );
         });
     }
+  };
+
+  const fetchArticles = () => {
+    ListArticle(pageForm)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e);
+        window.alert("게시글 목록을 불러오는데 실패했습니다.");
+      });
   };
 
   return (

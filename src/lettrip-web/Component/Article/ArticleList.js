@@ -32,20 +32,21 @@ function ArticleList() {
     ListArticle(pageForm)
       .then((response) => {
         setArticleList(response.content);
-        console.log(articleList);
+        console.log(response.content);
       })
       .catch((e) => {
         console.log(e);
         window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
       });
   };
+
   const handleCreateClick = (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
       window.alert("로그인이 필요합니다.");
       return;
     } else {
-      navigate("/Article/Create");
+      navigate("/articles/create");
     }
   };
 
@@ -68,7 +69,12 @@ function ArticleList() {
           {articleList.map((post) => (
             <tr key={post.id}>
               <td id={post.id}>
-                <Link to={`/Article/${post.id}`}>{post.title}</Link>
+                <Link
+                  to={`/articles/${post.id}`}
+                  onClick={() => navigate(`/articles/${post.id}`)}
+                >
+                  {post.title}
+                </Link>
               </td>
               <td id={post.id}>{post.writerNickname}</td>
               <td id={post.id}>

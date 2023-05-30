@@ -23,8 +23,11 @@ function Header() {
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    navigate("/");
+    const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
+    if (confirmLogout) {
+      setIsLoggedIn(false);
+      navigate("/");
+    }
   };
 
   return (
@@ -32,17 +35,16 @@ function Header() {
       <div className='Header_Container'>
         {isLoggedIn ? (
           <>
-            <Link to='/' />
             <button onClick={handleLogout} className='Header_Button'>
               로그아웃
             </button>
           </>
         ) : (
           <>
-            <Link to='/Login' className='Header_Button'>
+            <Link to='/login' className='Header_Button'>
               로그인
             </Link>
-            <Link to='/Sign-up' className='Header_Button'>
+            <Link to='/signup' className='Header_Button'>
               회원가입
             </Link>
           </>

@@ -3,12 +3,17 @@
   margin: 0 auto;
   padding: 50px 20px;
 }
-
 .Travel_course_text {
   margin-bottom: 30px;
 }
 
 .Travel_review_title {
+  margin-bottom: 20px;
+}
+.Travel_review_startDate {
+  margin-bottom: 20px;
+}
+.Travel_review_startDate {
   margin-bottom: 20px;
 }
 .form-group {

@@ -3,7 +3,7 @@ import "./CommentCreate.css";
 import { useNavigate } from "react-router-dom";
 import { Checklogin, CreateComment } from "../../../Service/AuthService";
 
-function CommentCreate({ postId }) {
+function CommentCreate() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
   const [commentForm, setCommentForm] = useState({
@@ -38,15 +38,14 @@ function CommentCreate({ postId }) {
       window.alert("로그인이 필요합니다.");
     }
     if (!commentForm.content.trim()) {
-      alert("댓글을 입력해주세요.");
+      window.alert("댓글을 입력해주세요.");
       return;
     }
     if (window.confirm("댓글을 작성하시겠습니까?")) {
       CreateComment(commentForm)
         .then((response) => {
           window.alert("댓글 작성이 완료되었습니다.");
-          window.location.reload();
-          navigate("/Article/{postID}");
+          navigate(`/article`);
         })
         .catch((e) => {
           console.log(e);

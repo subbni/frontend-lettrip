@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "../Constant/backendAPI";
 import { request } from "./APIService";
+import { ACCESS_TOKEN } from "../Service/APIService";
 
 export function login(loginRequest) {
   return request({
@@ -40,27 +41,44 @@ export function Checklogin(checkloginRequest) {
   });
 } //로그인 여부 확인
 
-export function CreateArticle(articleCreateRequest) {
+export function CreateArticle(articleForm, authToken) {
+  const requestBody = JSON.stringify(articleForm);
   return request({
     url: API_BASE_URL + "/api/articles/create",
     method: "POST",
-    body: JSON.stringify(articleCreateRequest),
+    headers: {
+      Authorization: "Bearer " + authToken,
+      "Content-Type": "application/json", // JSON 형식으로 요청 설정
+    },
+    body: requestBody,
   });
 } //게시글 작성 등록 요청
 
-export function ModifyArticle(articleModifyRequest) {
+export function ModifyArticle(articleForm, authToken) {
+  const requestBody = JSON.stringify(articleForm);
   return request({
     url: API_BASE_URL + "/api/articles/modify",
     method: "PUT",
-    body: JSON.stringify(articleModifyRequest),
+    headers: {
+      Authorization: "Bearer " + authToken,
+      "Content-Type": "application/json", // JSON 형식으로 요청 설정
+    },
+    body: requestBody,
   });
-} //게시글 수정하기 위해서 원글 불러오기 요청
+} //게시글 수정 요청
 
-export function DeleteArticle(articleDeleteRequest) {
+export function ArticleData(articleID) {
   return request({
     url: API_BASE_URL + "/api/articles/modify",
+    method: "GET",
+    body: JSON.stringify(articleID),
+  });
+} //게시글 정보 불러오기 요청
+
+export function DeleteArticle(articleID) {
+  return request({
+    url: API_BASE_URL + "/api/articles/" + articleID,
     method: "DELETE",
-    body: JSON.stringify(articleDeleteRequest),
   });
 } //게시글 삭제 요청
 
@@ -74,25 +92,16 @@ export function ListArticle(pageForm) {
   });
 } //게시글 목록 불러오기 요청
 
-export function PageArticle(articlePageRequest) {
+export function PageArticle(articleID) {
   return request({
-    url: API_BASE_URL + "/api/articles",
+    url: API_BASE_URL + "/api/articles" + { articleID },
     method: "GET",
-    body: JSON.stringify(articlePageRequest),
   });
 } //게시글 불러오기 요청
 
-export function ArticleData(articleID) {
-  return request({
-    url: API_BASE_URL + "/api/articles/${articleID}",
-    method: "GET",
-    body: JSON.stringify(articleID),
-  });
-} //게시글 정보 불러오기 요청
-
 export function CreateComment(commentCreateRequest) {
   return request({
-    url: API_BASE_URL + "/api/comments",
+    url: API_BASE_URL + "/api/comment/create",
     method: "POST",
     body: JSON.stringify(commentCreateRequest),
   });
@@ -100,7 +109,7 @@ export function CreateComment(commentCreateRequest) {
 
 export function ModifyComment(commentModifyRequest) {
   return request({
-    url: API_BASE_URL + "/api/comments",
+    url: API_BASE_URL + "/api/comment/modify",
     method: "PUT",
     body: JSON.stringify(commentModifyRequest),
   });
@@ -108,23 +117,15 @@ export function ModifyComment(commentModifyRequest) {
 
 export function DeleteComment(commentDeleteRequest) {
   return request({
-    url: API_BASE_URL + "/api/comments",
+    url: API_BASE_URL + "/api/comment/delete/{comment-id}",
     method: "DELETE",
     body: JSON.stringify(commentDeleteRequest),
   });
 } //댓글 삭제 요청
 
-export function ListComment(commentListRequest) {
-  return request({
-    url: API_BASE_URL + "/api/comments",
-    method: "GET",
-    body: JSON.stringify(commentListRequest),
-  });
-} //댓글 목록 불러오기 요청
-
 export function CommentData(commentID) {
   return request({
-    url: API_BASE_URL + "/api/comments/${commentID}",
+    url: API_BASE_URL + "/api/comment/{article-id}",
     method: "GET",
     body: JSON.stringify(commentID),
   });
@@ -132,7 +133,7 @@ export function CommentData(commentID) {
 
 export function CreateReplyComment(commentReplyCreateRequest) {
   return request({
-    url: API_BASE_URL + "/api/comments",
+    url: API_BASE_URL + "/api/comment/",
     method: "POST",
     body: JSON.stringify(commentReplyCreateRequest),
   });
@@ -140,7 +141,7 @@ export function CreateReplyComment(commentReplyCreateRequest) {
 
 export function DeleteReplyComment(commentReplyDeleteRequest) {
   return request({
-    url: API_BASE_URL + "/api/comments",
+    url: API_BASE_URL + "/api/comment/",
     method: "DELETE",
     body: JSON.stringify(commentReplyDeleteRequest),
   });
@@ -148,7 +149,7 @@ export function DeleteReplyComment(commentReplyDeleteRequest) {
 
 export function ReplyCommentData(commentID) {
   return request({
-    url: API_BASE_URL + "/api/comments/${commentID}",
+    url: API_BASE_URL + "/api/comment/{article-id}",
     method: "GET",
     body: JSON.stringify(commentID),
   });

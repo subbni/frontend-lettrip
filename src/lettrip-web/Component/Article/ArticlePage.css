@@ -82,7 +82,7 @@ button[type="submit"] {
   margin-bottom: 20px;
 }
 
-.views-likes {
+.extra_views {
   display: flex;
   justify-content: space-between;
   font-size: 16px;

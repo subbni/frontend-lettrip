@@ -3,17 +3,24 @@ import "./Comment.css";
 import { CommentData, ReplyCommentData } from "../../Service/APIService";
 import ReplyComment from "./ReplyComment";
 
-function Comment({ postId }) {
+function Comment() {
   const [comments, setComments] = useState([]);
+  const [commentForm, setCommentForm] = useState({
+    page: 0,
+    size: 10,
+    sort: "id,DESC",
+  });
 
   useEffect(() => {
     fetchComments();
+    fetchReplyComments();
   }, []);
 
   const fetchComments = () => {
-    CommentData(postId)
+    CommentData(commentForm)
       .then((response) => {
-        setComments(response.data);
+        setComments(response.content);
+        console.log(comments);
       })
       .catch((e) => {
         console.log(e);
@@ -22,7 +29,7 @@ function Comment({ postId }) {
   };
 
   const fetchReplyComments = (commentId) => {
-    ReplyCommentData(commentId)
+    ReplyCommentData(commentForm)
       .then((response) => {
         setComments((prevComments) =>
           prevComments.map((comment) => {
