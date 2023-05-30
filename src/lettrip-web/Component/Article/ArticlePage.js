@@ -10,14 +10,12 @@ import {
 
 function ArticlePage() {
   const navigate = useNavigate();
-  const { articleID } = useParams();
-  const parsedArticleID = parseInt(articleID);
+  const { id } = useParams(); // useParams 쓸 때 App.js에 적은 파라미터 명이랑 동일하게 적기
   const [post, setPost] = useState([]);
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    fetchChecklogin();
+    // fetchChecklogin();
     fetchArticle();
   }, []);
 
@@ -33,10 +31,11 @@ function ArticlePage() {
   };
 
   const fetchArticle = () => {
-    PageArticle(parseInt(articleID))
+    console.log(`현재 파라미터 = ${id}`);
+    PageArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴 => showArticle이나 다른 이름으로 바꾸면 좋을 것 같아요
       .then((response) => {
-        setPost(response.content);
-        console.log(response.content);
+        setPost(response);
+        console.log(response);
       })
       .catch((e) => {
         console.log(e);
@@ -45,7 +44,7 @@ function ArticlePage() {
       });
   };
 
-  const currentPost = post.find((p) => p.id === parsedArticleID);
+  // const currentPost = post.find((p) => p.id === parsedArticleID);
 
   const handleDelete = (articleID) => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
@@ -65,29 +64,27 @@ function ArticlePage() {
   };
 
   return (
-    <div className='ArticlePagecontainer'>
-      {currentPost && (
-        <div key={currentPost.id}>
-          <h1 className='title'>{currentPost.title}</h1>
-          <h3 className='author'>
-            <p>작성자: {currentPost.writerName}</p>
+    <div className="ArticlePagecontainer">
+      {post && (
+        <div key={post.id}>
+          <h1 className="title">{post.title}</h1>
+          <h3 className="author">
+            <p>작성자: {post.writerName}</p>
           </h3>
-          <p className='content'>본문: {currentPost.content}</p>
-          <div className='extra_views'>
-            <p>조회수: {currentPost.hit}</p>
-            <p>좋아요 수: {currentPost.likedCount}</p>
-            <p>작성일자: {currentPost.createdDate}</p>
-            <p>수정일자: {currentPost.modifiedDate}</p>
+          <p className="content">본문: {post.content}</p>
+          <div className="extra_views">
+            <p>조회수: {post.hit}</p>
+            <p>좋아요 수: {post.likedCount}</p>
+            <p>작성일자: {post.createdDate}</p>
+            <p>수정일자: {post.modifiedDate}</p>
           </div>
           {isLoggedIn &&
-            currentPost.writerEmail === localStorage.getItem("email") && ( // 로그인 여부와 작성자 이메일 비교 추가
-              <div className='edit-buttons'>
-                <button onClick={() => handleDelete(currentPost.id)}>
-                  삭제
-                </button>
+            post.writerEmail === localStorage.getItem("email") && ( // 로그인 여부와 작성자 이메일 비교 추가
+              <div className="edit-buttons">
+                <button onClick={() => handleDelete(post.id)}>삭제</button>
               </div>
             )}
-          <Comment postId={currentPost.id} />
+          <Comment postId={post.id} />
         </div>
       )}
     </div>

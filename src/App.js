@@ -58,7 +58,9 @@ function App() {
             element={<ArticleModify />}
           />
           <Route path="/articles/:id" element={<ArticlePage />} />
-          <Route path="travel/plan" element={<CoursePlanTemplate />} />
+          <Route path="/travel/plan" element={<TravelPlanTemplate />} />
+          <Route path="/travel/review" element={<TravelReviewTemplate />} />
+          <Route path="/mission" element={<MissionPage />} />
         </Routes>
       </div>
     </Router>
