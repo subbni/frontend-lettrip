@@ -91,9 +91,9 @@ export function ListArticle(pageForm) {
   });
 } //게시글 목록 불러오기 요청
 
-export function PageArticle(articleID) {
+export function PageArticle(articleId) {
   return request({
-    url: API_BASE_URL + "/api/articles" + { articleID },
+    url: API_BASE_URL + "/api/articles/" + articleId,
     method: "GET",
   });
 } //게시글 불러오기 요청

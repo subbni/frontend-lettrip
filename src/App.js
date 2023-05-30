@@ -23,37 +23,44 @@ import ArticleCreate from "./lettrip-web/Component/Article/ArticleCreate";
 import ArticleModify from "./lettrip-web/Component/Article/ArticleModify";
 import ArticlePage from "./lettrip-web/Component/Article/ArticlePage";
 
-import CoursePlanTemplate from "./lettrip-web/Component/Travel/Plan/CoursePlanTemplate";
+import TravelPlanTemplate from "./lettrip-web/Component/Travel/TravelPlan/TravelPlanTemplate";
+import TravelReviewTemplate from "./lettrip-web/Component/Travel/TravelReview/TravelReviewTemplate";
+import MissionPage from "./lettrip-web/Component/Mission/MissionPage";
 
 function App() {
   return (
     <Router>
-      <div className='App'>
+      <div className="App">
         <Header />
         <Navbar />
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signUp' element={<SignUp />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signUp" element={<SignUp />} />
 
-          <Route path='/travel/search' element={<TravelSearch />} />
-          <Route path='/travel/course/:travel-id' element={<CoursePage />} />
+          <Route path="/travel/search" element={<TravelSearch />} />
+          <Route path="/travel/course/:travel-id" element={<CoursePage />} />
           <Route
-            path='/travel/course/create'
-            element={<CoursePlanTemplate />}
+            path="/travel/course/create"
+            element={<TravelPlanTemplate />}
           />
-          <Route path='/travel/course/modify' element={<CourseModify />} />
-          <Route path='/travel/review/create' element={<ReviewCreate />} />
-          <Route path='/travel/review/modify' element={<ReviewModify />} />
-
-          <Route path='/articles' element={<ArticleList />} />
-          <Route path='/articles/create' element={<ArticleCreate />} />
+          <Route path="/travel/course/modify" element={<CourseModify />} />
           <Route
-            path='/articles/modify/:article-id'
+            path="/travel/review/create"
+            element={<TravelReviewTemplate />}
+          />
+          <Route path="/travel/review/modify" element={<ReviewModify />} />
+
+          <Route path="/articles" element={<ArticleList />} />
+          <Route path="/articles/create" element={<ArticleCreate />} />
+          <Route
+            path="/articles/modify/:article-id"
             element={<ArticleModify />}
           />
-          <Route path='/articles/:id' element={<ArticlePage />} />
-          <Route path='travel/plan' element={<CoursePlanTemplate />} />
+          <Route path="/articles/:id" element={<ArticlePage />} />
+          <Route path="/travel/plan" element={<TravelPlanTemplate />} />
+          <Route path="/travel/review" element={<TravelReviewTemplate />} />
+          <Route path="/mission" element={<MissionPage />} />
         </Routes>
       </div>
     </Router>

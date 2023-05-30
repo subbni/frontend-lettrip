@@ -170,7 +170,10 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
         onChange={handleKeywordChange}
       />
       <button onClick={handleSearch}>검색</button>
-      <div id={mapId} style={{ width: "100%", height: "400px" }} />
+      <div
+        id={`${containerIdx}map${courseIdx}`}
+        style={{ width: "100%", height: "400px" }}
+      />
       {isPlaceSelected ? (
         <div>
           <hr />
