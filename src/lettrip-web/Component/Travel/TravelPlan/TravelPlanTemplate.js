@@ -71,6 +71,10 @@ const TravelPlanTemplate = () => {
     const secondDate = new Date(departDate);
     const diffMsec = firstDate.getTime() - secondDate.getTime();
     const diffDate = diffMsec / (24 * 60 * 60 * 1000);
+    if (diffDate < 0) {
+      alert("출발 날짜가 마지막 날짜보다 적을 수 없습니다.");
+      return -1;
+    }
     return diffDate;
   };
 
@@ -79,7 +83,7 @@ const TravelPlanTemplate = () => {
   const onCourseInsert = useCallback(
     (courseInfo, placeInfo) => {
       const newCourse = {
-        id: courseId.current,
+        id: courseInfo.id,
         arrivedTime:
           getArrivedDate(planForm.departDate, courseInfo.dayCount) +
           " " +
@@ -98,11 +102,19 @@ const TravelPlanTemplate = () => {
         },
       };
 
-      setCourses(courses.concat(newCourse));
-      setNumberOfCourses((num) => num + 1);
-      setTotalCost((cost) => parseInt(cost) + parseInt(newCourse.cost));
+      // 기존에 존재하던 코스이면 수정처리
+      const existedCourse = courses.find(function (element, index) {
+        return element.id === courseInfo.id;
+      });
 
-      courseId.current += 1;
+      if (existedCourse) {
+        updateCourse(existedCourse, newCourse);
+      } else {
+        setCourses(courses.concat(newCourse));
+        setNumberOfCourses((num) => num + 1);
+        setTotalCost((cost) => parseInt(cost) + parseInt(newCourse.cost));
+        courseId.current += 1;
+      }
     },
     [courses, planForm]
   );
@@ -116,6 +128,41 @@ const TravelPlanTemplate = () => {
     return `${year}-${month}-${day}`;
   };
 
+  const updateCourse = useCallback(
+    (existedCourse, updatedCourse) => {
+      setCourses(
+        courses.map((course) =>
+          course.id === existedCourse.id ? updatedCourse : course
+        )
+      );
+      setTotalCost(
+        (cost) =>
+          parseInt(cost) -
+          parseInt(existedCourse.cost) +
+          parseInt(updatedCourse.cost)
+      );
+    },
+    [courses]
+  );
+
+  const deleteCourse = useCallback((deletingCourse) => {
+    setCourses(courses.filter((course) => course.id !== deletingCourse.id));
+    setTotalCost((cost) => parseInt(cost) - parseInt(deletingCourse.cost));
+    setNumberOfCourses((number) => number - 1);
+  });
+
+  const onCourseDelete = useCallback((courseInfo) => {
+    const existedCourse = courses.find(function (element) {
+      return element.id === courseInfo.id;
+    });
+    if (existedCourse) {
+      deleteCourse(existedCourse);
+      alert("삭제되었습니다.");
+    } else {
+      alert("없는 코스입니다.");
+    }
+  });
+
   //////// event 핸들링
   const onPlanFormChange = (e) => {
     const changingField = e.target.name;
@@ -127,6 +174,9 @@ const TravelPlanTemplate = () => {
 
   const onPlanDataSubmit = (e) => {
     e.preventDefault();
+    if (days < 0) {
+      return alert("출발 날짜가 마지막 날짜보다 적을 수 없습니다.");
+    }
     console.log(planForm);
     setIsPlanDataSubmit(true);
   };
@@ -260,13 +310,14 @@ const TravelPlanTemplate = () => {
           <div className="formComponent">
             <label>코스 짜기</label>
             <br />
-            {days > 0 ? (
+            {days != null ? (
               <div>
                 {Array.from({ length: days + 1 }).map((_, index) => {
                   return (
                     <CourseContainer
                       key={index}
                       onCourseInsert={onCourseInsert}
+                      onCourseDelete={onCourseDelete}
                       province={planForm.province}
                       city={planForm.city}
                       dapartDate={planForm.departDate}

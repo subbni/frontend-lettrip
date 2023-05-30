@@ -11,12 +11,11 @@ const CourseReviewContainer = ({
   const courseId = useRef(0);
   const [courseList, setCourseList] = useState([]);
   const [isSearchClickedList, setIsSearchClickedList] = useState([]);
-
+  // TODO : 시간 검증 필요 (15:00) 다음에 (11:00)를 등록할 수 없도록
   const handleAddCourse = (e) => {
     e.preventDefault();
     setCourseList([
       ...courseList,
-
       {
         courseId: containerIdx + "-" + courseId.current,
       },
@@ -35,7 +34,7 @@ const CourseReviewContainer = ({
   };
 
   const onDeleteBtnClick = (course, fileNames, imageFiles) => {
-    if (window.confirm("해당 코스를 삭제합니다")) {
+    if (window.confirm("해당 코스를 삭제합니다.")) {
       console.log(course);
       setCourseList(
         courseList.filter((element) => element.courseId !== course.id)
@@ -54,8 +53,8 @@ const CourseReviewContainer = ({
       <div>
         <h2>{dayCount}일차</h2>
       </div>
-      {courseList.map((course, index) => (
-        <div key={index} className="course">
+      {courseList.map((course) => (
+        <div key={course.courseId} className="course">
           <CourseReviewItem
             onCourseInsert={onCourseInsert}
             onDeleteBtnClick={onDeleteBtnClick}

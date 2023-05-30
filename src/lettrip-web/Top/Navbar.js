@@ -54,6 +54,10 @@ function Navbar() {
     navigate("/travel/review/create");
   }
 
+  function handleMission() {
+    navigate("/mission");
+  }
+
   function handleCommunity() {
     navigate("/articles");
   }
@@ -105,7 +109,10 @@ function Navbar() {
             )}
           </div>
           <span className="Navbar_Friend"> 친구매칭</span>
-          <span className="Navbar_Mission"> 미션</span>
+          <span className="Navbar_Mission" onClick={handleMission}>
+            {" "}
+            미션
+          </span>
           <span className="Navbar_Community" onClick={handleCommunity}>
             커뮤니티
           </span>

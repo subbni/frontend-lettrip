@@ -6,6 +6,7 @@ const ImageFileForm = ({
   courseIdx,
   onImageFileAdd,
   onImageFileDelete,
+  confirm,
 }) => {
   const [imageFiles, setImageFiles] = useState([]);
   const [showImages, setShowImages] = useState([]);
@@ -76,6 +77,7 @@ const ImageFileForm = ({
           multiple
           type="file"
           onChange={handleAddImages}
+          disabled={confirm}
         />
       </div>
       <div>첨부된 사진 : {imageFiles.length}개 </div>
@@ -87,6 +89,7 @@ const ImageFileForm = ({
             <button
               className="delete_btn"
               onClick={() => handleDeleteImage(id)}
+              disabled={confirm}
             >
               delete
             </button>

@@ -4,6 +4,7 @@ import MapForm from "./MapForm";
 
 const CoursePlanItem = ({
   onCourseInsert,
+  onDeleteBtnClick,
   dayCount,
   containerIdx,
   courseIdx,
@@ -22,16 +23,10 @@ const CoursePlanItem = ({
       province: "",
       city: "",
     },
-    review: {
-      fileNames: [],
-      detailedReview: "",
-      rating: "",
-      soloFriendlyRating: "",
-    },
   });
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const [btnMessage, setBtnMessage] = useState("확인");
+  const [btnMessage, setBtnMessage] = useState("등록하기");
 
   // MapForm에 전달할 place 선택 함수
   const onPlaceSelect = useCallback(
@@ -61,16 +56,24 @@ const CoursePlanItem = ({
     });
   };
 
-  const onBtnClick = useCallback(() => {
+  const onBtnClick = () => {
     if (!course.arrivedTime.trim() || !course.cost.trim()) {
       alert("모든 정보를 입력해주세요.");
       return;
     }
-    // TravelPlanForm의 courese에 course 등록
-    onCourseInsert(course, course.place);
-    setConfirm(true);
-    setBtnMessage("수정하기");
-  });
+    //TravelPlanForm의 courses에 course 등록
+    if (confirm) {
+      setBtnMessage("등록하기");
+    } else {
+      onCourseInsert(course, course.place);
+      setBtnMessage("수정하기");
+    }
+    setConfirm((confirm) => !confirm);
+  };
+
+  const onDeleteClick = () => {
+    onDeleteBtnClick(course);
+  };
 
   return (
     <div>
@@ -78,7 +81,6 @@ const CoursePlanItem = ({
         <div>
           <div className="courseComponent">
             <label>장소</label>
-
             <p>{course.place.name}</p>
           </div>
           <div className="courseComponent">
@@ -86,7 +88,6 @@ const CoursePlanItem = ({
             <input
               type="time"
               name="arrivedTime"
-              id={course.arrivedTime}
               onChange={onChange}
               disabled={confirm}
               required
@@ -95,9 +96,8 @@ const CoursePlanItem = ({
           <div className="courseComponent">
             <label>예상 비용</label>
             <input
-              type="text"
+              type="number"
               name="cost"
-              id={course.cost}
               onChange={onChange}
               disabled={confirm}
               required
@@ -105,6 +105,7 @@ const CoursePlanItem = ({
           </div>
           <div className="courseComponent">
             <button onClick={onBtnClick}>{btnMessage}</button>
+            <button onClick={onDeleteClick}>삭제</button>
           </div>
         </div>
       ) : (

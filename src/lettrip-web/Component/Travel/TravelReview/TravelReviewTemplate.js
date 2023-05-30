@@ -82,7 +82,6 @@ const TravelReviewTemplate = () => {
 
   //// course 관련 설정
   const courseId = useRef(1);
-  const findCourse = (value, index, array) => {};
   const onCourseInsert = useCallback(
     (courseInfo, reviewInfo, fileNames, newFiles) => {
       const newCourse = {
@@ -117,29 +116,15 @@ const TravelReviewTemplate = () => {
       });
 
       if (existedCourse) {
-        updateCourse(existedCourse.id, newCourse);
-        // 새로 추가된 사진만 추가
-        setImageFiles(() =>
-          imageFiles.concat(
-            newFiles.filter(function (element, index) {
-              return !imageFiles.includes(element);
-            })
-          )
-        );
-        setTotalCost(
-          (cost) =>
-            parseInt(cost) -
-            parseInt(existedCourse.cost) +
-            parseInt(newCourse.cost)
-        );
+        updateCourse(existedCourse, newCourse, fileNames, newFiles);
+        // 새로 추가된 사진 추가
       } else {
         setCourses(() => courses.concat(newCourse));
         setImageFiles(() => imageFiles.concat(newFiles));
         setNumberOfCourses((num) => num + 1);
         setTotalCost((cost) => parseInt(cost) + parseInt(newCourse.cost));
+        courseId.current += 1;
       }
-
-      courseId.current += 1;
     },
     [courses, reviewForm, imageFiles]
   );
@@ -154,9 +139,30 @@ const TravelReviewTemplate = () => {
   };
 
   const updateCourse = useCallback(
-    (id, updatedCourse) => {
+    (existedCourse, updatedCourse, fileNames, newFiles) => {
       setCourses(
-        courses.map((course) => (course.id === id ? updatedCourse : course))
+        courses.map((course) =>
+          course.id === existedCourse.id ? updatedCourse : course
+        )
+      );
+      // 추가된 사진 & 삭제된 사진 업데이트 필요
+      setImageFiles(
+        imageFiles.filter(
+          (file) => !updatedCourse.review.fileNames.includes(file.name)
+        )
+      );
+      setImageFiles(() =>
+        imageFiles.concat(
+          newFiles.filter(function (element, index) {
+            return !imageFiles.includes(element);
+          })
+        )
+      );
+      setTotalCost(
+        (cost) =>
+          parseInt(cost) -
+          parseInt(existedCourse.cost) +
+          parseInt(updatedCourse.cost)
       );
     },
     [courses]
@@ -184,6 +190,7 @@ const TravelReviewTemplate = () => {
       alert("없는 코스입니다.");
     }
   });
+
   //////// event 핸들링
   const onReviewFormChange = (e) => {
     const changingField = e.target.name;
@@ -341,10 +348,10 @@ const TravelReviewTemplate = () => {
                 })}
               </div>
             ) : (
-              <div>여행 계획에 대한 정보를 먼저 입력해주세요</div>
+              <div>여행에 대한 정보를 먼저 입력해주세요</div>
             )}
             <div className="formComponent">
-              <button onClick={onReviewFormSubmit}>계획 마치기</button>
+              <button onClick={onReviewFormSubmit}>기록 마치기</button>
             </div>
           </div>
         ) : null}

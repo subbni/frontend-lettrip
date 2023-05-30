@@ -40,8 +40,7 @@ const CourseReviewItem = ({
   const [fileNames, setFileNames] = useState([]);
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
   const [confirm, setConfirm] = useState(false);
-  const [btnMessage, setBtnMessage] = useState("확인");
-  const [isDeleted, setIsDeleted] = useState(false);
+  const [btnMessage, setBtnMessage] = useState("등록하기");
 
   // MapForm에 전달할 place 선택 함수
   const onPlaceSelect = useCallback(
@@ -97,10 +96,10 @@ const CourseReviewItem = ({
       return;
     }
 
-    // TravelPlanForm의 courese에 course 등록
+    // TravelReviewForm의 courses에 course 등록
     if (confirm) {
       setConfirm((confirm) => !confirm);
-      setBtnMessage("확인");
+      setBtnMessage("등록하기");
     } else {
       setReview((review) => ({
         ...review,
@@ -120,7 +119,7 @@ const CourseReviewItem = ({
     onDeleteBtnClick(course, fileNames, imageFiles);
   };
   return (
-    <div className="course" disabled={isDeleted}>
+    <div className="course">
       {isPlaceSelected ? (
         <div>
           <div className="courseComponent">
@@ -140,7 +139,7 @@ const CourseReviewItem = ({
           <div className="courseComponent">
             <label>비용</label>
             <input
-              type="text"
+              type="number"
               name="cost"
               onChange={onChange}
               disabled={confirm}
@@ -185,7 +184,7 @@ const CourseReviewItem = ({
             courseIdx={courseIdx}
             onImageFileAdd={onImageFileAdd}
             onImageFileDelete={onImageFileDelete}
-            disabled={confirm}
+            confirm={confirm}
           />
           <div className="courseComponent">
             <label>상세 후기</label>
