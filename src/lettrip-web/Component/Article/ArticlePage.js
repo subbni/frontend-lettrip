@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Comment from "./Comment/CommentCreate";
+import Comment from "./Comment/CommentList";
 import "./ArticlePage.css";
-import {
-  Checklogin,
-  PageArticle,
-  DeleteArticle,
-} from "../../Service/AuthService";
+import { ShowArticle, DeleteArticle } from "../../Service/AuthService";
 
 function ArticlePage() {
   const navigate = useNavigate();
@@ -15,24 +11,12 @@ function ArticlePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // fetchChecklogin();
     fetchArticle();
   }, []);
 
-  const fetchChecklogin = () => {
-    Checklogin()
-      .then(() => {
-        setIsLoggedIn(true);
-      })
-      .catch((e) => {
-        console.log(e);
-        setIsLoggedIn(false);
-      });
-  };
-
   const fetchArticle = () => {
     console.log(`현재 파라미터 = ${id}`);
-    PageArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴 => showArticle이나 다른 이름으로 바꾸면 좋을 것 같아요
+    ShowArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
       .then((response) => {
         setPost(response);
         console.log(response);
@@ -43,8 +27,6 @@ function ArticlePage() {
         navigate("/articles");
       });
   };
-
-  // const currentPost = post.find((p) => p.id === parsedArticleID);
 
   const handleDelete = (articleID) => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
@@ -64,15 +46,15 @@ function ArticlePage() {
   };
 
   return (
-    <div className="ArticlePagecontainer">
+    <div className='ArticlePagecontainer'>
       {post && (
         <div key={post.id}>
-          <h1 className="title">{post.title}</h1>
-          <h3 className="author">
+          <h1 className='title'>{post.title}</h1>
+          <h3 className='author'>
             <p>작성자: {post.writerName}</p>
           </h3>
-          <p className="content">본문: {post.content}</p>
-          <div className="extra_views">
+          <p className='content'>본문: {post.content}</p>
+          <div className='extra_views'>
             <p>조회수: {post.hit}</p>
             <p>좋아요 수: {post.likedCount}</p>
             <p>작성일자: {post.createdDate}</p>
@@ -80,7 +62,7 @@ function ArticlePage() {
           </div>
           {isLoggedIn &&
             post.writerEmail === localStorage.getItem("email") && ( // 로그인 여부와 작성자 이메일 비교 추가
-              <div className="edit-buttons">
+              <div className='edit-buttons'>
                 <button onClick={() => handleDelete(post.id)}>삭제</button>
               </div>
             )}

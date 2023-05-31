@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./CommentModify.css";
 import { useNavigate } from "react-router-dom";
-import {
-  Checklogin,
-  CommentData,
-  ModifyComment,
-} from "../../../Service/AuthService";
+import { CommentData, ModifyComment } from "../../../Service/AuthService";
 
 function CommentModify({ commentId, postId }) {
   const navigate = useNavigate();
@@ -15,24 +11,10 @@ function CommentModify({ commentId, postId }) {
   });
 
   useEffect(() => {
-    fetchChecklogin();
-  }, []);
-
-  useEffect(() => {
     if (commentId) {
       fetchCommentData(commentId);
     }
   }, [commentId]);
-
-  const fetchChecklogin = () => {
-    Checklogin()
-      .then((response) => {
-        setIsLoggedIn(true);
-      })
-      .catch((e) => {
-        setIsLoggedIn(false);
-      });
-  };
 
   const fetchCommentData = (comentId) => {
     CommentData(commentId)

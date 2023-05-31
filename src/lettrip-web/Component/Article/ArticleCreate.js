@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ArticleCreate.css";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
-import {
-  Checklogin,
-  CreateArticle,
-  ListArticle,
-} from "../../Service/AuthService";
+import { CreateArticle, ListArticle } from "../../Service/AuthService";
 
 function ArticleCreate() {
   const navigate = useNavigate();
@@ -24,7 +20,6 @@ function ArticleCreate() {
   });
 
   useEffect(() => {
-    fetchChecklogin();
     fetchArticles();
   }, []);
 
@@ -38,17 +33,6 @@ function ArticleCreate() {
       ...articleForm,
       [changedField]: newValue,
     });
-  };
-
-  const fetchChecklogin = () => {
-    Checklogin()
-      .then(() => {
-        setIsLoggedIn(true);
-      })
-      .catch((e) => {
-        console.log(e);
-        setIsLoggedIn(false);
-      });
   };
 
   const getAuthToken = () => {

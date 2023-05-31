@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Header.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Checklogin } from "../Service/AuthService";
 import { ACCESS_TOKEN } from "../Constant/backendAPI";
 
 function Header() {
@@ -12,32 +11,11 @@ function Header() {
     const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
     if (storedIsLoggedIn === "true") {
       setIsLoggedIn(true);
+      console.log();
     } else {
       setIsLoggedIn(false);
+      console.log();
     }
-  }, []);
-
-  const fetchChecklogin = () => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN); // 로컬 스토리지에서 토큰 가져오기
-    if (accessToken) {
-      Checklogin(accessToken)
-        .then(() => {
-          setIsLoggedIn(true);
-          localStorage.setItem("isLoggedIn", "true");
-        })
-        .catch((e) => {
-          console.log(e);
-          setIsLoggedIn(false);
-          localStorage.setItem("isLoggedIn", "false");
-        });
-    } else {
-      setIsLoggedIn(false);
-      localStorage.setItem("isLoggedIn", "false");
-    }
-  };
-
-  useEffect(() => {
-    fetchChecklogin();
   }, []);
 
   const handleLogout = () => {

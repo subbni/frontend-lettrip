@@ -1,46 +1,38 @@
 import React, { useState, useEffect } from "react";
 import "./ReplyComment.css";
 import {
-  Checklogin,
   CreateReplyComment,
   DeleteReplyComment,
 } from "../../../Service/AuthService";
 
 function ReplyComment({ commentId, handleNewComment, parentCommentAuthor }) {
-  const [content, setContent] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    fetchChecklogin();
-  }, []);
-
-  const fetchChecklogin = () => {
-    Checklogin()
-      .then(() => {
-        setIsLoggedIn(true);
-      })
-      .catch((e) => {
-        setIsLoggedIn(false);
-      });
-  };
+  const [replycomments, setReplyComments] = useState([]);
+  const [commentForm, setCommentForm] = useState({
+    article_id: "",
+    content: "",
+    parent_comment_id: "",
+    mentioned_user_email: "",
+  });
 
   const handleReplyCommentSubmit = (e) => {
     e.preventDefault();
 
-    if (content.trim() === "") {
+    if (commentForm.content.trim() === "") {
       alert("대댓글을 입력해주세요.");
       return;
     }
 
     if (window.confirm("대댓글을 작성하시겠습니까?")) {
-      CreateReplyComment(commentId, { content })
+      CreateReplyComment(commentForm)
         .then((response) => {
           window.alert("대댓글 작성이 완료되었습니다.");
           handleNewComment(response.data.reply);
-          setContent("");
+          window.location.reload();
+          console.log(response);
         })
         .catch((e) => {
-          console.error(e);
+          console.log(e);
           window.alert(
             "대댓글 작성에 실패했습니다. 다시 시도해주시길 바랍니다."
           );
@@ -72,8 +64,8 @@ function ReplyComment({ commentId, handleNewComment, parentCommentAuthor }) {
           className='reply-comment-textarea'
           name='content'
           placeholder='대댓글을 입력하세요.'
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+          value={commentForm.content}
+          onChange={(e) => setReplyComments(e.target.value)}
         />
       </div>
       <button type='submit' className='reply-comment-submit-button'>

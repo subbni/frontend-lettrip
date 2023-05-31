@@ -39,30 +39,30 @@ function Login() {
   };
 
   return (
-    <form className="Login_container" onSubmit={handleLoginFormSubmit}>
-      <label htmlFor="email">아이디</label>
+    <form className='Login_container' onSubmit={handleLoginFormSubmit}>
+      <label htmlFor='email'>아이디</label>
       <input
-        className="Login_username"
-        type="email"
-        id="email"
-        name="email"
-        placeholder="이메일을 입력하세요"
+        className='Login_username'
+        type='email'
+        id='email'
+        name='email'
+        placeholder='이메일을 입력하세요'
         required
         value={loginForm.email}
         onChange={handleLoginFormChange}
       />
-      <label htmlFor="password">비밀번호</label>
+      <label htmlFor='password'>비밀번호</label>
       <input
-        className="Login_password"
-        type="password"
-        id="password"
-        name="password"
-        placeholder="비밀번호를 입력하세요"
+        className='Login_password'
+        type='password'
+        id='password'
+        name='password'
+        placeholder='비밀번호를 입력하세요'
         required
         value={loginForm.password}
         onChange={handleLoginFormChange}
       />
-      <button type="submit">로그인</button>
+      <button type='submit'>로그인</button>
     </form>
   );
 }

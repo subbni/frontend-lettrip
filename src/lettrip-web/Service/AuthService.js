@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "../Constant/backendAPI";
 import { request } from "./APIService";
-import { ACCESS_TOKEN } from "../Service/APIService";
+import { ACCESS_TOKEN } from "../Constant/backendAPI";
 
 export function login(loginRequest) {
   return request({
@@ -33,50 +33,40 @@ export function signUp(signUpRequest) {
   });
 } //회원가입 요청
 
-export function Checklogin(ACCESS_TOKEN) {
-  return request({
-    url: API_BASE_URL + "/api/auth/checklogin",
-    method: "GET",
-  });
-} //로그인 상태 확인 여부 (로그인 시 부여받은 토큰을 이용하여 인증)
-
-export function CreateArticle(articleForm, ACCESS_TOKEN) {
+export function CreateArticle(articleForm) {
   const requestBody = JSON.stringify(articleForm);
   return request({
     url: API_BASE_URL + "/api/articles/create",
     method: "POST",
     headers: {
-      Authorization: "Bearer " + ACCESS_TOKEN,
       "Content-Type": "application/json", // JSON 형식으로 요청 설정
     },
     body: requestBody,
   });
 } //게시글 작성 등록 요청
 
-export function ModifyArticle(articleForm, ACCESS_TOKEN) {
+export function ModifyArticle(articleForm) {
   const requestBody = JSON.stringify(articleForm);
   return request({
     url: API_BASE_URL + "/api/articles/modify",
     method: "PUT",
     headers: {
-      Authorization: "Bearer " + ACCESS_TOKEN,
       "Content-Type": "application/json", // JSON 형식으로 요청 설정
     },
     body: requestBody,
   });
 } //게시글 수정 요청
 
-export function ArticleData(articleID) {
+export function ArticleData(articleId) {
   return request({
-    url: API_BASE_URL + "/api/articles/modify",
+    url: API_BASE_URL + "/api/articles/modify" + articleId,
     method: "GET",
-    body: JSON.stringify(articleID),
   });
 } //게시글 정보 불러오기 요청
 
-export function DeleteArticle(articleID) {
+export function DeleteArticle(articleId) {
   return request({
-    url: API_BASE_URL + "/api/articles/" + { articleID },
+    url: API_BASE_URL + "/api/articles/" + articleId,
     method: "DELETE",
   });
 } //게시글 삭제 요청
@@ -91,20 +81,17 @@ export function ListArticle(pageForm) {
   });
 } //게시글 목록 불러오기 요청
 
-export function PageArticle(articleId) {
+export function ShowArticle(articleId) {
   return request({
     url: API_BASE_URL + "/api/articles/" + articleId,
     method: "GET",
   });
 } //게시글 불러오기 요청
 
-export function CreateComment(commentForm, ACCESS_TOKEN) {
+export function CreateComment(commentForm) {
   return request({
     url: API_BASE_URL + "/api/comment/create",
     method: "POST",
-    headers: {
-      Authorization: "Bearer " + ACCESS_TOKEN,
-    },
     body: JSON.stringify(commentForm),
   });
 } //댓글 작성 등록 요청
@@ -122,40 +109,45 @@ export function ModifyComment(commentForm, ACCESS_TOKEN) {
 
 export function DeleteComment(commentId) {
   return request({
-    url: API_BASE_URL + "/api/comment/delete/" + { commentId },
+    url: API_BASE_URL + "/api/comment" + { commentId },
     method: "DELETE",
   });
 } //댓글 삭제 요청
 
-export function CommentData(commentID) {
+export function CommentData(commentForm) {
   return request({
-    url: API_BASE_URL + "/api/comment/{article-id}" + { commentID },
+    url:
+      API_BASE_URL +
+      "/api/comment" +
+      `${commentForm.article_id}` +
+      `?page=${commentForm.page}&size=${commentForm.size}&sort=${commentForm.sort}`,
     method: "GET",
   });
 } //댓글 정보 불러오기 요청
 
-export function CreateReplyComment(commentForm, ACCESS_TOKEN) {
+export function CreateReplyComment(commentForm) {
   return request({
-    url: API_BASE_URL + "/api/comment/replycomment/create",
+    url: API_BASE_URL + "/api/comment/create",
     method: "POST",
-    headers: {
-      Authorization: "Bearer " + ACCESS_TOKEN,
-    },
-    body: JSON.stringify(commentForm, ACCESS_TOKEN),
+    body: JSON.stringify(commentForm),
   });
 } //대댓글 작성 등록 요청
 
 export function DeleteReplyComment(commentId) {
   return request({
-    url: API_BASE_URL + "/api/comment/replycomment/delete" + { commentId },
+    url: API_BASE_URL + "/api/comment" + { commentId },
     method: "DELETE",
   });
 } //대댓글 삭제 요청
 
-export function ReplyCommentData(commentID) {
+export function ReplyCommentData(replycommentForm) {
   return request({
     url:
-      API_BASE_URL + "/api/comment/replycomment/{article-id}" + { commentID },
+      API_BASE_URL +
+      "/api/comment" +
+      `${replycommentForm.article_id}` +
+      `${replycommentForm.parent_comment_id}` +
+      `?page=${replycommentForm.page}&size=${replycommentForm.size}&sort=${replycommentForm.sort}`,
     method: "GET",
   });
 } //대댓글 정보 불러오기 요청

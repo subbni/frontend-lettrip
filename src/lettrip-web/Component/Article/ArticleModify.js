@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./ArticleModify.css";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 import {
-  Checklogin,
   ModifyArticle,
   ArticleData,
   ListArticle,
@@ -24,7 +23,6 @@ function ArticleModify({ articleId }) {
     sort: "id,DESC",
   });
   useEffect(() => {
-    fetchChecklogin();
     fetchArticles();
   }, []);
 
@@ -33,17 +31,6 @@ function ArticleModify({ articleId }) {
       fetchArticleData(articleId);
     }
   }, [articleId]);
-
-  const fetchChecklogin = () => {
-    Checklogin()
-      .then(() => {
-        setIsLoggedIn(true);
-      })
-      .catch((e) => {
-        console.log(e);
-        setIsLoggedIn(false);
-      });
-  };
 
   if (!isLoggedIn) {
     window.alert("로그인이 필요합니다.");

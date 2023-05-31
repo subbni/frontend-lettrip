@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ArticleList.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Checklogin, ListArticle } from "../../Service/AuthService";
+import { ListArticle } from "../../Service/AuthService";
 
 function ArticleList() {
   const navigate = useNavigate();
@@ -14,20 +14,9 @@ function ArticleList() {
   const [articleList, setArticleList] = useState([]);
 
   useEffect(() => {
-    fetchChecklogin();
     fetchArticles();
   }, []);
 
-  const fetchChecklogin = () => {
-    Checklogin()
-      .then(() => {
-        setIsLoggedIn(true);
-      })
-      .catch((e) => {
-        console.log(e);
-        setIsLoggedIn(false);
-      });
-  };
   const fetchArticles = () => {
     ListArticle(pageForm)
       .then((response) => {
@@ -53,10 +42,10 @@ function ArticleList() {
   return (
     <div>
       <h1>게시글 목록</h1>
-      <button onClick={handleCreateClick} className="create-button">
+      <button onClick={handleCreateClick} className='create-button'>
         글 작성
       </button>
-      <table className="post-table">
+      <table className='post-table'>
         <thead>
           <tr>
             <th>글 제목</th>
