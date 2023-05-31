@@ -71,13 +71,14 @@ function ArticlePage() {
           <h3 className="author">
             <p>작성자: {post.writerName}</p>
           </h3>
-          <p className="content">본문: {post.content}</p>
           <div className="extra_views">
             <p>조회수: {post.hit}</p>
             <p>좋아요 수: {post.likedCount}</p>
             <p>작성일자: {post.createdDate}</p>
             <p>수정일자: {post.modifiedDate}</p>
           </div>
+          <p className="content">{post.content}</p>
+         
           {isLoggedIn &&
             post.writerEmail === localStorage.getItem("email") && ( // 로그인 여부와 작성자 이메일 비교 추가
               <div className="edit-buttons">

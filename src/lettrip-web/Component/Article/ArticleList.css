@@ -1,32 +1,38 @@
+.articlet{
+  margin-left: 75px;
+}
 .create-button {
   position: fixed;
-  right: 20px;
+  right: 50px;
   bottom: 20px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   padding: 10px 20px;
-  background-color: #008000;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
+  background-color: #ffffff;
+  color: #2E3B4C;
+  border: 1px solid lightgray;
   cursor: pointer;
 }
 
 .post-table {
-  margin-top: 20px;
+  margin: 0 auto;
+  align-items: center;
   border-collapse: collapse;
-  width: 100%;
+  width: 90%;
 }
 
 .post-table th,
 .post-table td {
   padding: 10px;
   text-align: center;
-  border: 1px solid #dddddd;
+  border-top: 1px solid #dddddd; /* 상단 가로선 */
+  border-bottom: 1px solid #dddddd; /* 하단 가로선 */
+  border-left: none; /* 왼쪽 선 제거 */
+  border-right: none; /* 오른쪽 선 제거 */
 }
 
 .post-table th {
-  background-color: #f2f2f2;
+  background-color: #f9f9f9;
 }
 
 .post-table td:first-child {
