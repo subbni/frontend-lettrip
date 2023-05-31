@@ -40,7 +40,7 @@ function ArticleList() {
       });
   };
 
-  const handleCreateClick = (e) => {
+ const handleCreateClick = (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
       window.alert("로그인이 필요합니다.");
@@ -52,7 +52,7 @@ function ArticleList() {
 
   return (
     <div>
-      <h1>게시글 목록</h1>
+      <h2 className="articlet">게시글 목록</h2>
       <button onClick={handleCreateClick} className="create-button">
         글 작성
       </button>

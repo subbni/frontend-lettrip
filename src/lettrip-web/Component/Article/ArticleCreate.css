@@ -2,6 +2,7 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 50px 20px;
+  
 }
 
 .ArticleCreateContainer h1 {
@@ -50,12 +51,12 @@
   line-height: 1.5;
 }
 
-button[type="submit"] {
-  background-color: #0077ff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
+.ArticleCreateContainer button[type="submit"] {
+  display: block;
+  color: white;
+  background-color: #2E3B4C;
+  margin-top: 10px;
+  margin: 0 auto;
   font-size: 16px;
   cursor: pointer;
 }

@@ -1,13 +1,5 @@
-.Login {
-  margin-top: 130px;
-  border-bottom: 2px solid rgb(61, 58, 86);
-  color: #2e3b4c;
-  width: 350px;
-  display: inline-block;
-  margin-bottom: 85px;
-  text-align: center;
-}
-.Login_useremail {
+
+.Login_username {
   margin-bottom: 30px;
 }
 .navigation-item {
@@ -37,4 +29,32 @@ button {
 }
 .nav-rlink {
   margin-left: 195px;
+}
+.Logint {
+  margin-top: 220px;
+  border-bottom: 2px solid rgb(61, 58, 86);
+  color:#2E3B4C;
+  width:350px;
+  display: inline-block;
+  margin-bottom: 85px;
+  text-align: center;
+}
+input {
+  border: none;
+  border-bottom: 1px solid rgb(172, 172, 172);
+  margin-bottom: 10px;
+  width:350px
+}
+.Login_container{
+  display: block;
+  position: absolute;
+  top: 20px;
+  bottom: auto;
+  left: 39%;
+  right: 100%;
+
+}
+label {
+  display: inline-block;
+  width: 80px;
 }

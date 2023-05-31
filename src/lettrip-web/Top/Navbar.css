@@ -7,11 +7,11 @@
 }
 
 .Logo_Image {
-  width: 300px;
+  width: 160px;
   object-fit: contain;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 30px;
+  margin-top: -20px;
   margin-bottom: -50px;
   display: block;
 }
@@ -25,7 +25,8 @@
 .Navbar_Service {
   display: flex;
   align-items: center;
-  font-size: 22px;
+  font-size: 18px;
+  margin-top: -30px;
   font-weight: 600;
   margin-left: 60px;
 }
@@ -44,6 +45,7 @@
   align-items: center;
   font-size: 30px;
   margin-right: 60px;
+  margin-top: -30px;
 }
 
 .Navbar_UserIcon {
