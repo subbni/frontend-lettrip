@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ArticleList.css";
 import { Link, useNavigate } from "react-router-dom";
-import { ListArticle } from "../../Service/AuthService";
+import { ListArticle } from "../../Service/ArticleService";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 
 function ArticleList() {

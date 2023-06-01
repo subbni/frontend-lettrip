@@ -4,7 +4,7 @@ import {
   ReplyCommentData,
   CreateReplyComment,
   DeleteReplyComment,
-} from "../../../Service/AuthService";
+} from "../../../Service/ArticleService";
 import { useParams } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
 

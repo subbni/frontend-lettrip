@@ -5,7 +5,7 @@ import {
   ShowArticle,
   DeleteArticle,
   ListArticle,
-} from "../../Service/AuthService";
+} from "../../Service/ArticleService";
 import Comments from "./Comment/Comments";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 
@@ -38,7 +38,7 @@ function ArticlePage() {
     ShowArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
       .then((response) => {
         setPost(response);
-        console.log(response);
+        console.log();
       })
       .catch((e) => {
         console.log(e);
@@ -50,11 +50,10 @@ function ArticlePage() {
   const handleDelete = () => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       DeleteArticle(id)
-        .then((response) => {
+        .then(() => {
           window.alert("게시글이 삭제되었습니다.");
           navigate("/articles");
           fetchArticles();
-          console.log(response);
         })
         .catch((e) => {
           console.log(e);
@@ -66,8 +65,8 @@ function ArticlePage() {
 
     const fetchArticles = () => {
       ListArticle(pageForm)
-        .then((response) => {
-          console.log(response);
+        .then(() => {
+          console.log();
         })
         .catch((e) => {
           console.log(e);

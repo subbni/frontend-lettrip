@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./ArticleModify.css";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
-import { ModifyArticle, ShowArticle } from "../../Service/AuthService";
+import { ModifyArticle, ShowArticle } from "../../Service/ArticleService";
 
 function ArticleModify() {
   const navigate = useNavigate();

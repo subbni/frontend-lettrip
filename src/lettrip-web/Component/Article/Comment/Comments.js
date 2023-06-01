@@ -2,22 +2,26 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   CommentData,
+  ReplyCommentData,
   CreateComment,
   DeleteComment,
-} from "../../../Service/AuthService";
-import "./Comments.css";
+} from "../../../Service/ArticleService";
 import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
+import "./Comments.css";
 
 function Comments() {
-  const { id } = useParams();
+  const { id, parent_comment_id } = useParams();
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
   const [comments, setComments] = useState([]);
+  const [replycomments, setReplyComments] = useState([]);
   const [pageForm, setPageForm] = useState({
     page: 0,
     size: 5,
     sort: "id,ASC",
     article_id: id,
+    parent_id: parent_comment_id,
   }); //댓글 보여주기 : 5개씩, 오래된 순
+
   const [commentForm, setCommentForm] = useState({
     article_id: id,
     content: "",
@@ -25,7 +29,8 @@ function Comments() {
 
   useEffect(() => {
     const storedToken = localStorage.getItem(ACCESS_TOKEN);
-    if (storedToken) {
+    const storedEmail = localStorage.getItem("email");
+    if (storedToken && storedEmail) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
@@ -36,17 +41,71 @@ function Comments() {
     fetchComments();
   }, []);
 
+  useEffect(() => {
+    if (parent_comment_id) {
+      fetchReplyComments();
+    }
+  }, [parent_comment_id]);
+
   //댓글 불러오기
   const fetchComments = () => {
     CommentData(pageForm)
       .then((response) => {
         setComments(response.content);
-        console.log(response);
+        console.log();
       })
       .catch((e) => {
         console.log(e);
         window.alert("댓글을 불러오는 중에 오류가 발생했습니다.");
       });
+  };
+
+  //대댓글 불러오기
+  const fetchReplyComments = (parent_id) => {
+    const replyPageForm = {
+      ...pageForm,
+      parent_id: parent_id,
+    };
+    console.log(replyPageForm);
+    ReplyCommentData(replyPageForm)
+      .then((response) => {
+        const updatedComments = comments.map((comment) => {
+          if (comment.id === parent_id) {
+            return {
+              ...comment,
+              reply: response.content,
+              handleShowReplycomment: true,
+            };
+          }
+          return comment;
+        });
+        setComments(updatedComments);
+        setReplyComments(response.content);
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e);
+        window.alert("대댓글을 불러오는 중에 오류가 발생했습니다.");
+      });
+  };
+
+  const handleShowReplycomment = (parent_id) => {
+    const updatedComments = comments.map((comment) => {
+      if (comment.id === parent_id) {
+        return {
+          ...comment,
+          handleShowReplycomment: !comment.handleShowReplycomment,
+        };
+      }
+      return comment;
+    });
+    setComments(updatedComments);
+    if (
+      updatedComments.find((comment) => comment.id === parent_id)
+        .handleShowReplycomment
+    ) {
+      fetchReplyComments(parent_id);
+    }
   };
 
   //댓글 작성하기
@@ -57,7 +116,6 @@ function Comments() {
       [changedField]: e.target.value,
     });
   };
-
   const handleCommentFormSubmit = (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
@@ -121,6 +179,33 @@ function Comments() {
                   삭제
                 </button>
               )}
+              <button
+                className='ShowReplycomment_button'
+                onClick={() => handleShowReplycomment(comment.id)}
+              >
+                {comment.handleShowReplycomment ? "답글 감추기" : "답글 보기"}
+              </button>
+              {comment.handleShowReplycomment &&
+                comment.reply &&
+                comment.reply.length > 0 && (
+                  <div className='ReplyComments'>
+                    {comment.reply.map((reply) => (
+                      <div key={reply.id}>
+                        <h4 className='nickname'>{reply.nickname}</h4>
+                        <p className='content'>{reply.content}</p>
+                        <p className='createdDate'>{reply.createdDate}</p>
+                        {isLoggedIn && (
+                          <button
+                            className='DeleteComment_button'
+                            onClick={() => handleDeleteComment(reply.id)}
+                          >
+                            삭제
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
             </div>
           ))
         ) : (
