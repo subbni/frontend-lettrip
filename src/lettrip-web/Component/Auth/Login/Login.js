@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
+import { ACCESS_TOKEN, USER_EMAIL } from "../../../Constant/backendAPI";
 import { login } from "../../../Service/AuthService";
+import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
@@ -25,8 +26,8 @@ function Login() {
         setJwtToken(response);
         window.alert("로그인 되었습니다.");
         console.log(response);
+        navigate("/");
         window.location.reload();
-        navigate(-1);
       })
       .catch((e) => {
         console.log(e);
@@ -40,7 +41,8 @@ function Login() {
 
   return (
     <form className='Login_container' onSubmit={handleLoginFormSubmit}>
-      <label htmlFor='email'>아이디</label>
+      <h1 className='Logint'>LOGIN</h1>
+      <label htmlFor='email'>ID</label>
       <input
         className='Login_username'
         type='email'
@@ -51,7 +53,7 @@ function Login() {
         value={loginForm.email}
         onChange={handleLoginFormChange}
       />
-      <label htmlFor='password'>비밀번호</label>
+      <label htmlFor='password'>PW</label>
       <input
         className='Login_password'
         type='password'
@@ -62,7 +64,18 @@ function Login() {
         value={loginForm.password}
         onChange={handleLoginFormChange}
       />
-      <button type='submit'>로그인</button>
+      <button
+        type='submit'
+        style={{
+          width: "200px",
+          height: "40px",
+          backgroundColor: "#2E3B4C",
+          color: "white",
+          borderRadius: "30px",
+        }}
+      >
+        로그인
+      </button>
     </form>
   );
 }

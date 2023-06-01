@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ArticleList.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ListArticle } from "../../Service/AuthService";
+import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 
 function ArticleList() {
   const navigate = useNavigate();
@@ -12,6 +13,15 @@ function ArticleList() {
     sort: "id,DESC",
   });
   const [articleList, setArticleList] = useState([]);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem(ACCESS_TOKEN);
+    if (storedToken) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   useEffect(() => {
     fetchArticles();

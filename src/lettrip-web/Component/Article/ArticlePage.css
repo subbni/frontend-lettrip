@@ -1,109 +1,69 @@
-/* 게시글 작성 페이지 */
-.board-create-container {
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.board-create-container h1 {
-  font-size: 30px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.form-group input,
-.form-group textarea {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-.form-group-file {
-  margin-bottom: 30px;
-}
-
-.form-group-file label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.form-group-file input[type="file"] {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-button[type="submit"] {
-  background-color: #0077ff;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-/* 게시글 페이지 */
 .ArticlePagecontainer {
-  max-width: 700px;
   margin: 0 auto;
-  padding: 20px;
+  width: 90%;
 }
 
 .title {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 10px;
+  position: relative; /* 상대적 위치 설정 */
+}
+
+.title::after {
+  content: "";
+  position: absolute; /* 절대적 위치 설정 */
+  bottom: -10px; /* 선을 타이틀 아래로 이동시키기 위한 값 설정 */
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc; /* 선의 색상 설정 */
 }
 
 .author {
-  font-size: 20px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  color: black;
 }
 
 .content {
-  margin-bottom: 20px;
+  width: 100%; /* 너비를 100%로 설정 */
+  max-width: 800px; /* 최대 너비를 800px로 제한*/
+  margin: 0 auto; /* 가운데 정렬을 위해 margin을 auto로 설정 */
+  padding-bottom: 30px;
 }
 
 .extra_views {
+  margin-top: -20px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  flex-wrap: wrap;
   display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-  margin-bottom: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  color: #2e3b4c;
 }
 
-.comments {
-  margin-bottom: 20px;
+.extra_views p {
+  margin-right: 15px;
 }
 
-.comment-item {
-  margin-bottom: 10px;
+.modifybutton {
+  margin-top: 20px;
+  padding: 8px 16px;
+  background-color: #2e3b4c;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
 }
 
-.comment-content {
-  font-size: 16px;
-  margin-left: 20px;
+.deletebutton {
+  margin-top: 20px;
+  padding: 8px 16px;
+  background-color: #2e3b4c;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
 }
 
-.comment-author {
-  font-size: 14px;
-  color: gray;
-  margin-left: 20px;
+.Comments {
+  margin-top: 20px;
 }

@@ -59,7 +59,7 @@ function CommentModify({ commentId, postId }) {
 
   return (
     <div className='CreateComment'>
-      <h3>댓글</h3>
+      <h4>댓글</h4>
       <form className='Comment_form' onSubmit={handleCommentFormSubmit}>
         <textarea
           name='content'

@@ -8,13 +8,11 @@ function Header() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
-    if (storedIsLoggedIn === "true") {
+    const storedToken = localStorage.getItem(ACCESS_TOKEN);
+    if (storedToken) {
       setIsLoggedIn(true);
-      console.log();
     } else {
       setIsLoggedIn(false);
-      console.log();
     }
   }, []);
 
@@ -22,8 +20,10 @@ function Header() {
     const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
     if (confirmLogout) {
       setIsLoggedIn(false);
-      localStorage.setItem("isLoggedIn", "false");
+      localStorage.removeItem(ACCESS_TOKEN);
+      window.alert("로그아웃 되었습니다.");
       navigate("/");
+      window.location.reload();
     }
   };
 
@@ -32,16 +32,16 @@ function Header() {
       <div className='Header_Container'>
         {isLoggedIn ? (
           <>
-            <button onClick={handleLogout} className='Header_Button'>
+            <button onClick={handleLogout} className='logout_Button'>
               로그아웃
             </button>
           </>
         ) : (
           <>
-            <Link to='/login' className='Header_Button'>
+            <Link to='/login' className='login_Button'>
               로그인
             </Link>
-            <Link to='/signup' className='Header_Button'>
+            <Link to='/signup' className='signup_Button'>
               회원가입
             </Link>
           </>

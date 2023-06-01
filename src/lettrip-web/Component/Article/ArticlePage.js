@@ -1,14 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Comment from "./Comment/CommentList";
 import "./ArticlePage.css";
-import { ShowArticle, DeleteArticle } from "../../Service/AuthService";
+import {
+  ShowArticle,
+  DeleteArticle,
+  ListArticle,
+} from "../../Service/AuthService";
+import Comments from "./Comment/Comments";
+import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 
 function ArticlePage() {
   const navigate = useNavigate();
   const { id } = useParams(); // useParams 쓸 때 App.js에 적은 파라미터 명이랑 동일하게 적기
-  const [post, setPost] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [post, setPost] = useState([]);
+  const [pageForm, setPageForm] = useState({
+    page: 0,
+    size: 10,
+    sort: "id,DESC",
+  });
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem(ACCESS_TOKEN);
+    if (storedToken) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   useEffect(() => {
     fetchArticle();
@@ -28,13 +47,14 @@ function ArticlePage() {
       });
   };
 
-  const handleDelete = (articleID) => {
+  const handleDelete = () => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
-      DeleteArticle(articleID)
-        .then(() => {
+      DeleteArticle(id)
+        .then((response) => {
           window.alert("게시글이 삭제되었습니다.");
-          window.location.reload();
           navigate("/articles");
+          fetchArticles();
+          console.log(response);
         })
         .catch((e) => {
           console.log(e);
@@ -43,6 +63,22 @@ function ArticlePage() {
           );
         });
     }
+
+    const fetchArticles = () => {
+      ListArticle(pageForm)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((e) => {
+          console.log(e);
+          window.alert("게시글 목록을 불러오는데 실패했습니다.");
+        });
+    };
+  };
+
+  const handleModifyClick = (e) => {
+    e.preventDefault();
+    navigate(`/articles/modify/${post.id}`);
   };
 
   return (
@@ -53,20 +89,28 @@ function ArticlePage() {
           <h3 className='author'>
             <p>작성자: {post.writerName}</p>
           </h3>
-          <p className='content'>본문: {post.content}</p>
           <div className='extra_views'>
             <p>조회수: {post.hit}</p>
             <p>좋아요 수: {post.likedCount}</p>
             <p>작성일자: {post.createdDate}</p>
             <p>수정일자: {post.modifiedDate}</p>
           </div>
-          {isLoggedIn &&
-            post.writerEmail === localStorage.getItem("email") && ( // 로그인 여부와 작성자 이메일 비교 추가
-              <div className='edit-buttons'>
-                <button onClick={() => handleDelete(post.id)}>삭제</button>
-              </div>
-            )}
-          <Comment postId={post.id} />
+          <p className='content'>{post.content}</p>
+
+          {isLoggedIn && post.writerEmail === localStorage.getItem("email") && (
+            <button onClick={handleModifyClick} className='modifybutton'>
+              수정
+            </button>
+          )}
+          {isLoggedIn && post.writerEmail === localStorage.getItem("email") && (
+            <button
+              onClick={() => handleDelete(post.id)}
+              className='deletebutton'
+            >
+              삭제
+            </button>
+          )}
+          <Comments postId={post.id} />
         </div>
       )}
     </div>

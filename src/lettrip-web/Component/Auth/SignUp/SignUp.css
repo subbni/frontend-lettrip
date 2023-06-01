@@ -1,18 +1,32 @@
 .Sign_Container {
-  margin: 20px;
-  padding: 100px;
-  border: 1px solid #ccc;
+  display: block;
+  position: absolute;
+  top: 20px;
+  bottom: auto;
+  left: 39%;
+  right: 100%;
+}
+.Sign_emailcodebutton,
+.Sign_veritificationbutton {
+  margin: 30px;
+  text-align: center;
+  margin-left: 80px;
+  margin-top: -10px;
+  font-size: medium;
+  display: inline-block;
+  width: 150px;
+  border-radius: 30px;
 }
 
 .Sign_username,
 .Sign_password,
 .Sign_nickname,
-.Sign_email {
-  width: 100%;
-  padding: 20px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.Sign_email,
+.Sign_verificationCode {
+  border: none;
+  border-bottom: 1px solid rgb(172, 172, 172);
+  margin-bottom: 30px;
+  width: 350px;
 }
 
 .Sign_emailbutton {
@@ -21,6 +35,6 @@
 }
 
 .Sign_button {
-  width: 100px;
+  width: 200px;
   padding: 5px;
 }

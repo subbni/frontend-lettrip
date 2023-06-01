@@ -11,7 +11,6 @@ function ArticleCreate() {
     email: "",
     title: "",
     content: "",
-    file: "",
   });
   const [pageForm, setPageForm] = useState({
     page: 0,
@@ -20,43 +19,43 @@ function ArticleCreate() {
   });
 
   useEffect(() => {
+    const storedToken = localStorage.getItem(ACCESS_TOKEN);
+    const storedEmail = localStorage.getItem("email");
+    console.log(storedEmail);
+    if (storedToken && storedEmail) {
+      setIsLoggedIn(true);
+      setArticleForm((prevState) => ({
+        ...prevState,
+        email: storedEmail,
+      }));
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
+  useEffect(() => {
     fetchArticles();
   }, []);
 
   const handleArticleFormChange = (e) => {
     const changedField = e.target.name;
     let newValue = e.target.value;
-    if (changedField === "file") {
-      newValue = e.target.files[0];
-    }
     setArticleForm({
       ...articleForm,
       [changedField]: newValue,
     });
   };
 
-  const getAuthToken = () => {
-    return localStorage.getItem(ACCESS_TOKEN);
-  };
-
   const handleArticleFormSubmit = (e) => {
     e.preventDefault();
-    if (!articleForm.title.trim() || !articleForm.content.trim()) {
-      alert("제목과 본문을 입력해주세요.");
-      return;
-    }
     if (window.confirm("제출하시겠습니까?")) {
-      const authToken = getAuthToken();
-      if (!authToken) {
-        alert("로그인이 필요합니다.");
-        return;
-      }
-      CreateArticle(articleForm, authToken)
+      CreateArticle(articleForm)
         .then((response) => {
           window.alert("게시글 작성이 완료되었습니다.");
           navigate("/articles");
           fetchArticles();
           console.log(response);
+          console.log(articleForm);
         })
         .catch((e) => {
           console.log(e);
@@ -90,16 +89,6 @@ function ArticleCreate() {
             name='title'
             required
             value={articleForm.title}
-            onChange={handleArticleFormChange}
-          />
-        </div>
-        <div className='Article_file'>
-          <label htmlFor='file'>사진 첨부</label>
-          <input
-            type='file'
-            id='file'
-            name='file'
-            value={articleForm.file}
             onChange={handleArticleFormChange}
           />
         </div>

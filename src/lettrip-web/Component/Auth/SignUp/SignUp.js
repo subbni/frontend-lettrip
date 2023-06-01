@@ -154,6 +154,7 @@ const SignUp = () => {
   return (
     <form onSubmit={onSubmit}>
       <div className='Sign_Container'>
+        <h1 className='Logint'>SIGN</h1>
         <input
           className='Sign_email'
           type='email'
@@ -233,7 +234,18 @@ const SignUp = () => {
           onChange={onFormChange}
         />
 
-        <button type='submit'>가입하기</button>
+        <button
+          type='submit'
+          style={{
+            width: "200px",
+            height: "40px",
+            backgroundColor: "#2E3B4C",
+            color: "white",
+            borderRadius: "30px",
+          }}
+        >
+          가입하기
+        </button>
       </div>
     </form>
   );
