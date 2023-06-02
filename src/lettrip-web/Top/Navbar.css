@@ -57,3 +57,19 @@
 .Navbar_HeartIcon {
   margin: 35px 60px;
 }
+.Navbar_DropdownContent{
+  position: absolute;
+  left: 60px;
+  display: block;
+  color: #2E3B4C;
+  padding: 8px;
+  border-radius: 4px;
+}
+.Navbar_DropdownItem{
+  margin-left:20px;
+  font-size: medium;
+  cursor: pointer;
+}
+.Navbar_DropdownItem:hover {
+  color: rgb(105, 105, 255);
+}
