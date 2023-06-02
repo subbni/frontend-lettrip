@@ -3,8 +3,12 @@
 import { useEffect, useState } from "react";
 import { getLocation } from "./getLocation";
 import { useSearchParams } from "react-router-dom";
+import { saveMission } from "../../../Service/MissionService";
+import mission_image from "../../../../image/mission/qr_mission_image.png";
+import location_image from "../../../../image/mission/location_image.png";
+import "./QR.css";
 
-const MissionPage = () => {
+const QRMissionPage = () => {
   const radius = 0.5; // 반경 500m = 0.5km
   const [userLocation, setUserLocation] = useState(window.location.search);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,6 +36,26 @@ const MissionPage = () => {
     console.log(window.location.search);
   }, []);
 
+  //// 미션 검증
+
+  const getDistance = (lat1, lon1, lat2, lon2) => {
+    function deg2rad(deg) {
+      return deg * (Math.PI / 180);
+    }
+    const R = 6371; // 지구 반지름 (km)
+    const dLat = deg2rad(lat2 - lat1);
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // 두 지점 간 거리 (km)
+    return distance;
+  };
+
   const verifyLocation = () => {
     const xpoint = parseFloat(searchParams.get("x"));
     const ypoint = parseFloat(searchParams.get("y"));
@@ -52,7 +76,7 @@ const MissionPage = () => {
         ...missionForm,
         xpoint: xpoint,
         ypoint: ypoint,
-        accomplishedDate: new Date(),
+        accomplishedDate: getFormattedDate(new Date()),
       });
     } else {
       console.log(distance);
@@ -64,46 +88,68 @@ const MissionPage = () => {
     }
   };
 
-  const getDistance = (lat1, lon1, lat2, lon2) => {
-    function deg2rad(deg) {
-      return deg * (Math.PI / 180);
-    }
-    const R = 6371; // 지구 반지름 (km)
-    const dLat = deg2rad(lat2 - lat1);
-    const dLon = deg2rad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // 두 지점 간 거리 (km)
-    return distance;
+  //// 검증 성공 후 처리
+
+  const handleMissionComplete = () => {
+    console.log(missionForm);
+    saveMission(missionForm)
+      .then((response) => {
+        if (response.success) {
+          alert("미션 성공");
+        } else {
+          alert("미션 실패. 원인:" + response.message);
+        }
+      })
+      .catch((e) => {
+        alert("오류 발생");
+        console.log(e);
+      });
   };
 
+  const getFormattedDate = (date) => {
+    let formattedDate =
+      date.getFullYear() +
+      "-" +
+      (date.getMonth() + 1 < 9
+        ? "0" + (date.getMonth() + 1)
+        : date.getMonth() + 1) +
+      "-" +
+      (date.getDate() < 9 ? "0" + date.getDate() : date.getDate());
+    return formattedDate;
+  };
+
+  //// event 처리
   const onConfirmBtnClick = (e) => {
     e.preventDefault();
+    handleMissionComplete();
+  };
+
+  const onMissionFormChange = (e) => {
+    setMissionForm((missionForm) => ({
+      ...missionForm,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   return (
-    <div>
+    <div className='qr_mission_page'>
       {isLocationFetched ? (
         <div>
           {isMissionCompleted ? (
             <div>
-              <b>미션 성공!</b>
-              <br />
-              성공 적립을 위해 가입된 이메일을 입력해주세요.
+              <img src={mission_image} />
+              <h1> 미션 성공!</h1>
+              <div>포인트 적립을 위해 가입된 이메일을 입력해주세요.</div>
               <div>
                 <form onSubmit={onConfirmBtnClick}>
                   <label>이메일</label>
                   <input
-                    type="email"
-                    name="email"
-                    placeholder="이메일 입력해서 적립받기"
+                    type='email'
+                    name='email'
+                    placeholder='이메일 입력해서 적립받기'
+                    onChange={onMissionFormChange}
                   ></input>
-                  <button type="submit">확인</button>
+                  <button type='submit'>확인</button>
                 </form>
               </div>
             </div>
@@ -115,10 +161,13 @@ const MissionPage = () => {
           )}
         </div>
       ) : (
-        <div>GPS 사용을 허용해주시고, 잠시만 기다려주세요</div>
+        <div>
+          <img src={location_image} />
+          <div>GPS 사용을 허용한 뒤, 잠시만 기다려주세요</div>
+        </div>
       )}
     </div>
   );
 };
 
-export default MissionPage;
+export default QRMissionPage;
