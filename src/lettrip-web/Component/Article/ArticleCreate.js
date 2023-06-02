@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ArticleCreate.css";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
-import { CreateArticle, ListArticle } from "../../Service/AuthService";
+import { CreateArticle, ListArticle } from "../../Service/ArticleService";
 
 function ArticleCreate() {
   const navigate = useNavigate();
@@ -55,7 +55,6 @@ function ArticleCreate() {
           navigate("/articles");
           fetchArticles();
           console.log(response);
-          console.log(articleForm);
         })
         .catch((e) => {
           console.log(e);

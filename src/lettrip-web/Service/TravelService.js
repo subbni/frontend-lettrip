@@ -45,5 +45,25 @@ export function createTravelReviewAxios({ reviewForm, imageFiles }) {
   });
 }
 
+export function searchTravelList(searchForm, pageForm) {
+  return request({
+    url:
+      API_BASE_URL +
+      "/api/travel" +
+      `?province=${searchForm.province}&city=${searchForm.city}&minCost=${searchForm.minCost}&maxCost=${searchForm.maxCost}
+    &minNumberOfCourses=${searchForm.minNumberOfCourses}&maxNumberOfCourses=${searchForm.maxNumberOfCourses}
+    &travelTheme=${searchForm.travelTheme}` +
+      `&page=${pageForm.page}&size=${pageForm.size}&sort=${pageForm.sort}`,
+    method: "GET",
+  });
+}
+
+export function getTravelDetail(id) {
+  return request({
+    url: API_BASE_URL + `/api/travel/${id}`,
+    method: "GET",
+  });
+}
+
 class TravelService {}
 export default new TravelService();

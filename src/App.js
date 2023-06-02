@@ -10,8 +10,7 @@ import Login from "./lettrip-web/Component/Auth/Login/Login";
 import SignUp from "./lettrip-web/Component/Auth/SignUp/SignUp";
 
 //여행코스 경로 설정
-import TravelSearch from "./lettrip-web/Component/Travel/CourseSearch/TravelSearch";
-import CoursePage from "./lettrip-web/Component/Travel/CourseSearch/CoursePage";
+import CoursePage from "./lettrip-web/Component/Travel/TravelSearch/CoursePage";
 import CourseCreate from "./lettrip-web/Component/Travel/CoursePlan/CourseCreate";
 import CourseModify from "./lettrip-web/Component/Travel/CoursePlan/CourseModify";
 import ReviewCreate from "./lettrip-web/Component/Travel/CourseReview/ReviewCreate";
@@ -22,10 +21,14 @@ import ArticleList from "./lettrip-web/Component/Article/ArticleList";
 import ArticleCreate from "./lettrip-web/Component/Article/ArticleCreate";
 import ArticleModify from "./lettrip-web/Component/Article/ArticleModify";
 import ArticlePage from "./lettrip-web/Component/Article/ArticlePage";
+import Comments from "./lettrip-web/Component/Article/Comment/Comments";
 
 import TravelPlanTemplate from "./lettrip-web/Component/Travel/TravelPlan/TravelPlanTemplate";
 import TravelReviewTemplate from "./lettrip-web/Component/Travel/TravelReview/TravelReviewTemplate";
 import MissionPage from "./lettrip-web/Component/Mission/MissionPage";
+import SearchForm from "./lettrip-web/Component/Travel/TravelSearch/SearchForm";
+import TravelSearchPage from "./lettrip-web/Component/Travel/TravelSearch/TravelSearchPage";
+import TravelDetailPage from "./lettrip-web/Component/Travel/TravelDetail/TravelDetailPage";
 
 function App() {
   return (
@@ -38,8 +41,8 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/signUp' element={<SignUp />} />
 
-          <Route path='/travel/search' element={<TravelSearch />} />
-          <Route path='/travel/course/:travel-id' element={<CoursePage />} />
+          <Route path='/travel/search' element={<TravelSearchPage />} />
+          <Route path='/travel/course/:id' element={<TravelDetailPage />} />
           <Route
             path='/travel/course/create'
             element={<TravelPlanTemplate />}

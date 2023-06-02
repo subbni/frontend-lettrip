@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./ArticleModify.css";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
-import { ModifyArticle, ShowArticle } from "../../Service/AuthService";
+import { ModifyArticle, ShowArticle } from "../../Service/ArticleService";
 
 function ArticleModify() {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ function ArticleModify() {
 
   const handleArticleFormSubmit = (e) => {
     e.preventDefault();
-    if (window.confirm("제출하시겠습니까?")) {
+    if (window.confirm("게시글을 수정하시겠습니까?")) {
       const modifyForm = {
         id: id,
         title: articleForm.title,
