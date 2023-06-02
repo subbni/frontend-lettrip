@@ -60,7 +60,7 @@ function ArticleModify() {
 
   const handleArticleFormSubmit = (e) => {
     e.preventDefault();
-    if (window.confirm("제출하시겠습니까?")) {
+    if (window.confirm("게시글을 수정하시겠습니까?")) {
       const modifyForm = {
         id: id,
         title: articleForm.title,

@@ -83,11 +83,11 @@ export function CreateReplyComment(replycommentForm) {
   });
 } //대댓글 작성 등록 요청
 
-export function ModifyReplyComment(commentForm) {
+export function ModifyReplyComment(replycommentForm) {
   return request({
     url: API_BASE_URL + "/api/comment/modify",
     method: "PUT",
-    body: JSON.stringify(commentForm),
+    body: JSON.stringify(replycommentForm),
   });
 } //대댓글 수정하기 위해서 원 댓글 불러오기, 수정 요청
 

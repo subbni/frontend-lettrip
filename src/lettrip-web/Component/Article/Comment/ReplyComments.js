@@ -11,24 +11,24 @@ import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
 function ReplyComments() {
   const { id, parent_comment_id, mentioned_user_email } = useParams;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [comments, setComments] = useState([]);
   const [replycomments, setReplyComments] = useState([]);
   const [pageForm, setPageForm] = useState({
     page: 0,
     size: 5,
     sort: "id,ASC",
     article_id: id,
-    parent_comment_id: parent_comment_id,
+    parent_id: parent_comment_id,
   }); //대댓글 5개씩, 오래된 순
   const [replycommentForm, setReplyCommentForm] = useState({
-    article_id: id,
     content: "",
-    parent_comment_id: parent_comment_id,
-    mentioned_user_email: mentioned_user_email,
   }); //대댓글 작성시 요청 정보
+  //id는 현재 페이지 id, parent_comment_id는 부모 댓글 id, mentioned_user_email은 언급된 사용자 이메일(선택)
 
   useEffect(() => {
     const storedToken = localStorage.getItem(ACCESS_TOKEN);
-    if (storedToken) {
+    const storedEmail = localStorage.getItem("email");
+    if (storedToken && storedEmail) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
@@ -36,13 +36,31 @@ function ReplyComments() {
   }, []);
 
   useEffect(() => {
-    fetchReplyComments();
-  }, []);
+    if (parent_comment_id) {
+      fetchReplyComments();
+    }
+  }, [parent_comment_id]);
 
   //대댓글 불러오기
-  const fetchReplyComments = () => {
-    ReplyCommentData(pageForm)
+  const fetchReplyComments = (parent_id) => {
+    const replyPageForm = {
+      ...pageForm,
+      parent_id: parent_id,
+    };
+    console.log(replyPageForm);
+    ReplyCommentData(replyPageForm)
       .then((response) => {
+        const updatedComments = comments.map((comment) => {
+          if (comment.id === parent_id) {
+            return {
+              ...comment,
+              reply: response.content,
+              handleShowReplycomment: true,
+            };
+          }
+          return comment;
+        });
+        setComments(updatedComments);
         setReplyComments(response.content);
         console.log(response);
       })
@@ -50,6 +68,24 @@ function ReplyComments() {
         console.log(e);
         window.alert("대댓글을 불러오는 중에 오류가 발생했습니다.");
       });
+  };
+  const handleShowReplycomment = (parent_id) => {
+    const updatedComments = comments.map((comment) => {
+      if (comment.id === parent_id) {
+        return {
+          ...comment,
+          handleShowReplycomment: !comment.handleShowReplycomment,
+        };
+      }
+      return comment;
+    });
+    setComments(updatedComments);
+    if (
+      updatedComments.find((comment) => comment.id === parent_id)
+        .handleShowReplycomment
+    ) {
+      fetchReplyComments(parent_id);
+    }
   };
 
   //대댓글 작성하기
@@ -60,24 +96,31 @@ function ReplyComments() {
       [changedField]: e.target.value,
     });
   };
-
   const handleReplyCommentFormSubmit = (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
       window.alert("로그인이 필요합니다.");
       return;
     }
-    if (window.confirm("댓글을 작성하시겠습니까?")) {
-      CreateReplyComment(replycommentForm)
+    if (window.confirm("대댓글을 작성하시겠습니까?")) {
+      const createReplyComment = {
+        id: id,
+        parent_id: parent_comment_id,
+        mentioned_user_email: mentioned_user_email,
+        content: replycommentForm.content,
+      };
+      CreateReplyComment(createReplyComment)
         .then((response) => {
-          window.alert("댓글 작성이 완료되었습니다.");
+          window.alert("대댓글 작성이 완료되었습니다.");
           fetchReplyComments();
           console.log(response);
           setReplyCommentForm({ ...replycommentForm, content: "" });
         })
         .catch((e) => {
           console.log(e);
-          window.alert("댓글 작성에 실패했습니다. 다시 시도해주시길 바랍니다.");
+          window.alert(
+            "대댓글 작성에 실패했습니다. 다시 시도해주시길 바랍니다."
+          );
         });
     }
   };
