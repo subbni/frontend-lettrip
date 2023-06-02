@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Citys, Provinces, TravelThemes } from "../TravelPlan/TravelData";
+import { Citys, Provinces, TravelThemes } from "../TravelData";
 import CourseReviewContainer from "./CourseReviewContainer";
 import "../TravelPlan/Plan.css";
 import {
@@ -49,6 +49,11 @@ const TravelReviewTemplate = () => {
     );
     if (selectedProvinceObject) {
       setMatchedCitys(selectedProvinceObject.citys);
+      setReviewForm((reviewForm) => ({
+        ...reviewForm,
+        city: "",
+      }));
+      document.getElementById("city").value = "default";
     }
   }, [reviewForm.province]);
 
@@ -235,58 +240,58 @@ const TravelReviewTemplate = () => {
   };
 
   return (
-    <div className="templateBlock">
-      <div className="formContainer">
+    <div className='templateBlock'>
+      <div className='formContainer'>
         <h1>여행 코스 기록</h1>
-        <form className="formBox" onSubmit={onReviewDataSubmit}>
-          <div className="formComponent">
-            <label htmlFor="title">제목</label>
+        <form className='formBox' onSubmit={onReviewDataSubmit}>
+          <div className='formComponent'>
+            <label htmlFor='title'>제목</label>
             <input
-              type="text"
-              name="title"
-              id="title"
+              type='text'
+              name='title'
+              id='title'
               onChange={onReviewFormChange}
               required
             />
           </div>
-          <div className="formComponent">
-            <label htmlFor="travelTheme">테마</label>
+          <div className='formComponent'>
+            <label htmlFor='travelTheme'>테마</label>
             <select
-              name="travelTheme"
-              id="travelTheme"
-              defaultValue="default"
+              name='travelTheme'
+              id='travelTheme'
+              defaultValue='default'
               onChange={onReviewFormChange}
               required
             >
-              <option value="default" disabled>
+              <option value='default' disabled>
                 테마 선택
               </option>
               {travelThemeOptions}
             </select>
           </div>
-          <div className="formComponent">
-            <label htmlFor="province">행정구역</label>
+          <div className='formComponent'>
+            <label htmlFor='province'>행정구역</label>
             <select
-              name="province"
-              id="province"
-              defaultValue="default"
+              name='province'
+              id='province'
+              defaultValue='default'
               onChange={onReviewFormChange}
               disabled={isReviewDataSubmit}
             >
-              <option value="default" disabled>
+              <option value='default' disabled>
                 시도 선택
               </option>
               {provincesOptions}
             </select>
-            <label htmlFor="city">지역</label>
+            <label htmlFor='city'>지역</label>
             <select
-              name="city"
-              id="city"
-              defaultValue="default"
+              name='city'
+              id='city'
+              defaultValue='default'
               onChange={onReviewFormChange}
               disabled={isReviewDataSubmit}
             >
-              <option value="default" disabled>
+              <option value='default' disabled>
                 지역 선택
               </option>
               {matchedCitys.map((city, idx) => (
@@ -294,12 +299,12 @@ const TravelReviewTemplate = () => {
               ))}
             </select>
           </div>
-          <div className="formComponent">
-            <label htmlFor="departDate">여행 기간</label>
+          <div className='formComponent'>
+            <label htmlFor='departDate'>여행 기간</label>
             <input
-              type="date"
-              name="departDate"
-              id="departDate"
+              type='date'
+              name='departDate'
+              id='departDate'
               value={reviewForm.departDate}
               onChange={onReviewFormChange}
               disabled={isReviewDataSubmit}
@@ -307,9 +312,9 @@ const TravelReviewTemplate = () => {
             />
             <label>~</label>
             <input
-              type="date"
-              name="lastDate"
-              id="lastDate"
+              type='date'
+              name='lastDate'
+              id='lastDate'
               value={reviewForm.lastDate}
               onChange={onReviewFormChange}
               disabled={isReviewDataSubmit}
@@ -319,15 +324,15 @@ const TravelReviewTemplate = () => {
           <div>코스 수 : {numberOfCourses}</div>
           <div>총 비용: {totalCost}</div>
           <button
-            className="planCourseBtn"
-            type="submit"
+            className='planCourseBtn'
+            type='submit'
             disabled={isReviewDataSubmit}
           >
             코스 기록
           </button>
         </form>
         {isReviewDataSubmit ? (
-          <div className="formComponent">
+          <div className='formComponent'>
             <label>다녀온 코스</label>
             <br />
             {days !== null ? (
@@ -350,7 +355,7 @@ const TravelReviewTemplate = () => {
             ) : (
               <div>여행에 대한 정보를 먼저 입력해주세요</div>
             )}
-            <div className="formComponent">
+            <div className='formComponent'>
               <button onClick={onReviewFormSubmit}>기록 마치기</button>
             </div>
           </div>

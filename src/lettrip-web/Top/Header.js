@@ -16,6 +16,21 @@ function Header() {
     }
   }, []);
 
+  const fetchChecklogin = () => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN); // 로컬 스토리지에서 토큰 가져오기
+    if (accessToken) {
+      setIsLoggedIn(true);
+      localStorage.setItem("isLoggedIn", "true");
+    } else {
+      setIsLoggedIn(false);
+      localStorage.setItem("isLoggedIn", "false");
+    }
+  };
+
+  useEffect(() => {
+    fetchChecklogin();
+  }, []);
+
   const handleLogout = () => {
     const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
     if (confirmLogout) {

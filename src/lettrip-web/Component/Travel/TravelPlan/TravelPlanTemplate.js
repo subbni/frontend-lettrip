@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./Plan.css";
 import CourseContainer from "./CourseContainer";
-import TravelData, { Citys, Provinces, TravelThemes } from "./TravelData";
+import TravelData, { Citys, Provinces, TravelThemes } from "../TravelData";
 import { createTravelPlan } from "../../../Service/TravelService";
 const TravelPlanTemplate = () => {
   //////// state 관리
@@ -47,6 +47,11 @@ const TravelPlanTemplate = () => {
     );
     if (selectedProvinceObject) {
       setMatchedCitys(selectedProvinceObject.citys);
+      setPlanForm((planForm) => ({
+        ...planForm,
+        city: "",
+      }));
+      document.getElementById("city").value = "default";
     }
   }, [planForm.province]);
 
@@ -214,59 +219,59 @@ const TravelPlanTemplate = () => {
 
   // 렌더링
   return (
-    <div className="templateBlock">
-      <div className="formContainer">
+    <div className='templateBlock'>
+      <div className='formContainer'>
         <h1>여행 코스 계획</h1>
-        <form className="formBox" onSubmit={onPlanDataSubmit}>
-          <div className="formComponent">
-            <label htmlFor="title">제목</label>
+        <form className='formBox' onSubmit={onPlanDataSubmit}>
+          <div className='formComponent'>
+            <label htmlFor='title'>제목</label>
             <input
-              type="text"
-              name="title"
-              id="title"
+              type='text'
+              name='title'
+              id='title'
               value={planForm.title}
               onChange={onPlanFormChange}
               required
             />
           </div>
-          <div className="formComponent">
-            <label htmlFor="travelTheme">테마</label>
+          <div className='formComponent'>
+            <label htmlFor='travelTheme'>테마</label>
             <select
-              name="travelTheme"
-              id="travelTheme"
-              defaultValue="default"
+              name='travelTheme'
+              id='travelTheme'
+              defaultValue='default'
               onChange={onPlanFormChange}
               required
             >
-              <option value="default" disabled>
+              <option value='default' disabled>
                 테마 선택
               </option>
               {travelThemeOptions}
             </select>
           </div>
-          <div className="formComponent">
-            <label htmlFor="province">행정구역</label>
+          <div className='formComponent'>
+            <label htmlFor='province'>행정구역</label>
             <select
-              name="province"
-              id="province"
-              defaultValue="default"
+              name='province'
+              id='province'
+              defaultValue='default'
               onChange={onPlanFormChange}
               disabled={isPlanDataSubmit}
             >
-              <option value="default" disabled>
+              <option value='default' disabled>
                 시도 선택
               </option>
               {provincesOptions}
             </select>
-            <label htmlFor="city">지역</label>
+            <label htmlFor='city'>지역</label>
             <select
-              name="city"
-              id="city"
-              defaultValue="default"
+              name='city'
+              id='city'
+              defaultValue='default'
               onChange={onPlanFormChange}
               disabled={isPlanDataSubmit}
             >
-              <option value="default" disabled>
+              <option value='default' disabled>
                 지역 선택
               </option>
               {matchedCitys.map((city, idx) => (
@@ -274,12 +279,12 @@ const TravelPlanTemplate = () => {
               ))}
             </select>
           </div>
-          <div className="formComponent">
-            <label htmlFor="departDate">여행 기간</label>
+          <div className='formComponent'>
+            <label htmlFor='departDate'>여행 기간</label>
             <input
-              type="date"
-              name="departDate"
-              id="departDate"
+              type='date'
+              name='departDate'
+              id='departDate'
               value={planForm.departDate}
               onChange={onPlanFormChange}
               disabled={isPlanDataSubmit}
@@ -287,9 +292,9 @@ const TravelPlanTemplate = () => {
             />
             <label>~</label>
             <input
-              type="date"
-              name="lastDate"
-              id="lastDate"
+              type='date'
+              name='lastDate'
+              id='lastDate'
               value={planForm.lastDate}
               onChange={onPlanFormChange}
               disabled={isPlanDataSubmit}
@@ -299,15 +304,15 @@ const TravelPlanTemplate = () => {
           <div>코스 수 : {numberOfCourses}</div>
           <div>총 비용: {totalCost}</div>
           <button
-            className="planCourseBtn"
-            type="submit"
+            className='planCourseBtn'
+            type='submit'
             disabled={isPlanDataSubmit}
           >
             코스 짜기
           </button>
         </form>
         {isPlanDataSubmit ? (
-          <div className="formComponent">
+          <div className='formComponent'>
             <label>코스 짜기</label>
             <br />
             {days != null ? (
@@ -330,7 +335,7 @@ const TravelPlanTemplate = () => {
             ) : (
               <div>여행 계획에 대한 정보를 먼저 입력해주세요</div>
             )}
-            <div className="formComponent">
+            <div className='formComponent'>
               <button onClick={onPlanFormSubmit}>계획 마치기</button>
             </div>
           </div>
