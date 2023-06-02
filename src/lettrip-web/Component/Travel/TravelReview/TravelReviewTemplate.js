@@ -2,10 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Citys, Provinces, TravelThemes } from "../TravelData";
 import CourseReviewContainer from "./CourseReviewContainer";
 import "../TravelPlan/Plan.css";
-import {
-  createTravelReview,
-  createTravelReviewAxios,
-} from "../../../Service/TravelService";
+import { createTravelReviewAxios } from "../../../Service/TravelService";
 
 const TravelReviewTemplate = () => {
   //////// state 관리

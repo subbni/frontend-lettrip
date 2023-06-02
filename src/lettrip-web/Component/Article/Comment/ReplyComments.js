@@ -3,7 +3,6 @@ import "./ReplyComments.css";
 import {
   ReplyCommentData,
   CreateReplyComment,
-  DeleteReplyComment,
 } from "../../../Service/ArticleService";
 import { useParams } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
@@ -21,9 +20,11 @@ function ReplyComments() {
     parent_id: parent_comment_id,
   }); //대댓글 5개씩, 오래된 순
   const [replycommentForm, setReplyCommentForm] = useState({
+    id: id,
     content: "",
+    parent_id: parent_comment_id,
+    mentioned_id: mentioned_user_email,
   }); //대댓글 작성시 요청 정보
-  //id는 현재 페이지 id, parent_comment_id는 부모 댓글 id, mentioned_user_email은 언급된 사용자 이메일(선택)
 
   useEffect(() => {
     const storedToken = localStorage.getItem(ACCESS_TOKEN);
@@ -125,20 +126,6 @@ function ReplyComments() {
     }
   };
 
-  //대댓글 삭제하기
-  const handleDeleteReplyComment = (id) => {
-    DeleteReplyComment(id)
-      .then((response) => {
-        window.alert("대댓글이 삭제되었습니다.");
-        fetchReplyComments();
-        console.log(response);
-      })
-      .catch((e) => {
-        console.log(e);
-        window.alert("대댓글 삭제에 실패했습니다.");
-      });
-  };
-
   return (
     <div className='ReplyComment_container'>
       <form
@@ -162,14 +149,6 @@ function ReplyComments() {
               <h3 className='nickname'>{comment.nickname}</h3>
               <p className='content'>{comment.content}</p>
               <p className='createdDate'>{comment.createdDate}</p>
-              {isLoggedIn && (
-                <button
-                  className='DeleteReplyComment_button'
-                  onClick={() => handleDeleteReplyComment(comment.id)}
-                >
-                  삭제
-                </button>
-              )}
             </div>
           ))}
       </div>

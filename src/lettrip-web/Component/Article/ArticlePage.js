@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./ArticlePage.css";
 import {
-  ShowArticle,
-  DeleteArticle,
-  ListArticle,
+  showArticle,
+  deleteArticle,
+  listArticle,
 } from "../../Service/ArticleService";
 import Comments from "./Comment/Comments";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
@@ -35,7 +35,7 @@ function ArticlePage() {
 
   const fetchArticle = () => {
     console.log(`현재 파라미터 = ${id}`);
-    ShowArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
+    showArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
       .then((response) => {
         setPost(response);
         console.log();
@@ -49,7 +49,7 @@ function ArticlePage() {
 
   const handleDelete = () => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
-      DeleteArticle(id)
+      deleteArticle(id)
         .then(() => {
           window.alert("게시글이 삭제되었습니다.");
           navigate("/articles");
@@ -64,7 +64,7 @@ function ArticlePage() {
     }
 
     const fetchArticles = () => {
-      ListArticle(pageForm)
+      listArticle(pageForm)
         .then(() => {
           console.log();
         })

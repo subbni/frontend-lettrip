@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ArticleList.css";
 import { Link, useNavigate } from "react-router-dom";
-import { ListArticle } from "../../Service/ArticleService";
+import { listArticle } from "../../Service/ArticleService";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 
 function ArticleList() {
@@ -28,7 +28,7 @@ function ArticleList() {
   }, []);
 
   const fetchArticles = () => {
-    ListArticle(pageForm)
+    listArticle(pageForm)
       .then((response) => {
         setArticleList(response.content);
         console.log(response.content);
