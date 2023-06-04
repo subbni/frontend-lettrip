@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN, USER_EMAIL } from "../../../Constant/backendAPI";
+import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
 import { login } from "../../../Service/AuthService";
 import "./Login.css";
 

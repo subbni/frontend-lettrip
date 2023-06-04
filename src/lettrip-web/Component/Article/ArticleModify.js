@@ -16,7 +16,6 @@ function ArticleModify() {
   useEffect(() => {
     const storedToken = localStorage.getItem(ACCESS_TOKEN);
     const storedEmail = localStorage.getItem("email");
-    console.log(id);
     if (storedToken && storedEmail) {
       setIsLoggedIn(true);
       setArticleForm((prevState) => ({

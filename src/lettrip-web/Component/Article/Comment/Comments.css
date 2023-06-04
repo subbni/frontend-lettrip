@@ -1,29 +1,97 @@
-.Comment_container h2 {
-  font-size: 16px;
-  margin-bottom: 10px;
+.ShowComments {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.CreateComment {
-  margin-top: 20px;
-}
-
-.CreateComment {
+.commenteach {
+  position: relative;
   width: 100%;
 }
 
-.CreateComment textarea {
-  width: 100%;
-  height: 100px;
-  resize: vertical;
-  font-size: 14px;
-  padding: 5px;
+.ShowReplyComments {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 50px;
 }
 
-.CreateComment button[type="submit"] {
-  display: block;
-  color: white;
-  background-color: #2e3b4c;
-  margin-top: 10px;
-  margin-left: auto;
-  margin-right: 0;
+.comment-item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  position: relative;
+}
+
+.ModifyComment_button,
+.DeleteComment_button,
+.ShowReplycomment_button {
+  border: none;
+  font-size: 15px;
+}
+
+.ModifyComment_button {
+  position: relative;
+  bottom: 0;
+  right: 0;
+  border: none;
+  font-size: 15px;
+}
+
+.DeleteComment_button {
+  position: relative;
+  bottom: 0;
+  right: 0;
+  border: none;
+  font-size: 15px;
+}
+
+.ShowReplycomment_button {
+  border: none;
+  font-size: 15px;
+}
+
+.comment-item {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.createdDate {
+  font-size: 13px;
+  margin-top: -10px;
+  color: gray;
+}
+
+.ModifyModifyComment_button {
+  border: none;
+  font-size: 15px;
+}
+
+.DeleteModifyComment_button {
+  border: none;
+  font-size: 15px;
+}
+
+.replybutton-group {
+  display: flex;
+  gap: 10px;
+  position: relative;
+}
+
+.ModifyModifyComment_button,
+.DeleteModifyComment_button {
+  border: none;
+  font-size: 15px;
 }

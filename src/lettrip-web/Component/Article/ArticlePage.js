@@ -6,7 +6,7 @@ import {
   deleteArticle,
   listArticle,
 } from "../../Service/ArticleService";
-import Comments from "./Comment/Comments";
+import CommentCreate from "./Comment/CommentCreate";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 
 function ArticlePage() {
@@ -109,7 +109,7 @@ function ArticlePage() {
               삭제
             </button>
           )}
-          <Comments postId={post.id} />
+          <CommentCreate postId={post.id} />
         </div>
       )}
     </div>

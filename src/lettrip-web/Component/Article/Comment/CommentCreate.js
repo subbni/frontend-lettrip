@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import "./CommentModify.css";
-import { useNavigate, useParams } from "react-router-dom";
-import { CommentData, ModifyComment } from "../../../Service/AuthService";
-import { ACCESS_TOKEN } from "../../Constant/backendAPI";
+import { useParams } from "react-router-dom";
+import { commentData, createComment } from "../../../Service/ArticleService";
+import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
+import "./CommentCreate.css";
 
-function CommentModify({ commentId, postId }) {
-  const navigate = useNavigate();
-  const { id, parent_comment_id } = useParams();
+import Comments from "./Comments";
+
+function CommentCreate() {
+  const { id } = useParams();
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
   const [comments, setComments] = useState([]);
   const [pageForm, setPageForm] = useState({
@@ -14,23 +15,19 @@ function CommentModify({ commentId, postId }) {
     size: 5,
     sort: "id,ASC",
     article_id: id,
-    parent_id: parent_comment_id,
   }); //댓글 보여주기 : 5개씩, 오래된 순
   const [commentForm, setCommentForm] = useState({
+    article_id: id,
     content: "",
-  }); //댓글 수정시 요청 정보, id는 수정할 댓글의 id
+  }); //댓글 작성시 요청 정보
+  const [userEmail, setUserEmail] = useState(""); // 사용자 이메일 상태
 
   useEffect(() => {
     const storedToken = localStorage.getItem(ACCESS_TOKEN);
     const storedEmail = localStorage.getItem("email");
-    console.log(parent_comment_id);
     if (storedToken && storedEmail) {
       setIsLoggedIn(true);
-      setCommentForm((prevState) => ({
-        ...prevState,
-        commentId: parent_comment_id,
-        email: storedEmail,
-      }));
+      setUserEmail(storedEmail);
     } else {
       setIsLoggedIn(false);
     }
@@ -42,13 +39,9 @@ function CommentModify({ commentId, postId }) {
 
   //댓글 불러오기
   const fetchComments = () => {
-    CommentData(parent_comment_id)
+    commentData(pageForm)
       .then((response) => {
-        const { content } = response;
-        setCommentForm({
-          content,
-        });
-        console.log(response);
+        setComments(response.content);
       })
       .catch((e) => {
         console.log(e);
@@ -56,49 +49,55 @@ function CommentModify({ commentId, postId }) {
       });
   };
 
+  //댓글 작성하기
   const handleCommentFormChange = (e) => {
-    const { name, value } = e.target;
-    setCommentForm((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    const changedField = e.target.name;
+    let newValue = e.target.value;
+    setCommentForm({
+      ...commentForm,
+      [changedField]: newValue,
+    });
   };
 
   const handleCommentFormSubmit = (e) => {
     e.preventDefault();
-    if (window.confirm("댓글을 수정하시겠습니까?")) {
-      const modifyForm = {
-        commentId: parent_comment_id,
-        content: commentForm.content,
-      };
-      ModifyComment(modifyForm)
+    if (!isLoggedIn) {
+      window.alert("로그인이 필요합니다.");
+      return;
+    }
+    if (window.confirm("댓글을 작성하시겠습니까?")) {
+      createComment(commentForm)
         .then((response) => {
-          window.alert("댓글 수정이 완료되었습니다.");
-          window.location.reload();
+          window.alert("댓글 작성이 완료되었습니다.");
           console.log(response);
+          setCommentForm({ ...commentForm, content: "" });
+          fetchComments();
         })
         .catch((e) => {
           console.log(e);
-          window.alert("댓글 수정에 실패했습니다. 다시 시도해주시길 바랍니다.");
+          window.alert("댓글 작성에 실패했습니다. 다시 시도해주시길 바랍니다.");
         });
     }
   };
 
   return (
-    <div className='CommentModifyContainer'>
-      <h4>댓글</h4>
-      <form onSubmit={handleCommentFormSubmit}>
+    <div className='Comment_container'>
+      <h2>댓글</h2>
+      <form className='CommentCreate' onSubmit={handleCommentFormSubmit}>
         <textarea
           id='content'
           name='content'
+          placeholder='댓글을 입력하세요.'
           required
           value={commentForm.content}
           onChange={handleCommentFormChange}
         />
         <button type='submit'>등록</button>
       </form>
+      <div className='ShowComment'>
+        <Comments userEmail={userEmail} />
+      </div>
     </div>
   );
 }
-
-export default CommentModify;
+export default CommentCreate;
