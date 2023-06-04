@@ -17,10 +17,8 @@ const TravelSearchResult = ({ resultTravels }) => {
     <div>
       <div>{msg}</div>
       <div className='SearchResultContainer'>
-        {resultTravels.map((travel, idx) => (
-          <div key={idx}>
-            <ResultItem travel={travel} />
-          </div>
+        {resultTravels.map((travel) => (
+          <ResultItem key={travel.id} travel={travel} />
         ))}
       </div>
     </div>

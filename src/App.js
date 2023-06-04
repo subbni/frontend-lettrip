@@ -25,14 +25,16 @@ import Comments from "./lettrip-web/Component/Article/Comment/Comments";
 
 import TravelPlanTemplate from "./lettrip-web/Component/Travel/TravelPlan/TravelPlanTemplate";
 import TravelReviewTemplate from "./lettrip-web/Component/Travel/TravelReview/TravelReviewTemplate";
-import MissionPage from "./lettrip-web/Component/Mission/QR/QRMissionPage";
-import SearchForm from "./lettrip-web/Component/Travel/TravelSearch/SearchForm";
 import TravelSearchPage from "./lettrip-web/Component/Travel/TravelSearch/TravelSearchPage";
 import TravelDetailPage from "./lettrip-web/Component/Travel/TravelDetail/TravelDetailPage";
 
 // 미션
 import MissionPage from "./lettrip-web/Component/Mission/MissionPage";
 import QRMissionPage from "./lettrip-web/Component/Mission/QR/QRMissionPage";
+
+// 마이페이지
+import MyPage from "./lettrip-web/Component/MyPage/MyPage";
+import PlaceReviewPage from "./lettrip-web/Component/PlaceReview/PlaceReviewPage";
 
 function App() {
   return (
@@ -67,6 +69,9 @@ function App() {
           <Route path='/travel/review' element={<TravelReviewTemplate />} />
           <Route path='/mission' element={<MissionPage />} />
           <Route path='/mission/qr' element={<QRMissionPage />} />
+          <Route path='/mypage' element={<MyPage />} />
+
+          <Route path='/place' element={<PlaceReviewPage />} />
         </Routes>
       </div>
     </Router>
