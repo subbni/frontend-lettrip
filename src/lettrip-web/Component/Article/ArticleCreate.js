@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./ArticleCreate.css";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
-import { CreateArticle, ListArticle } from "../../Service/ArticleService";
+import { createArticle, listArticle } from "../../Service/ArticleService";
 
 function ArticleCreate() {
   const navigate = useNavigate();
@@ -48,8 +48,8 @@ function ArticleCreate() {
 
   const handleArticleFormSubmit = (e) => {
     e.preventDefault();
-    if (window.confirm("제출하시겠습니까?")) {
-      CreateArticle(articleForm)
+    if (window.confirm("게시글을 작성하시겠습니까?")) {
+      createArticle(articleForm)
         .then((response) => {
           window.alert("게시글 작성이 완료되었습니다.");
           navigate("/articles");
@@ -66,7 +66,7 @@ function ArticleCreate() {
   };
 
   const fetchArticles = () => {
-    ListArticle(pageForm)
+    listArticle(pageForm)
       .then((response) => {
         console.log(response);
       })

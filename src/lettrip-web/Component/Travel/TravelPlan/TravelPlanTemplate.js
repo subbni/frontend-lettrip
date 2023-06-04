@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./Plan.css";
 import CourseContainer from "./CourseContainer";
-import TravelData, { Citys, Provinces, TravelThemes } from "../TravelData";
+import { Citys, Provinces, TravelThemes } from "../TravelData";
 import { createTravelPlan } from "../../../Service/TravelService";
 const TravelPlanTemplate = () => {
   //////// state 관리

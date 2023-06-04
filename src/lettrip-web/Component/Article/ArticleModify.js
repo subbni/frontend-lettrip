@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./ArticleModify.css";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
-import { ModifyArticle, ShowArticle } from "../../Service/ArticleService";
+import { modifyArticle, showArticle } from "../../Service/ArticleService";
 
 function ArticleModify() {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ function ArticleModify() {
   }, []);
 
   const fetchArticle = () => {
-    ShowArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
+    showArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
       .then((response) => {
         const { title, content } = response;
         setArticleForm({
@@ -66,7 +66,7 @@ function ArticleModify() {
         title: articleForm.title,
         content: articleForm.content,
       };
-      ModifyArticle(modifyForm)
+      modifyArticle(modifyForm)
         .then((response) => {
           window.alert("게시글 수정이 완료되었습니다.");
           navigate(`/articles/${id}`);
