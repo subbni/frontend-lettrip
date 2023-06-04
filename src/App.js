@@ -30,6 +30,10 @@ import TravelDetailPage from "./lettrip-web/Component/Travel/TravelDetail/Travel
 import MissionMainPage from "./lettrip-web/Component/Mission/MissionMainPage";
 import QRMissionPage from "./lettrip-web/Component/Mission/QR/QRMissionPage";
 
+// 마이페이지
+import MyPage from "./lettrip-web/Component/MyPage/MyPage";
+import PlaceReviewPage from "./lettrip-web/Component/PlaceReview/PlaceReviewPage";
+
 function App() {
   return (
     <Router>
@@ -64,6 +68,9 @@ function App() {
           <Route path='/travel/review' element={<TravelReviewTemplate />} />
           <Route path='/mission' element={<MissionMainPage />} />
           <Route path='/mission/qr' element={<QRMissionPage />} />
+          <Route path='/mypage' element={<MyPage />} />
+
+          <Route path='/place' element={<PlaceReviewPage />} />
         </Routes>
       </div>
     </Router>
