@@ -65,8 +65,8 @@ const CourseReviewContainer = ({
           />
         </div>
       ))}
-      <div className="courseAddBtn">
-        <button onClick={handleAddCourse}>코스 추가</button>
+      <div>
+        <button  className="courseAddBtn" onClick={handleAddCourse}>코스 추가</button>
       </div>
     </div>
   );
