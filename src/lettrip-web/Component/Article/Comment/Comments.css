@@ -39,17 +39,11 @@
 }
 
 .ModifyComment_button {
-  position: relative;
-  bottom: 0;
-  right: 0;
   border: none;
   font-size: 15px;
 }
 
 .DeleteComment_button {
-  position: relative;
-  bottom: 0;
-  right: 0;
   border: none;
   font-size: 15px;
 }

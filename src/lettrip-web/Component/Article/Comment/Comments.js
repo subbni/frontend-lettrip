@@ -237,29 +237,29 @@ function Comments({ userEmail, userNickname }) {
                 <p className='content'>{comment.content}</p>
               )}
 
-              {isLoggedIn && ( // 댓글 작성자에게만 수정, 삭제 버튼 보이게 하기
-                <div className='button-group'>
-                  <button
-                    className='ModifyComment_button'
-                    onClick={() => handleModifyComment(comment.id)}
-                  >
-                    수정
-                  </button>
-                  <button
-                    className='DeleteComment_button'
-                    onClick={() => handleDeleteComment(comment.id)}
-                  >
-                    삭제
-                  </button>
-                  <button
-                    className='ShowReplycomment_button'
-                    onClick={() => handleShowReplycomment(comment.id)}
-                  >
-                    {comment.handleShowReplycomment ? "답글 닫기" : "답글 보기"}
-                  </button>
-                </div>
+              {isLoggedIn && ( //댓글 작성자에게만 수정 버튼 보이게 하기
+                <button
+                  className='ModifyComment_button'
+                  onClick={() => handleModifyComment(comment.id)}
+                >
+                  수정
+                </button>
+              )}
+              {isLoggedIn && ( //댓글 작성자에게만 삭제 버튼 보이게 하기
+                <button
+                  className='DeleteComment_button'
+                  onClick={() => handleDeleteComment(comment.id)}
+                >
+                  삭제
+                </button>
               )}
               <div className='ShowReplyComments'>
+                <button
+                  className='ShowReplycomment_button'
+                  onClick={() => handleShowReplycomment(comment.id)}
+                >
+                  {comment.handleShowReplycomment ? "답글 닫기" : "답글 보기"}
+                </button>
                 {comment.handleShowReplycomment &&
                   comment.reply &&
                   comment.reply.length > 0 && (
@@ -283,23 +283,21 @@ function Comments({ userEmail, userNickname }) {
                           ) : (
                             <p className='content'>{reply.content}</p>
                           )}
-                          {isLoggedIn && ( // 대댓글 작성자에게만 수정, 삭제 버튼 보이게 하기
-                            <div className='replybutton-group'>
-                              <button
-                                className='ModifyModifyComment_button'
-                                onClick={() =>
-                                  handleModifyReplyComment(reply.id)
-                                }
-                              >
-                                수정
-                              </button>
-                              <button
-                                className='DeleteModifyComment_button'
-                                onClick={() => handleDeleteComment(reply.id)}
-                              >
-                                삭제
-                              </button>
-                            </div>
+                          {isLoggedIn && ( //대댓글 작성자에게만 수정 버튼 보이게 하기
+                            <button
+                              className='ModifyReplyComment_button'
+                              onClick={() => handleModifyReplyComment(reply.id)}
+                            >
+                              수정
+                            </button>
+                          )}
+                          {isLoggedIn && ( //대댓글 작성자에게만 삭제 버튼 보이게 하기
+                            <button
+                              className='DeleteReplyComment_button'
+                              onClick={() => handleDeleteComment(reply.id)}
+                            >
+                              삭제
+                            </button>
                           )}
                         </div>
                       ))}

@@ -68,7 +68,7 @@ const ImageFileForm = ({
           className="reviewImg_label"
           htmlFor={`${containerIdx}reviewImg_upload${courseIdx}`}
         >
-          사진 업로드
+        사진 업로드
         </label>
         <input
           className="reviewImg_input"
@@ -91,7 +91,7 @@ const ImageFileForm = ({
               onClick={() => handleDeleteImage(id)}
               disabled={confirm}
             >
-              delete
+              X
             </button>
           </div>
         ))}

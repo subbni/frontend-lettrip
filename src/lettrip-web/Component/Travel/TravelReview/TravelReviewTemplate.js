@@ -353,7 +353,7 @@ const TravelReviewTemplate = () => {
               <div>여행에 대한 정보를 먼저 입력해주세요</div>
             )}
             <div className='formComponent'>
-              <button onClick={onReviewFormSubmit}>기록 마치기</button>
+              <button className="planCompleteBtn" onClick={onReviewFormSubmit}>기록 마치기</button>
             </div>
           </div>
         ) : null}

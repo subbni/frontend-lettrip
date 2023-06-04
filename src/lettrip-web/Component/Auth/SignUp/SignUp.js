@@ -235,6 +235,7 @@ const SignUp = () => {
         />
 
         <button
+          className="signb"
           type='submit'
           style={{
             width: "200px",
@@ -243,6 +244,7 @@ const SignUp = () => {
             color: "white",
             borderRadius: "30px",
           }}
+
         >
           가입하기
         </button>
