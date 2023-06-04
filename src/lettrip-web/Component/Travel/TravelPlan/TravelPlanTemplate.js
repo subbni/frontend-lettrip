@@ -301,8 +301,8 @@ const TravelPlanTemplate = () => {
               required
             />
           </div>
-          <div>코스 수 : {numberOfCourses}</div>
-          <div>총 비용: {totalCost}</div>
+          <div className="numcourse">코스 수 : {numberOfCourses}</div>
+          <div className="totalcost">총 비용: {totalCost}</div>
           <button
             className='planCourseBtn'
             type='submit'
@@ -310,10 +310,12 @@ const TravelPlanTemplate = () => {
           >
             코스 짜기
           </button>
+          
         </form>
         {isPlanDataSubmit ? (
           <div className='formComponent'>
             <label>코스 짜기</label>
+            
             <br />
             {days != null ? (
               <div>
@@ -336,7 +338,7 @@ const TravelPlanTemplate = () => {
               <div>여행 계획에 대한 정보를 먼저 입력해주세요</div>
             )}
             <div className='formComponent'>
-              <button onClick={onPlanFormSubmit}>계획 마치기</button>
+              <button className='planCompleteBtn' onClick={onPlanFormSubmit}>계획 마치기</button>
             </div>
           </div>
         ) : null}

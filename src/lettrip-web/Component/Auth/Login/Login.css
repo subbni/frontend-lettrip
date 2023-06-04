@@ -5,7 +5,7 @@
 .navigation-item {
   margin-bottom: 16px; /* 네비게이션 항목들 간의 간격 조정 */
 }
-button {
+.loginb {
   margin: 30px;
   text-align: center;
   margin-left: 80px;

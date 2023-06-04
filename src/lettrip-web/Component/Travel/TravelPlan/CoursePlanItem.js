@@ -104,8 +104,8 @@ const CoursePlanItem = ({
             />
           </div>
           <div className="courseComponent">
-            <button onClick={onBtnClick}>{btnMessage}</button>
-            <button onClick={onDeleteClick}>삭제</button>
+            <button onClick={onBtnClick} className="submitButton">{btnMessage}</button>
+            <button onClick={onDeleteClick} className="deleteButton">삭제</button>
           </div>
         </div>
       ) : (

@@ -159,8 +159,8 @@ const CourseReviewItem = ({
             />
           </div>
           <div className="courseComponent">
-            <label>혼자 가기에도 좋을까요?</label>
-            <form>
+            <label >혼자 가기에도 좋을까요?</label>
+            <form className="radioButtonForm">
               <input
                 type="radio"
                 name="soloFriendlyRating"
@@ -168,7 +168,7 @@ const CourseReviewItem = ({
                 onChange={onReviewChange}
                 disabled={confirm}
               />
-              네
+              <span >네</span>
               <input
                 type="radio"
                 name="soloFriendlyRating"
@@ -176,7 +176,7 @@ const CourseReviewItem = ({
                 onChange={onReviewChange}
                 disabled={confirm}
               />
-              아니오
+              <span>아니오</span>
             </form>
           </div>
           <ImageFileForm
@@ -186,17 +186,20 @@ const CourseReviewItem = ({
             onImageFileDelete={onImageFileDelete}
             confirm={confirm}
           />
-          <div className="courseComponent">
+          <div className="courseComponent"
+          style={{ display: "flex", alignItems: "center" }}>
             <label>상세 후기</label>
             <textarea
               name="detailedReview"
               onChange={onReviewChange}
               disabled={confirm}
+              style={{ width: "400px", height:"200px" }}
+              
             ></textarea>
           </div>
           <div className="courseComponent">
-            <button onClick={onBtnClick}>{btnMessage}</button>
-            <button onClick={onDeleteClick}>삭제</button>
+            <button onClick={onBtnClick} className="submitButton">{btnMessage}</button>
+            <button onClick={onDeleteClick} className="deleteButton">삭제</button>
           </div>
         </div>
       ) : (

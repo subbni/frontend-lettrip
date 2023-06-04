@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
+<<<<<<< HEAD
+  CommentData,
+  ReplyCommentData,
+  CreateComment,
+  DeleteComment,
+=======
   commentData,
   replyCommentData,
   createComment,
   deleteComment,
+>>>>>>> aaeb639ed422d8021c184c194a065ab6dfcfe9d6
 } from "../../../Service/ArticleService";
 import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
 import "./Comments.css";
@@ -36,10 +43,15 @@ function Comments() {
       setIsLoggedIn(false);
     }
   }, []);
-
   useEffect(() => {
     fetchComments();
+<<<<<<< HEAD
+  }, []);
 
+  useEffect(() => {
+=======
+
+>>>>>>> aaeb639ed422d8021c184c194a065ab6dfcfe9d6
     if (parent_comment_id) {
       fetchReplyComments();
     }
@@ -122,7 +134,11 @@ function Comments() {
       return;
     }
     if (window.confirm("댓글을 작성하시겠습니까?")) {
+<<<<<<< HEAD
+      CreateComment(commentForm)
+=======
       createComment(commentForm)
+>>>>>>> aaeb639ed422d8021c184c194a065ab6dfcfe9d6
         .then((response) => {
           window.alert("댓글 작성이 완료되었습니다.");
           fetchComments();
@@ -136,8 +152,21 @@ function Comments() {
         });
     }
   };
-
   //댓글 삭제하기
+<<<<<<< HEAD
+  const handleDeleteComment = (id) => {
+    DeleteComment(id)
+      .then((response) => {
+        window.alert("댓글이 삭제되었습니다.");
+        fetchComments();
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e);
+        window.alert("댓글 삭제에 실패했습니다.");
+      });
+  };
+=======
   const handleDeleteComment = (commentId) => {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
       deleteComment(commentId)
@@ -171,12 +200,16 @@ function Comments() {
     }
   };
 
+>>>>>>> aaeb639ed422d8021c184c194a065ab6dfcfe9d6
   return (
     <div className='Comment_container'>
       <h2>댓글</h2>
       <form className='CreateComment' onSubmit={handleCommentFormSubmit}>
         <textarea
+<<<<<<< HEAD
+=======
           id='content'
+>>>>>>> aaeb639ed422d8021c184c194a065ab6dfcfe9d6
           name='content'
           placeholder='댓글을 입력하세요.'
           required
@@ -188,12 +221,20 @@ function Comments() {
       <div className='ShowComment'>
         {comments && comments.length > 0 ? (
           comments.map((comment) => (
+<<<<<<< HEAD
+            <div className="commenteach" key={comment.id}>
+              <h3 className='nickname'>{comment.nickname}</h3>
+              <p className='createdDate'>{comment.createdDate}</p>
+              <p className='content'>{comment.content}</p>
+              {isLoggedIn && (
+=======
             <div key={comment.id}>
               <h3 className='nickname'>{comment.nickname}</h3>
               <p className='content'>{comment.content}</p>
               <p className='createdDate'>{comment.createdDate}</p>
 
               {isLoggedIn && ( //댓글 작성자에게만 삭제 버튼 보이게 하기
+>>>>>>> aaeb639ed422d8021c184c194a065ab6dfcfe9d6
                 <button
                   className='DeleteComment_button'
                   onClick={() => handleDeleteComment(comment.id)}
@@ -201,7 +242,10 @@ function Comments() {
                   삭제
                 </button>
               )}
+<<<<<<< HEAD
+=======
 
+>>>>>>> aaeb639ed422d8021c184c194a065ab6dfcfe9d6
               <button
                 className='ShowReplycomment_button'
                 onClick={() => handleShowReplycomment(comment.id)}
@@ -215,8 +259,13 @@ function Comments() {
                     {comment.reply.map((reply) => (
                       <div key={reply.id}>
                         <h4 className='nickname'>{reply.nickname}</h4>
+<<<<<<< HEAD
+                        <p className='createdDate'>{reply.createdDate}</p>
+                        <p className='content'>{reply.content}</p>
+=======
                         <p className='content'>{reply.content}</p>
                         <p className='createdDate'>{reply.createdDate}</p>
+>>>>>>> aaeb639ed422d8021c184c194a065ab6dfcfe9d6
                         {isLoggedIn && (
                           <button
                             className='DeleteComment_button'
