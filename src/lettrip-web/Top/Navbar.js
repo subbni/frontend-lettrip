@@ -3,6 +3,7 @@ import "./Navbar.css";
 import { AiOutlineUser, AiOutlineSearch, AiFillHeart } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import logo_image from "../../image/logo.png";
+import { ACCESS_TOKEN } from "../Constant/backendAPI";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -63,6 +64,14 @@ function Navbar() {
     navigate("/articles");
   }
 
+  function handleMyPage() {
+    if (localStorage.getItem(ACCESS_TOKEN)) {
+      navigate("/mypage");
+    } else {
+      alert("마이페이지는 로그인 이후 사용할 수 있습니다.");
+    }
+  }
+
   return (
     <div className='Navbar'>
       <Link to='/'>
@@ -119,7 +128,7 @@ function Navbar() {
           </span>
         </div>
         <div className='Navbar_Option'>
-          <AiOutlineUser className='Navbar_UserIcon' />
+          <AiOutlineUser className='Navbar_UserIcon' onClick={handleMyPage} />
           <AiOutlineSearch className='Navbar_SearchIcon' />
           <AiFillHeart className='Navbar_HeartIcon' />
         </div>
