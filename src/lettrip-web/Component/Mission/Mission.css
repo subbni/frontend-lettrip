@@ -1,0 +1,12 @@
+.mission_page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.mission_title {
+  color: rgba(79, 90, 128, 1);
+}
