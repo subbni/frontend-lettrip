@@ -29,7 +29,9 @@ import MissionPage from "./lettrip-web/Component/Mission/QR/QRMissionPage";
 import SearchForm from "./lettrip-web/Component/Travel/TravelSearch/SearchForm";
 import TravelSearchPage from "./lettrip-web/Component/Travel/TravelSearch/TravelSearchPage";
 import TravelDetailPage from "./lettrip-web/Component/Travel/TravelDetail/TravelDetailPage";
-import MissionMainPage from "./lettrip-web/Component/Mission/MissionMainPage";
+
+// 미션
+import MissionPage from "./lettrip-web/Component/Mission/MissionPage";
 import QRMissionPage from "./lettrip-web/Component/Mission/QR/QRMissionPage";
 
 function App() {
@@ -63,7 +65,7 @@ function App() {
 
           <Route path='/travel/plan' element={<TravelPlanTemplate />} />
           <Route path='/travel/review' element={<TravelReviewTemplate />} />
-          <Route path='/mission' element={<MissionMainPage />} />
+          <Route path='/mission' element={<MissionPage />} />
           <Route path='/mission/qr' element={<QRMissionPage />} />
         </Routes>
       </div>
