@@ -18,7 +18,7 @@ const TravelSearchResult = ({ resultTravels }) => {
       <div>{msg}</div>
       <div className='SearchResultContainer'>
         {resultTravels.map((travel, idx) => (
-          <div key={idx}>
+          <div className='SerarchResult' key={idx}>
             <ResultItem travel={travel} />
           </div>
         ))}

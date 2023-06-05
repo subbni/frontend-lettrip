@@ -1,6 +1,7 @@
 import "./Search.css";
 import basic_travel_image from "../../../../image/travel/travel_image.jpg";
 import { useNavigate } from "react-router-dom";
+
 const ResultItem = ({ travel, onClick }) => {
   const navigate = useNavigate();
   return (

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getTravelDetail } from "../../../Service/TravelService";
 import CourseDetail from "./CourseDetail";
+import "./PageDetail.css";
 
 const TravelDetailPage = () => {
   const { id } = useParams();
@@ -34,15 +35,17 @@ const TravelDetailPage = () => {
 
   return (
     <div>
-      <div>
-        <div>'{travel.title}' 코스 보기</div>
-        <div>코스 {travel.numberOfCourses}개</div>
-        <div>#{travel.travelTheme}</div>
-        <div>{travel.totalCost}원</div>
+      <div className='TravelCourseContainer'>
+        <div className='Course_title'>'{travel.title}' 코스 보기</div>
+        <div className='Course_thenumberOf'>
+          코스 : {travel.numberOfCourses}개
+        </div>
+        <div className='Course_theme'>#{travel.travelTheme}</div>
+        <div className='Course_totalcost'>{travel.totalCost}원 / 인</div>
       </div>
       <div>
         {travel.courses.map((course, idx) => (
-          <div key={idx}>
+          <div className='Course' key={idx}>
             <CourseDetail course={course} />
           </div>
         ))}
