@@ -72,6 +72,10 @@ function Navbar() {
     }
   }
 
+  function handleSearchPlace() {
+    navigate("/place");
+  }
+
   return (
     <div className='Navbar'>
       <Link to='/'>
@@ -129,7 +133,10 @@ function Navbar() {
         </div>
         <div className='Navbar_Option'>
           <AiOutlineUser className='Navbar_UserIcon' onClick={handleMyPage} />
-          <AiOutlineSearch className='Navbar_SearchIcon' />
+          <AiOutlineSearch
+            className='Navbar_SearchIcon'
+            onClick={handleSearchPlace}
+          />
           <AiFillHeart className='Navbar_HeartIcon' />
         </div>
       </div>

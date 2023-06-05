@@ -50,23 +50,26 @@
 
 .Navbar_UserIcon {
   margin: 35px 60px;
+  cursor: pointer;
 }
 .Navbar_SearchIcon {
   margin: 35px 60px;
+  cursor: pointer;
 }
 .Navbar_HeartIcon {
   margin: 35px 60px;
+  cursor: pointer;
 }
-.Navbar_DropdownContent{
+.Navbar_DropdownContent {
   position: absolute;
   left: 60px;
   display: block;
-  color: #2E3B4C;
+  color: #2e3b4c;
   padding: 8px;
   border-radius: 4px;
 }
-.Navbar_DropdownItem{
-  margin-left:20px;
+.Navbar_DropdownItem {
+  margin-left: 20px;
   font-size: medium;
   cursor: pointer;
 }
