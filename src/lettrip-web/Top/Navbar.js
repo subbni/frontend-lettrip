@@ -64,6 +64,14 @@ function Navbar() {
     navigate("/articles");
   }
 
+  function hanldeMyPage() {
+    navigate("/mypage");
+  }
+
+  function hanldeSearchPlace() {
+    navigate("/place");
+  }
+
   return (
     <div className='Navbar'>
       <Link to='/'>
@@ -120,8 +128,11 @@ function Navbar() {
           </span>
         </div>
         <div className='Navbar_Option'>
-          <AiOutlineUser className='Navbar_UserIcon' />
-          <AiOutlineSearch className='Navbar_SearchIcon' />
+          <AiOutlineUser className='Navbar_UserIcon' onClick={hanldeMyPage} />
+          <AiOutlineSearch
+            className='Navbar_SearchIcon'
+            onClick={hanldeSearchPlace}
+          />
           <AiFillHeart className='Navbar_HeartIcon' />
         </div>
       </div>

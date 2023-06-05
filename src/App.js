@@ -65,8 +65,8 @@ function App() {
           <Route path='/travel/review' element={<TravelReviewTemplate />} />
           <Route path='/mission' element={<MissionPage />} />
           <Route path='/mission/qr' element={<QRMissionPage />} />
-          <Route path='/mypage' element={<MyPage />} />
 
+          <Route path='/mypage' element={<MyPage />} />
           <Route path='/place' element={<PlaceReviewPage />} />
         </Routes>
       </div>
