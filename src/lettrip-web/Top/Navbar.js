@@ -3,6 +3,7 @@ import "./Navbar.css";
 import { AiOutlineUser, AiOutlineSearch, AiFillHeart } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import logo_image from "../../image/logo.png";
+import { ACCESS_TOKEN } from "../Constant/backendAPI";
 
 function Navbar() {
   const navigate = useNavigate();
