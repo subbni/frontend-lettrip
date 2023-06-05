@@ -11,7 +11,7 @@ const PlaceSearchForm = ({ onGetResults }) => {
     province: "",
     city: "",
   });
-  const [totalRating, setTotalRating] = useState(-1);
+  const [totalRating, setTotalRating] = useState(0);
 
   const [pageForm, setPageForm] = useState({
     page: 0,
@@ -37,6 +37,9 @@ const PlaceSearchForm = ({ onGetResults }) => {
       .then((response) => {
         console.log(response);
         if (response.errorCode) {
+          alert("아직 리뷰가 없습니다.");
+          setTotalRating(0);
+          onGetResults([]);
         } else {
           setTotalRating(response.totalRating);
           getResult(response.id);
@@ -77,9 +80,14 @@ const PlaceSearchForm = ({ onGetResults }) => {
           <div className='place_name'>{place.name}</div>
           <div className='place_category'>{place.categoryName}</div>
           <div>{totalRating}점</div>
-          <div className='place_research_btn'>
-            <RiArrowGoBackLine onClick={onReSearchBtnClick} />
-            <span className='place_research_msg'>다시 검색</span>
+          <div className='place_research'>
+            <RiArrowGoBackLine
+              className='place_research_btn'
+              onClick={onReSearchBtnClick}
+            />
+            <span className='place_research_msg' onClick={onReSearchBtnClick}>
+              다시 검색
+            </span>
           </div>
         </div>
       ) : (

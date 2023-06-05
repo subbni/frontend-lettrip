@@ -9,11 +9,13 @@ const PlaceSearchResultContainer = ({ resultReviews }) => {
   useEffect(() => {
     if (resultReviews.length > 0) {
       setMsg(`리뷰 ${resultReviews.length}건`);
+    } else {
+      setMsg("");
     }
   }, [resultReviews]);
   return (
     <div>
-      <div>{msg}</div>
+      <div className='review_text'>{msg}</div>
       <div>
         {resultReviews.map((review) => (
           <ReviewItem key={review.id} review={review} />

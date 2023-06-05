@@ -110,16 +110,15 @@
   color: rgba(46, 59, 76);
 }
 
-.place_research_btn {
+.place_research {
   position: relative;
-  bottom: 5.5em;
-  left: 25em;
+  top: 1em;
+  right: 0;
   color: #909090;
   cursor: pointer;
-  width: fit-content;
 }
 
-.place_research_btn:hover > .place_research_msg {
+.place_research:hover > .place_research_msg {
   display: inline-block;
   color: #384b60;
 }
@@ -162,11 +161,19 @@
 .review_item {
   width: 33em;
   height: 13em;
-  background: rgba(244, 245, 249, 1);
+  background: rgb(242, 242, 242);
   border-radius: 18px;
   box-shadow: 2px 2px 8px rgba(173, 173, 173, 0.246);
   margin: 0.8em 0 2em;
   cursor: pointer;
+}
+
+.review_item:first-child {
+  margin-top: 2em;
+}
+
+.review_item:last-child {
+  margin-bottom: 5em;
 }
 
 .review_item:hover {
@@ -220,9 +227,10 @@
 
 .review_detailReview {
   padding: 1em;
+  font-size: 0.8em;
 }
 
 .detailReview_cut {
-  font-size: 0.8em;
+  font-size: 1em;
   color: rgba(131, 131, 131, 1);
 }
