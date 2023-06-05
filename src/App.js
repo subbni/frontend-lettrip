@@ -22,8 +22,6 @@ import TravelDetailPage from "./lettrip-web/Component/Travel/TravelDetail/Travel
 //여행코스 계획 경로 설정
 import TravelPlanTemplate from "./lettrip-web/Component/Travel/TravelPlan/TravelPlanTemplate";
 import TravelReviewTemplate from "./lettrip-web/Component/Travel/TravelReview/TravelReviewTemplate";
-import TravelSearchPage from "./lettrip-web/Component/Travel/TravelSearch/TravelSearchPage";
-import TravelDetailPage from "./lettrip-web/Component/Travel/TravelDetail/TravelDetailPage";
 
 // 미션
 import MissionPage from "./lettrip-web/Component/Mission/MissionPage";
