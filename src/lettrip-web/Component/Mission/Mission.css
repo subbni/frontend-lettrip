@@ -9,4 +9,84 @@
 
 .mission_title {
   color: rgba(79, 90, 128, 1);
+
+  padding-bottom: 1em;
+}
+
+/* ranking 영역 */
+
+.ranking_title {
+  color: rgba(109, 109, 109, 1);
+  font-weight: 550;
+}
+
+.ranking_container {
+  width: 80em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2em 0;
+}
+
+.ranking_item {
+  border: 1px solid rgba(189, 189, 189, 1);
+  background-color: rgb(253, 253, 253);
+  margin: 2em;
+  padding: 2em;
+  width: 13em;
+  height: 15em;
+  border-radius: 20px;
+}
+
+.ranking_name {
+  padding: 0.5em;
+  padding-bottom: 1em;
+  font-weight: 700;
+  color: rgba(31, 31, 31, 1);
+}
+
+.ranking_ranker {
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.5em;
+}
+
+.ranking_ranker_number {
+  display: inline-block;
+  background-color: rgba(223, 236, 255, 1);
+  border-radius: 20px;
+  width: 2em;
+  height: 2em;
+  margin-right: 2em;
+  line-height: 2em;
+}
+
+.ranking_ranker_nickname {
+  display: inline-block;
+  cursor: pointer;
+  color: rgb(34, 37, 49);
+}
+
+.ranking_ranker_none {
+  display: inline-block;
+  color: rgb(129, 129, 129);
+  font-size: 0.8em;
+}
+
+.ranking_ranker_info {
+  display: none;
+  font-size: 0.8em;
+  padding-left: 1em;
+  color: rgb(129, 129, 129);
+}
+
+.ranking_ranker_nickname:hover ~ .ranking_ranker_info {
+  display: inline-block;
+}
+
+.ranking_ranker_info:hover {
+  display: inline-block;
 }
