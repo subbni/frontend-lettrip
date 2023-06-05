@@ -21,7 +21,7 @@ const ReviewItem = ({ review }) => {
           <img className='review_img' src={review.fileUrls[0]} />
         )}
         <div className='review_info_item'>
-          <div className='review_rating'>{review.rating}</div>
+          <div className='review_rating'>{review.rating}점</div>
           <div className='review_detailReview_container'>
             <div className='review_detailReview'>
               {review.detailReview.substring(0, 55)}

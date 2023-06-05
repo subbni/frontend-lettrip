@@ -64,14 +64,6 @@ function Navbar() {
     navigate("/articles");
   }
 
-  function handleMyPage() {
-    if (localStorage.getItem(ACCESS_TOKEN)) {
-      navigate("/mypage");
-    } else {
-      alert("마이페이지는 로그인 이후 사용할 수 있습니다.");
-    }
-  }
-
   return (
     <div className='Navbar'>
       <Link to='/'>
@@ -128,7 +120,7 @@ function Navbar() {
           </span>
         </div>
         <div className='Navbar_Option'>
-          <AiOutlineUser className='Navbar_UserIcon' onClick={handleMyPage} />
+          <AiOutlineUser className='Navbar_UserIcon' />
           <AiOutlineSearch className='Navbar_SearchIcon' />
           <AiFillHeart className='Navbar_HeartIcon' />
         </div>
