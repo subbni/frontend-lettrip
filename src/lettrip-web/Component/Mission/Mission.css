@@ -9,15 +9,24 @@
 
 .mission_title {
   color: rgba(79, 90, 128, 1);
-
   padding-bottom: 1em;
 }
 
 /* ranking 영역 */
 
+.ranking_swiper {
+  height: "680px";
+  width: "500px";
+}
+
 .ranking_title {
   color: rgba(109, 109, 109, 1);
   font-weight: 550;
+  padding-bottom: 1em;
+  position: relative;
+  width: fit-content;
+  left: 12em;
+  top: 2em;
 }
 
 .ranking_container {
@@ -29,14 +38,13 @@
   align-items: center;
   text-align: center;
   padding: 2em 0;
+  padding-bottom: 5em;
 }
 
 .ranking_item {
   border: 1px solid rgba(189, 189, 189, 1);
   background-color: rgb(253, 253, 253);
-  margin: 2em;
   padding: 2em;
-  width: 13em;
   height: 15em;
   border-radius: 20px;
 }
