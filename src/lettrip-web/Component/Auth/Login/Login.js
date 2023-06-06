@@ -36,6 +36,7 @@ function Login() {
 
   const setJwtToken = (response) => {
     localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+    localStorage.setItem("email", loginForm.email);
   };
 
   return (

@@ -90,7 +90,7 @@ function ReplyCommentCreate({
         typeof replyCommentForm.mentioned_user_email === "string"
       ) {
         const mentionedNickname = `@${mentioned_user_nickname}`;
-        createReplyCommentData.content = `${mentionedNickname} ${createReplyCommentData.content}`;
+        //createReplyCommentData.content = `${mentionedNickname} ${createReplyCommentData.content}`;
       }
       createComment(createReplyCommentData)
         .then((response) => {
@@ -116,7 +116,7 @@ function ReplyCommentCreate({
         <div className='replycomment-input'>
           <textarea
             name='content'
-            placeholder={`대댓글을 입력하세요. (@${mentioned_user_nickname} 언급)`}
+            placeholder={`대댓글을 입력하세요.`}
             value={replyCommentForm.content}
             onChange={handleReplyCommentFormChange}
             required

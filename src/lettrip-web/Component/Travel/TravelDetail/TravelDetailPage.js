@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { getTravelDetail } from "../../../Service/TravelService";
 import CourseDetail from "./CourseDetail";
 import "./PageDetail.css";
@@ -20,6 +21,7 @@ const TravelDetailPage = () => {
     numberOfCourses: "",
     courses: [],
   });
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     getTravelDetail(id)
@@ -33,10 +35,23 @@ const TravelDetailPage = () => {
       });
   }, []);
 
+  // 좋아요 관리
+  const handleLikeClick = () => {
+    setLiked(!liked);
+  };
+
   return (
     <div>
       <div className='travelCourse-container'>
-        <div className='travelCourse-title'>'{travel.title}' 코스 보기</div>
+        <div className='travelCourse-header'>
+          <div className='travelCourse-title'>'{travel.title}' 코스 보기</div>
+          <button
+            className='travelCourse-like-button'
+            onClick={handleLikeClick}
+          >
+            {liked ? <AiFillHeart /> : <AiOutlineHeart />}
+          </button>
+        </div>
         <div className='travelCourse-thenumberOf'>
           코스 : {travel.numberOfCourses}개
         </div>

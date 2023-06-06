@@ -14,6 +14,7 @@ const CourseDetail = ({ course }) => {
   }, []);
 
   const [currentImage, setCurrentImage] = useState(0);
+  const [showReview, setShowReview] = useState(false);
   const [liked, setLiked] = useState(false);
 
   // 이미지 관리
@@ -21,7 +22,6 @@ const CourseDetail = ({ course }) => {
     if (course.review.fileUrls.length === 0) {
       return <img className='basic-image' src={basic_Image} alt='basic' />;
     }
-
     const handlePrevImage = () => {
       setCurrentImage((prevImage) =>
         prevImage === 0 ? course.review.fileUrls.length - 1 : prevImage - 1
@@ -32,7 +32,6 @@ const CourseDetail = ({ course }) => {
         prevImage === course.review.fileUrls.length - 1 ? 0 : prevImage + 1
       );
     };
-
     return (
       <div className='searchresult-images'>
         <div className='searchresult-image-container'>
@@ -82,7 +81,6 @@ const CourseDetail = ({ course }) => {
   };
 
   // 후기 관리
-  const [showReview, setShowReview] = useState(false);
   const handleReviewClick = () => {
     setShowReview(!showReview);
   };
@@ -94,11 +92,12 @@ const CourseDetail = ({ course }) => {
 
   return (
     <div className='searchresult-container'>
-      <div className='searchresult-title'>{course.place.name}</div>
-      <button className='searchresult-like-button' onClick={handleLikeClick}>
-        {liked ? <AiFillHeart /> : <AiOutlineHeart />}
-      </button>
-
+      <div className='searchresult-header'>
+        <div className='searchresult-title'>{course.place.name}</div>
+        <button className='searchresult-like-button' onClick={handleLikeClick}>
+          {liked ? <AiFillHeart /> : <AiOutlineHeart />}
+        </button>
+      </div>
       <div className='searchresult-dayCountArrivedTime'>
         <div className='searchresult-dayCount'>{course.dayCount}일차</div>
         <div className='searchresult-arrivedTime'>{course.arrivedTime}</div>

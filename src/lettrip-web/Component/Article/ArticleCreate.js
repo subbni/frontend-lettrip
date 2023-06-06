@@ -7,7 +7,8 @@ import "./ArticleCreate.css";
 
 function ArticleCreate() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [articleForm, setArticleForm] = useState({
     email: "",
     title: "",
@@ -20,15 +21,16 @@ function ArticleCreate() {
   });
 
   useEffect(() => {
+    //로그인 여부 확인하기
     const storedToken = localStorage.getItem(ACCESS_TOKEN);
     const storedEmail = localStorage.getItem("email");
-    console.log(storedEmail);
-    if (storedToken && storedEmail) {
+    if (storedToken) {
       setIsLoggedIn(true);
-      setArticleForm((prevState) => ({
-        ...prevState,
+      setArticleForm((prevForm) => ({
+        ...prevForm,
         email: storedEmail,
       }));
+      console.log(storedEmail);
     } else {
       setIsLoggedIn(false);
     }

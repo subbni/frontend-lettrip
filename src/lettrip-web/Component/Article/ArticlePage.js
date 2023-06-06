@@ -11,8 +11,10 @@ import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 
 function ArticlePage() {
   const navigate = useNavigate();
-  const { id } = useParams(); // useParams 쓸 때 App.js에 적은 파라미터 명이랑 동일하게 적기
+  const { id } = useParams();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isEditable, setIsEditable] = useState(false);
+
   const [post, setPost] = useState([]);
   const [pageForm, setPageForm] = useState({
     page: 0,
@@ -21,6 +23,7 @@ function ArticlePage() {
   });
 
   useEffect(() => {
+    //로그인 여부 확인하기
     const storedToken = localStorage.getItem(ACCESS_TOKEN);
     if (storedToken) {
       setIsLoggedIn(true);
@@ -28,6 +31,16 @@ function ArticlePage() {
       setIsLoggedIn(false);
     }
   }, []);
+
+  useEffect(() => {
+    //게시글 작성자와 로그인 사용자 동일 여부 확인하기
+    const storedEmail = localStorage.getItem("email");
+    if (post.writerEmail === storedEmail) {
+      setIsEditable(true);
+    } else {
+      setIsEditable(false);
+    }
+  }, [post]);
 
   useEffect(() => {
     fetchArticle();
@@ -46,7 +59,7 @@ function ArticlePage() {
         navigate("/articles");
       });
   };
-
+  //게시글 삭제
   const handleDelete = () => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       deleteArticle(id)
@@ -62,7 +75,6 @@ function ArticlePage() {
           );
         });
     }
-
     const fetchArticles = () => {
       listArticle(pageForm)
         .then(() => {
@@ -74,9 +86,8 @@ function ArticlePage() {
         });
     };
   };
-
-  const handleModifyClick = (e) => {
-    e.preventDefault();
+  //게시글 수정
+  const handleModify = () => {
     navigate(`/articles/modify/${post.id}`);
   };
 
@@ -89,7 +100,6 @@ function ArticlePage() {
       day: "numeric",
       hour: "numeric",
       minute: "numeric",
-      second: "numeric",
     };
     return new Date(dateString).toLocaleString("ko-KR", options);
   };
@@ -107,22 +117,16 @@ function ArticlePage() {
             <p>좋아요 수 : {post.likedCount}</p>
             <p>작성일자 : {getKoreanDateTime(post.createdDate)}</p>
             <p>수정일자 : {getKoreanDateTime(post.modifiedDate)}</p>
-            {isLoggedIn &&
-              post.writerEmail === localStorage.getItem("email") && (
-                <p className='page-modify' onClick={handleModifyClick}>
-                  수정
-                </p>
-              )}
-
-            {isLoggedIn &&
-              post.writerEmail === localStorage.getItem("email") && (
-                <p
-                  className='page-delete'
-                  onClick={() => handleDelete(post.id)}
-                >
-                  삭제
-                </p>
-              )}
+            {isEditable && (
+              <p className='page-modify' onClick={() => handleModify(post.id)}>
+                수정
+              </p>
+            )}
+            {isEditable && (
+              <p className='page-delete' onClick={() => handleDelete(post.id)}>
+                삭제
+              </p>
+            )}
           </div>
           <p className='page-content'>{post.content}</p>
         </div>
