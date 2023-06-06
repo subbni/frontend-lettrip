@@ -30,7 +30,7 @@ const MyTravelPlan = () => {
           ))}
         </div>
       ) : (
-        <div>아직 등록된 여행 플랜이 없습니다.</div>
+        <div className='travel_info'> 아직 등록된 여행 플랜이 없습니다.</div>
       )}
     </div>
   );

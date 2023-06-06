@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Review.css";
+import {AiOutlineDelete} from "react-icons/ai";
 
 const ImageFileForm = ({
   containerIdx,
@@ -80,22 +81,22 @@ const ImageFileForm = ({
           disabled={confirm}
         />
       </div>
-      <div>첨부된 사진 : {imageFiles.length}개 </div>
-
+      <div className="imgnumber">첨부된 사진 : {imageFiles.length}개 </div>
+      
       <div className="imageContainer">
-        {showImages.map((image, id) => (
-          <div key={id}>
-            <img className="reviewImg" src={image} alt={`${image}-${id}`} />
-            <button
-              className="delete_btn"
-              onClick={() => handleDeleteImage(id)}
-              disabled={confirm}
-            >
-              X
-            </button>
-          </div>
-        ))}
-      </div>
+  {showImages.map((image, id) => (
+    <div className="imageWrapper" key={id}>
+      <img className="reviewImg" src={image} alt={`${image}-${id}`} />
+      <button
+        className="delete_btn"
+        onClick={() => handleDeleteImage(id)}
+        disabled={confirm}
+      >
+        <AiOutlineDelete className="delete_icon"/>
+      </button>
+    </div>
+    ))}
+    </div>
     </div>
   );
 };
