@@ -94,11 +94,7 @@ const QRMissionPage = () => {
     } else {
       setIsMissionFailed(true);
       console.log(distance);
-      alert(
-        `미션 인증 실패 !
-        GPS가 ${placeName}의 반경 500m내에 존재하지 않습니다.
-        현재 ${placeName}와(과)의 거리는 ${distance}km입니다.`
-      );
+      alert(`미션 인증 실패 !`);
     }
   };
 
