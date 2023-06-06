@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineUser, AiOutlineSearch, AiFillHeart } from "react-icons/ai";
+import { ACCESS_TOKEN } from "../Constant/backendAPI";
 import logo_image from "../../image/logo.png";
 import "./Top.css";
 
@@ -79,10 +80,13 @@ function Navbar() {
             커뮤니티
           </Link>
         </div>
-
         <div className='navbar-icons'>
-          <AiOutlineUser className='navbar-icon' />
-          <AiOutlineSearch className='navbar-icon' />
+          <Link to='/mypage' className='navbar-icon'>
+            <AiOutlineUser />
+          </Link>
+          <Link to='/place' className='navbar-icon'>
+            <AiOutlineSearch />
+          </Link>
           <AiFillHeart className='navbar-icon' />
         </div>
       </div>
