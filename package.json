@@ -15,6 +15,7 @@
     "react-kakao-login": "^2.1.1",
     "react-naver-login": "^0.1.4",
     "react-router-dom": "^6.10.0",
+    "swiper": "^9.3.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
