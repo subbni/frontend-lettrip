@@ -4,18 +4,18 @@
   padding: 20px;
   border-radius: 4px;
 }
-.course-title {
+.travelCourse-title {
   font-weight: bold;
   font-size: 24px;
   margin-bottom: 10px;
 }
-.course-thenumberOf,
-.course-theme,
-.course-totalcost {
+.travelCourse-thenumberOf,
+.travelCourse-theme,
+.travelCourse-totalcost {
   font-size: 18px;
   margin-bottom: 5px;
 }
-.course {
+.travelCourse-detail {
   display: inline-block;
   width: calc(25% - 20px);
   margin: 0 10px 20px;
@@ -27,7 +27,7 @@
 }
 
 /*CourseDetail.js*/
-.result-container {
+.searchresult-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,14 +39,14 @@
   box-sizing: border-box;
   background-color: #fff;
 }
-.result-title {
+.searchresult-title {
   font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.like-button {
+.searchresult-like-button {
   margin-top: 5px;
   background: none;
   border: none;
@@ -56,7 +56,7 @@
   cursor: pointer;
 }
 
-.result-dayCountArrivedTime {
+.searchresult-dayCountArrivedTime {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -64,15 +64,15 @@
   font-size: 14px;
   color: #888888;
 }
-.result-dayCount {
+.searchresult-dayCount {
   font-weight: bold;
 }
-.result-dayCount,
-.result-arrivedTime {
+.searchresult-dayCount,
+.searchresult-arrivedTime {
   margin-top: 5px;
 }
 
-.image-container {
+.searchresult-image-container {
   position: relative;
   margin-top: 10px;
   width: 100%;
@@ -80,20 +80,19 @@
   overflow: hidden;
   border-radius: 10px; /* 수정: 모서리를 약간 둥글게 */
 }
-.result-image {
+.searchresult-images {
   text-align: center;
   width: 100%;
   height: 250px;
   margin-bottom: 5px;
   position: relative;
 }
-.current-image {
+.searchresult-image {
   width: 100%;
   height: 250px;
   object-fit: cover;
   border-radius: 10px; /* 수정: 모서리를 약간 둥글게 */
 }
-
 .basic-image {
   width: 100%;
   height: 250px;
@@ -101,7 +100,7 @@
   border-radius: 10px; /* 수정: 모서리를 약간 둥글게 */
 }
 
-.image-navigation {
+.searchresult-image-navigation {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -112,8 +111,8 @@
   transform: translateY(-50%);
 }
 
-.prev-button,
-.next-button {
+.image-prev-button,
+.image-next-button {
   font-size: 20px;
   color: #ffffff;
   background-color: transparent;
@@ -121,37 +120,38 @@
   cursor: pointer;
 }
 
-.prev-button {
+.image-prev-button {
   position: absolute;
   left: 10px;
 }
 
-.next-button {
+.image-next-button {
   position: absolute;
   right: 10px;
 }
 
-.result-cost {
+.searchresult-cost {
   color: #aaaaaa;
   margin-top: 10px;
   text-align: right;
 }
 
-.result-ratingreview {
+.searchresult-ratingreview {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 5px;
   width: 100%;
   font-size: 18px;
+  color: rgb(255, 221, 2);
 }
 
-.rating-starIcon {
+.searchresult-ratingStarIcon {
   margin: 0px 2px;
   font-size: 20px;
 }
 
-.result-review {
+.searchresult-review {
   margin: 10px;
   display: flex;
   justify-content: flex-end;
@@ -159,25 +159,25 @@
   font-size: 14px;
 }
 
-.result-review .review-click {
+.searchresult-review .searchresult-review-click {
   color: #aaaaaa;
   margin-right: 10px;
   cursor: pointer;
 }
 
-.result-review .review-content {
+.searchresult-review .searchresult-content {
   color: #444444;
 }
 
-.review-stars {
+.searchresult-ratingStars {
   display: flex;
 }
 
-.review-stars span {
+.searchresult-ratingStars span {
   margin-right: 5px;
 }
 
-.review-click {
+.searchresult-review-click {
   font-size: 14px;
   color: #aaaaaa;
   cursor: pointer;
