@@ -1,43 +1,41 @@
-.ArticleCreateContainer {
-  max-width: 800px;
+.article-create-container,
+.article-modify-container {
   margin: 0 auto;
-  padding: 50px 20px;
+  width: 90%;
 }
 
-.ArticleCreateContainer h1 {
-  margin-bottom: 30px;
-}
-
-.Article_title {
+.article-create-container h1,
+.article-modify-container h1 {
+  font-size: 24px;
+  font-weight: bold;
   margin-bottom: 20px;
 }
 
-.Article_content {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
+.article-title label,
+.article-content label {
+  font-size: 18px;
   margin-bottom: 10px;
 }
 
-.form-group input,
-.form-group textarea {
-  display: block;
+.article-title input,
+.article-content textarea {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  line-height: 1.5;
+  padding: 5px;
+  font-size: 14px;
+  margin-bottom: 10px;
 }
 
-.ArticleCreateContainer button[type="submit"] {
-  display: block;
-  color: white;
+.article-content textarea {
+  height: 200px;
+  resize: vertical;
+}
+.article-button {
+  margin-top: 20px;
+  margin-right: 100px;
+  padding: 8px 16px;
   background-color: #2e3b4c;
-  margin-top: 10px;
-  margin: 0 auto;
-  font-size: 16px;
+  color: #ffffff;
+  border: none;
   cursor: pointer;
+  border-radius: 15px;
 }

@@ -212,17 +212,53 @@ function Comments({ userEmail, userNickname }) {
         });
     }
   };
+  // 한국 시차 설정하기
+  const getKoreanDateTime = (dateString) => {
+    const options = {
+      timeZone: "Asia/Seoul",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    return new Date(dateString).toLocaleString("ko-KR", options);
+  };
 
   return (
-    <div className='Comment_container'>
-      <div className='ShowComments'>
+    <div className='comments-container'>
+      <div className='show-comments'>
         {comments && comments.length > 0 ? (
           comments.map((comment) => (
-            <div className='commenteach' key={comment.id}>
-              <h3 className='nickname'>{comment.nickname}</h3>
-              <p className='createdDate'>{comment.createdDate}</p>
+            <div key={comment.id}>
+              <h3 className='comment-nickname'>{comment.nickname}</h3>
+              <div className='comment-views'>
+                <p className='comment-createdDate'>
+                  {getKoreanDateTime(comment.createdDate)}
+                </p>
+                {isLoggedIn && (
+                  <p
+                    className='comment-modify'
+                    onClick={() => handleModifyComment(comment.id)}
+                  >
+                    수정
+                  </p>
+                )}
+                {isLoggedIn && (
+                  <p
+                    className='comment-delete'
+                    onClick={() => handleDeleteComment(comment.id)}
+                  >
+                    삭제
+                  </p>
+                )}
+              </div>
               {editingComment.id === comment.id ? (
-                <form onSubmit={handleCommentFormSubmit}>
+                <form
+                  className='comment-modfiy-input'
+                  onSubmit={handleCommentFormSubmit}
+                >
                   <textarea
                     id='content'
                     name='content'
@@ -231,86 +267,96 @@ function Comments({ userEmail, userNickname }) {
                     value={commentForm.content}
                     onChange={handleCommentFormChange}
                   />
-                  <button type='submit'>완료</button>
+                  <button className='comment-submit' type='submit'>
+                    완료
+                  </button>
                 </form>
               ) : (
-                <p className='content'>{comment.content}</p>
-              )}
-
-              {isLoggedIn && ( //댓글 작성자에게만 수정 버튼 보이게 하기
-                <button
-                  className='ModifyComment_button'
+                <p
+                  className='comment-content'
                   onClick={() => handleModifyComment(comment.id)}
                 >
-                  수정
-                </button>
+                  {comment.content}
+                </p>
               )}
-              {isLoggedIn && ( //댓글 작성자에게만 삭제 버튼 보이게 하기
-                <button
-                  className='DeleteComment_button'
-                  onClick={() => handleDeleteComment(comment.id)}
-                >
-                  삭제
-                </button>
-              )}
-              <div className='ShowReplyComments'>
-                <button
-                  className='ShowReplycomment_button'
-                  onClick={() => handleShowReplycomment(comment.id)}
-                >
-                  {comment.handleShowReplycomment ? "답글 닫기" : "답글 보기"}
-                </button>
-                {comment.handleShowReplycomment &&
-                  comment.reply &&
-                  comment.reply.length > 0 && (
-                    <div className='ReplyComments'>
-                      {comment.reply.map((reply) => (
-                        <div key={reply.id}>
-                          <h4 className='nickname'>{reply.nickname}</h4>
-                          <p className='createdDate'>{reply.createdDate}</p>
-                          {editingReplyComment.id === reply.id ? (
-                            <form onSubmit={handleReplyCommentFormSubmit}>
-                              <textarea
-                                id='content'
-                                name='content'
-                                placeholder='댓글을 입력하세요.'
-                                required
-                                value={commentForm.content}
-                                onChange={handleReplyCommentFormChange}
-                              />
-                              <button type='submit'>완료</button>
-                            </form>
-                          ) : (
-                            <p className='content'>{reply.content}</p>
-                          )}
-                          {isLoggedIn && ( //대댓글 작성자에게만 수정 버튼 보이게 하기
-                            <button
-                              className='ModifyReplyComment_button'
+
+              <div className='replycomments-container'>
+                <div className='show-replycomments'>
+                  <p
+                    className='show-modify'
+                    onClick={() => handleShowReplycomment(comment.id)}
+                  >
+                    {comment.handleShowReplycomment ? "닫기" : "답글 더보기"}
+                  </p>
+                  {comment.handleShowReplycomment &&
+                    comment.reply &&
+                    comment.reply.length > 0 &&
+                    comment.reply.map((reply) => (
+                      <div key={reply.id}>
+                        <h4 className='replycomment-nickname'>
+                          {reply.nickname}
+                        </h4>
+                        <div className='replycomment-views'>
+                          <p className='replycomment-createdDate'>
+                            {getKoreanDateTime(reply.createdDate)}
+                          </p>
+                          {isLoggedIn && (
+                            <p
+                              className='replycomment-modify'
                               onClick={() => handleModifyReplyComment(reply.id)}
                             >
                               수정
-                            </button>
+                            </p>
                           )}
-                          {isLoggedIn && ( //대댓글 작성자에게만 삭제 버튼 보이게 하기
-                            <button
-                              className='DeleteReplyComment_button'
+                          {isLoggedIn && (
+                            <p
+                              className='replycomment-delete'
                               onClick={() => handleDeleteComment(reply.id)}
                             >
                               삭제
-                            </button>
+                            </p>
                           )}
                         </div>
-                      ))}
-                    </div>
+                        {editingReplyComment.id === reply.id ? (
+                          <form
+                            className='replycomment-modfiy-input'
+                            onSubmit={handleReplyCommentFormSubmit}
+                          >
+                            <textarea
+                              id='content'
+                              name='content'
+                              placeholder='대댓글을 입력하세요.'
+                              required
+                              value={commentForm.content}
+                              onChange={handleReplyCommentFormChange}
+                            />
+                            <button
+                              className='replycomment-submit'
+                              type='submit'
+                            >
+                              완료
+                            </button>
+                          </form>
+                        ) : (
+                          <p
+                            className='replycomment-content'
+                            onClick={() => handleModifyReplyComment(reply.id)}
+                          >
+                            {reply.content}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+
+                  {comment.handleShowReplycomment && (
+                    <ReplyCommentCreate
+                      id={id}
+                      parent_comment_id={comment.id}
+                      mentioned_user_nickname={comment.nickname}
+                      mentioned_user_email={userEmail}
+                    />
                   )}
-                {comment.handleShowReplycomment && (
-                  <ReplyCommentCreate
-                    id={id}
-                    parent_comment_id={comment.id}
-                    mentioned_user_nickname={comment.nickname}
-                    mentioned_user_email={userEmail}
-                  />
-                )}
+                </div>
               </div>
             </div>
           ))

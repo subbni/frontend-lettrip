@@ -9,11 +9,11 @@ export function createArticle(articleForm) {
   });
 } //게시글 작성 등록 요청
 
-export function modifyArticle(articleForm, id) {
+export function modifyArticle(articleForm, articleId) {
   return request({
     url: API_BASE_URL + "/api/articles/modify",
     method: "PUT",
-    body: JSON.stringify(articleForm, id),
+    body: JSON.stringify(articleForm, articleId),
   });
 } //게시글 수정 요청
 

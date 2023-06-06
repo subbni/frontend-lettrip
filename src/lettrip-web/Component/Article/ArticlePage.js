@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./ArticlePage.css";
+import "./Article.css";
 import {
   showArticle,
   deleteArticle,
@@ -80,38 +80,54 @@ function ArticlePage() {
     navigate(`/articles/modify/${post.id}`);
   };
 
+  // 한국 시차 설정하기
+  const getKoreanDateTime = (dateString) => {
+    const options = {
+      timeZone: "Asia/Seoul",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    return new Date(dateString).toLocaleString("ko-KR", options);
+  };
+
   return (
-    <div className='ArticlePagecontainer'>
+    <div className='article-page-container'>
       {post && (
         <div key={post.id}>
-          <h1 className='title'>{post.title}</h1>
-          <h3 className='author'>
-            <p>작성자: {post.writerName}</p>
+          <h1 className='page-title'>{post.title}</h1>
+          <h3 className='page-author'>
+            <p>작성자 : {post.writerName}</p>
           </h3>
-          <div className='extra_views'>
-            <p>조회수: {post.hit}</p>
-            <p>좋아요 수: {post.likedCount}</p>
-            <p>작성일자: {post.createdDate}</p>
-            <p>수정일자: {post.modifiedDate}</p>
-          </div>
-          <p className='content'>{post.content}</p>
+          <div className='page-views'>
+            <p>조회수 : {post.hit}</p>
+            <p>좋아요 수 : {post.likedCount}</p>
+            <p>작성일자 : {getKoreanDateTime(post.createdDate)}</p>
+            <p>수정일자 : {getKoreanDateTime(post.modifiedDate)}</p>
+            {isLoggedIn &&
+              post.writerEmail === localStorage.getItem("email") && (
+                <p className='page-modify' onClick={handleModifyClick}>
+                  수정
+                </p>
+              )}
 
-          {isLoggedIn && post.writerEmail === localStorage.getItem("email") && (
-            <button onClick={handleModifyClick} className='modifybutton'>
-              수정
-            </button>
-          )}
-          {isLoggedIn && post.writerEmail === localStorage.getItem("email") && (
-            <button
-              onClick={() => handleDelete(post.id)}
-              className='deletebutton'
-            >
-              삭제
-            </button>
-          )}
-          <CommentCreate postId={post.id} />
+            {isLoggedIn &&
+              post.writerEmail === localStorage.getItem("email") && (
+                <p
+                  className='page-delete'
+                  onClick={() => handleDelete(post.id)}
+                >
+                  삭제
+                </p>
+              )}
+          </div>
+          <p className='page-content'>{post.content}</p>
         </div>
       )}
+      <CommentCreate postId={post.id} />
     </div>
   );
 }

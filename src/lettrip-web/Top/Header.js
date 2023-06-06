@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "./Header.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../Constant/backendAPI";
+import "./Top.css";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,8 +16,8 @@ function Header() {
     }
   }, []);
 
-  const fetchChecklogin = () => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN); // 로컬 스토리지에서 토큰 가져오기
+  const fetchCheckLogin = () => {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
     if (accessToken) {
       setIsLoggedIn(true);
       localStorage.setItem("isLoggedIn", "true");
@@ -28,7 +28,7 @@ function Header() {
   };
 
   useEffect(() => {
-    fetchChecklogin();
+    fetchCheckLogin();
   }, []);
 
   const handleLogout = () => {
@@ -43,20 +43,20 @@ function Header() {
   };
 
   return (
-    <div className='Header'>
-      <div className='Header_Container'>
+    <div className='header'>
+      <div className='header-container'>
         {isLoggedIn ? (
           <>
-            <button onClick={handleLogout} className='logout_Button'>
+            <button onClick={handleLogout} className='auth-button'>
               로그아웃
             </button>
           </>
         ) : (
           <>
-            <Link to='/login' className='login_Button'>
+            <Link to='/login' className='auth-button'>
               로그인
             </Link>
-            <Link to='/signup' className='signup_Button'>
+            <Link to='/signup' className='auth-button'>
               회원가입
             </Link>
           </>

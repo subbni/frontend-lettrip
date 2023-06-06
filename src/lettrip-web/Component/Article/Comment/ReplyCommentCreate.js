@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "./ReplyCommentCreate.css";
+import { useParams } from "react-router-dom";
 import {
   replyCommentData,
   createComment,
 } from "../../../Service/ArticleService";
-import { useParams } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
-import "./ReplyCommentCreate.css";
+
+import "./Comments.css";
 
 function ReplyCommentCreate({
   parent_comment_id,
@@ -111,29 +111,19 @@ function ReplyCommentCreate({
   };
 
   return (
-    <div className='ReplyCommentCreate'>
+    <div className='replycomment-create'>
       <form onSubmit={handleReplyCommentFormSubmit}>
-        <textarea
-          name='content'
-          placeholder={`대댓글을 작성해주세요. (@${mentioned_user_nickname} 언급, ${
-            mentioned_user_email.split("@")[0]
-          })`}
-          value={replyCommentForm.content}
-          onChange={handleReplyCommentFormChange}
-          required
-        />
-        <button type='submit'>작성</button>
-      </form>
-
-      {replyComments && replyComments.length > 0 && (
-        <div className='ReplyComments'>
-          {replyComments.map((reply) => (
-            <div key={reply.id} className='reply-comment'>
-              <p>{reply.content}</p>
-            </div>
-          ))}
+        <div className='replycomment-input'>
+          <textarea
+            name='content'
+            placeholder={`대댓글을 입력하세요. (@${mentioned_user_nickname} 언급)`}
+            value={replyCommentForm.content}
+            onChange={handleReplyCommentFormChange}
+            required
+          />
+          <button type='submit'>등록</button>
         </div>
-      )}
+      </form>
     </div>
   );
 }

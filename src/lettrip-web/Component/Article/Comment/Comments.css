@@ -1,91 +1,192 @@
-.ShowComments {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+/*CommentCreate.js*/
+.comment-container {
+  margin-top: 30px;
+  position: relative;
 }
 
-.commenteach {
-  position: relative;
+.comment-container h2 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.comment-create {
+  margin-top: 20px;
   width: 100%;
+  display: flex;
+  align-items: flex-start;
 }
 
-.ShowReplyComments {
+.comment-create .comment-input {
+  display: flex;
+  flex: 1;
+}
+.comment-create textarea {
+  flex: 1;
+  height: 50px;
+  resize: vertical;
+  font-size: 14px;
+  padding: 5px;
+  margin-right: 10px;
+  width: 1300px;
+}
+
+.comment-create button {
+  display: inline-block;
+  color: white;
+  background-color: #2e3b4c;
+  margin-top: 5px;
+  height: 50px;
+  width: 70px;
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
+}
+.showcomment {
+  margin-top: 20px;
+}
+
+/*Comments.js*/
+.comments-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-left: 50px;
 }
-
-.comment-item {
+.show-comments {
   display: flex;
   flex-direction: column;
-  position: relative;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  align-items: flex-start;
 }
-
-.button-group {
+.comment-views {
+  margin-top: 0px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  flex-wrap: wrap;
   display: flex;
-  gap: 10px;
-  position: relative;
+  align-items: center;
+  color: #2e3b4c;
 }
-
-.ModifyComment_button,
-.DeleteComment_button,
-.ShowReplycomment_button {
-  border: none;
-  font-size: 15px;
+.comment-views p {
+  margin-right: 30px;
 }
-
-.ModifyComment_button {
-  border: none;
-  font-size: 15px;
+.comment-nickname {
+  font-size: 16px;
 }
-
-.DeleteComment_button {
-  border: none;
-  font-size: 15px;
-}
-
-.ShowReplycomment_button {
-  border: none;
-  font-size: 15px;
-}
-
-.comment-item {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
-
-.createdDate {
+.comment-createdDate,
+.comment-modify,
+.comment-delete {
   font-size: 13px;
   margin-top: -10px;
   color: gray;
 }
-
-.ModifyModifyComment_button {
-  border: none;
-  font-size: 15px;
+.comment-modfiy-input textarea {
+  flex: 1;
+  height: 50px;
+  resize: vertical;
+  font-size: 14px;
+  padding: 5px;
+  margin-right: 10px;
+  width: 1200px;
+  margin-bottom: -25px;
 }
 
-.DeleteModifyComment_button {
+.comment-submit {
+  display: inline-block;
+  color: white;
+  background-color: #2e3b4c;
+  margin-top: 10px;
+  height: 50px;
+  width: 70px;
   border: none;
-  font-size: 15px;
+  cursor: pointer;
+  border-radius: 15px;
 }
 
-.replybutton-group {
+.replycomments-container {
   display: flex;
-  gap: 10px;
-  position: relative;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 100px;
+}
+.show-replycomments {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.replycomment-views {
+  margin-top: 0px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  color: #2e3b4c;
+}
+.replycomment-views p {
+  margin-right: 30px;
+}
+.replycomment-nickname {
+  font-size: 16px;
+}
+.replycomment-createdDate,
+.replycomment-modify,
+.replycomment-delete {
+  font-size: 13px;
+  margin-top: -10px;
+  color: gray;
+}
+.replycomment-modfiy-input textarea {
+  flex: 1;
+  height: 50px;
+  resize: vertical;
+  font-size: 14px;
+  padding: 5px;
+  margin-right: 10px;
+  width: 1200px;
+  margin-bottom: -25px;
+}
+.replycomment-submit {
+  display: inline-block;
+  color: white;
+  background-color: #2e3b4c;
+  margin-top: 10px;
+  height: 50px;
+  width: 70px;
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
 }
 
-.ModifyModifyComment_button,
-.DeleteModifyComment_button {
+/*ReplyCommentCreate.js*/
+.replycomment-create {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+
+.replycomment-create .replycomment-input {
+  display: flex;
+  flex: 1;
+}
+
+.replycomment-create textarea {
+  flex: 1;
+  height: 50px;
+  resize: vertical;
+  font-size: 14px;
+  padding: 5px;
+  margin-right: 10px;
+  width: 1200px;
+}
+
+.replycomment-create button {
+  display: inline-block;
+  color: white;
+  background-color: #2e3b4c;
+  margin-top: 5px;
+  height: 50px;
+  width: 70px;
   border: none;
-  font-size: 15px;
+  cursor: pointer;
+  border-radius: 15px;
 }

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { commentData, createComment } from "../../../Service/ArticleService";
 import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
-import "./CommentCreate.css";
+
+import "./Comments.css";
 
 import Comments from "./Comments";
 
@@ -81,20 +82,24 @@ function CommentCreate() {
   };
 
   return (
-    <div className='Comment_container'>
+    <div className='comment-container'>
       <h2>댓글</h2>
-      <form className='CommentCreate' onSubmit={handleCommentFormSubmit}>
-        <textarea
-          id='content'
-          name='content'
-          placeholder='댓글을 입력하세요.'
-          required
-          value={commentForm.content}
-          onChange={handleCommentFormChange}
-        />
-        <button type='submit'>등록</button>
-      </form>
-      <div className='ShowComment'>
+      <div className='comment-create'>
+        <form onSubmit={handleCommentFormSubmit}>
+          <div className='comment-input'>
+            <textarea
+              id='content'
+              name='content'
+              placeholder='댓글을 입력하세요.'
+              required
+              value={commentForm.content}
+              onChange={handleCommentFormChange}
+            />
+            <button type='submit'>등록</button>
+          </div>
+        </form>
+      </div>
+      <div className='showcomment'>
         <Comments userEmail={userEmail} />
       </div>
     </div>

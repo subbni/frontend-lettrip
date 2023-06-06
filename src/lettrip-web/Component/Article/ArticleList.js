@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "./ArticleList.css";
 import { Link, useNavigate } from "react-router-dom";
 import { listArticle } from "../../Service/ArticleService";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
+import "./Article.css";
 
 function ArticleList() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [pageForm, setPageForm] = useState({
     page: 0,
     size: 10,
@@ -31,7 +31,7 @@ function ArticleList() {
     listArticle(pageForm)
       .then((response) => {
         setArticleList(response.content);
-        console.log(response.content);
+        console.log(response);
       })
       .catch((e) => {
         console.log(e);
@@ -51,13 +51,13 @@ function ArticleList() {
 
   return (
     <div>
-      <h2 className="articlet">게시글 목록</h2>
+      <h2 className='article-list'>게시글 목록</h2>
       <button onClick={handleCreateClick} className='create-button'>
         글 작성
       </button>
-      <table className='post-table'>
+      <table className='article-table'>
         <thead>
-          <tr>
+          <tr className='table-content'>
             <th>글 제목</th>
             <th>작성자</th>
             <th>작성일자</th>
@@ -68,10 +68,7 @@ function ArticleList() {
           {articleList.map((post) => (
             <tr key={post.id}>
               <td id={post.id}>
-                <Link
-                  to={`/articles/${post.id}`}
-                  onClick={() => navigate(`/articles/${post.id}`)}
-                >
+                <Link to={`/articles/${post.id}`} className='article-page'>
                   {post.title}
                 </Link>
               </td>

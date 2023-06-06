@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./Navbar.css";
-import { AiOutlineUser, AiOutlineSearch, AiFillHeart } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
+import { AiOutlineUser, AiOutlineSearch, AiFillHeart } from "react-icons/ai";
 import logo_image from "../../image/logo.png";
+import "./Top.css";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -23,105 +23,67 @@ function Navbar() {
       setShowSubMenu(false);
     }
   }
-
   function handleEscape(e) {
     if (e.key === "Escape") {
       setShowSubMenu(false);
     }
   }
-
-  function handleClick() {
-    setShowSubMenu(false);
-    navigate("/");
-  }
-
   function handleTravel() {
     setShowSubMenu(!showSubMenu);
   }
 
-  function handleTravelCourseSearch() {
-    navigate("/travel/search");
+  function handleLogoClick() {
+    navigate("/");
   }
-
-  function handleTravelCreate() {
-    setShowSubMenu(false);
-  }
-
-  function handleTravelPlan() {
-    navigate("/travel/course/create");
-  }
-
-  function handleTravelReview() {
-    navigate("/travel/review/create");
-  }
-
-  function handleMission() {
-    navigate("/mission");
-  }
-
-  function handleCommunity() {
-    navigate("/articles");
-  }
-
   return (
-    <div className='Navbar'>
+    <div className='navbar'>
       <Link to='/'>
         <img
-          onClick={handleClick}
-          className='Logo_Image'
+          onClick={handleLogoClick}
+          className='logo-image'
           src={logo_image}
           alt='Logo'
         ></img>
       </Link>
 
-      <div className='Navbar_Container'>
-        <div className='Navbar_Service'>
-          <div className='Navbar_Dropdown' ref={menuRef}>
-            <span className='Navbar_Travel' onClick={handleTravel}>
+      <div className='navbar-container'>
+        <div className='navbar-menu'>
+          <div className='navbar-dropdown' ref={menuRef}>
+            <span className='navbar-travel' onClick={handleTravel}>
               여행코스
             </span>
             {showSubMenu && (
-              <div className='Navbar_DropdownContent'>
-                <span
-                  className='Navbar_DropdownItem'
-                  onClick={handleTravelCourseSearch}
-                >
+              <div className='navbar-travel-content'>
+                <Link to='/travel/search' className='navbar-travel-item'>
                   여행코스 검색
-                </span>
-                <span
-                  className='Navbar_DropdownItem'
-                  onClick={handleTravelCreate}
-                >
+                </Link>
+                <Link to='/travel' className='navbar-travel-item'>
                   여행코스 등록
-                </span>
-                <span
-                  className='Navbar_DropdownItem'
-                  onClick={handleTravelPlan}
-                >
+                </Link>
+                <Link to='/travel/course/create' className='navbar-travel-item'>
                   여행코스 계획 등록
-                </span>
-                <span
-                  className='Navbar_DropdownItem'
-                  onClick={handleTravelReview}
-                >
+                </Link>
+                <Link to='/travel/review/create' className='navbar-travel-item'>
                   여행코스 후기 등록
-                </span>
+                </Link>
               </div>
             )}
           </div>
-          <span className='Navbar_Friend'> 친구매칭</span>
-          <span className='Navbar_Mission' onClick={handleMission}>
-            {" "}
+          <Link to='/friend' className='navbar-friend'>
+            친구매칭
+          </Link>
+          <Link to='/mission' className='navbar-mission'>
             미션
-          </span>
-          <span className='Navbar_Community' onClick={handleCommunity}>
+          </Link>
+          <Link to='/articles' className='navbar-community'>
             커뮤니티
-          </span>
+          </Link>
         </div>
-        <div className='Navbar_Option'>
-          <AiOutlineUser className='Navbar_UserIcon' />
-          <AiOutlineSearch className='Navbar_SearchIcon' />
-          <AiFillHeart className='Navbar_HeartIcon' />
+
+        <div className='navbar-icons'>
+          <AiOutlineUser className='navbar-icon' />
+          <AiOutlineSearch className='navbar-icon' />
+          <AiFillHeart className='navbar-icon' />
         </div>
       </div>
     </div>

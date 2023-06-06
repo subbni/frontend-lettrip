@@ -1,60 +1,75 @@
-
-.Login_username {
-  margin-bottom: 30px;
-}
-.navigation-item {
-  margin-bottom: 16px; /* 네비게이션 항목들 간의 간격 조정 */
-}
-.loginb {
-  margin: 30px;
-  text-align: center;
-  margin-left: 80px;
-  margin-top: 40px;
-  font-size: medium;
-}
-.navbar-brand {
-  margin: 103px;
-}
-.nav {
-  position: relative;
-  left: 9%;
-  font-style: bold;
-}
-.sns {
-  position: absolute;
-  top: 600px;
-  left: 575px;
-
-  color: rgb(186, 186, 186);
-}
-.nav-rlink {
-  margin-left: 195px;
-}
-.Logint {
-  margin-top: 220px;
-  border-bottom: 2px solid rgb(61, 58, 86);
-  color:#2E3B4C;
-  width:350px;
-  display: inline-block;
-  margin-bottom: 85px;
-  text-align: center;
-}
-input {
-  border: none;
-  border-bottom: 1px solid rgb(172, 172, 172);
-  margin-bottom: 10px;
-  width:350px
-}
-.Login_container{
+.login-container {
   display: block;
   position: absolute;
   top: 20px;
   bottom: auto;
   left: 39%;
   right: 100%;
-
 }
+
+.login {
+  margin-top: 220px;
+  border-bottom: 2px solid rgb(61, 58, 86);
+  color: #2e3b4c;
+  width: 350px;
+  display: inline-block;
+  margin-bottom: 85px;
+  text-align: center;
+}
+
 label {
   display: inline-block;
   width: 80px;
+}
+
+input {
+  border: none;
+  border-bottom: 1px solid rgb(172, 172, 172);
+  margin-bottom: 10px;
+  width: 350px;
+}
+
+.login-username {
+  margin-bottom: 30px;
+}
+
+.login-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
+  margin-left: 80px;
+  margin-top: 40px;
+  text-align: center;
+  font-size: medium;
+  width: 200px;
+  height: 40px;
+  background-color: #2e3b4c;
+  color: white;
+  border-radius: 30px;
+}
+
+.navigation-item {
+  margin-bottom: 16px;
+}
+
+.navbar-brand {
+  margin: 103px;
+}
+
+.nav {
+  position: relative;
+  left: 9%;
+  font-style: bold;
+}
+
+.nav-rlink {
+  margin-left: 195px;
+}
+
+.sns {
+  position: absolute;
+  top: 600px;
+  left: 575px;
+  color: rgb(186, 186, 186);
 }

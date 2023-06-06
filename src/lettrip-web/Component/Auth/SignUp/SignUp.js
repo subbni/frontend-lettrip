@@ -1,20 +1,21 @@
-import React, { useState, useEffect, useSyncExternalStore } from "react";
-import "./SignUp.css";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   requestEmailCode,
   requestEmailVerify,
   signUp,
 } from "../../../Service/AuthService";
+import user_image from "../../../../image/user.png";
+import "./SignUp.css";
 
 const SignUp = () => {
   const navigate = useNavigate();
-
   const [signUpForm, setSignUpForm] = useState({
     email: "",
     password: "",
     name: "",
     nickname: "",
+    imageUrl: null,
   });
   const [email, setEmail] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -49,25 +50,16 @@ const SignUp = () => {
     };
   }, [isCodeSent, remainingTime]);
 
-  // onChange 핸들링
-  const onFormChange = (e) => {
-    const changingField = e.target.name;
-    setSignUpForm({
-      ...signUpForm,
-      [changingField]: e.target.value,
-    });
-  };
+  //이메일 입력시 이메일 유효 확인
   const onEmailChange = (e) => {
     const emailRegex =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     const emailInput = e.target.value;
     setEmail(e.target.value);
-
     if (!emailRegex.test(emailInput)) {
       setEmailMessage("유효하지 않은 이메일 형식입니다.");
       setIsCorrectEmail(false);
     } else {
-      setEmailMessage("");
       setIsCorrectEmail(true);
       setSignUpForm({
         ...signUpForm,
@@ -75,6 +67,28 @@ const SignUp = () => {
       });
     }
   };
+
+  //인증번호 요청하기
+  const onEmailCodeClick = (e) => {
+    if (isCorrectEmail) {
+      requestEmailCode(signUpForm.email)
+        .then((response) => {
+          console.log(signUpForm.email);
+          console.log(response);
+
+          window.alert(response.message);
+          setIsCodeSent(true);
+        })
+        .catch((e) => {
+          console.log(e);
+          window.alert(`인증번호 전송에 실패하였습니다. 원인:${e.message}`);
+        });
+    } else {
+      window.alert("올바른 이메일 형식을 입력해주세요.");
+    }
+  };
+
+  //인증번호 입력하기
   const onEmailCodeChange = (e) => {
     setEmailCode(e.target.value);
   };
@@ -90,27 +104,8 @@ const SignUp = () => {
     }
   };
 
-  // onClick 핸들링
-  const onEmailCodeBtnClick = (e) => {
-    if (isCorrectEmail) {
-      console.log(`email: ${email}`);
-      requestEmailCode(email)
-        .then((response) => {
-          if (response.success) {
-            window.alert(response.message);
-            setIsCodeSent(true);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          window.alert(`인증번호 전송에 실패하였습니다. 원인:${e.message}`);
-        });
-    } else {
-      window.alert("올바른 이메일 형식을 입력해주세요.");
-    }
-  };
-
-  const onEmailVerifyBtnClick = (e) => {
+  //인증번호 확인 요청
+  const onEmailVerifyClick = (e) => {
     if (isCodeSent) {
       requestEmailVerify(emailCode)
         .then((response) => {
@@ -127,6 +122,16 @@ const SignUp = () => {
       window.alert("이메일 인증번호 전송 버튼을 눌러주세요.");
     }
   };
+
+  //정보 입력
+  const onFormChange = (e) => {
+    const changingField = e.target.name;
+    setSignUpForm({
+      ...signUpForm,
+      [changingField]: e.target.value,
+    });
+  };
+  //회원가입 요청하기
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(signUpForm);
@@ -152,103 +157,89 @@ const SignUp = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <div className='Sign_Container'>
-        <h1 className='Logint'>SIGN</h1>
-        <input
-          className='Sign_email'
-          type='email'
-          name='email'
-          placeholder='이메일을 입력하세요'
-          value={email}
-          onChange={onEmailChange}
-          disabled={isEmailVerified}
-          required
-        />
-        <label>{emailMessage}</label>
-        <br />
-        <button
-          type='button'
-          className='Sign_emailcodebutton'
-          onClick={onEmailCodeBtnClick}
-          disabled={isEmailVerified}
-        >
-          인증코드 전송
-        </button>
-        <input
-          className='Sign_verificationCode'
-          type='text'
-          name='email_code'
-          placeholder='인증번호를 입력하세요'
-          value={emailCode}
-          onChange={onEmailCodeChange}
-          disabled={isEmailVerified}
-          required
-        />
-        {isCodeSent && remainingTime > 0 && (
-          <p className='Sign_remainingTime'>남은 시간: {remainingTime}초</p>
-        )}
-        <button
-          type='button'
-          className='Sign_veritificationbutton'
-          onClick={onEmailVerifyBtnClick}
-          disabled={isEmailVerified}
-        >
-          인증하기
-        </button>
-        <input
-          className='Sign_password'
-          type='password'
-          id='password'
-          name='password'
-          placeholder='비밀번호를 입력하세요'
-          value={signUpForm.password}
-          onChange={onFormChange}
-        />
-        <input
-          className='Sign_password'
-          type='password'
-          id='password_confirm'
-          name='password_confirm'
-          placeholder='비밀번호를 다시 입력하세요'
-          value={passwordConfirm}
-          onChange={onPasswordConfirmChange}
-        />
-        <label>{passwordConfirmMessage}</label>
-        <input
-          className='Sign_nickname'
-          type='text'
-          id='name'
-          name='name'
-          placeholder='이름을 입력하세요'
-          value={signUpForm.name}
-          onChange={onFormChange}
-        />
-        <input
-          className='Sign_nickname'
-          type='text'
-          id='nickname'
-          name='nickname'
-          placeholder='닉네임을 입력하세요'
-          value={signUpForm.nickname}
-          onChange={onFormChange}
-        />
+    <form className='sign_container' onSubmit={onSubmit}>
+      <h1 className='sign'>SIGN</h1>
+      <input
+        className='sign_email'
+        type='email'
+        name='email'
+        placeholder='이메일을 입력하세요.'
+        value={email}
+        onChange={onEmailChange}
+        disabled={isEmailVerified}
+        required
+      />
+      <div className='message'>{emailMessage}</div>
+      <button
+        type='button'
+        className='sign_emailcodebutton'
+        onClick={onEmailCodeClick}
+        disabled={isEmailVerified}
+      >
+        인증코드 전송
+      </button>
+      <input
+        className='sign_verificationCode'
+        type='text'
+        name='email_code'
+        placeholder='인증번호를 입력하세요'
+        value={emailCode}
+        onChange={onEmailCodeChange}
+        disabled={isEmailVerified}
+        required
+      />
+      {isCodeSent && remainingTime > 0 && (
+        <p className='sign_remainingTime'>남은 시간: {remainingTime}초</p>
+      )}
+      <button
+        type='button'
+        className='sign_emailcodebutton'
+        onClick={onEmailVerifyClick}
+        disabled={isEmailVerified}
+      >
+        인증하기
+      </button>
+      <input
+        className='sign_name'
+        type='text'
+        id='name'
+        name='name'
+        placeholder='이름을 입력하세요.'
+        value={signUpForm.name}
+        onChange={onFormChange}
+      />
+      <input
+        className='sign_nickname'
+        type='text'
+        id='nickname'
+        name='nickname'
+        placeholder='닉네임을 입력하세요.'
+        value={signUpForm.nickname}
+        onChange={onFormChange}
+      />
+      <input
+        className='sign_password'
+        type='password'
+        id='password'
+        name='password'
+        placeholder='비밀번호를 입력하세요.'
+        value={signUpForm.password}
+        onChange={onFormChange}
+      />
+      <input
+        className='sign_password'
+        type='password'
+        id='password_confirm'
+        name='password_confirm'
+        placeholder='비밀번호를 다시 입력하세요.'
+        value={passwordConfirm}
+        onChange={onPasswordConfirmChange}
+      />
+      <div className='message'>{passwordConfirmMessage}</div>
 
-        <button
-          className="signb"
-          type='submit'
-          style={{
-            width: "200px",
-            height: "40px",
-            backgroundColor: "#2E3B4C",
-            color: "white",
-            borderRadius: "30px",
-          }}
-
-        >
-          가입하기
-        </button>
-      </div>
+      <button className='sign_button' type='submit'>
+        가입하기
+      </button>
     </form>
   );
 };

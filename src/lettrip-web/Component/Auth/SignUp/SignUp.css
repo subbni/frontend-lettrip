@@ -1,47 +1,80 @@
-.Sign_Container {
-  display: block;
+.sign_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 20px;
   bottom: auto;
-  left: 39%;
-  right: 100%;
-}
-.Sign_emailcodebutton,
-.Sign_veritificationbutton {
-  margin: 30px;
-  text-align: center;
-  margin-left: 80px;
-  margin-top: -10px;
-  font-size: medium;
-  display: inline-block;
-  width: 150px;
-  border-radius: 30px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.Sign_username,
-.Sign_password,
-.Sign_nickname,
-.Sign_email,
-.Sign_verificationCode {
+.sign {
+  margin-top: 220px;
+  border-bottom: 2px solid rgb(61, 58, 86);
+  color: #2e3b4c;
+  width: 350px;
+  display: inline-block;
+  margin-bottom: 85px;
+  text-align: center;
+}
+
+label {
+  display: inline-block;
+  width: 80px;
+}
+
+input {
   border: none;
   border-bottom: 1px solid rgb(172, 172, 172);
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   width: 350px;
 }
 
-.Sign_emailbutton {
-  width: 100px;
-  padding: 5px;
+.sign_email,
+.sign_verificationCode,
+.sign_name,
+.sign_nickname,
+.sign_password {
+  margin-bottom: 30px;
 }
 
-.Sign_button {
-  width: 200px;
-  padding: 5px;
-}
-.signb{
+.sign_emailcodebutton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 30px;
-  text-align: center;
-  margin-left: 80px;
-  margin-top: 40px;
+  margin-top: 10px;
   font-size: medium;
+  width: 200px;
+  height: 40px;
+  background-color: #2e3b4c;
+  color: white;
+  border-radius: 30px;
+}
+
+.sign_remainingTime {
+  margin-top: 10px;
+}
+
+.sign_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
+  margin-top: 20px;
+  font-size: medium;
+  width: 200px;
+  height: 40px;
+  background-color: #2e3b4c;
+  color: white;
+  border-radius: 30px;
+}
+
+.message {
+  white-space: pre-wrap;
+  color: rgb(150, 150, 150);
+  display: inline-block;
+  text-align: center;
 }

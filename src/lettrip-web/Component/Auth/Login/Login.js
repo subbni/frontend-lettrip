@@ -25,7 +25,6 @@ function Login() {
       .then((response) => {
         setJwtToken(response);
         window.alert("로그인 되었습니다.");
-        console.log(response);
         navigate("/");
         window.location.reload();
       })
@@ -40,41 +39,31 @@ function Login() {
   };
 
   return (
-    <form className='Login_container' onSubmit={handleLoginFormSubmit}>
-      <h1 className='Logint'>LOGIN</h1>
+    <form className='login-container' onSubmit={handleLoginFormSubmit}>
+      <h1 className='login'>LOGIN</h1>
       <label htmlFor='email'>ID</label>
       <input
-        className='Login_username'
+        className='login-username'
         type='email'
         id='email'
         name='email'
-        placeholder='이메일을 입력하세요'
+        placeholder='이메일을 입력하세요.'
         required
         value={loginForm.email}
         onChange={handleLoginFormChange}
       />
       <label htmlFor='password'>PW</label>
       <input
-        className='Login_password'
+        className='login-password'
         type='password'
         id='password'
         name='password'
-        placeholder='비밀번호를 입력하세요'
+        placeholder='비밀번호를 입력하세요.'
         required
         value={loginForm.password}
         onChange={handleLoginFormChange}
       />
-      <button
-        className='loginb'
-        type='submit'
-        style={{
-          width: "200px",
-          height: "40px",
-          backgroundColor: "#2E3B4C",
-          color: "white",
-          borderRadius: "30px",
-        }}
-      >
+      <button className='login-button' type='submit'>
         로그인
       </button>
     </form>

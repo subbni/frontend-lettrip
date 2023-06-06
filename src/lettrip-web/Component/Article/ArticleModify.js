@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./ArticleModify.css";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 import { modifyArticle, showArticle } from "../../Service/ArticleService";
+
+import "./ArticleCreate.css";
 
 function ArticleModify() {
   const navigate = useNavigate();
@@ -81,10 +82,10 @@ function ArticleModify() {
   };
 
   return (
-    <div className='ArticleModifyContainer'>
+    <div className='article-modify-container'>
       <h1>게시글 수정</h1>
       <form onSubmit={handleArticleFormSubmit}>
-        <div className='Article_title'>
+        <div className='article-title'>
           <label htmlFor='title'>제목</label>
           <input
             type='text'
@@ -95,7 +96,7 @@ function ArticleModify() {
             onChange={handleArticleFormChange}
           />
         </div>
-        <div className='Article_content'>
+        <div className='article-content'>
           <label htmlFor='content'>내용</label>
           <textarea
             id='content'
@@ -105,7 +106,9 @@ function ArticleModify() {
             onChange={handleArticleFormChange}
           />
         </div>
-        <button type='submit'>수정</button>
+        <button className='article-button' type='submit'>
+          수정
+        </button>
       </form>
     </div>
   );

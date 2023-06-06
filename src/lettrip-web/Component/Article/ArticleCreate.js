@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./ArticleCreate.css";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 import { createArticle, listArticle } from "../../Service/ArticleService";
+
+import "./ArticleCreate.css";
 
 function ArticleCreate() {
   const navigate = useNavigate();
@@ -77,10 +78,10 @@ function ArticleCreate() {
   };
 
   return (
-    <div className='ArticleCreateContainer'>
+    <div className='article-create-container'>
       <h1>게시글 작성</h1>
       <form onSubmit={handleArticleFormSubmit}>
-        <div className='Article_title'>
+        <div className='article-title'>
           <label htmlFor='title'>제목</label>
           <input
             type='text'
@@ -91,7 +92,7 @@ function ArticleCreate() {
             onChange={handleArticleFormChange}
           />
         </div>
-        <div className='Article_content'>
+        <div className='article-content'>
           <label htmlFor='content'>내용</label>
           <textarea
             id='content'
@@ -101,7 +102,9 @@ function ArticleCreate() {
             onChange={handleArticleFormChange}
           />
         </div>
-        <button type='submit'>등록</button>
+        <button className='article-button' type='submit'>
+          등록
+        </button>
       </form>
     </div>
   );
