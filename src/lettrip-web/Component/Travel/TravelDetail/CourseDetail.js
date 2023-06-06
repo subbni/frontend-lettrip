@@ -27,7 +27,6 @@ const CourseDetail = ({ course }) => {
         prevImage === 0 ? course.review.fileUrls.length - 1 : prevImage - 1
       );
     };
-
     const handleNextImage = () => {
       setCurrentImage((prevImage) =>
         prevImage === course.review.fileUrls.length - 1 ? 0 : prevImage + 1
@@ -35,26 +34,26 @@ const CourseDetail = ({ course }) => {
     };
 
     return (
-      <div className='result-image'>
-        <div className='image-container'>
+      <div className='searchresult-images'>
+        <div className='searchresult-image-container'>
           {course.review.fileUrls.length < 2 && (
             <img
-              className='current-image'
+              className='searchresult-image'
               src={course.review.fileUrls[currentImage]}
               alt={`Image ${currentImage + 1}`}
             />
           )}
           {course.review.fileUrls.length > 1 && (
-            <div className='image-navigation'>
-              <button className='prev-button' onClick={handlePrevImage}>
+            <div className='searchresult-image-navigation'>
+              <button className='image-prev-button' onClick={handlePrevImage}>
                 {"<"}
               </button>
               <img
-                className='current-image'
+                className='searchresult-image'
                 src={course.review.fileUrls[currentImage]}
                 alt={`Image ${currentImage + 1}`}
               />
-              <button className='next-button' onClick={handleNextImage}>
+              <button className='image-next-button' onClick={handleNextImage}>
                 {">"}
               </button>
             </div>
@@ -68,8 +67,8 @@ const CourseDetail = ({ course }) => {
   const renderStars = () => {
     const totalRating = course.place.totalRating;
 
-    const filledStar = <AiFillStar className='rating-starIcon' />;
-    const emptyStar = <AiOutlineStar className='rating-starIcon' />;
+    const filledStar = <AiFillStar className='searchresult-ratingStarIcon' />;
+    const emptyStar = <AiOutlineStar className='searchresult-ratingStarIcon' />;
 
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -94,31 +93,33 @@ const CourseDetail = ({ course }) => {
   };
 
   return (
-    <div className='result-container'>
-      <div className='result-title'>{course.place.name}</div>
-      <button className='like-button' onClick={handleLikeClick}>
+    <div className='searchresult-container'>
+      <div className='searchresult-title'>{course.place.name}</div>
+      <button className='searchresult-like-button' onClick={handleLikeClick}>
         {liked ? <AiFillHeart /> : <AiOutlineHeart />}
       </button>
 
-      <div className='result-dayCountArrivedTime'>
-        <div className='result-dayCount'>{course.dayCount}일차</div>
-        <div className='result-arrivedTime'>{course.arrivedTime}</div>
+      <div className='searchresult-dayCountArrivedTime'>
+        <div className='searchresult-dayCount'>{course.dayCount}일차</div>
+        <div className='searchresult-arrivedTime'>{course.arrivedTime}</div>
       </div>
       {renderImages()}
-      <div className='result-cost'>{course.cost}원</div>
-      <div className='result-ratingreview'>
-        <span className='review-stars'>
+      <div className='searchresult-cost'>{course.cost}원</div>
+      <div className='searchresult-ratingreview'>
+        <span className='searchresult-ratingStars'>
           {renderStars().map((star, index) => (
             <span key={index}>{star}</span>
           ))}
         </span>
-        <span className='review-click' onClick={handleReviewClick}>
+        <span className='searchresult-review-click' onClick={handleReviewClick}>
           {showReview ? "닫기" : "후기 ->"}
         </span>
       </div>
       {showReview && (
-        <div className='result-review'>
-          <div className='review-content'>{course.review.detailReview}</div>
+        <div className='searchresult-review'>
+          <div className='searchresult-content'>
+            {course.review.detailReview}
+          </div>
         </div>
       )}
     </div>

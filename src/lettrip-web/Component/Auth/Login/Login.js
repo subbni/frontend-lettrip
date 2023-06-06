@@ -41,7 +41,9 @@ function Login() {
   return (
     <form className='login-container' onSubmit={handleLoginFormSubmit}>
       <h1 className='login'>LOGIN</h1>
-      <label htmlFor='email'>ID</label>
+      <label className='label-email' htmlFor='email'>
+        ID
+      </label>
       <input
         className='login-username'
         type='email'
@@ -52,7 +54,9 @@ function Login() {
         value={loginForm.email}
         onChange={handleLoginFormChange}
       />
-      <label htmlFor='password'>PW</label>
+      <label className='label-password' htmlFor='password'>
+        PW
+      </label>
       <input
         className='login-password'
         type='password'

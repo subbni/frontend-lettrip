@@ -36,16 +36,16 @@ const TravelDetailPage = () => {
   return (
     <div>
       <div className='travelCourse-container'>
-        <div className='course-title'>'{travel.title}' 코스 보기</div>
-        <div className='course-thenumberOf'>
+        <div className='travelCourse-title'>'{travel.title}' 코스 보기</div>
+        <div className='travelCourse-thenumberOf'>
           코스 : {travel.numberOfCourses}개
         </div>
-        <div className='course-theme'>#{travel.travelTheme}</div>
-        <div className='course-totalcost'>{travel.totalCost}원 / 인</div>
+        <div className='travelCourse-theme'>#{travel.travelTheme}</div>
+        <div className='travelCourse-totalcost'>{travel.totalCost}원 / 인</div>
       </div>
       <div>
         {travel.courses.map((course, idx) => (
-          <div className='course' key={idx}>
+          <div className='travelCourse-detail' key={idx}>
             <CourseDetail course={course} />
           </div>
         ))}

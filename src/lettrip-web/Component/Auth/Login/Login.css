@@ -17,12 +17,14 @@
   text-align: center;
 }
 
-label {
+.label-email,
+.label-password {
   display: inline-block;
   width: 80px;
 }
 
-input {
+.login-username,
+.login-password {
   border: none;
   border-bottom: 1px solid rgb(172, 172, 172);
   margin-bottom: 10px;
@@ -47,29 +49,4 @@ input {
   background-color: #2e3b4c;
   color: white;
   border-radius: 30px;
-}
-
-.navigation-item {
-  margin-bottom: 16px;
-}
-
-.navbar-brand {
-  margin: 103px;
-}
-
-.nav {
-  position: relative;
-  left: 9%;
-  font-style: bold;
-}
-
-.nav-rlink {
-  margin-left: 195px;
-}
-
-.sns {
-  position: absolute;
-  top: 600px;
-  left: 575px;
-  color: rgb(186, 186, 186);
 }

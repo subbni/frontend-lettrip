@@ -6,6 +6,7 @@ import {
   signUp,
 } from "../../../Service/AuthService";
 import user_image from "../../../../image/user.png";
+
 import "./SignUp.css";
 
 const SignUp = () => {
@@ -157,10 +158,10 @@ const SignUp = () => {
   };
 
   return (
-    <form className='sign_container' onSubmit={onSubmit}>
+    <form className='sign-container' onSubmit={onSubmit}>
       <h1 className='sign'>SIGN</h1>
       <input
-        className='sign_email'
+        className='sign-email'
         type='email'
         name='email'
         placeholder='이메일을 입력하세요.'
@@ -169,17 +170,17 @@ const SignUp = () => {
         disabled={isEmailVerified}
         required
       />
-      <div className='message'>{emailMessage}</div>
+      <div className='email-message'>{emailMessage}</div>
       <button
         type='button'
-        className='sign_emailcodebutton'
+        className='sign-emailcodebutton'
         onClick={onEmailCodeClick}
         disabled={isEmailVerified}
       >
         인증코드 전송
       </button>
       <input
-        className='sign_verificationCode'
+        className='sign-verificationCode'
         type='text'
         name='email_code'
         placeholder='인증번호를 입력하세요'
@@ -189,18 +190,18 @@ const SignUp = () => {
         required
       />
       {isCodeSent && remainingTime > 0 && (
-        <p className='sign_remainingTime'>남은 시간: {remainingTime}초</p>
+        <p className='sign-remainingTime'>남은 시간: {remainingTime}초</p>
       )}
       <button
         type='button'
-        className='sign_emailcodebutton'
+        className='sign-emailcodebutton'
         onClick={onEmailVerifyClick}
         disabled={isEmailVerified}
       >
         인증하기
       </button>
       <input
-        className='sign_name'
+        className='sign-name'
         type='text'
         id='name'
         name='name'
@@ -209,7 +210,7 @@ const SignUp = () => {
         onChange={onFormChange}
       />
       <input
-        className='sign_nickname'
+        className='sign-nickname'
         type='text'
         id='nickname'
         name='nickname'
@@ -218,7 +219,7 @@ const SignUp = () => {
         onChange={onFormChange}
       />
       <input
-        className='sign_password'
+        className='sign-password'
         type='password'
         id='password'
         name='password'
@@ -227,7 +228,7 @@ const SignUp = () => {
         onChange={onFormChange}
       />
       <input
-        className='sign_password'
+        className='sign-repassword'
         type='password'
         id='password_confirm'
         name='password_confirm'
@@ -235,9 +236,9 @@ const SignUp = () => {
         value={passwordConfirm}
         onChange={onPasswordConfirmChange}
       />
-      <div className='message'>{passwordConfirmMessage}</div>
+      <div className='password-message'>{passwordConfirmMessage}</div>
 
-      <button className='sign_button' type='submit'>
+      <button className='sign-button' type='submit'>
         가입하기
       </button>
     </form>

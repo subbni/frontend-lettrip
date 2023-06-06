@@ -37,14 +37,6 @@
 }
 
 /* Navbar.js */
-.navbar {
-  display: flex;
-  flex-direction: column;
-  position: inherit;
-  top: 0;
-  z-index: 100;
-}
-
 .logo-image {
   width: 160px;
   object-fit: contain;
@@ -101,10 +93,6 @@
   cursor: pointer;
   color: gray;
   text-decoration: none;
-}
-
-.navbar-travel-item:hover {
-  color: rgb(98, 98, 168);
 }
 
 .navbar-icons {
