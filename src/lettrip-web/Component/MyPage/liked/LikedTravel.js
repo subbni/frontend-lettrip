@@ -31,7 +31,7 @@ const LikedTravel = () => {
           ))}
         </div>
       ) : (
-        <div>아직 좋아요한 여행 코스가 없습니다.</div>
+        <div className='travel_info'>아직 좋아요한 여행 코스가 없습니다.</div>
       )}
     </div>
   );
