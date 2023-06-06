@@ -20,6 +20,15 @@
   text-align: center;
 }
 
+<<<<<<< HEAD
+label {
+  /*display: inline-block;
+  width: 80px;*/
+}
+
+input {
+  /*border: none;
+=======
 .sign-email,
 .sign-verificationCode,
 .sign-name,
@@ -27,9 +36,10 @@
 .sign-password,
 .sign-repassword {
   border: none;
+>>>>>>> 62fabc19fc57818b9836a2041c9c793a30d1a0ec
   border-bottom: 1px solid rgb(172, 172, 172);
   margin-bottom: 10px;
-  width: 350px;
+  width: 350px;*/
 }
 
 .sign-email,

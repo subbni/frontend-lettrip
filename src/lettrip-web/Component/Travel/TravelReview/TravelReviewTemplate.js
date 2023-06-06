@@ -330,7 +330,6 @@ const TravelReviewTemplate = () => {
         </form>
         {isReviewDataSubmit ? (
           <div className='formComponent'>
-            <label>다녀온 코스</label>
             <br />
             {days !== null ? (
               <div>

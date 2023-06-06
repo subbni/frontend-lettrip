@@ -177,7 +177,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
       </button>
       <div
         id={`${containerIdx}map${courseIdx}`}
-        style={{ width: "500px", height: "400px" }}
+        style={{ width: "520px", height: "400px" }}
       />
       {isPlaceSelected ? (
         <div>
