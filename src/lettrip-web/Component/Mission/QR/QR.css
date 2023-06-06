@@ -5,4 +5,63 @@
   align-items: center;
   width: 100%;
   text-align: center;
+  margin: 2em;
+}
+
+.mission_success_img {
+  width: 15em;
+  padding: 2em;
+}
+
+.qr_text {
+  padding: 1em;
+  font-size: 0.9em;
+  color: rgb(78, 83, 91);
+}
+
+.qr_mission_btn {
+  margin: 30px;
+  margin-top: 20px;
+  font-size: 0.9em;
+  font-weight: 300;
+  width: 200px;
+  height: 40px;
+  background-color: #3f5470;
+  color: white;
+  border-radius: 30px;
+}
+
+.qr_h1 {
+  color: #323a44;
+}
+
+.qr_email_input {
+  border: 1px solid #aebac9;
+  border-radius: 10px;
+  padding: 0.5em;
+}
+
+.qr_confirm_btn {
+  border-radius: 10px;
+  border: none;
+  margin-left: 0.5em;
+  background-color: #b4c9e4;
+}
+
+.mission_img {
+  width: 22em;
+}
+
+.qr_fail_container span {
+  font-size: 18px;
+  font-weight: 550;
+  color: #566e8f;
+  padding: 5px;
+}
+
+.qr_complete_container span {
+  font-size: 18px;
+  font-weight: 550;
+  color: #d47096;
+  padding: 5px;
 }
