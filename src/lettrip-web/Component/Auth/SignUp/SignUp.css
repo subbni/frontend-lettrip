@@ -21,15 +21,15 @@
 }
 
 label {
-  display: inline-block;
-  width: 80px;
+  /*display: inline-block;
+  width: 80px;*/
 }
 
 input {
-  border: none;
+  /*border: none;
   border-bottom: 1px solid rgb(172, 172, 172);
   margin-bottom: 10px;
-  width: 350px;
+  width: 350px;*/
 }
 
 .sign_email,

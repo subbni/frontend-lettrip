@@ -193,7 +193,7 @@ const CourseReviewItem = ({
               name="detailedReview"
               onChange={onReviewChange}
               disabled={confirm}
-              style={{ width: "400px", height:"200px" }}
+              style={{ width: "500px", height:"200px" }}
               
             ></textarea>
           </div>

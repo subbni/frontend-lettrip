@@ -1,12 +1,21 @@
 .imageContainer {
   display: flex;
-  /* width: 220px;
-  height: 180px; */
-  overflow: auto;
+  width: 500px;
+  height: 250px;
+  overflow-x: auto;
+  position: relative;
 
   /* 좌우 스크롤 */
   flex-flow: row nowrap;
   scroll-snap-type: x mandatory;
+}
+
+.imageContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.imageWrapper {
+  position: relative;
 }
 
 .reviewImg {
@@ -16,23 +25,37 @@
   margin-right: 10px;
 }
 
-.reviewImg_input {
-  display: none;
-}
-
-.reviewImg_label {
-  font-weight: bold;
-  cursor: pointer;
-  border: 1px solid rgb(156, 156, 156);
-  border-radius: 5px;
-  margin:auto;
-}
-
 .delete_btn {
-  border: 1px solid rgb(156, 156, 156);
-  border-radius: 5px;
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  border: none;
+  background: rgb(229, 229, 229);
+  border-radius: 10px;
+}
+.delete_icon{
+  width: 20px;
+  height: 20px;
+  color: rgb(227, 8, 8);
 }
 
 .courseComponent {
   padding: 0.5rem 0;
+}
+.imgnumber{
+  font-size: 14px;
+  color: gray;
+}
+.radioButtonForm {
+  display: flex;
+  justify-content: center;
+}
+
+.radioButtonForm input[type="radio"] {
+  margin-right: -20px;
+  width: 120px;
+}
+
+.radioButtonForm span {
+  margin-left: -20px;
 }
