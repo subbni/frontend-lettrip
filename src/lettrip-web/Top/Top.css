@@ -10,6 +10,17 @@
   margin-top: 10px;
 }
 
+.logout-button {
+  margin-right: 120px;
+  border: none;
+  background-color: white;
+  color: gray;
+  padding: 3px 3px;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .auth-button {
   border: none;
   background-color: white;

@@ -47,7 +47,7 @@ function Header() {
       <div className='header-container'>
         {isLoggedIn ? (
           <>
-            <button onClick={handleLogout} className='auth-button'>
+            <button onClick={handleLogout} className='logout-button'>
               로그아웃
             </button>
           </>

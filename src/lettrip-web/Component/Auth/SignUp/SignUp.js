@@ -138,7 +138,7 @@ const SignUp = () => {
     if (isEmailVerified) {
       signUp(signUpForm)
         .then((response) => {
-          if (!response.success) {
+          if (!response.email) {
             console.log(e);
             window.alert(`회원가입에 실패하였습니다. ${response.message}`);
           } else {
