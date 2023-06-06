@@ -211,7 +211,7 @@ const SearchForm = ({ onGetResult }) => {
           <option value='all'>전체</option>
           <option value='문화 여행'>문화 여행</option>
           <option value='자연 여행'>자연 여행</option>
-          <option value='음식 여행'>음식 여행</option>
+          <option value='식도락 여행'>식도락 여행</option>
           <option value='액티비티 여행'>액티비티 여행</option>
           <option value='종교 여행'>종교 여행</option>
           <option value='휴양 여행'>휴양 여행</option>
