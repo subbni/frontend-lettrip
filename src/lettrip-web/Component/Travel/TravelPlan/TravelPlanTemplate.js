@@ -3,7 +3,10 @@ import "./Plan.css";
 import CourseContainer from "./CourseContainer";
 import { Citys, Provinces, TravelThemes } from "../TravelData";
 import { createTravelPlan } from "../../../Service/TravelService";
+import { useNavigate } from "react-router-dom";
+import { checkIfLoggedIn } from "../../../Service/AuthService";
 const TravelPlanTemplate = () => {
+  const navigate = useNavigate();
   //////// state 관리
   const [planForm, setPlanForm] = useState({
     title: "",
@@ -39,6 +42,12 @@ const TravelPlanTemplate = () => {
   const citys = Citys;
 
   //////// useEffect
+
+  useEffect(() => {
+    if (!checkIfLoggedIn()) {
+      navigate("/login");
+    }
+  }, []);
 
   // 행정구역 선택에 따른 지역 option 동적 처리
   useEffect(() => {
@@ -263,6 +272,7 @@ const TravelPlanTemplate = () => {
               </option>
               {provincesOptions}
             </select>
+
             <label htmlFor='city'>지역</label>
             <select
               name='city'
@@ -283,6 +293,8 @@ const TravelPlanTemplate = () => {
             <label htmlFor='departDate'>여행 기간</label>
             <input
               type='date'
+              aria-required='true'
+              data-placeholder='출발 날짜'
               name='departDate'
               id='departDate'
               value={planForm.departDate}
@@ -293,6 +305,8 @@ const TravelPlanTemplate = () => {
             <label>~</label>
             <input
               type='date'
+              aria-required='true'
+              data-placeholder='마지막 날짜'
               name='lastDate'
               id='lastDate'
               value={planForm.lastDate}
@@ -301,8 +315,8 @@ const TravelPlanTemplate = () => {
               required
             />
           </div>
-          <div className="numcourse">코스 수 : {numberOfCourses}</div>
-          <div className="totalcost">총 비용: {totalCost}</div>
+          <div className='numcourse'>코스 수 : {numberOfCourses}</div>
+          <div className='totalcost'>총 비용: {totalCost}</div>
           <button
             className='planCourseBtn'
             type='submit'
@@ -310,12 +324,11 @@ const TravelPlanTemplate = () => {
           >
             코스 짜기
           </button>
-          
         </form>
         {isPlanDataSubmit ? (
           <div className='formComponent'>
             <label>코스 짜기</label>
-            
+
             <br />
             {days != null ? (
               <div>
@@ -338,7 +351,9 @@ const TravelPlanTemplate = () => {
               <div>여행 계획에 대한 정보를 먼저 입력해주세요</div>
             )}
             <div className='formComponent'>
-              <button className='planCompleteBtn' onClick={onPlanFormSubmit}>계획 마치기</button>
+              <button className='planCompleteBtn' onClick={onPlanFormSubmit}>
+                계획 마치기
+              </button>
             </div>
           </div>
         ) : null}

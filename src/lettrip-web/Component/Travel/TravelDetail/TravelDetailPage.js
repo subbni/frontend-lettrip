@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getTravelDetail } from "../../../Service/TravelService";
 import CourseDetail from "./CourseDetail";
 import "./PageDetail.css";
+import { checkIfLoggedIn } from "../../../Service/AuthService";
 
 const TravelDetailPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [travel, setTravel] = useState({
     writerNickname: "",
@@ -20,6 +22,12 @@ const TravelDetailPage = () => {
     numberOfCourses: "",
     courses: [],
   });
+
+  useEffect(() => {
+    if (!checkIfLoggedIn()) {
+      navigate("/login");
+    }
+  }, []);
 
   useEffect(() => {
     getTravelDetail(id)

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { listArticle } from "../../Service/ArticleService";
 import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 import "./Article.css";
+import { checkIfLoggedIn } from "../../Service/AuthService";
 
 function ArticleList() {
   const navigate = useNavigate();
@@ -13,15 +14,6 @@ function ArticleList() {
     sort: "id,DESC",
   });
   const [articleList, setArticleList] = useState([]);
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem(ACCESS_TOKEN);
-    if (storedToken) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
 
   useEffect(() => {
     fetchArticles();
@@ -41,14 +33,21 @@ function ArticleList() {
 
   const handleCreateClick = (e) => {
     e.preventDefault();
-    if (!isLoggedIn) {
-      window.alert("로그인이 필요합니다.");
+    if (!checkIfLoggedIn()) {
+      navigate("/login");
       return;
     } else {
       navigate("/articles/create");
     }
   };
 
+  const handleArticleClick = (e) => {
+    if (!checkIfLoggedIn()) {
+      navigate("/login");
+    } else {
+      navigate(`/articles/${e.target.id}`);
+    }
+  };
   return (
     <div>
       <h2 className='article-list'>게시글 목록</h2>
@@ -66,12 +65,14 @@ function ArticleList() {
         </thead>
         <tbody>
           {articleList.map((post) => (
-            <tr key={post.id}>
-              <td id={post.id}>
-                <Link to={`/articles/${post.id}`} className='article-page'>
-                  {post.title}
-                </Link>
-              </td>
+            <tr
+              key={post.id}
+              id={post.id}
+              className='article-table-row'
+              onClick={handleArticleClick}
+            >
+              <td id={post.id}>{post.title}</td>
+
               <td id={post.id}>{post.writerNickname}</td>
               <td id={post.id}>
                 {new Date(post.createdDate).toLocaleDateString()}
