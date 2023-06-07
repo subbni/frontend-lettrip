@@ -15,20 +15,16 @@
   font-size: 18px;
   margin-bottom: 5px;
 }
-<<<<<<< HEAD
-.course {
-  /*display: inline-block;
-=======
+
 .travelCourse-detail {
   display: inline-block;
->>>>>>> 62fabc19fc57818b9836a2041c9c793a30d1a0ec
   width: calc(25% - 20px);
   margin: 0 10px 20px;
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #ccc;
   box-sizing: border-box;
-  background-color: #fff;*/
+  background-color: #fff;
 }
 
 /*CourseDetail.js*/
