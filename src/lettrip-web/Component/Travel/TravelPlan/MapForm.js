@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import "./MapForm.css";
 
-
 const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   const [mapId, setMapId] = useState(containerIdx + "map" + courseIdx);
   const [keyword, setKeyword] = useState("");
@@ -165,15 +164,15 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   };
 
   return (
-    <div class="placeSearchContainer">
+    <div class='placeSearchContainer'>
       <input
-        type="text"
-        placeholder="추가할 장소"
+        type='text'
+        placeholder='추가할 장소'
         value={keyword}
         onChange={handleKeywordChange}
       />
       <button onClick={handleSearch}>
-        <AiOutlineSearch className="SearchIcon" />
+        <AiOutlineSearch className='SearchIcon' />
       </button>
       <div
         id={`${containerIdx}map${courseIdx}`}
@@ -184,14 +183,21 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
           <hr />
           <span>선택된 장소 : {selectedPlace.name}</span>
           <br />
-          <Link to={selectedUrl} target="_blank">
+          <Link to={selectedUrl} target='_blank'>
             kakao map으로 보기
           </Link>
           <br />
-          <button className="confirmButton" onClick={handlePlaceConfirmClick}>확인</button>
+          <button className='confirmButton' onClick={handlePlaceConfirmClick}>
+            확인
+          </button>
         </div>
       ) : (
-        <div>검색 뒤 원하는 장소를 클릭해주세요!</div>
+        <div>
+          <hr />
+          <div className='mapForm_text'>
+            검색 뒤 원하는 장소를 클릭해주세요!
+          </div>
+        </div>
       )}
     </div>
   );

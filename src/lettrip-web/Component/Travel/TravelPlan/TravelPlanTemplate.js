@@ -229,17 +229,16 @@ const TravelPlanTemplate = () => {
   // 렌더링
   return (
     <div className='templateBlock'>
+      <h1>여행 계획</h1>
       <div className='formContainer'>
-        <h1>여행 코스 계획</h1>
         <form className='formBox' onSubmit={onPlanDataSubmit}>
-          <div className='formComponent'>
-            <label htmlFor='title'>제목</label>
+          <div className='review_title'>
             <input
               type='text'
               name='title'
               id='title'
-              value={planForm.title}
               onChange={onPlanFormChange}
+              placeholder='제목을 입력해 주세요'
               required
             />
           </div>
@@ -315,8 +314,7 @@ const TravelPlanTemplate = () => {
               required
             />
           </div>
-          <div className='numcourse'>코스 수 : {numberOfCourses}</div>
-          <div className='totalcost'>총 비용: {totalCost}</div>
+
           <button
             className='planCourseBtn'
             type='submit'
@@ -326,10 +324,17 @@ const TravelPlanTemplate = () => {
           </button>
         </form>
         {isPlanDataSubmit ? (
-          <div className='formComponent'>
-            <label>코스 짜기</label>
-
+          <div className='reviewComponent'>
+            <div className='travel_current_info'>
+              <div>
+                코스 수 <span>{numberOfCourses}</span>
+              </div>
+              <div>
+                총 비용 <span>{totalCost}</span>
+              </div>
+            </div>
             <br />
+
             {days != null ? (
               <div>
                 {Array.from({ length: days + 1 }).map((_, index) => {
