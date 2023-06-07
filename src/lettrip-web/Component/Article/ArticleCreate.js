@@ -12,6 +12,7 @@ function ArticleCreate() {
     email: "",
     title: "",
     content: "",
+    articleType: "FREE_ARTICLE",
   });
   const [pageForm, setPageForm] = useState({
     page: 0,
