@@ -8,17 +8,38 @@
 }
 
 .travelSearchForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   box-shadow: 0px 2px 8px rgba(173, 173, 173, 0.246);
   padding: 2rem;
   margin: 2rem;
   width: 50%;
   background: white;
-  border-radius: 2px;
+  border-radius: 5em;
 }
 
-.searchFormElement {
+.travelSearch_title {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+.searchForm_row {
+  display: flex;
+  justify-content: center;
   padding: 0.5rem 0;
+}
+
+.searchForm_element {
+  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+}
+
+.searchForm_element label {
+  font-size: 0.8em;
+  color: rgb(148, 154, 170);
 }
 
 .searchBtn {
@@ -43,7 +64,26 @@
   color: rgba(46, 59, 76);
 }
 
+.search_select {
+  width: 7em;
+  padding: 0.5em 0.5em;
+  border: 1px solid #999;
+  border-radius: 1em;
+  text-align: center;
+  -webkit-appearance: none;
+  /* 크롬 화살표 없애기 */
+  cursor: pointer;
+}
+
+.search_select:hover {
+  background-color: #e7e7e7;
+}
+
 /* 검색 결과 영역 */
+
+.searchResult_info {
+  font-size: 0.9em;
+}
 
 .SearchResultContainer {
   display: flex;
@@ -130,12 +170,4 @@
   color: rgb(31, 53, 65);
   font-weight: 500;
   margin-bottom: 10px;
-}
-
-.search_select {
-  padding: 0.8em 0.5em;
-  border: 1px solid #999;
-  border-radius: 10px;
-  text-align: center;
-  -webkit-appearance: none; /* 크롬 화살표 없애기 */
 }

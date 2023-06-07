@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Citys, Provinces, TravelThemes } from "../TravelData";
 import CourseReviewContainer from "./CourseReviewContainer";
 import "../TravelPlan/Plan.css";
+import "./Review.css";
 import { createTravelReviewAxios } from "../../../Service/TravelService";
 import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn } from "../../../Service/AuthService";
@@ -198,8 +199,6 @@ const TravelReviewTemplate = () => {
     if (existedCourse) {
       deleteCourse(existedCourse);
       alert("삭제되었습니다.");
-    } else {
-      alert("없는 코스입니다.");
     }
   });
 
@@ -248,16 +247,16 @@ const TravelReviewTemplate = () => {
 
   return (
     <div className='templateBlock'>
+      <h1>여행 기록</h1>
       <div className='formContainer'>
-        <h1>여행 코스 기록</h1>
         <form className='formBox' onSubmit={onReviewDataSubmit}>
-          <div className='formComponent'>
-            <label htmlFor='title'>제목</label>
+          <div className='review_title'>
             <input
               type='text'
               name='title'
               id='title'
               onChange={onReviewFormChange}
+              placeholder='제목을 입력해 주세요'
               required
             />
           </div>
@@ -332,19 +331,28 @@ const TravelReviewTemplate = () => {
               required
             />
           </div>
-          <div>코스 수 : {numberOfCourses}</div>
-          <div>총 비용: {totalCost}</div>
+
           <button
             className='planCourseBtn'
             type='submit'
             disabled={isReviewDataSubmit}
           >
-            코스 기록
+            기록 시작하기
           </button>
         </form>
+
         {isReviewDataSubmit ? (
-          <div className='formComponent'>
+          <div className='reviewComponent'>
+            <div className='travel_current_info'>
+              <div>
+                코스 수 <span>{numberOfCourses}</span>
+              </div>
+              <div>
+                총 비용 <span>{totalCost}</span>
+              </div>
+            </div>
             <br />
+
             {days !== null ? (
               <div>
                 {Array.from({ length: days + 1 }).map((_, index) => {
@@ -365,7 +373,7 @@ const TravelReviewTemplate = () => {
             ) : (
               <div>여행에 대한 정보를 먼저 입력해주세요</div>
             )}
-            <div className='formComponent'>
+            <div className='reviewComponent'>
               <button className='planCompleteBtn' onClick={onReviewFormSubmit}>
                 기록 마치기
               </button>
