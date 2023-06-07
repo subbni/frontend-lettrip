@@ -1,19 +1,30 @@
+.login_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .login-container {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* display: block;
   position: absolute;
   top: 20px;
   bottom: auto;
   left: 39%;
-  right: 100%;
+  right: 100%; */
 }
 
 .login {
-  margin-top: 220px;
+  margin-top: 10px;
   border-bottom: 2px solid rgb(61, 58, 86);
   color: #2e3b4c;
   width: 350px;
   display: inline-block;
-  margin-bottom: 85px;
+  margin-bottom: 70px;
   text-align: center;
 }
 
@@ -21,6 +32,8 @@
 .label-password {
   display: inline-block;
   width: 80px;
+  position: relative;
+  right: 135px;
 }
 
 .login-username,
@@ -36,17 +49,69 @@
 }
 
 .login-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   margin: 30px;
-  margin-left: 80px;
   margin-top: 40px;
   text-align: center;
   font-size: medium;
+  font-weight: 300;
   width: 200px;
   height: 40px;
   background-color: #2e3b4c;
   color: white;
   border-radius: 30px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #3f4d61;
+}
+
+/* 소셜 로그인 */
+
+.seperateBar {
+  width: 350px;
+  margin: 1em;
+  border-bottom: 2px solid rgb(61, 58, 86);
+  border: 1px solid black;
+}
+
+.OR_msg {
+  color: rgb(69, 69, 69);
+  text-align: center;
+  width: 100px;
+  padding-top: 3em;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  border-top: 1px solid rgba(61, 58, 86, 0.642);
+  font-size: 0.5rem;
+}
+
+.seperateMsg {
+  margin: 1rem;
+  color: rgb(113, 113, 113);
+  font-size: 0.9rem;
+}
+
+.socialLogin_container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5em;
+}
+
+.socialLogin {
+  text-decoration: none;
+  display: flex;
+  margin: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  color: rgb(91, 91, 91);
+  font-size: 0.4rem;
+  width: 20%;
+}
+
+.social_logo {
+  width: 200px;
 }

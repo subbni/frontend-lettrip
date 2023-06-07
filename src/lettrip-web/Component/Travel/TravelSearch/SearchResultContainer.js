@@ -15,7 +15,7 @@ const TravelSearchResult = ({ resultTravels }) => {
 
   return (
     <div>
-      <div>{msg}</div>
+      <div className='searchResult_info'>{msg}</div>
       <div className='SearchResultContainer'>
         {resultTravels.map((travel, idx) => (
           <div className='SerarchResult' key={idx}>

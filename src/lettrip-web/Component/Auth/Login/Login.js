@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
 import { login } from "../../../Service/AuthService";
 import "./Login.css";
+import SocialLogin from "./SocialLogin";
 
 function Login() {
   const navigate = useNavigate();
@@ -40,38 +41,41 @@ function Login() {
   };
 
   return (
-    <form className='login-container' onSubmit={handleLoginFormSubmit}>
-      <h1 className='login'>LOGIN</h1>
-      <label className='label-email' htmlFor='email'>
-        ID
-      </label>
-      <input
-        className='login-username'
-        type='email'
-        id='email'
-        name='email'
-        placeholder='이메일을 입력하세요.'
-        required
-        value={loginForm.email}
-        onChange={handleLoginFormChange}
-      />
-      <label className='label-password' htmlFor='password'>
-        PW
-      </label>
-      <input
-        className='login-password'
-        type='password'
-        id='password'
-        name='password'
-        placeholder='비밀번호를 입력하세요.'
-        required
-        value={loginForm.password}
-        onChange={handleLoginFormChange}
-      />
-      <button className='login-button' type='submit'>
-        로그인
-      </button>
-    </form>
+    <div className='login_page'>
+      <form className='login-container' onSubmit={handleLoginFormSubmit}>
+        <h1 className='login'>LOGIN</h1>
+        <label className='label-email' htmlFor='email'>
+          ID
+        </label>
+        <input
+          className='login-username'
+          type='email'
+          id='email'
+          name='email'
+          placeholder='이메일을 입력하세요.'
+          required
+          value={loginForm.email}
+          onChange={handleLoginFormChange}
+        />
+        <label className='label-password' htmlFor='password'>
+          PW
+        </label>
+        <input
+          className='login-password'
+          type='password'
+          id='password'
+          name='password'
+          placeholder='비밀번호를 입력하세요.'
+          required
+          value={loginForm.password}
+          onChange={handleLoginFormChange}
+        />
+        <button className='login-button' type='submit'>
+          로그인
+        </button>
+      </form>
+      <SocialLogin />
+    </div>
   );
 }
 

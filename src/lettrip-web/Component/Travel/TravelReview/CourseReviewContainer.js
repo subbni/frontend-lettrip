@@ -49,12 +49,10 @@ const CourseReviewContainer = ({
 
   useEffect(() => {}, [departDate]);
   return (
-    <div className="courseContainer">
-      <div>
-        <h2>{dayCount}일차</h2>
-      </div>
+    <div className='courseContainer'>
+      <div className='course_dayCount_title'>{dayCount}일차</div>
       {courseList.map((course) => (
-        <div key={course.courseId} className="course">
+        <div key={course.courseId} className='course'>
           <CourseReviewItem
             onCourseInsert={onCourseInsert}
             onDeleteBtnClick={onDeleteBtnClick}
@@ -66,7 +64,9 @@ const CourseReviewContainer = ({
         </div>
       ))}
       <div>
-        <button  className="courseAddBtn" onClick={handleAddCourse}>코스 추가</button>
+        <button className='courseAddBtn' onClick={handleAddCourse}>
+          코스 추가
+        </button>
       </div>
     </div>
   );

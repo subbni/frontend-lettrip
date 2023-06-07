@@ -170,36 +170,42 @@ const SignUp = () => {
         disabled={isEmailVerified}
         required
       />
-      <div className='email-message'>{emailMessage}</div>
-      <button
-        type='button'
-        className='sign-emailcodebutton'
-        onClick={onEmailCodeClick}
-        disabled={isEmailVerified}
-      >
-        인증코드 전송
-      </button>
-      <input
-        className='sign-verificationCode'
-        type='text'
-        name='email_code'
-        placeholder='인증번호를 입력하세요'
-        value={emailCode}
-        onChange={onEmailCodeChange}
-        disabled={isEmailVerified}
-        required
-      />
-      {isCodeSent && remainingTime > 0 && (
-        <p className='sign-remainingTime'>남은 시간: {remainingTime}초</p>
-      )}
-      <button
-        type='button'
-        className='sign-emailcodebutton'
-        onClick={onEmailVerifyClick}
-        disabled={isEmailVerified}
-      >
-        인증하기
-      </button>
+      <div>
+        {isEmailVerified ? null : (
+          <div className='email_verify_container'>
+            <div className='email-message'>{emailMessage}</div>
+            <button
+              type='button'
+              className='sign-emailcodebutton'
+              onClick={onEmailCodeClick}
+              disabled={isEmailVerified}
+            >
+              인증코드 전송
+            </button>
+            <input
+              className='sign-verificationCode'
+              type='text'
+              name='email_code'
+              placeholder='인증번호를 입력하세요'
+              value={emailCode}
+              onChange={onEmailCodeChange}
+              disabled={isEmailVerified}
+              required
+            />
+            {isCodeSent && remainingTime > 0 && (
+              <p className='sign-remainingTime'>남은 시간: {remainingTime}초</p>
+            )}
+            <button
+              type='button'
+              className='sign-emailcodebutton'
+              onClick={onEmailVerifyClick}
+              disabled={isEmailVerified}
+            >
+              인증하기
+            </button>
+          </div>
+        )}
+      </div>
       <input
         className='sign-name'
         type='text'
@@ -208,6 +214,7 @@ const SignUp = () => {
         placeholder='이름을 입력하세요.'
         value={signUpForm.name}
         onChange={onFormChange}
+        required
       />
       <input
         className='sign-nickname'
@@ -217,6 +224,7 @@ const SignUp = () => {
         placeholder='닉네임을 입력하세요.'
         value={signUpForm.nickname}
         onChange={onFormChange}
+        required
       />
       <input
         className='sign-password'
@@ -226,6 +234,7 @@ const SignUp = () => {
         placeholder='비밀번호를 입력하세요.'
         value={signUpForm.password}
         onChange={onFormChange}
+        required
       />
       <input
         className='sign-repassword'
@@ -235,10 +244,15 @@ const SignUp = () => {
         placeholder='비밀번호를 다시 입력하세요.'
         value={passwordConfirm}
         onChange={onPasswordConfirmChange}
+        required
       />
       <div className='password-message'>{passwordConfirmMessage}</div>
 
-      <button className='sign-button' type='submit'>
+      <button
+        className='sign-button'
+        type='submit'
+        disabled={!(isEmailVerified && isPasswordConfirm)}
+      >
         가입하기
       </button>
     </form>
