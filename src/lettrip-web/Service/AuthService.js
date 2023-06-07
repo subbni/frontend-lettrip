@@ -1,4 +1,5 @@
-import { API_BASE_URL } from "../Constant/backendAPI";
+import { useNavigate } from "react-router-dom";
+import { ACCESS_TOKEN, API_BASE_URL } from "../Constant/backendAPI";
 import { request } from "./APIService";
 
 export function login(loginRequest) {
@@ -30,6 +31,14 @@ export function signUp(signUpRequest) {
     body: JSON.stringify(signUpRequest),
   });
 } //회원가입 요청
+
+export function checkIfLoggedIn() {
+  if (!localStorage.getItem(ACCESS_TOKEN)) {
+    alert("로그인이 필요한 서비스입니다.");
+    return false;
+  }
+  return true;
+}
 
 class AuthService {}
 export default new AuthService();

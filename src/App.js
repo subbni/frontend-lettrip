@@ -4,10 +4,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./lettrip-web/Top/Header";
 import Navbar from "./lettrip-web/Top/Navbar";
 
-//페이지 경로 설정
+//홈페이지
 import Home from "./lettrip-web/Component/Home";
+
+//로그인,회원가입 경로 설정
 import Login from "./lettrip-web/Component/Auth/Login/Login";
 import SignUp from "./lettrip-web/Component/Auth/SignUp/SignUp";
+import OAuth2RedirectHandler from "./lettrip-web/Component/Auth/Login/OAuth2RedirectHandler";
 
 //커뮤니티 경로 설정
 import ArticleList from "./lettrip-web/Component/Article/ArticleList";
@@ -41,6 +44,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signUp' element={<SignUp />} />
+          <Route path='oauth2/redirect' element={<OAuth2RedirectHandler />} />
 
           <Route path='/travel/search' element={<TravelSearchPage />} />
           <Route path='/travel/course/:id' element={<TravelDetailPage />} />

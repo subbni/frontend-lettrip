@@ -3,8 +3,12 @@ import { Citys, Provinces, TravelThemes } from "../TravelData";
 import CourseReviewContainer from "./CourseReviewContainer";
 import "../TravelPlan/Plan.css";
 import { createTravelReviewAxios } from "../../../Service/TravelService";
+import { useNavigate } from "react-router-dom";
+import { checkIfLoggedIn } from "../../../Service/AuthService";
 
 const TravelReviewTemplate = () => {
+  const navigate = useNavigate();
+
   //////// state 관리
   const [reviewForm, setReviewForm] = useState({
     title: "",
@@ -40,6 +44,12 @@ const TravelReviewTemplate = () => {
   const citys = Citys;
 
   //////// useEffect
+  useEffect(() => {
+    if (!checkIfLoggedIn()) {
+      navigate("/login");
+    }
+  });
+
   useEffect(() => {
     const selectedProvinceObject = citys.find(
       (object) => object.province === reviewForm.province
@@ -300,6 +310,8 @@ const TravelReviewTemplate = () => {
             <label htmlFor='departDate'>여행 기간</label>
             <input
               type='date'
+              aria-required='true'
+              data-placeholder='출발 날짜'
               name='departDate'
               id='departDate'
               value={reviewForm.departDate}
@@ -310,6 +322,8 @@ const TravelReviewTemplate = () => {
             <label>~</label>
             <input
               type='date'
+              aria-required='true'
+              data-placeholder='마지막 날짜'
               name='lastDate'
               id='lastDate'
               value={reviewForm.lastDate}
@@ -352,7 +366,9 @@ const TravelReviewTemplate = () => {
               <div>여행에 대한 정보를 먼저 입력해주세요</div>
             )}
             <div className='formComponent'>
-              <button className="planCompleteBtn" onClick={onReviewFormSubmit}>기록 마치기</button>
+              <button className='planCompleteBtn' onClick={onReviewFormSubmit}>
+                기록 마치기
+              </button>
             </div>
           </div>
         ) : null}
