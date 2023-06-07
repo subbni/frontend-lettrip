@@ -8,22 +8,25 @@ import "./ArticleCreate.css";
 function ArticleModify() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isEditable, setIsEditable] = useState(false);
+
   const [articleForm, setArticleForm] = useState({
     title: "",
     content: "",
   });
 
   useEffect(() => {
+    //로그인 여부 확인하기
     const storedToken = localStorage.getItem(ACCESS_TOKEN);
     const storedEmail = localStorage.getItem("email");
-    if (storedToken && storedEmail) {
+    if (storedToken) {
       setIsLoggedIn(true);
-      setArticleForm((prevState) => ({
-        ...prevState,
-        id: id,
+      setArticleForm((prevForm) => ({
+        ...prevForm,
         email: storedEmail,
       }));
+      console.log(storedEmail);
     } else {
       setIsLoggedIn(false);
     }

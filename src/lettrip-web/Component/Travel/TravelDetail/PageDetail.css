@@ -4,11 +4,31 @@
   padding: 20px;
   border-radius: 4px;
 }
+.travelCourse-header {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
 .travelCourse-title {
   font-weight: bold;
   font-size: 24px;
   margin-bottom: 10px;
+  margin-right: 10px;
 }
+
+.travelCourse-like-button {
+  margin-top: 5px;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 24px;
+  color: #ff6b6b;
+  cursor: pointer;
+  position: relative;
+  top: -5px;
+}
+
 .travelCourse-thenumberOf,
 .travelCourse-theme,
 .travelCourse-totalcost {
@@ -33,28 +53,31 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
   background-color: #fff;
 }
-.searchresult-title {
+
+.searchresult-header {
   font-weight: bold;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+}
+.searchresult-title {
+  margin-left: 15px;
+  font-weight: bold;
+  margin-right: 5px;
 }
 
 .searchresult-like-button {
-  margin-top: 5px;
+  margin-top: 3px;
   background: none;
   border: none;
   padding: 0;
   font-size: 24px;
   color: #ff6b6b;
   cursor: pointer;
+  position: relative;
 }
 
 .searchresult-dayCountArrivedTime {
@@ -71,6 +94,11 @@
 .searchresult-dayCount,
 .searchresult-arrivedTime {
   margin-top: 5px;
+}
+.searchresult-cost {
+  color: #aaaaaa;
+  margin-top: 15px;
+  text-align: right;
 }
 
 .searchresult-image-container {
@@ -131,12 +159,6 @@
   right: 10px;
 }
 
-.searchresult-cost {
-  color: #aaaaaa;
-  margin-top: 10px;
-  text-align: right;
-}
-
 .searchresult-ratingreview {
   display: flex;
   justify-content: space-between;
@@ -148,7 +170,7 @@
 }
 
 .searchresult-ratingStarIcon {
-  margin: 0px 2px;
+  margin: -2px;
   font-size: 20px;
 }
 

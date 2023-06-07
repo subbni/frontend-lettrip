@@ -31,7 +31,6 @@ function ArticleList() {
     listArticle(pageForm)
       .then((response) => {
         setArticleList(response.content);
-        console.log(response);
       })
       .catch((e) => {
         console.log(e);
