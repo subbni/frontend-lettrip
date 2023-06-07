@@ -108,3 +108,13 @@
   color: black;
   cursor: pointer;
 }
+
+@media screen and (max-width: 650px) {
+  .navbar-container {
+    display: none;
+  }
+
+  .logo-image {
+    padding: 2em;
+  }
+}

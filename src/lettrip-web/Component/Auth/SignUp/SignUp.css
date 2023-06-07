@@ -20,6 +20,15 @@
   text-align: center;
 }
 
+<<<<<<< HEAD
+label {
+  /*display: inline-block;
+  width: 80px;*/
+}
+
+input {
+  /*border: none;
+=======
 .sign-email,
 .sign-verificationCode,
 .sign-name,
@@ -27,9 +36,10 @@
 .sign-password,
 .sign-repassword {
   border: none;
+>>>>>>> 62fabc19fc57818b9836a2041c9c793a30d1a0ec
   border-bottom: 1px solid rgb(172, 172, 172);
   margin-bottom: 10px;
-  width: 350px;
+  width: 350px;*/
 }
 
 .sign-email,
@@ -56,6 +66,8 @@
 
 .sign-remainingTime {
   margin-top: 10px;
+  font-size: 8px;
+  color: #59616c;
 }
 
 .sign-button {
@@ -72,10 +84,22 @@
   border-radius: 30px;
 }
 
+.sign-button:disabled {
+  background-color: #75818ec3;
+}
+
 .email-message,
 .password-message {
   white-space: pre-wrap;
   color: rgb(150, 150, 150);
   display: inline-block;
   text-align: center;
+  font-size: 15px;
+}
+
+.email_verify_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }

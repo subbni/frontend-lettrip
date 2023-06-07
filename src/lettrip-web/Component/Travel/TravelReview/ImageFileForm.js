@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Review.css";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const ImageFileForm = ({
   containerIdx,
@@ -63,39 +64,41 @@ const ImageFileForm = ({
   };
   return (
     <div>
-      <div className="courseComponent">
+      <div className='courseComponent'>
         <label
-          className="reviewImg_label"
+          className='reviewImg_label'
           htmlFor={`${containerIdx}reviewImg_upload${courseIdx}`}
+          disabled={confirm}
         >
-        사진 업로드
+          사진 업로드
         </label>
         <input
-          className="reviewImg_input"
+          className='reviewImg_input'
           id={`${containerIdx}reviewImg_upload${courseIdx}`}
-          accept="image/*"
+          accept='image/*'
           multiple
-          type="file"
+          type='file'
           onChange={handleAddImages}
           disabled={confirm}
         />
       </div>
-      <div>첨부된 사진 : {imageFiles.length}개 </div>
-
-      <div className="imageContainer">
-        {showImages.map((image, id) => (
-          <div key={id}>
-            <img className="reviewImg" src={image} alt={`${image}-${id}`} />
-            <button
-              className="delete_btn"
-              onClick={() => handleDeleteImage(id)}
-              disabled={confirm}
-            >
-              X
-            </button>
-          </div>
-        ))}
-      </div>
+      <div className='imgnumber'>첨부된 사진 : {imageFiles.length}개 </div>
+      {imageFiles.length > 0 ? (
+        <div className='imageContainer'>
+          {showImages.map((image, id) => (
+            <div className='imageWrapper' key={id}>
+              <img className='reviewImg' src={image} alt={`${image}-${id}`} />
+              <button
+                className='delete_btn'
+                onClick={() => handleDeleteImage(id)}
+                disabled={confirm}
+              >
+                <AiOutlineDelete className='delete_icon' />
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 };

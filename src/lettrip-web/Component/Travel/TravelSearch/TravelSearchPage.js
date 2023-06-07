@@ -11,7 +11,6 @@ const TravelSearchPage = () => {
 
   return (
     <div className='searchPage'>
-      <div className='title'>여행 코스 검색</div>
       <SearchForm onGetResult={onGetResult} />
       <SearchResultContainer resultTravels={resultTravels} />
     </div>
