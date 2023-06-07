@@ -23,12 +23,19 @@ import TravelPlanTemplate from "./lettrip-web/Component/Travel/TravelPlan/Travel
 //여행코스 후기 경로 설정
 import TravelReviewTemplate from "./lettrip-web/Component/Travel/TravelReview/TravelReviewTemplate";
 
-// 미션
+//미션
 import MissionPage from "./lettrip-web/Component/Mission/MissionPage";
 import QRMissionPage from "./lettrip-web/Component/Mission/QR/QRMissionPage";
 
-// 마이페이지
+//마이페이지
 import MyPage from "./lettrip-web/Component/MyPage/MyPage";
+//마이페이지 정보 수정 전, 비밀번호 확인하기 (본인확인)
+import AccountConfirm from "./lettrip-web/Component/MyPage/account/AccountConfirm";
+//마이페이지 정보 수정
+import AccountModify from "./lettrip-web/Component/MyPage/account/AccountModify";
+//마이페이지 회원 탈퇴
+import AccountWithdraw from "./lettrip-web/Component/MyPage/account/AccountWithdraw";
+
 import PlaceReviewPage from "./lettrip-web/Component/PlaceReview/PlaceReviewPage";
 
 function App() {
@@ -63,6 +70,10 @@ function App() {
           <Route path='/articles/modify/:id' element={<ArticleModify />} />
 
           <Route path='/mypage' element={<MyPage />} />
+          <Route path='/mypage/modify' element={<AccountModify />} />
+          <Route path='/mypage/confirm' element={<AccountConfirm />} />
+          <Route path='/mypage/withdraw' element={<AccountWithdraw />} />
+
           <Route path='/place' element={<PlaceReviewPage />} />
         </Routes>
       </div>

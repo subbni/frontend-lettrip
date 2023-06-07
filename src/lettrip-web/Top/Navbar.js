@@ -7,8 +7,19 @@ import "./Top.css";
 
 function Navbar() {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSubMenu, setShowSubMenu] = useState(false);
   const menuRef = useRef();
+
+  useEffect(() => {
+    //로그인 여부 확인하기
+    const storedToken = localStorage.getItem(ACCESS_TOKEN);
+    if (storedToken) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -36,6 +47,17 @@ function Navbar() {
   function handleLogoClick() {
     navigate("/");
   }
+
+  const handlemypage = (e) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      window.alert("로그인이 필요합니다.");
+      return;
+    } else {
+      navigate("/mypage");
+    }
+  };
+
   return (
     <div className='navbar'>
       <Link to='/'>
@@ -81,9 +103,9 @@ function Navbar() {
           </Link>
         </div>
         <div className='navbar-icons'>
-          <Link to='/mypage' className='navbar-icon'>
+          <div className='navbar-icon' onClick={handlemypage}>
             <AiOutlineUser />
-          </Link>
+          </div>
           <Link to='/place' className='navbar-icon'>
             <AiOutlineSearch />
           </Link>
