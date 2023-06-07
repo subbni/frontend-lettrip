@@ -1,3 +1,9 @@
+label {
+  color: rgb(91, 91, 91);
+  font-size: 0.8rem;
+  padding: 2px 8px;
+}
+
 .templateBlock {
   width: 90%;
   margin: 0 auto;
@@ -8,31 +14,132 @@
   position: relative;
 }
 
+.templateBlock h1 {
+  font-weight: 500;
+}
+
 .formContainer {
   text-align: center;
   display: block;
   position: relative;
-  margin:0 auto;
+  margin: 0 auto;
   min-height: 100vh;
 }
 
 .formBox {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  border: 1px solid rgba(89, 89, 89, 0.419);
+
+  border-radius: 10px;
+  padding: 1em;
 }
 
 .formComponent {
+  width: 100%;
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  padding: 0.5rem 0;
+}
+
+.reviewComponent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  padding: 0.5rem 0;
+}
+
+.formComponent_place {
+  display: flex;
+  align-items: center;
   padding: 0.5rem 0;
 }
 
 .formComponent label {
   color: rgb(91, 91, 91);
   font-size: 0.8rem;
-  padding-right: 5px;
-  white-space: nowrap;
+  padding: 0 5px;
+  margin: 5px;
+  width: 5em;
+  cursor: pointer;
 }
+
+.formComponent select {
+  width: 120px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgb(230, 232, 234);
+  color: rgb(89, 88, 92);
+  text-align: center;
+  cursor: pointer;
+}
+
+.formComponent select:hover {
+  background-color: rgb(214, 217, 221);
+}
+.formComponent input {
+  border: none;
+  background-color: rgb(230, 232, 234);
+  border-radius: 8px;
+  height: 25px;
+  font-size: 0.8em;
+  color: rgb(89, 88, 92);
+  text-align: center;
+  padding: 5px 3px;
+  cursor: pointer;
+}
+
+.formComponent input:hover {
+  background-color: rgb(214, 217, 221);
+}
+
+.formComponent input:disabled {
+  background-color: rgb(240, 240, 240);
+  color: rgb(163, 163, 167);
+}
+/* select {
+  border: none;
+  border-bottom: 1px solid rgb(172, 172, 172);
+} */
+
+select option[value=""][disabled] {
+  display: none;
+}
+
+.formComponent_province {
+  margin-right: 2em;
+}
+
+.formComponent_city {
+  margin-right: 2em;
+}
+
+.travel_current_info {
+  display: flex;
+  justify-content: center;
+  font-size: 0.9em;
+  margin: 2em 0;
+}
+
+.travel_current_info > div > span {
+  display: inline-block;
+  background-color: rgb(219, 219, 219);
+  min-width: 1.5em;
+  height: 1.5em;
+  border-radius: 1.5em;
+  line-height: 1.5em;
+  margin: 1em;
+  padding: 0.2em;
+}
+
+/* 코스 영역 */
 
 .courseComponent form label {
   white-space: nowrap;
@@ -40,17 +147,6 @@
 .locationSelection {
   display: flex;
   align-items: center;
-}
-
-#city{
-  margin-left: -20px;
-}
-
-.placeSearchContainer {
-  border: none;
-  border-radius: 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 10px;
 }
 
 .courseAddBtn {
@@ -61,6 +157,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 1em;
+  padding: 1em;
+  border-top: 2px dotted rgba(137, 137, 137, 0.446);
+}
+
+.course_dayCount_title {
+  font-size: 25px;
 }
 
 .course {
@@ -68,6 +171,7 @@
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
+  width: 30em;
 }
 
 .course:first-child {
@@ -78,38 +182,31 @@
   border: none;
 }
 
-
 .courseComponent {
   padding: 0.5rem 0;
 }
 
-label {
-  color: rgb(91, 91, 91);
-  font-size: 0.8rem;
-  padding: 2px 8px;
+.courseComponent input {
+  padding: 0.4em 0.7em;
+  text-align: center;
 }
-
 .mapForm {
   margin: 10px 10px;
-}
-
-select option[value=""][disabled] {
-  display: none;
 }
 
 .planCourseBtn {
   display: block;
   color: white;
-  background-color: #2E3B4C;
+  background-color: #2e3b4c;
   margin: 0 auto;
   margin-top: 30px;
   align-items: center;
   font-size: 16px;
   cursor: pointer;
-  width:50%;
+  width: 50%;
   padding: 10px 20px; /* Add padding for better button appearance */
-  border: none; 
-  border-radius: 5px; 
+  border: none;
+  border-radius: 5px;
   transition: background-color 0.3s ease; /* Add a smooth transition */
 }
 
@@ -120,47 +217,60 @@ select option[value=""][disabled] {
 .planCourseBtn:disabled {
   display: none;
 }
-.numcourse, .totalcost {
+.numcourse,
+.totalcost {
   align-items: center;
 }
 .planCompleteBtn {
-  background-color: #2E3B4C;
+  display: block;
   color: white;
-  border: none;
-  margin-left: 30px;
-  padding: 5px;
-  border-radius: 5px;
-  cursor: pointer;
+  background-color: #2e3b4c;
+  margin: 0 auto;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  align-items: center;
   font-size: 16px;
-  position: absolute;
-  bottom: 20px; /* 원하는 위치로 조정 */
-  right: 5px; /* 원하는 위치로 조정 */
+  cursor: pointer;
+  width: 50%;
+  padding: 10px 20px; /* Add padding for better button appearance */
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease; /* Add a smooth transition */
 }
-.courseAddBtn{
-  background-color: #2E3B4C;
-  color: white;
+.courseAddBtn {
+  color: #394a61fb;
   padding: 5px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  margin-top: 10px;
+  margin: 10px;
+  margin-top: 2em;
 }
-#departDate, #lastDate{
+
+#departDate,
+#lastDate {
   width: 250px;
 }
 
-.deleteButton, .submitButton{
-  background-color: #ffffff;
-  color: #2E3B4C;
+.deleteButton,
+.submitButton {
+  background-color: #4c6482;
+  color: #f3f3f3;
   padding: 10px 20px;
+  margin: 1em;
   border: none;
+  border-radius: 2em;
   cursor: pointer;
 }
-#title{
-  width: 90%;
-}
-select {
+
+.deleteButton,
+.submitButton {
+  background-color: #4c6482;
+  color: #ffffff;
+  padding: 10px 20px;
+  margin: 1em;
   border: none;
-  border-bottom: 1px solid rgb(172, 172, 172);
+  border-radius: 2em;
+  cursor: pointer;
 }
