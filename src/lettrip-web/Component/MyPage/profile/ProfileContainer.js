@@ -4,6 +4,7 @@ import { getMyProfile } from "../../../Service/MyPageService";
 
 const ProfileContainer = () => {
   const [profile, setProfile] = useState({});
+
   useEffect(() => {
     getMyProfile()
       .then((response) => {

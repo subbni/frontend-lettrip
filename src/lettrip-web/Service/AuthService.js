@@ -32,6 +32,22 @@ export function signUp(signUpRequest) {
   });
 } //회원가입 요청
 
+
+export function confirmPassword(password) {
+  return request({
+    url: API_BASE_URL + "/api/auth/confirm",
+    method: "POST",
+    body: JSON.stringify(password),
+  });
+} //비밀번호 확인 요청
+
+export function deleteAccount(Id) {
+  return request({
+    url: API_BASE_URL + "/api/auth/delete/" + Id,
+    method: "DELETE",
+  });
+} //회원 탈퇴 요청
+
 export function checkIfLoggedIn() {
   if (!localStorage.getItem(ACCESS_TOKEN)) {
     alert("로그인이 필요한 서비스입니다.");
