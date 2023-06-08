@@ -215,6 +215,7 @@ const TravelPlanTemplate = () => {
       .then((response) => {
         if (response.success) {
           alert("작성 완료되었습니다.");
+          navigate(`/travel/course/plan/${response.data}`);
         } else {
           console.log(response);
           alert(`작성 실패. 원인: ${response.message}`);
