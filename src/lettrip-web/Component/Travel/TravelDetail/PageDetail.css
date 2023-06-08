@@ -123,6 +123,7 @@
   border-radius: 10px; /* 수정: 모서리를 약간 둥글게 */
 }
 .basic-image {
+  margin-top: 5 px;
   width: 100%;
   height: 250px;
   object-fit: cover;
