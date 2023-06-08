@@ -52,11 +52,11 @@ const TravelDetailPage = () => {
           </div>
         </div>
         <div className='travelCourse-thenumberOf'>
-          예상 코스 : {travel.numberOfCourses}개
+          계획된 코스 : {travel.numberOfCourses}개
         </div>
         <div className='travelCourse-theme'>#{travel.travelTheme}</div>
         <div className='travelCourse-totalcost'>
-          예상 {travel.totalCost}원 / 인
+          예상 금액 : {travel.totalCost}원 / 인
         </div>
       </div>
       <div>

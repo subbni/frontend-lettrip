@@ -27,12 +27,12 @@ const CourseDetail = ({ course }) => {
         <div className='searchresult-title'>{course.place.name}</div>
       </div>
       <div className='searchresult-dayCountArrivedTime'>
-        <div className='searchresult-dayCount'>예상 {course.dayCount}일차</div>
+        <div className='searchresult-dayCount'>{course.dayCount}일차</div>
         <div className='searchresult-arrivedTime'>
-          예상 {getKoreanDateTime(course.arrivedTime)}
+          도착 에정 : {getKoreanDateTime(course.arrivedTime)}
         </div>
       </div>
-      <div className='searchresult-cost'>예상 {course.cost}원</div>
+      <div className='searchresult-cost'> 예상 금액 : {course.cost}원</div>
     </div>
   );
 };

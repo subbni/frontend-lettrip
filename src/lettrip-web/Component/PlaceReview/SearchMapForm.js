@@ -169,7 +169,11 @@ const SearchMapForm = ({ onPlaceSelect }) => {
         />
         <GoSearch className='place_search_btn' onClick={handleSearch} />
       </div>
-      <div id='map' />
+      <div
+        className='kakao-map'
+        id='map'
+        style={{ width: "130%", height: "288px" }}
+      />
       <div>
         {isPlaceSelected ? (
           <div className='place_search_info'>

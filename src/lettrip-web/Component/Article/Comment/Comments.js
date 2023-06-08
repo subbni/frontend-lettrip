@@ -37,7 +37,7 @@ function Comments({ userEmail }) {
     article_id: id,
     content: "",
     parent_comment_id: parent_comment_id,
-    mentioned_user_email: userEmail,
+    mentioned_user_email: -1,
   });
 
   useEffect(() => {
@@ -70,6 +70,7 @@ function Comments({ userEmail }) {
           options: false, // 설정 버튼 상태 초기값
         }));
         setComments(updatedComments);
+        console.log(response);
       })
       .catch((e) => {
         console.log(e);
@@ -135,8 +136,8 @@ function Comments({ userEmail }) {
   };
   const handleCommentFormSubmit = (e) => {
     e.preventDefault();
-    if (window.confirm("댓글을 수정하시겠습니까?")) {
-      if (editingComment.id) {
+    if (editingComment.id) {
+      if (window.confirm("댓글을 수정하시겠습니까?")) {
         const modifyForm = {
           id: editingComment.id,
           content: commentForm.content,
@@ -156,6 +157,7 @@ function Comments({ userEmail }) {
       }
     }
   };
+
   const handleModifyComment = (commentId) => {
     const comment = comments.find((comment) => comment.id === commentId);
     if (comment) {
@@ -315,12 +317,7 @@ function Comments({ userEmail }) {
                   </button>
                 </form>
               ) : (
-                <p
-                  className='comment-content'
-                  onClick={() => handleModifyComment(comment.id)}
-                >
-                  {comment.content}
-                </p>
+                <p className='comment-content'>{comment.content}</p>
               )}
 
               <div className='replycomments-container'>
@@ -360,41 +357,33 @@ function Comments({ userEmail }) {
                             </p>
                           )}
                         </div>
-                        {editingReplyComment.id === reply.id ? (
+                        {editingComment.id === comment.id ? (
                           <form
-                            className='replycomment-modfiy-input'
-                            onSubmit={handleModifyCommentFormSubmit}
+                            className='comment-modfiy-input'
+                            onSubmit={handleCommentFormSubmit}
                           >
                             <textarea
                               id='content'
                               name='content'
-                              placeholder='대댓글을 입력하세요.'
+                              placeholder='댓글을 입력하세요.'
                               required
                               value={commentForm.content}
-                              onChange={handleModifyCommentFormSubmit}
+                              onChange={handleCommentFormChange}
                             />
-                            <button
-                              className='replycomment-submit'
-                              type='submit'
-                            >
+                            <button className='comment-submit' type='submit'>
                               완료
                             </button>
                           </form>
                         ) : (
-                          <p
-                            className='replycomment-content'
-                            onClick={() => handleModifyReplyComment(reply.id)}
-                          >
-                            {reply.content}
-                          </p>
+                          <p className='comment-content'>{reply.content}</p>
                         )}
                       </div>
                     ))}
                   {comment.handleShowReplycomment && (
                     <ReplyCommentCreate
-                      parent_comment_id={comment.id}
-                      mentioned_user_nickname={comment.nickname}
-                      mentioned_user_email={userEmail}
+                      parent_comment_id={comment.id} //정상
+                      mentioned_user_nickname={comment.nickname} //정상
+                      mentioned_user_email={userEmail} //처리
                     />
                   )}
                 </div>

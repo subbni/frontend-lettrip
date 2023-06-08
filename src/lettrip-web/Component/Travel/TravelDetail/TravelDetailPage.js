@@ -123,12 +123,15 @@ const TravelDetailPage = () => {
             {liked ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
         </div>
+
         <div className='travelCourse-thenumberOf'>
-          코스 수 {travel.numberOfCourses}개
+          다녀온 코스 : {travel.numberOfCourses}개
         </div>
         <div className='travelCourse-theme'>#{travel.travelTheme}</div>
         <div className='travelCourse-totalcost'>
-          총 비용 {travel.totalCost}원
+          총 비용 : {travel.totalCost}원 / 인
+        </div>
+
         </div>
       </div>
       <div className='course_detail_container'>
