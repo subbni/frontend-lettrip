@@ -131,8 +131,6 @@ const TravelDetailPage = () => {
         <div className='travelCourse-totalcost'>
           총 비용 : {travel.totalCost}원 / 인
         </div>
-
-        </div>
       </div>
       <div className='course_detail_container'>
         {courseList.map((course, idx) => (
