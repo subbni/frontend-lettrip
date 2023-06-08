@@ -211,6 +211,18 @@
   margin-left: -130px; */
 }
 
+.place-liked-button {
+  padding: 0;
+  font-size: 24px;
+  color: #ff6b6b;
+  cursor: pointer;
+  position: relative;
+  margin-left: 3px;
+}
+
+.place-liked-button:hover {
+  font-size: 25px;
+}
 /* review list 영역 */
 
 .review_item_container {
