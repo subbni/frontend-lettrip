@@ -23,6 +23,13 @@ function ArticleCreate() {
     fetchArticles();
   }, []);
 
+  useEffect(() => {
+    const userEmail = localStorage.getItem("email");
+    if (userEmail) {
+      setArticleForm((prevForm) => ({ ...prevForm, email: userEmail }));
+    }
+  }, []);
+
   const handleArticleFormChange = (e) => {
     const changedField = e.target.name;
     let newValue = e.target.value;
@@ -41,6 +48,7 @@ function ArticleCreate() {
           navigate("/articles");
           fetchArticles();
           console.log(response);
+          console.log(articleForm);
         })
         .catch((e) => {
           console.log(e);
