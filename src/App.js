@@ -57,10 +57,16 @@ function App() {
           <Route path='oauth2/redirect' element={<OAuth2RedirectHandler />} />
 
           <Route path='/travel/search' element={<TravelSearchPage />} />
-          <Route path='/travel/course/:id' element={<TravelDetailPage />} />
+          <Route
+            path='/travel/course/review/:id'
+            element={<TravelDetailPage />}
+          />
 
-          {/*} <Route path='/travel/course/:id' element={<TravelPlanDetailPage />} /> */}
-          {/* <Route path='/travel/course/:id' element={<TravelPlanDetailPage />} /> */}
+          <Route
+            path='/travel/course/plan/:id'
+            element={<TravelPlanDetailPage />}
+          />
+
           <Route
             path='/travel/course/create'
             element={<TravelPlanTemplate />}
