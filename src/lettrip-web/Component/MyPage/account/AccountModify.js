@@ -13,7 +13,7 @@ const AccountModify = () => {
     image: null,
   });
   const [profile, setProfile] = useState({});
-  const [showFileInput, setShowFileInput] = useState(false); // State to control the visibility of file input
+  const [showFileInput, setShowFileInput] = useState(false);
 
   useEffect(() => {
     getMyProfile()
@@ -37,7 +37,7 @@ const AccountModify = () => {
 
   //사진 수정하기
   const modifyImage = () => {
-    setShowFileInput(true); // Show the file input
+    setShowFileInput(true);
   };
 
   //파일 선택 시

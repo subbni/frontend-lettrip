@@ -135,8 +135,8 @@ function Comments({ userEmail }) {
   };
   const handleCommentFormSubmit = (e) => {
     e.preventDefault();
-    if (window.confirm("댓글을 수정하시겠습니까?")) {
-      if (editingComment.id) {
+    if (editingComment.id) {
+      if (window.confirm("댓글을 수정하시겠습니까?")) {
         const modifyForm = {
           id: editingComment.id,
           content: commentForm.content,
@@ -156,6 +156,7 @@ function Comments({ userEmail }) {
       }
     }
   };
+
   const handleModifyComment = (commentId) => {
     const comment = comments.find((comment) => comment.id === commentId);
     if (comment) {
@@ -360,32 +361,29 @@ function Comments({ userEmail }) {
                             </p>
                           )}
                         </div>
-                        {editingReplyComment.id === reply.id ? (
+                        {editingComment.id === comment.id ? (
                           <form
-                            className='replycomment-modfiy-input'
-                            onSubmit={handleModifyCommentFormSubmit}
+                            className='comment-modfiy-input'
+                            onSubmit={handleCommentFormSubmit}
                           >
                             <textarea
                               id='content'
                               name='content'
-                              placeholder='대댓글을 입력하세요.'
+                              placeholder='댓글을 입력하세요.'
                               required
                               value={commentForm.content}
-                              onChange={handleModifyCommentFormSubmit}
+                              onChange={handleCommentFormChange}
                             />
-                            <button
-                              className='replycomment-submit'
-                              type='submit'
-                            >
+                            <button className='comment-submit' type='submit'>
                               완료
                             </button>
                           </form>
                         ) : (
                           <p
-                            className='replycomment-content'
-                            onClick={() => handleModifyReplyComment(reply.id)}
+                            className='comment-content'
+                            onClick={() => handleModifyComment(comment.id)}
                           >
-                            {reply.content}
+                            {comment.content}
                           </p>
                         )}
                       </div>
