@@ -117,7 +117,7 @@
 
 .place_research_btn {
   position: relative;
-  bottom: 6em;
+  bottom: 9em;
   left: 33em;
   color: #909090;
   cursor: pointer;
@@ -184,27 +184,31 @@
 }
 
 .place-medal {
-  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-left: 20px;
+  flex-direction: row;
+  position: relative;
+  align-items: center;
+  width: 250px;
+  bottom: 5em;
+  right: 4em;
 }
 
 .place-medal-image {
-  width: 180px;
-  height: 180px;
-  margin-top: -140px;
-  margin-left: -200px;
+  width: 1em;
+  height: 1em;
 }
 
 .recommend-place-solo-travel {
-  font-size: 18px;
+  font-size: 5px;
+  line-height: 1.5em;
+  padding-left: 1em;
+  color: rgb(148, 148, 148);
+  /* font-size: 18px;
   font-weight: 600;
   color: #321bb5;
   white-space: nowrap;
   margin-top: -120px;
-  margin-left: -130px;
+  margin-left: -130px; */
 }
 
 /* review list 영역 */
@@ -219,10 +223,11 @@
 .review_item {
   width: 33em;
   height: 13em;
-  background: rgba(244, 245, 249, 1);
+  background: rgb(244, 245, 247);
   border-radius: 18px;
   box-shadow: 2px 2px 8px rgba(173, 173, 173, 0.246);
   margin: 0.8em 0 2em;
+  padding: 1em;
   cursor: pointer;
 }
 
@@ -233,21 +238,30 @@
 .review_item_element {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin: 0.2em 2em;
+  justify-content: start;
   padding: 0.8em;
 }
 .review_info_item {
-  margin-top: -25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .review_img {
-  width: 9.5em;
-  height: 9.5em;
+  width: 9em;
+  height: 9em;
   position: relative;
   bottom: 1em;
-  margin-left: -25px;
-  margin-top: -15px;
+  margin-right: 1em;
+}
+
+.review_item_element .writerInfo {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  padding-left: 2px;
+  padding-right: 10px;
 }
 
 .review_writerNickname {
@@ -259,16 +273,13 @@
 }
 
 .review_text {
-  padding-top: 1em;
   color: rgba(131, 131, 131, 1);
   font-size: 0.8em;
-  margin-top: -10px;
-  margin-left: 20px;
 }
 
 .review_detailReview_container {
   width: 23em;
-  height: 8em;
+  height: 6em;
   background-color: white;
   border-radius: 18px;
   display: flex;
@@ -288,50 +299,49 @@
   color: rgba(131, 131, 131, 1);
 }
 /*ReviewItem.js 추가한 부분*/
-.review_item {
+/* .review_item {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-top: 20px;
 }
-
+*/
 .review-medal {
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin-top: -100px;
-  margin-left: -160px;
+  flex-direction: row;
+  width: 10em;
+  left: 9em;
+  top: 1.5em;
 }
 
 .review-medal-image {
-  width: 70px;
-  height: 70px;
+  width: 1em;
+  height: 1em;
   position: absolute;
   margin-right: -60px;
 }
 
 .recommend-solo-travel {
-  font-size: 18px;
-  font-weight: 600;
-  color: #321bb5;
+  font-size: 15px;
+  font-weight: 500;
+  color: #5d6e8b;
   white-space: nowrap;
-  margin-top: 40px;
-  margin-right: 5;
+  padding-left: 5px;
 }
 
-.review_item_element {
+/* .review_item_element {
   display: flex;
   align-items: flex-start;
   margin-bottom: 10px;
-}
+} */
 
 .review_rating {
   display: flex;
   align-items: center;
-  margin-left: 30px;
-  margin-top: -20px;
+  justify-content: center;
+  margin-bottom: 1em;
 }
 
 .searchresult-ratingStars {
@@ -347,6 +357,8 @@
 }
 .review-rating-text {
   margin-left: -10px;
+  font-size: 0.9em;
+  color: rgb(144, 144, 144);
 }
 
 .review_rating span:last-child {
