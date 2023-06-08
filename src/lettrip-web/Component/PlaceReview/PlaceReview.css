@@ -117,7 +117,7 @@
 
 .place_research_btn {
   position: relative;
-  bottom: 6em;
+  bottom: 9em;
   left: 33em;
   color: #909090;
   cursor: pointer;
@@ -259,7 +259,9 @@
 .review_item_element .writerInfo {
   display: flex;
   flex-direction: row;
-  padding-right: 1em;
+  padding: 0;
+  padding-left: 2px;
+  padding-right: 10px;
 }
 
 .review_writerNickname {
@@ -310,7 +312,7 @@
   display: flex;
   flex-direction: row;
   width: 10em;
-  left: 6em;
+  left: 9em;
   top: 1.5em;
 }
 
