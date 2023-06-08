@@ -1,11 +1,13 @@
 import React from "react";
-import home_image from "../../image/home.jpeg";
+import MainSlider from './MainSlider'
 import "./Home.css";
+import HomeSlider from "./HomeSlider";
 
 function Home() {
   return (
     <div className='Home'>
-      <img className='Home_Image' src={home_image} alt='home'></img>
+      {/* <MainSlider /> */}
+      <HomeSlider />
     </div>
   );
 }
