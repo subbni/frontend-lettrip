@@ -11,12 +11,7 @@ function CommentCreate() {
   const [userEmail, setUserEmail] = useState("");
 
   const [comments, setComments] = useState([]);
-  const [pageForm, setPageForm] = useState({
-    page: 0,
-    size: 5,
-    sort: "id,ASC",
-    article_id: id,
-  }); //댓글 보여주기 : 5개씩, 오래된 순
+
   const [commentForm, setCommentForm] = useState({
     article_id: id,
     content: "",
@@ -26,15 +21,31 @@ function CommentCreate() {
     fetchComments();
   }, []);
 
+  useEffect(() => {
+    // 로그인 여부 확인하기
+    const storedEmail = localStorage.getItem("email");
+    console.log(storedEmail);
+    if (storedEmail) {
+      setUserEmail(storedEmail);
+    }
+    console.log(userEmail);
+  }, []);
+
   //댓글 불러오기
   const fetchComments = () => {
+    const pageForm = {
+      page: 0,
+      size: 5,
+      sort: "id,ASC",
+      article_id: id,
+    };
     commentData(pageForm)
       .then((response) => {
         setComments(response.content);
       })
       .catch((e) => {
         console.log(e);
-        window.alert("댓글을 불러오는 중에 오류가 발생했습니다.");
+        alert("댓글을 불러오는 중에 오류가 발생했습니다.");
       });
   };
 
@@ -47,7 +58,6 @@ function CommentCreate() {
       [changedField]: newValue,
     });
   };
-
   const handleCommentFormSubmit = (e) => {
     e.preventDefault();
     if (window.confirm("댓글을 작성하시겠습니까?")) {
@@ -55,7 +65,7 @@ function CommentCreate() {
         .then((response) => {
           alert("댓글 작성이 완료되었습니다.");
           console.log(response);
-          setUserEmail(response.email);
+          console.log(userEmail);
           setCommentForm({ ...commentForm, content: "" });
           fetchComments();
         })
@@ -85,7 +95,7 @@ function CommentCreate() {
         </form>
       </div>
       <div className='showcomment'>
-        <Comments element={userEmail} />
+        <Comments userEmail={userEmail} />
       </div>
     </div>
   );

@@ -171,7 +171,7 @@ select option[value=""][disabled] {
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
-  width: 30em;
+  width: 540px;
 }
 
 .course:first-child {

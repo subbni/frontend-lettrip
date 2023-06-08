@@ -8,8 +8,8 @@
 }
 
 .mypage_title {
-  font-size: 2em;
-  padding-bottom: 1.5em;
+  font-size: 32px;
+  padding-bottom: 24px;
   color: rgba(79, 90, 128, 1);
   font-weight: 700;
 }
@@ -25,11 +25,12 @@
 }
 
 .mypage_container_title {
+  margin-left: 70px;
   color: rgb(74, 74, 74);
   position: relative;
   right: 280px;
   top: 20px;
-  font-size: 1.1em;
+  font-size: 17.6px;
   font-weight: 600;
 }
 

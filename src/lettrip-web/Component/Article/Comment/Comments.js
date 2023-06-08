@@ -37,7 +37,7 @@ function Comments({ userEmail }) {
     article_id: id,
     content: "",
     parent_comment_id: parent_comment_id,
-    mentioned_user_email: userEmail,
+    mentioned_user_email: -1,
   });
 
   useEffect(() => {
@@ -70,6 +70,7 @@ function Comments({ userEmail }) {
           options: false, // 설정 버튼 상태 초기값
         }));
         setComments(updatedComments);
+        console.log(response);
       })
       .catch((e) => {
         console.log(e);
@@ -316,12 +317,7 @@ function Comments({ userEmail }) {
                   </button>
                 </form>
               ) : (
-                <p
-                  className='comment-content'
-                  onClick={() => handleModifyComment(comment.id)}
-                >
-                  {comment.content}
-                </p>
+                <p className='comment-content'>{comment.content}</p>
               )}
 
               <div className='replycomments-container'>
@@ -379,20 +375,15 @@ function Comments({ userEmail }) {
                             </button>
                           </form>
                         ) : (
-                          <p
-                            className='comment-content'
-                            onClick={() => handleModifyComment(comment.id)}
-                          >
-                            {comment.content}
-                          </p>
+                          <p className='comment-content'>{reply.content}</p>
                         )}
                       </div>
                     ))}
                   {comment.handleShowReplycomment && (
                     <ReplyCommentCreate
-                      parent_comment_id={comment.id}
-                      mentioned_user_nickname={comment.nickname}
-                      mentioned_user_email={userEmail}
+                      parent_comment_id={comment.id} //정상
+                      mentioned_user_nickname={comment.nickname} //정상
+                      mentioned_user_email={userEmail} //처리
                     />
                   )}
                 </div>
