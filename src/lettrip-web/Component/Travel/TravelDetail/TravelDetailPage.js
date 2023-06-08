@@ -10,7 +10,6 @@ import {
   deleteLiked,
   pushLiked,
 } from "../../../Service/LikedService";
-
 const TravelDetailPage = () => {
   const likedType = "TRAVEL_LIKE";
   const navigate = useNavigate();
@@ -41,7 +40,6 @@ const TravelDetailPage = () => {
       navigate("/login");
     }
   }, []);
-
   useEffect(() => {
     getTravelDetail(id)
       .then((response) => {
@@ -61,7 +59,6 @@ const TravelDetailPage = () => {
         console.log(e);
       });
   }, []);
-
   const checkLiked = () => {
     checkIfLiked(likedType, id)
       .then((response) => {
@@ -74,7 +71,6 @@ const TravelDetailPage = () => {
         console.log(e);
       });
   };
-
   // 좋아요 관리
   const handleLikeClick = () => {
     if (liked) {
@@ -83,7 +79,6 @@ const TravelDetailPage = () => {
       onPushLiked();
     }
   };
-
   const onPushLiked = () => {
     pushLiked(likedForm)
       .then((response) => {
@@ -97,7 +92,6 @@ const TravelDetailPage = () => {
         alert("좋아요 실패");
       });
   };
-
   const onDeleteLiked = () => {
     deleteLiked(likedForm)
       .then((response) => {
@@ -123,12 +117,13 @@ const TravelDetailPage = () => {
             {liked ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
         </div>
+
         <div className='travelCourse-thenumberOf'>
-          코스 수 {travel.numberOfCourses}개
+          다녀온 코스 : {travel.numberOfCourses}개
         </div>
         <div className='travelCourse-theme'>#{travel.travelTheme}</div>
         <div className='travelCourse-totalcost'>
-          총 비용 {travel.totalCost}원
+          총 비용 : {travel.totalCost}원 / 인
         </div>
       </div>
       <div className='course_detail_container'>
@@ -141,5 +136,4 @@ const TravelDetailPage = () => {
     </div>
   );
 };
-
 export default TravelDetailPage;
