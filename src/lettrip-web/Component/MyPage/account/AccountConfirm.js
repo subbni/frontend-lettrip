@@ -48,7 +48,7 @@ const AccountConfirm = () => {
 
   return (
     <div className='account-modify-container'>
-      <div className='account-modify-title'>정보 수정</div>
+      <div className='account-modify-title'>본인 확인</div>
       {profile.imageUrl !== null ? (
         <img
           className='mypage_profile_image'
