@@ -1,6 +1,14 @@
+import { useNavigate } from "react-router-dom";
+
 const LikedTravelItem = ({ travel }) => {
+  const navigate = useNavigate();
   return (
-    <div className='travel_item'>
+    <div
+      className='travel_item'
+      onClick={() => {
+        navigate(`/travel/course/review/${travel.id}`);
+      }}
+    >
       <div className='travel_item_element'>
         <div>
           <div className='travel_theme'>{travel.travelTheme}</div>

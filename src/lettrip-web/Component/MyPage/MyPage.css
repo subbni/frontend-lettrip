@@ -83,12 +83,148 @@
   font-weight: 450;
 }
 
+/*AccountModify (정보 수정) 영역*/
+.account-modify-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.account-modify-title {
+  font-size: 2em;
+  padding-bottom: 1.5em;
+  color: rgba(79, 90, 128, 1);
+  font-weight: 700;
+}
+
+.image-modify-button {
+  font-size: 3em;
+  color: rgb(119, 169, 212);
+  margin-top: -55px;
+  margin-left: 145px;
+  cursor: pointer;
+}
+.profile-image-upload {
+  margin: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: -50px;
+  color: #555;
+  text-align: center;
+}
+
+.profile_nickname-box {
+  margin-top: -80px;
+  margin-bottom: 10px;
+}
+.nickname-input {
+  color: rgba(0, 0, 0, 1);
+  font-size: 1.5em;
+  font-weight: 600;
+  padding: 0.7em;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid rgb(173, 173, 173);
+  background-color: transparent;
+  margin: 1em 0;
+  width: 120px;
+}
+.nickname-modify-button-click {
+  margin-top: -85px;
+  margin-left: 210px;
+  margin-bottom: -5px;
+  color: rgb(105, 104, 104);
+  font-size: 1.5em;
+  padding: 0.7em;
+}
+.nickname-modify-button-unclick {
+  margin-top: -85px;
+  margin-left: 90px;
+  margin-bottom: -5px;
+  color: rgb(105, 104, 104);
+  font-size: 1.5em;
+  padding: 0.7em;
+  cursor: pointer;
+}
+
+.profile-modify-input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 50px 0px;
+}
+
+.profile-modify-box {
+  padding: 0px 100px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: -50px;
+}
+
+.profile-modify-text {
+  color: rgb(79, 77, 77);
+  font-size: 1.2em;
+  font-weight: 600;
+  padding: 1em 0;
+  text-align: left;
+  margin-right: 10px;
+}
+
+.profile-password,
+.profile-name {
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 1rem;
+  padding: 0.5em;
+  text-align: left;
+  border: none;
+  border-bottom: 1px solid rgb(173, 173, 173);
+  background-color: transparent;
+  margin: 0.5em 0;
+}
+
+.profile-name {
+  margin-left: 33px;
+}
+
+.profile-modify-submit {
+  margin-top: 100px;
+  font-size: 1.5em;
+  padding: 1.3em 0;
+  color: white;
+  background-color: rgba(79, 90, 128, 1);
+  font-weight: 600;
+  width: 300px;
+  height: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 25px;
+  text-align: center;
+}
+
+/* AccountWithdraw.js */
+.withdraw-confirm {
+  color: gray;
+  margin-top: 50px;
+  margin-bottom: -60px;
+}
+
 /* account 영역 */
 .account_text {
   color: rgb(120, 120, 120);
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .account_text:hover {

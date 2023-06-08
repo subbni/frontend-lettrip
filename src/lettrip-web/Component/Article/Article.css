@@ -40,6 +40,16 @@
 .article-table td:first-child {
   text-align: left;
 }
+
+.article-table-row {
+  cursor: pointer;
+}
+
+.article-table-row:hover {
+  background-color: rgba(100, 137, 108, 0.109);
+  background-color: #f9f9f9;
+}
+
 .article-page {
   color: black;
   text-decoration: none;
@@ -56,7 +66,6 @@
   font-weight: bold;
   position: relative;
 }
-
 .page-title::after {
   content: "";
   position: absolute;
@@ -81,7 +90,6 @@
   margin-left: 0;
   margin-right: 0;
 }
-
 .page-views {
   margin-top: -10px;
   margin-bottom: 15px;
@@ -95,8 +103,32 @@
 .page-views p {
   margin-right: 30px;
 }
-.page-modify {
-  margin-left: 520px;
+.page-settings {
+  margin-left: 530px;
+  cursor: pointer;
+  display: inline-block;
+  color: #2e3b4c;
+  padding: 8px;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.page-setting-options {
+  margin-left: -30px;
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px;
+  z-index: 1;
+  white-space: nowrap;
+  border-radius: 4px;
+  position: relative;
+}
+
+.page-modify,
+.page-delete {
+  margin-left: 20px;
+  cursor: pointer;
+  display: inline-block;
 }
 
 .Comments {

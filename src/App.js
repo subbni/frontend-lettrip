@@ -4,10 +4,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./lettrip-web/Top/Header";
 import Navbar from "./lettrip-web/Top/Navbar";
 
-//페이지 경로 설정
+//홈페이지
 import Home from "./lettrip-web/Component/Home";
+
+//로그인,회원가입 경로 설정
 import Login from "./lettrip-web/Component/Auth/Login/Login";
 import SignUp from "./lettrip-web/Component/Auth/SignUp/SignUp";
+import OAuth2RedirectHandler from "./lettrip-web/Component/Auth/Login/OAuth2RedirectHandler";
 
 //커뮤니티 경로 설정
 import ArticleList from "./lettrip-web/Component/Article/ArticleList";
@@ -17,18 +20,28 @@ import ArticlePage from "./lettrip-web/Component/Article/ArticlePage";
 
 //여행코스 검색 경로 설정
 import TravelSearchPage from "./lettrip-web/Component/Travel/TravelSearch/TravelSearchPage";
+//여행코스 후기 검색 상세 화면
 import TravelDetailPage from "./lettrip-web/Component/Travel/TravelDetail/TravelDetailPage";
+//여행코스 계획 검색 상세 화면
+import TravelPlanDetailPage from "./lettrip-web/Component/Travel/TravelDetail/TravelPlanDetailPage";
 //여행코스 계획 경로 설정
 import TravelPlanTemplate from "./lettrip-web/Component/Travel/TravelPlan/TravelPlanTemplate";
 //여행코스 후기 경로 설정
 import TravelReviewTemplate from "./lettrip-web/Component/Travel/TravelReview/TravelReviewTemplate";
 
-// 미션
+//미션
 import MissionPage from "./lettrip-web/Component/Mission/MissionPage";
 import QRMissionPage from "./lettrip-web/Component/Mission/QR/QRMissionPage";
 
-// 마이페이지
+//마이페이지
 import MyPage from "./lettrip-web/Component/MyPage/MyPage";
+//마이페이지 정보 수정 전, 비밀번호 확인하기 (본인확인)
+import AccountConfirm from "./lettrip-web/Component/MyPage/account/AccountConfirm";
+//마이페이지 정보 수정
+import AccountModify from "./lettrip-web/Component/MyPage/account/AccountModify";
+//마이페이지 회원 탈퇴
+import AccountWithdraw from "./lettrip-web/Component/MyPage/account/AccountWithdraw";
+
 import PlaceReviewPage from "./lettrip-web/Component/PlaceReview/PlaceReviewPage";
 
 function App() {
@@ -41,9 +54,19 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signUp' element={<SignUp />} />
+          <Route path='oauth2/redirect' element={<OAuth2RedirectHandler />} />
 
           <Route path='/travel/search' element={<TravelSearchPage />} />
-          <Route path='/travel/course/:id' element={<TravelDetailPage />} />
+          <Route
+            path='/travel/course/review/:id'
+            element={<TravelDetailPage />}
+          />
+
+          <Route
+            path='/travel/course/plan/:id'
+            element={<TravelPlanDetailPage />}
+          />
+
           <Route
             path='/travel/course/create'
             element={<TravelPlanTemplate />}
@@ -63,6 +86,10 @@ function App() {
           <Route path='/articles/modify/:id' element={<ArticleModify />} />
 
           <Route path='/mypage' element={<MyPage />} />
+          <Route path='/mypage/modify' element={<AccountModify />} />
+          <Route path='/mypage/confirm' element={<AccountConfirm />} />
+          <Route path='/mypage/withdraw' element={<AccountWithdraw />} />
+
           <Route path='/place' element={<PlaceReviewPage />} />
         </Routes>
       </div>

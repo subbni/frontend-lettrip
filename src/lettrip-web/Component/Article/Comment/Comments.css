@@ -71,13 +71,43 @@
 .comment-nickname {
   font-size: 16px;
 }
-.comment-createdDate,
-.comment-modify,
-.comment-delete {
+.comment-createdDate {
   font-size: 13px;
   margin-top: -10px;
   color: gray;
 }
+.comment-settings {
+  margin-top: -10px;
+  cursor: pointer;
+  display: inline-block;
+  color: gray;
+  padding: 8px;
+  z-index: 1;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.comment-setting-options {
+  margin-top: -23px;
+  margin-left: -20px;
+  cursor: pointer;
+  display: inline-block;
+  color: gray;
+  top: 100%;
+  padding: 8px;
+  z-index: 1;
+  white-space: nowrap;
+  border-radius: 4px;
+  position: relative;
+}
+.comment-modify,
+.comment-delete {
+  font-size: 13px;
+  color: gray;
+  margin-left: 20px;
+  cursor: pointer;
+  display: inline-block;
+}
+
 .comment-modfiy-input textarea {
   flex: 1;
   height: 50px;
@@ -112,6 +142,14 @@
   flex-direction: column;
   align-items: flex-start;
 }
+.showReplycomment-button {
+  font-size: 15px;
+  color: gray;
+  margin-left: 20px;
+  cursor: pointer;
+  display: inline-block;
+}
+
 .replycomment-views {
   margin-top: 0px;
   margin-bottom: 15px;

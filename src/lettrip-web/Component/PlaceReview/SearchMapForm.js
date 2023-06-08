@@ -169,7 +169,7 @@ const SearchMapForm = ({ onPlaceSelect }) => {
         />
         <GoSearch className='place_search_btn' onClick={handleSearch} />
       </div>
-      <div id='map' style={{ width: "100%", height: "18em" }} />
+      <div id='map' />
       <div>
         {isPlaceSelected ? (
           <div className='place_search_info'>

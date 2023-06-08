@@ -119,38 +119,38 @@ const CourseReviewItem = ({
     onDeleteBtnClick(course, fileNames, imageFiles);
   };
   return (
-    <div className="course">
+    <div>
       {isPlaceSelected ? (
         <div>
-          <div className="courseComponent">
+          <div className='courseComponent'>
             <label>장소</label>
             <p>{course.place.name}</p>
           </div>
-          <div className="courseComponent">
+          <div className='courseComponent'>
             <label>도착시간</label>
             <input
-              type="time"
-              name="arrivedTime"
+              type='time'
+              name='arrivedTime'
               onChange={onChange}
               disabled={confirm}
               required
             />
           </div>
-          <div className="courseComponent">
+          <div className='courseComponent'>
             <label>비용</label>
             <input
-              type="number"
-              name="cost"
+              type='number'
+              name='cost'
               onChange={onChange}
               disabled={confirm}
               required
             />
           </div>
-          <div className="courseComponent">
+          <div className='courseComponent'>
             <label>별점</label>
             <input
-              type="number"
-              name="rating"
+              type='number'
+              name='rating'
               min={1}
               max={5}
               onChange={onReviewChange}
@@ -158,25 +158,29 @@ const CourseReviewItem = ({
               required
             />
           </div>
-          <div className="courseComponent">
-            <label >혼자 가기에도 좋을까요?</label>
-            <form className="radioButtonForm">
-              <input
-                type="radio"
-                name="soloFriendlyRating"
-                value={1}
-                onChange={onReviewChange}
-                disabled={confirm}
-              />
-              <span >네</span>
-              <input
-                type="radio"
-                name="soloFriendlyRating"
-                value={0}
-                onChange={onReviewChange}
-                disabled={confirm}
-              />
-              <span>아니오</span>
+          <div className='courseComponent'>
+            <label>혼자 가기에도 좋을까요?</label>
+            <form className='radioButtonForm'>
+              <div className='radio_element'>
+                <input
+                  type='radio'
+                  name='soloFriendlyRating'
+                  value={1}
+                  onChange={onReviewChange}
+                  disabled={confirm}
+                />
+                <div>네</div>
+              </div>
+              <div className='radio_element'>
+                <input
+                  type='radio'
+                  name='soloFriendlyRating'
+                  value={0}
+                  onChange={onReviewChange}
+                  disabled={confirm}
+                />
+                <div>아니오</div>
+              </div>
             </form>
           </div>
           <ImageFileForm
@@ -186,20 +190,25 @@ const CourseReviewItem = ({
             onImageFileDelete={onImageFileDelete}
             confirm={confirm}
           />
-          <div className="courseComponent"
-          style={{ display: "flex", alignItems: "center" }}>
-            <label>상세 후기</label>
+          <div className='courseComponent'>
+            <div>
+              <label>상세 후기</label>
+            </div>
             <textarea
-              name="detailedReview"
+              className='detailedReview'
+              name='detailedReview'
               onChange={onReviewChange}
               disabled={confirm}
-              style={{ width: "500px", height:"200px" }}
-              
+              placeholder='내용을 입력해 주세요.'
             ></textarea>
           </div>
-          <div className="courseComponent">
-            <button onClick={onBtnClick} className="submitButton">{btnMessage}</button>
-            <button onClick={onDeleteClick} className="deleteButton">삭제</button>
+          <div className='courseComponent'>
+            <button onClick={onBtnClick} className='submitButton'>
+              {btnMessage}
+            </button>
+            <button onClick={onDeleteClick} className='deleteButton'>
+              삭제
+            </button>
           </div>
         </div>
       ) : (

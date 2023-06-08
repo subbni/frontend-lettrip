@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { checkIfLoggedIn } from "../Service/AuthService";
+
 import { AiOutlineUser, AiOutlineSearch, AiFillHeart } from "react-icons/ai";
-import { ACCESS_TOKEN } from "../Constant/backendAPI";
 import logo_image from "../../image/logo.png";
 import "./Top.css";
 
 function Navbar() {
   const navigate = useNavigate();
+
   const [showSubMenu, setShowSubMenu] = useState(false);
   const menuRef = useRef();
 
@@ -36,6 +38,17 @@ function Navbar() {
   function handleLogoClick() {
     navigate("/");
   }
+
+  const handlemypage = (e) => {
+    e.preventDefault();
+    if (!checkIfLoggedIn()) {
+      navigate("/login");
+      return;
+    } else {
+      navigate("/mypage");
+    }
+  };
+
   return (
     <div className='navbar'>
       <Link to='/'>
@@ -58,9 +71,6 @@ function Navbar() {
                 <Link to='/travel/search' className='navbar-travel-item'>
                   여행코스 검색
                 </Link>
-                <Link to='/travel' className='navbar-travel-item'>
-                  여행코스 등록
-                </Link>
                 <Link to='/travel/course/create' className='navbar-travel-item'>
                   여행코스 계획 등록
                 </Link>
@@ -81,9 +91,9 @@ function Navbar() {
           </Link>
         </div>
         <div className='navbar-icons'>
-          <Link to='/mypage' className='navbar-icon'>
+          <div className='navbar-icon' onClick={handlemypage}>
             <AiOutlineUser />
-          </Link>
+          </div>
           <Link to='/place' className='navbar-icon'>
             <AiOutlineSearch />
           </Link>
