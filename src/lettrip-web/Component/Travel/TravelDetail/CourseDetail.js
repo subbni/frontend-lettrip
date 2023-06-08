@@ -11,19 +11,25 @@ const CourseDetail = ({ course }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [showReview, setShowReview] = useState(false);
 
+  const fileUrls = course?.review?.fileUrls; // fileUrls 선언 및 초기화
+
   // 이미지 관리
   const renderImages = () => {
-    if (course.review.fileUrls.length === 0) {
+    if (fileUrls === null || fileUrls === undefined) {
+      return <img className='basic-image' src={no_image} alt='basic' />;
+    }
+    // 이미지 렌더링 로직
+    if (fileUrls.length === 0) {
       return <img className='basic-image' src={no_image} alt='basic' />;
     }
     const handlePrevImage = () => {
       setCurrentImage((prevImage) =>
-        prevImage === 0 ? course.review.fileUrls.length - 1 : prevImage - 1
+        prevImage === 0 ? fileUrls.length - 1 : prevImage - 1
       );
     };
     const handleNextImage = () => {
       setCurrentImage((prevImage) =>
-        prevImage === course.review.fileUrls.length - 1 ? 0 : prevImage + 1
+        prevImage === fileUrls.length - 1 ? 0 : prevImage + 1
       );
     };
 

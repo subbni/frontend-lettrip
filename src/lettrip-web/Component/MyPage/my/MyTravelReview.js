@@ -25,7 +25,11 @@ const MyTravelReview = () => {
       {reviewList.length > 0 ? (
         <div>
           {reviewList.map((travel) => (
-            <MyTravelItem travel={travel} key={travel.id} />
+            <MyTravelItem
+              travel={travel}
+              clickPath='/travel/course/review/'
+              key={travel.id}
+            />
           ))}
         </div>
       ) : (
