@@ -4,7 +4,7 @@ import { RiArrowGoBackLine } from "react-icons/ri";
 import { getPlace, getReviewPage } from "../../Service/PlaceReviewService";
 
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-import medal from "../../../image/medal.png";
+import medal from "../../../image/place/verified_Badge.svg.png";
 
 import "./PlaceReview.css";
 
