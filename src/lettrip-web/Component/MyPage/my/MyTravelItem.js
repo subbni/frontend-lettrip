@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const MyTravelItem = ({ travel }) => {
+const MyTravelItem = ({ travel, clickPath }) => {
   const navigate = useNavigate();
   return (
     <div
       className='travel_item'
       onClick={() => {
-        navigate(`/travel/course/${travel.id}`);
+        navigate(clickPath + travel.id);
       }}
     >
       <div className='travel_item_element'>

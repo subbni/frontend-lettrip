@@ -9,7 +9,7 @@ const ResultItem = ({ travel, onClick }) => {
     <div
       className='travel_search_resultItem'
       id={travel.id}
-      onClick={() => navigate(`/travel/course/${travel.id}`)}
+      onClick={() => navigate(`/travel/course/review/${travel.id}`)}
     >
       <div className='writerInfo'>
         {travel.writerImageUrl === null ? (

@@ -6,7 +6,7 @@ const LikedTravelItem = ({ travel }) => {
     <div
       className='travel_item'
       onClick={() => {
-        navigate(`/travel/course/${travel.id}`);
+        navigate(`/travel/course/review/${travel.id}`);
       }}
     >
       <div className='travel_item_element'>
