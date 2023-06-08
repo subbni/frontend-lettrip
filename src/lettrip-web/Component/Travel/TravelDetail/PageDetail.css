@@ -71,9 +71,9 @@
   border-radius: 30px;
   box-sizing: border-box;
   background-color: #eeeeee;
-  padding: 2em 2em;
-  margin: 1em;
-  width: 40em;
+  padding: 10px 20px;
+  margin: 16px;
+  width: 500px;
 }
 
 .searchresult-header {
@@ -84,9 +84,10 @@
 .searchresult-title {
   margin-left: 15px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 23px;
   margin-right: 5px;
-  margin-bottom: 1em;
+  position: relative;
+  color: black;
 }
 
 .searchresult-like-button {
@@ -150,7 +151,7 @@
 }
 .searchresult-images {
   text-align: center;
-  width: 50%;
+  width: 95%;
   height: 250px;
   margin-bottom: 5px;
   position: relative;

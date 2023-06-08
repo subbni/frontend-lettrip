@@ -111,12 +111,12 @@ const CourseDetail = ({ course }) => {
             {getKoreanDateTime(course.arrivedTime).substring(0, 8)}
           </div>
         </div>
+        <div className='searchresult-header'>
+          <div className='searchresult-title'>{course.place.name}</div>
+        </div>
         <div className='searchresult-arrivedTime'>
           {getKoreanDateTime(course.arrivedTime).substring(8)}
         </div>
-      </div>
-      <div className='searchresult-header'>
-        <div className='searchresult-title'>{course.place.name}</div>
       </div>
 
       {renderImages()}
