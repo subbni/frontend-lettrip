@@ -32,7 +32,6 @@ export function signUp(signUpRequest) {
   });
 } //회원가입 요청
 
-
 export function confirmPassword(password) {
   return request({
     url: API_BASE_URL + "/api/auth/confirm",
@@ -54,7 +53,7 @@ export function checkIfLoggedIn() {
     return false;
   }
   return true;
-}
+} //로그인 여부 확인 - 토큰
 
 class AuthService {}
 export default new AuthService();

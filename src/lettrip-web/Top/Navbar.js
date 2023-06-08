@@ -1,25 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { checkIfLoggedIn } from "../Service/AuthService";
+
 import { AiOutlineUser, AiOutlineSearch, AiFillHeart } from "react-icons/ai";
-import { ACCESS_TOKEN } from "../Constant/backendAPI";
 import logo_image from "../../image/logo.png";
 import "./Top.css";
 
 function Navbar() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [showSubMenu, setShowSubMenu] = useState(false);
   const menuRef = useRef();
-
-  useEffect(() => {
-    //로그인 여부 확인하기
-    const storedToken = localStorage.getItem(ACCESS_TOKEN);
-    if (storedToken) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -50,8 +41,8 @@ function Navbar() {
 
   const handlemypage = (e) => {
     e.preventDefault();
-    if (!isLoggedIn) {
-      window.alert("로그인이 필요합니다.");
+    if (!checkIfLoggedIn()) {
+      navigate("/login");
       return;
     } else {
       navigate("/mypage");

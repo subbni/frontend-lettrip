@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../Constant/backendAPI";
+
 import "./Top.css";
 
 function Header() {
@@ -9,31 +10,11 @@ function Header() {
 
   useEffect(() => {
     const storedToken = localStorage.getItem(ACCESS_TOKEN);
-    if (storedToken) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
-
-  const fetchCheckLogin = () => {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN);
-    if (accessToken) {
-      setIsLoggedIn(true);
-      localStorage.setItem("isLoggedIn", "true");
-    } else {
-      setIsLoggedIn(false);
-      localStorage.setItem("isLoggedIn", "false");
-    }
-  };
-
-  useEffect(() => {
-    fetchCheckLogin();
+    setIsLoggedIn(!!storedToken);
   }, []);
 
   const handleLogout = () => {
-    const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
-    if (confirmLogout) {
+    if (window.confirm("로그아웃 하시겠습니까?")) {
       setIsLoggedIn(false);
       localStorage.removeItem(ACCESS_TOKEN);
       window.alert("로그아웃 되었습니다.");
