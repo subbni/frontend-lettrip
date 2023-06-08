@@ -26,7 +26,11 @@ const MyTravelPlan = () => {
       {planList.length > 0 ? (
         <div>
           {planList.map((travel) => (
-            <MyTravelItem travel={travel} key={travel.id} />
+            <MyTravelItem
+              travel={travel}
+              clickPath='/travel/course/plan/'
+              key={travel.id}
+            />
           ))}
         </div>
       ) : (
