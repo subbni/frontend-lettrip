@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "./Article.css";
 import {
   showArticle,
   deleteArticle,
   listArticle,
 } from "../../Service/ArticleService";
+
 import CommentCreate from "./Comment/CommentCreate";
-import { ACCESS_TOKEN } from "../../Constant/backendAPI";
+
+import { AiFillSetting } from "react-icons/ai";
+import "./Article.css";
 
 function ArticlePage() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
+
+  const [pageOptions, setpageOptions] = useState(false);
+  const menuRef = useRef();
 
   const [post, setPost] = useState([]);
   const [pageForm, setPageForm] = useState({
@@ -21,16 +25,6 @@ function ArticlePage() {
     size: 10,
     sort: "id,DESC",
   });
-
-  useEffect(() => {
-    //로그인 여부 확인하기
-    const storedToken = localStorage.getItem(ACCESS_TOKEN);
-    if (storedToken) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
 
   useEffect(() => {
     //게시글 작성자와 로그인 사용자 동일 여부 확인하기
@@ -46,6 +40,15 @@ function ArticlePage() {
     fetchArticle();
   }, []);
 
+  useEffect(() => {
+    //게시글 설정 버튼 누르기
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  //게시글 불러오기
   const fetchArticle = () => {
     console.log(`현재 파라미터 = ${id}`);
     showArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
@@ -55,26 +58,26 @@ function ArticlePage() {
       })
       .catch((e) => {
         console.log(e);
-        window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
+        alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
         navigate("/articles");
       });
   };
+
   //게시글 삭제
   const handleDelete = () => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       deleteArticle(id)
         .then(() => {
-          window.alert("게시글이 삭제되었습니다.");
+          alert("게시글이 삭제되었습니다.");
           navigate("/articles");
           fetchArticles();
         })
         .catch((e) => {
           console.log(e);
-          window.alert(
-            "게시글 삭제에 실패했습니다. 다시 시도해주시길 바랍니다."
-          );
+          alert("게시글 삭제에 실패했습니다. 다시 시도해주시길 바랍니다.");
         });
     }
+    //게시글 목록에 업데이트
     const fetchArticles = () => {
       listArticle(pageForm)
         .then(() => {
@@ -86,10 +89,21 @@ function ArticlePage() {
         });
     };
   };
+
   //게시글 수정
   const handleModify = () => {
     navigate(`/articles/modify/${post.id}`);
   };
+
+  //설정 아이콘 누르면 메뉴 나오게 하기 (수정, 삭제, ?URL복사)
+  const pageSettings = () => {
+    setpageOptions(!pageOptions);
+  };
+  function handleClickOutside(e) {
+    if (menuRef.current && !menuRef.current.contains(e.target)) {
+      setpageOptions(false);
+    }
+  }
 
   // 한국 시차 설정하기
   const getKoreanDateTime = (dateString) => {
@@ -117,15 +131,22 @@ function ArticlePage() {
             <p>좋아요 수 : {post.likedCount}</p>
             <p>작성일자 : {getKoreanDateTime(post.createdDate)}</p>
             <p>수정일자 : {getKoreanDateTime(post.modifiedDate)}</p>
-            {isEditable && (
-              <p className='page-modify' onClick={() => handleModify(post.id)}>
-                수정
-              </p>
-            )}
-            {isEditable && (
-              <p className='page-delete' onClick={() => handleDelete(post.id)}>
-                삭제
-              </p>
+            <p className='page-settings' onClick={pageSettings}>
+              <AiFillSetting />
+            </p>
+            {pageOptions && (
+              <div className='page-setting-options'>
+                {isEditable && (
+                  <div className='page-modify' onClick={handleModify}>
+                    수정
+                  </div>
+                )}
+                {isEditable && (
+                  <div className='page-delete' onClick={handleDelete}>
+                    삭제
+                  </div>
+                )}
+              </div>
             )}
           </div>
           <p className='page-content'>{post.content}</p>

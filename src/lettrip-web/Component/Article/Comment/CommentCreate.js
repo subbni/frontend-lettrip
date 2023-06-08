@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { commentData, createComment } from "../../../Service/ArticleService";
-import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
-
-import "./Comments.css";
 
 import Comments from "./Comments";
 
+import "./Comments.css";
+
 function CommentCreate() {
   const { id } = useParams();
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부를 저장하는 상태
+  const [userEmail, setUserEmail] = useState("");
+
   const [comments, setComments] = useState([]);
   const [pageForm, setPageForm] = useState({
     page: 0,
@@ -21,18 +21,6 @@ function CommentCreate() {
     article_id: id,
     content: "",
   }); //댓글 작성시 요청 정보
-  const [userEmail, setUserEmail] = useState(""); // 사용자 이메일 상태
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem(ACCESS_TOKEN);
-    const storedEmail = localStorage.getItem("email");
-    if (storedToken && storedEmail) {
-      setIsLoggedIn(true);
-      setUserEmail(storedEmail);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
 
   useEffect(() => {
     fetchComments();
@@ -62,21 +50,18 @@ function CommentCreate() {
 
   const handleCommentFormSubmit = (e) => {
     e.preventDefault();
-    if (!isLoggedIn) {
-      window.alert("로그인이 필요합니다.");
-      return;
-    }
     if (window.confirm("댓글을 작성하시겠습니까?")) {
       createComment(commentForm)
         .then((response) => {
-          window.alert("댓글 작성이 완료되었습니다.");
+          alert("댓글 작성이 완료되었습니다.");
           console.log(response);
+          setUserEmail(response.email);
           setCommentForm({ ...commentForm, content: "" });
           fetchComments();
         })
         .catch((e) => {
           console.log(e);
-          window.alert("댓글 작성에 실패했습니다. 다시 시도해주시길 바랍니다.");
+          alert("댓글 작성에 실패했습니다. 다시 시도해주시길 바랍니다.");
         });
     }
   };
@@ -100,7 +85,7 @@ function CommentCreate() {
         </form>
       </div>
       <div className='showcomment'>
-        <Comments userEmail={userEmail} />
+        <Comments element={userEmail} />
       </div>
     </div>
   );

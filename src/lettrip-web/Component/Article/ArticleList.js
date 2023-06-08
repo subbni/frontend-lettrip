@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { listArticle } from "../../Service/ArticleService";
-import { ACCESS_TOKEN } from "../../Constant/backendAPI";
-import "./Article.css";
+import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn } from "../../Service/AuthService";
+import { listArticle } from "../../Service/ArticleService";
+
+import "./Article.css";
 
 function ArticleList() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [pageForm, setPageForm] = useState({
     page: 0,
     size: 10,
@@ -39,7 +38,6 @@ function ArticleList() {
       navigate("/articles/create");
     }
   };
-
   const handleArticleClick = (e) => {
     if (!checkIfLoggedIn()) {
       navigate("/login");
@@ -47,6 +45,7 @@ function ArticleList() {
       navigate(`/articles/${e.target.id}`);
     }
   };
+
   return (
     <div>
       <h2 className='article-list'>게시글 목록</h2>

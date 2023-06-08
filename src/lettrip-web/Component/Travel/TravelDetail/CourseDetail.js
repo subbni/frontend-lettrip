@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import no_image from "../../../../image/travel/no_image.png";
-import {
-  AiFillHeart,
-  AiOutlineHeart,
-  AiFillStar,
-  AiOutlineStar,
-} from "react-icons/ai";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import "./PageDetail.css";
 
 const CourseDetail = ({ course }) => {
@@ -100,7 +95,6 @@ const CourseDetail = ({ course }) => {
     const [year, month, day, timePart] = koreanDate.split(". ");
     return `${year}/${month}/${day} ${timePart}`;
   };
-
 
   return (
     <div className='searchresult-container'>

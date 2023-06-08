@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ACCESS_TOKEN } from "../../Constant/backendAPI";
 import { modifyArticle, showArticle } from "../../Service/ArticleService";
 
 import "./ArticleCreate.css";
@@ -8,29 +7,11 @@ import "./ArticleCreate.css";
 function ArticleModify() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isEditable, setIsEditable] = useState(false);
 
   const [articleForm, setArticleForm] = useState({
     title: "",
     content: "",
   });
-
-  useEffect(() => {
-    //로그인 여부 확인하기
-    const storedToken = localStorage.getItem(ACCESS_TOKEN);
-    const storedEmail = localStorage.getItem("email");
-    if (storedToken) {
-      setIsLoggedIn(true);
-      setArticleForm((prevForm) => ({
-        ...prevForm,
-        email: storedEmail,
-      }));
-      console.log(storedEmail);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
 
   useEffect(() => {
     fetchArticle();
@@ -48,7 +29,7 @@ function ArticleModify() {
       })
       .catch((e) => {
         console.log(e);
-        window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
+        alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
         navigate("/articles");
       });
   };
@@ -71,15 +52,13 @@ function ArticleModify() {
       };
       modifyArticle(modifyForm)
         .then((response) => {
-          window.alert("게시글 수정이 완료되었습니다.");
+          alert("게시글 수정이 완료되었습니다.");
           navigate(`/articles/${id}`);
           console.log(response);
         })
         .catch((e) => {
           console.log(e);
-          window.alert(
-            "게시글 수정에 실패했습니다. 다시 시도해주시길 바랍니다."
-          );
+          alert("게시글 수정에 실패했습니다. 다시 시도해주시길 바랍니다.");
         });
     }
   };
