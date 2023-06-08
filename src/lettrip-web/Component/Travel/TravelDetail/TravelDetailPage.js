@@ -5,10 +5,20 @@ import { getTravelDetail } from "../../../Service/TravelService";
 import CourseDetail from "./CourseDetail";
 import "./PageDetail.css";
 import { checkIfLoggedIn } from "../../../Service/AuthService";
+import {
+  checkIfLiked,
+  deleteLiked,
+  pushLiked,
+} from "../../../Service/LikedService";
 
 const TravelDetailPage = () => {
+  const likedType = "TRAVEL_LIKE";
   const navigate = useNavigate();
   const { id } = useParams();
+  const likedForm = {
+    targetId: id,
+    likedType: likedType,
+  };
   const [travel, setTravel] = useState({
     writerNickname: "",
     writerEmail: "",
@@ -36,6 +46,7 @@ const TravelDetailPage = () => {
       .then((response) => {
         console.log(response);
         setTravel(response);
+        checkLiked();
       })
       .catch((e) => {
         alert("오류가 발생했습니다.");
@@ -43,11 +54,55 @@ const TravelDetailPage = () => {
       });
   }, []);
 
-  // 좋아요 관리
-  const handleLikeClick = () => {
-    setLiked(!liked);
+  const checkLiked = () => {
+    checkIfLiked(likedType, id)
+      .then((response) => {
+        if (response.liked) {
+          console.log(response);
+          setLiked(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
+  // 좋아요 관리
+  const handleLikeClick = () => {
+    if (liked) {
+      onDeleteLiked();
+    } else {
+      onPushLiked();
+    }
+  };
+
+  const onPushLiked = () => {
+    pushLiked(likedForm)
+      .then((response) => {
+        console.log(response);
+        if (response.success) {
+          setLiked(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("좋아요 실패");
+      });
+  };
+
+  const onDeleteLiked = () => {
+    deleteLiked(likedForm)
+      .then((response) => {
+        console.log(response);
+        if (response.success) {
+          setLiked(false);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("좋아요 취소 실패");
+      });
+  };
   return (
     <div>
       <div className='travelCourse-container'>
