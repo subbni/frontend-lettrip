@@ -28,11 +28,20 @@ const ResultItem = ({ travel, onClick }) => {
       ) : (
         <img className='mainImage' src={travel.mainImageUrl} />
       )}
-      <div className='travelInfo'>
-        <div className='travelInfo_title'>{travel.title}</div>
-        <div>코스 {travel.numberOfCourses}개</div>
-        <div>#{travel.travelTheme}</div>
-        <div>{travel.totalCost}원</div>
+
+      <div className='travelInfo_title'>{travel.title}</div>
+      <div className='travelInfo_container'>
+        <div className='travelInfo'>
+          <div>코스 {travel.numberOfCourses}개</div>
+          <div>#{travel.travelTheme}</div>
+          <div>{travel.totalCost}원</div>
+        </div>
+        <div className='travelInfo_place'>
+          <div className='travel_place'>
+            {travel.city}
+            <span className='travel_place_small'> {travel.province}</span>
+          </div>
+        </div>
       </div>
     </div>
   );

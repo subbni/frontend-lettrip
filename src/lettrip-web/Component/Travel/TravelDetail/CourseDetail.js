@@ -15,7 +15,6 @@ const CourseDetail = ({ course }) => {
 
   const [currentImage, setCurrentImage] = useState(0);
   const [showReview, setShowReview] = useState(false);
-  const [liked, setLiked] = useState(false);
 
   // 이미지 관리
   const renderImages = () => {
@@ -86,11 +85,6 @@ const CourseDetail = ({ course }) => {
     setShowReview(!showReview);
   };
 
-  // 좋아요 관리
-  const handleLikeClick = () => {
-    setLiked(!liked);
-  };
-
   //시간 표시 관리
   const getKoreanDateTime = (dateString) => {
     const options = {
@@ -107,13 +101,11 @@ const CourseDetail = ({ course }) => {
     return `${year}/${month}/${day} ${timePart}`;
   };
 
+
   return (
     <div className='searchresult-container'>
       <div className='searchresult-header'>
         <div className='searchresult-title'>{course.place.name}</div>
-        <button className='searchresult-like-button' onClick={handleLikeClick}>
-          {liked ? <AiFillHeart /> : <AiOutlineHeart />}
-        </button>
       </div>
       <div className='searchresult-dayCountArrivedTime'>
         <div className='searchresult-dayCount'>{course.dayCount}일차</div>

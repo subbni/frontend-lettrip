@@ -3,10 +3,10 @@ import TravelData, { Citys, Provinces, TravelThemes } from "../TravelData";
 import { searchTravelList } from "../../../Service/TravelService";
 import "./Search.css";
 
-const SearchForm = ({ onGetResult }) => {
+const SearchForm = ({ onGetResult, pageForm }) => {
   const [searchForm, setSearchForm] = useState({
-    province: "",
-    city: "",
+    province: "all",
+    city: "all",
     minCost: -1,
     maxCost: -1,
     minNumberOfCourses: -1,
@@ -20,11 +20,6 @@ const SearchForm = ({ onGetResult }) => {
   const [numberOfCourses, setNumberOfCourses] = useState({
     minNumberOfCourses: "",
     maxNumberOfCourses: "",
-  });
-  const [pageForm, setPageForm] = useState({
-    page: 0,
-    size: 10,
-    sort: "id,DESC",
   });
   const [matchedCitys, setMatchedCitys] = useState([]);
 
@@ -56,6 +51,12 @@ const SearchForm = ({ onGetResult }) => {
       document.getElementById("city").value = "default";
     }
   }, [searchForm.province]);
+
+  useEffect(() => {
+    console.log("---SearchForm---");
+    console.log(pageForm);
+    searchTravel();
+  }, [pageForm]);
 
   const onSearchFormChange = (e) => {
     const changingField = e.target.name;
@@ -131,19 +132,26 @@ const SearchForm = ({ onGetResult }) => {
       return;
     }
     console.log(searchForm);
+    console.log(pageForm);
+    searchTravel();
+  };
+
+  const searchTravel = () => {
     searchTravelList(searchForm, pageForm)
       .then((response) => {
         console.log(response);
         if (response.content.length === 0) {
           alert("해당하는 여행 코스가 존재하지 않습니다.");
         }
-        onGetResult(response.content);
+        console.log(response.totalElements);
+        onGetResult(response.content, response.totalElements);
       })
       .catch((e) => {
         alert("오류가 발생했습니다.");
         console.log(e);
       });
   };
+
   return (
     <div className='travelSearchForm'>
       <div className='travelSearch_title'>여행 코스 검색</div>
