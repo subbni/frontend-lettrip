@@ -116,10 +116,12 @@ const TravelDetailPage = () => {
           </button>
         </div>
         <div className='travelCourse-thenumberOf'>
-          코스 : {travel.numberOfCourses}개
+          다녀온 코스 : {travel.numberOfCourses}개
         </div>
         <div className='travelCourse-theme'>#{travel.travelTheme}</div>
-        <div className='travelCourse-totalcost'>{travel.totalCost}원 / 인</div>
+        <div className='travelCourse-totalcost'>
+          총 비용 : {travel.totalCost}원 / 인
+        </div>
       </div>
       <div>
         {travel.courses.map((course, idx) => (
