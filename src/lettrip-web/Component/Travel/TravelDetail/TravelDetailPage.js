@@ -34,6 +34,7 @@ const TravelDetailPage = () => {
     courses: [],
   });
   const [liked, setLiked] = useState(false);
+  const [courseList, setCourseList] = useState([]);
 
   useEffect(() => {
     if (!checkIfLoggedIn()) {
@@ -46,6 +47,13 @@ const TravelDetailPage = () => {
       .then((response) => {
         console.log(response);
         setTravel(response);
+        setCourseList(() =>
+          response.courses.sort((a, b) => {
+            const timeA = new Date(a.arrivedTime);
+            const timeB = new Date(b.arrivedTime);
+            return timeA - timeB;
+          })
+        );
         checkLiked();
       })
       .catch((e) => {
@@ -107,7 +115,7 @@ const TravelDetailPage = () => {
     <div>
       <div className='travelCourse-container'>
         <div className='travelCourse-header'>
-          <div className='travelCourse-title'>'{travel.title}' 코스 보기</div>
+          <div className='travelCourse-title'>'{travel.title}' 상세 코스</div>
           <button
             className='travelCourse-like-button'
             onClick={handleLikeClick}
@@ -116,13 +124,15 @@ const TravelDetailPage = () => {
           </button>
         </div>
         <div className='travelCourse-thenumberOf'>
-          코스 : {travel.numberOfCourses}개
+          코스 수 {travel.numberOfCourses}개
         </div>
         <div className='travelCourse-theme'>#{travel.travelTheme}</div>
-        <div className='travelCourse-totalcost'>{travel.totalCost}원 / 인</div>
+        <div className='travelCourse-totalcost'>
+          총 비용 {travel.totalCost}원
+        </div>
       </div>
-      <div>
-        {travel.courses.map((course, idx) => (
+      <div className='course_detail_container'>
+        {courseList.map((course, idx) => (
           <div className='travelCourse-detail' key={idx}>
             <CourseDetail course={course} />
           </div>

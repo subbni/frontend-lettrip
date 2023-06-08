@@ -232,6 +232,7 @@ const TravelReviewTemplate = () => {
         if (response.data.success) {
           if (response) {
             alert("작성 완료되었습니다.");
+            navigate(`/travel/course/review/${response.data}`);
           } else {
             console.log(response);
             alert(`작성 실패. 원인: ${response.data.message}`);
