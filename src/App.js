@@ -43,6 +43,7 @@ import AccountModify from "./lettrip-web/Component/MyPage/account/AccountModify"
 import AccountWithdraw from "./lettrip-web/Component/MyPage/account/AccountWithdraw";
 
 import PlaceReviewPage from "./lettrip-web/Component/PlaceReview/PlaceReviewPage";
+import MainSlider from "./lettrip-web/Component/MainSlider";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
         <Header />
         <Navbar />
         <Routes>
+          <Route path='/slider' element={<MainSlider />}/>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signUp' element={<SignUp />} />

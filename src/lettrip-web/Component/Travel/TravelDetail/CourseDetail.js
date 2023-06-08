@@ -104,15 +104,21 @@ const CourseDetail = ({ course }) => {
 
   return (
     <div className='searchresult-container'>
+      <div className='searchresult-dayCountArrivedTime'>
+        <div className='searchresult-dayCount'>
+          {course.dayCount}일차{" "}
+          <div className='searchresult-date'>
+            {getKoreanDateTime(course.arrivedTime).substring(0, 8)}
+          </div>
+        </div>
+        <div className='searchresult-arrivedTime'>
+          {getKoreanDateTime(course.arrivedTime).substring(8)}
+        </div>
+      </div>
       <div className='searchresult-header'>
         <div className='searchresult-title'>{course.place.name}</div>
       </div>
-      <div className='searchresult-dayCountArrivedTime'>
-        <div className='searchresult-dayCount'>{course.dayCount}일차</div>
-        <div className='searchresult-arrivedTime'>
-          {getKoreanDateTime(course.arrivedTime)}
-        </div>
-      </div>
+
       {renderImages()}
       <div className='searchresult-cost'>{course.cost}원</div>
       <div className='searchresult-ratingreview'>

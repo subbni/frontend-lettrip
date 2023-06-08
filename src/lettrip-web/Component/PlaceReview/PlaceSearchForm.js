@@ -2,13 +2,24 @@ import { useEffect, useState } from "react";
 import SearchMapForm from "./SearchMapForm";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { getPlace, getReviewPage } from "../../Service/PlaceReviewService";
-
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-import medal from "../../../image/medal.png";
+import medal from "../../../image/place/verified_Badge.svg.png";
 
 import "./PlaceReview.css";
+import {
+  checkIfLiked,
+  deleteLiked,
+  pushLiked,
+} from "../../Service/LikedService";
 
 const PlaceSearchForm = ({ onGetResults }) => {
+  const likedType = "PLACE_LIKE";
+  const [pageForm, setPageForm] = useState({
+    page: 0,
+    size: 10,
+    sort: "id,DESC",
+  });
   const [place, setPlace] = useState({
     name: "",
     xpoint: "",
@@ -17,14 +28,13 @@ const PlaceSearchForm = ({ onGetResults }) => {
     province: "",
     city: "",
   });
-  const [totalRating, setTotalRating] = useState(-1);
-  const [soloFriendlyTotalRating, setSoloFriendlyTotalRating] = useState(1);
-
-  const [pageForm, setPageForm] = useState({
-    page: 0,
-    size: 10,
-    sort: "id,DESC",
+  const [likedForm, setLikedForm] = useState({
+    targetId: "",
+    likedType: likedType,
   });
+  const [liked, setLiked] = useState(false);
+  const [totalRating, setTotalRating] = useState(0);
+  const [soloFriendlyTotalRating, setSoloFriendlyTotalRating] = useState(1);
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
 
   useEffect(() => {
@@ -43,11 +53,31 @@ const PlaceSearchForm = ({ onGetResults }) => {
     getPlace(place.xpoint, place.ypoint)
       .then((response) => {
         console.log(response);
-        setSoloFriendlyTotalRating(response.soloFriendlyTotalRating);
         if (response.errorCode) {
         } else {
           setTotalRating(response.totalRating);
+          setSoloFriendlyTotalRating(response.soloFriendlyTotalRating);
+          setLikedForm({
+            ...likedForm,
+            targetId: response.id,
+          });
           getResult(response.id);
+          checkLiked(response.id);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const checkLiked = (id) => {
+    checkIfLiked(likedType, id)
+      .then((response) => {
+        if (response.liked) {
+          console.log(response);
+          setLiked(true);
+        } else {
+          console.log(response);
         }
       })
       .catch((e) => {
@@ -63,6 +93,43 @@ const PlaceSearchForm = ({ onGetResults }) => {
       })
       .catch((e) => {
         console.log(e);
+      });
+  };
+
+  // 좋아요 관리
+  const handleLikedClick = () => {
+    if (liked) {
+      onDeleteLiked();
+    } else {
+      onPushLiked();
+    }
+  };
+
+  const onPushLiked = () => {
+    pushLiked(likedForm)
+      .then((response) => {
+        console.log(response);
+        if (response.success) {
+          setLiked(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("좋아요 실패");
+      });
+  };
+
+  const onDeleteLiked = () => {
+    deleteLiked(likedForm)
+      .then((response) => {
+        console.log(response);
+        if (response.success) {
+          setLiked(false);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("좋아요 취소 실패");
       });
   };
 
@@ -114,7 +181,20 @@ const PlaceSearchForm = ({ onGetResults }) => {
       <div className='place_searchForm'>
         {isPlaceSelected ? (
           <div>
-            <div className='place_name'>{place.name}</div>
+            <div className='place_name'>
+              {place.name}
+              {liked ? (
+                <AiFillHeart
+                  className='place-liked-button'
+                  onClick={handleLikedClick}
+                />
+              ) : (
+                <AiOutlineHeart
+                  className='place-liked-button'
+                  onClick={handleLikedClick}
+                />
+              )}
+            </div>
             {totalSoloRating >= 0.5 && (
               <div className='place-medal'>
                 <img className='place-medal-image' src={medal} />
