@@ -80,9 +80,6 @@ function Navbar() {
                 <Link to='/travel/search' className='navbar-travel-item'>
                   여행코스 검색
                 </Link>
-                <Link to='/travel' className='navbar-travel-item'>
-                  여행코스 등록
-                </Link>
                 <Link to='/travel/course/create' className='navbar-travel-item'>
                   여행코스 계획 등록
                 </Link>

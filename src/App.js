@@ -20,7 +20,10 @@ import ArticlePage from "./lettrip-web/Component/Article/ArticlePage";
 
 //여행코스 검색 경로 설정
 import TravelSearchPage from "./lettrip-web/Component/Travel/TravelSearch/TravelSearchPage";
+//여행코스 후기 검색 상세 화면
 import TravelDetailPage from "./lettrip-web/Component/Travel/TravelDetail/TravelDetailPage";
+//여행코스 계획 검색 상세 화면
+import TravelPlanDetailPage from "./lettrip-web/Component/Travel/TravelDetail/TravelPlanDetailPage";
 //여행코스 계획 경로 설정
 import TravelPlanTemplate from "./lettrip-web/Component/Travel/TravelPlan/TravelPlanTemplate";
 //여행코스 후기 경로 설정
@@ -55,6 +58,9 @@ function App() {
 
           <Route path='/travel/search' element={<TravelSearchPage />} />
           <Route path='/travel/course/:id' element={<TravelDetailPage />} />
+
+          {/*} <Route path='/travel/course/:id' element={<TravelPlanDetailPage />} /> */}
+          {/* <Route path='/travel/course/:id' element={<TravelPlanDetailPage />} /> */}
           <Route
             path='/travel/course/create'
             element={<TravelPlanTemplate />}

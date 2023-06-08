@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import basic_Image from "../../../../image/basic.png";
+import no_image from "../../../../image/travel/no_image.png";
 import {
   AiFillHeart,
   AiOutlineHeart,
@@ -20,7 +20,7 @@ const CourseDetail = ({ course }) => {
   // 이미지 관리
   const renderImages = () => {
     if (course.review.fileUrls.length === 0) {
-      return <img className='basic-image' src={basic_Image} alt='basic' />;
+      return <img className='basic-image' src={no_image} alt='basic' />;
     }
     const handlePrevImage = () => {
       setCurrentImage((prevImage) =>
@@ -32,6 +32,7 @@ const CourseDetail = ({ course }) => {
         prevImage === course.review.fileUrls.length - 1 ? 0 : prevImage + 1
       );
     };
+
     return (
       <div className='searchresult-images'>
         <div className='searchresult-image-container'>
@@ -90,6 +91,22 @@ const CourseDetail = ({ course }) => {
     setLiked(!liked);
   };
 
+  //시간 표시 관리
+  const getKoreanDateTime = (dateString) => {
+    const options = {
+      timeZone: "Asia/Seoul",
+      year: "2-digit",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+    const koreanDate = new Date(dateString).toLocaleString("ko-KR", options);
+    const [year, month, day, timePart] = koreanDate.split(". ");
+    return `${year}/${month}/${day} ${timePart}`;
+  };
+
   return (
     <div className='searchresult-container'>
       <div className='searchresult-header'>
@@ -100,7 +117,9 @@ const CourseDetail = ({ course }) => {
       </div>
       <div className='searchresult-dayCountArrivedTime'>
         <div className='searchresult-dayCount'>{course.dayCount}일차</div>
-        <div className='searchresult-arrivedTime'>{course.arrivedTime}</div>
+        <div className='searchresult-arrivedTime'>
+          {getKoreanDateTime(course.arrivedTime)}
+        </div>
       </div>
       {renderImages()}
       <div className='searchresult-cost'>{course.cost}원</div>
