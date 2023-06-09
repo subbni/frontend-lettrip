@@ -79,7 +79,7 @@ function Comments({ userEmail }) {
       });
   };
 
-  //대댓글 불러오기
+  // 대댓글 불러오기
   const fetchReplyComments = (parent_id) => {
     const replyPageForm = {
       ...pageForm,
@@ -107,6 +107,7 @@ function Comments({ userEmail }) {
         alert("대댓글을 불러오는 중에 오류가 발생했습니다.");
       });
   };
+
   //'더보기' 버튼을 눌렀을 때
   const moreReplyComment = (parent_id) => {
     const updatedComments = comments.map((comment) => {
@@ -219,13 +220,13 @@ function Comments({ userEmail }) {
     if (window.confirm("댓글을 삭제하시겠습니까?")) {
       deleteComment(commentId)
         .then((response) => {
-          window.alert("댓글이 삭제되었습니다.");
+          alert("댓글이 삭제되었습니다.");
           console.log(response);
           fetchComments();
         })
         .catch((e) => {
           console.log(e);
-          window.alert("댓글 삭제에 실패했습니다.");
+          alert("댓글 삭제에 실패했습니다.");
         });
     }
   };
@@ -240,14 +241,28 @@ function Comments({ userEmail }) {
       )
     );
   };
-  function handleClickOutside(e) {
+  // 대댓글 설정 아이콘 누르면 메뉴 나오게 하기 (수정, 삭제, ?URL복사)
+  /*const replyCommentSettings = (replyId) => {
+    setReplyComments((prevState) =>
+      prevState.map((reply) =>
+        reply.id === replyId
+          ? { ...reply, options: !reply.options }
+          : { ...reply, options: false }
+      )
+    );
+  };*/
+
+  const handleClickOutside = (e) => {
     if (menuRef.current && !menuRef.current.contains(e.target)) {
       setCommentOptions(false);
       setComments((prevState) =>
         prevState.map((comment) => ({ ...comment, options: false }))
       );
+      setReplyComments((prevState) =>
+        prevState.map((reply) => ({ ...reply, options: false }))
+      );
     }
-  }
+  };
 
   // 한국 시차 설정하기
   const getKoreanDateTime = (dateString) => {
@@ -321,15 +336,14 @@ function Comments({ userEmail }) {
               ) : (
                 <p className='comment-content'>{comment.content}</p>
               )}
-
               <div className='replycomments-container'>
                 <div className='show-replycomments'>
-                  <p
+                  <button
                     className='showReplycomment-button'
                     onClick={() => moreReplyComment(comment.id)}
                   >
                     {comment.moreReplyComment ? "답글 닫기" : "답글 보기"}
-                  </p>
+                  </button>
                   {comment.moreReplyComment &&
                     comment.reply &&
                     comment.reply.length > 0 && (
@@ -343,10 +357,11 @@ function Comments({ userEmail }) {
                               <p className='replycomment-createdDate'>
                                 {getKoreanDateTime(reply.createdDate)}
                               </p>
+                              <p className='comment-settings'>
+                                <AiFillSetting />
+                              </p>
+                              {/*  {reply.options && (*/}
                               <div className='replycomment-setting-options'>
-                                <div className='replycomment-mention'>
-                                  언급하기
-                                </div>
                                 {isEditable(reply.nickname) && (
                                   <div
                                     className='replycomment-modify'
@@ -368,8 +383,9 @@ function Comments({ userEmail }) {
                                   </div>
                                 )}
                               </div>
+                              {/*   )}*/}
                             </div>
-                            {editingReplyComment.id === comment.id ? (
+                            {editingReplyComment.id === reply.id ? (
                               <form
                                 className='comment-modfiy-input'
                                 onSubmit={handleReplyCommentFormSubmit}
@@ -377,9 +393,9 @@ function Comments({ userEmail }) {
                                 <textarea
                                   id='content'
                                   name='content'
-                                  placeholder='댓글을 입력하세요.'
+                                  placeholder='대댓글을 입력하세요.'
                                   required
-                                  value={replyCommentForm.content}
+                                  value={commentForm.content}
                                   onChange={handleReplyCommentFormChange}
                                 />
                                 <button
@@ -398,9 +414,9 @@ function Comments({ userEmail }) {
                     )}
                   {comment.moreReplyComment && (
                     <ReplyCommentCreate
-                      parent_comment_id={comment.id} //정상
-                      mentioned_user_nickname={comment.nickname} //정상
-                      mentioned_user_email={userEmail} //처리
+                      parent_comment_id={comment.id}
+                      mentioned_user_nickname={comment.nickname}
+                      mentioned_user_email={userEmail}
                     />
                   )}
                 </div>
@@ -414,4 +430,5 @@ function Comments({ userEmail }) {
     </div>
   );
 }
+
 export default Comments;

@@ -1,4 +1,3 @@
-/*CommentCreate.js*/
 .comment-container {
   margin-top: 30px;
   position: relative;
@@ -155,6 +154,7 @@
   margin-bottom: 15px;
   font-size: 13px;
   flex-wrap: wrap;
+
   display: flex;
   align-items: center;
   color: #2e3b4c;
@@ -169,10 +169,25 @@
 .replycomment-modify,
 .replycomment-delete {
   font-size: 13px;
-  margin-top: -10px;
   color: gray;
+  cursor: pointer;
 }
-.replycomment-modfiy-input textarea {
+
+.replyComment-setting-options {
+  margin-top: -23px;
+  margin-left: -20px;
+  margin: 20px;
+  cursor: pointer;
+  display: inline-block;
+  color: gray;
+  top: 100%;
+  padding: 8px;
+  z-index: 1;
+  white-space: nowrap;
+  border-radius: 4px;
+  position: relative;
+}
+.replyComment-modfiy-input textarea {
   flex: 1;
   height: 50px;
   resize: vertical;
@@ -180,9 +195,8 @@
   padding: 5px;
   margin-right: 10px;
   width: 900px;
-  margin-bottom: -25px;
 }
-.replycomment-submit {
+.replyComment-submit {
   display: inline-block;
   color: white;
   background-color: #2e3b4c;
