@@ -30,7 +30,7 @@ const AccountContainer = () => {
 
   return (
     <div className='mypage_container'>
-      <Link to='/mypage/confirm' className='account_text'>
+      <Link to='/mypage/modify' className='account_text'>
         정보 수정
       </Link>
       <div className='hr'></div>
