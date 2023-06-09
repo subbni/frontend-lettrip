@@ -1,5 +1,6 @@
 import axios from "axios";
-import { API_BASE_URL, ACCESS_TOKEN } from "../Constant/backendAPI";
+
+import { API_BASE_URL } from "../Constant/backendAPI";
 import { formRequest, request } from "./APIService";
 
 export function getMyProfile() {
@@ -8,14 +9,6 @@ export function getMyProfile() {
     method: "GET",
   });
 }
-
-export function modifyMyProfile(accountForm, id) {
-  return request({
-    url: API_BASE_URL + "/api/user/profile/modify",
-    method: "PUT",
-    body: JSON.stringify(accountForm, id),
-  });
-} //마이페이지 프로필 수정 요청
 
 export function getMyTravel(isVisited, pageForm) {
   return request({
@@ -47,3 +40,35 @@ export function getMyArticle(pageForm) {
     method: "GET",
   });
 }
+
+export function modifyMyImage(userForm) {
+  return request({
+    url: API_BASE_URL + "/api/user/update/image",
+    method: "POST",
+    body: JSON.stringify(userForm),
+  });
+} //마이페이지 프로필 사진 수정 요청
+
+export function modifyMyNickname(nickname) {
+  return request({
+    url: API_BASE_URL + "/api/user/update/nickname",
+    method: "POST",
+    body: JSON.stringify(nickname),
+  });
+} //마이페이지 프로필 닉네임 수정 요청
+
+export function modifyMyPassword(password) {
+  return request({
+    url: API_BASE_URL + "/api/user/update/password",
+    method: "POST",
+    body: JSON.stringify(password),
+  });
+} //마이페이지 프로필 비밀번호 수정 요청
+
+export function checkMyPassword(userForm) {
+  return request({
+    url: API_BASE_URL + "/api/user/check/password",
+    method: "POST",
+    body: JSON.stringify(userForm),
+  });
+} //마이페이지 프로필 비밀번호 확인 요청

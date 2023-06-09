@@ -344,6 +344,9 @@ function Comments({ userEmail }) {
                                 {getKoreanDateTime(reply.createdDate)}
                               </p>
                               <div className='replycomment-setting-options'>
+                                <div className='replycomment-mention'>
+                                  언급하기
+                                </div>
                                 {isEditable(reply.nickname) && (
                                   <div
                                     className='replycomment-modify'

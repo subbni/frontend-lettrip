@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
+import {
+  getMyProfile,
+  modifyMyImage,
+  modifyMyNickname,
+  modifyMyPassword,
+} from "../../../Service/MyPageService";
+
 import anonymous_profile from "../../../../image/lettrip_anonymous_profile.png";
-import { getMyProfile, modifyMyProfile } from "../../../Service/MyPageService";
 import { AiOutlineEdit } from "react-icons/ai";
 import { IoIosCamera } from "react-icons/io";
 import "../MyPage.css";
 
 const AccountModify = () => {
+  const navigate = useNavigate();
   const [accountForm, setAccountForm] = useState({
+    image: null,
     nickname: "",
     password: "",
-    name: "",
-    image: null,
   });
   const [profile, setProfile] = useState({});
   const [showFileInput, setShowFileInput] = useState(false);
@@ -26,18 +34,25 @@ const AccountModify = () => {
       });
   }, []);
 
-  //정보 입력
+  // 정보 입력
   const onFormChange = (e) => {
-    const changingField = e.target.name;
-    setAccountForm({
-      ...accountForm,
-      [changingField]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setAccountForm((prevAccountForm) => ({
+      ...prevAccountForm,
+      [name]: value,
+    }));
   };
 
   //사진 수정하기
   const modifyImage = () => {
     setShowFileInput(true);
+  };
+  //닉네임 수정하기
+  const modifyNickname = () => {
+    setAccountForm({
+      ...accountForm,
+      nickname: profile.nickname !== null ? profile.nickname : "",
+    });
   };
 
   //파일 선택 시
@@ -57,29 +72,31 @@ const AccountModify = () => {
     }
   };
 
-  //닉네임 수정하기
-  const modifyNickname = () => {
-    setAccountForm({
-      ...accountForm,
-      nickname: profile.nickname,
-    });
-  };
-
-  //정보 수정 요청하기
-  /*const onSubmit = (e) => {
+  //프로필 변경 요청하기
+  const onModifySubmit = (e) => {
     e.preventDefault();
     if (window.confirm("정보를 수정하시겠습니까?")) {
-      modifyMyProfile(accountForm)
-        .then((response) => {
-          console.log(response);
-          window.alert("정보 수정이 완료되었습니다.");
-        })
-        .catch((e) => {
-          console.log(e);
-          window.alert("정보 수정에 실패하였습니다. 다시 시도해주세요.");
-        });
+      //닉네임 변경하기
+      if (accountForm.nickname !== profile.nickname) {
+        const newNickname = {
+          nickname: accountForm.nickname,
+        };
+        modifyMyNickname(newNickname)
+          .then((response) => {
+            console.log(response);
+            console.log(newNickname);
+            console.log(modifyMyNickname);
+            alert("닉네임 수정이 완료되었습니다.");
+            navigate("/mypage");
+          })
+          .catch((e) => {
+            console.log(e);
+            console.log(newNickname);
+            alert("닉네임 수정에 실패하였습니다. 다시 시도해주세요.");
+          });
+      }
     }
-  };*/
+  };
 
   return (
     <div className='account-modify-container'>
@@ -194,7 +211,7 @@ const AccountModify = () => {
       <button
         className='profile-modify-submit'
         type='submit'
-        /* onClick={onSubmit} */
+        onClick={onModifySubmit}
       >
         수정 완료
       </button>
