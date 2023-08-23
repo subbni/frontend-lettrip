@@ -10,7 +10,7 @@ import {
 import ReplyCommentCreate from "./ReplyCommentCreate";
 
 import { AiFillSetting } from "react-icons/ai";
-import "./Comments.css";
+import styles from "./Comments.module.css";
 
 function Comments({ userEmail }) {
   const { id, parent_comment_id } = useParams();
