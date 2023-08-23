@@ -1,30 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   showArticle,
   deleteArticle,
   listArticle,
 } from "../../Service/ArticleService";
-
-import CommentCreate from "./Comment/CommentCreate";
-
-import { AiFillSetting } from "react-icons/ai";
-import "./Article.css";
+import { getMyProfile } from "../../Service/MyPageService";
+import TComments from "./Comment/TComments"; //댓글 참조
+import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"; //하트 아이콘
+import styles from ".//Article.module.css";
+import Comments from "./Comment/Comments";
 
 function ArticlePage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [isEditable, setIsEditable] = useState(false);
-
-  const [pageOptions, setpageOptions] = useState(false);
-  const menuRef = useRef();
-
   const [post, setPost] = useState([]);
   const [pageForm, setPageForm] = useState({
     page: 0,
     size: 10,
     sort: "id,DESC",
   });
+  const [profile, setProfile] = useState({});
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     //게시글 작성자와 로그인 사용자 동일 여부 확인하기
@@ -41,11 +40,15 @@ function ArticlePage() {
   }, []);
 
   useEffect(() => {
-    //게시글 설정 버튼 누르기
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    //프로필 사진 가져오기
+    getMyProfile()
+      .then((response) => {
+        setProfile(response);
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("오류 발생");
+      });
   }, []);
 
   //게시글 불러오기
@@ -54,7 +57,7 @@ function ArticlePage() {
     showArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
       .then((response) => {
         setPost(response);
-        console.log();
+        console.log(response);
       })
       .catch((e) => {
         console.log(e);
@@ -95,64 +98,66 @@ function ArticlePage() {
     navigate(`/articles/modify/${post.id}`);
   };
 
-  //설정 아이콘 누르면 메뉴 나오게 하기 (수정, 삭제, ?URL복사)
-  const pageSettings = () => {
-    setpageOptions(!pageOptions);
-  };
-  function handleClickOutside(e) {
-    if (menuRef.current && !menuRef.current.contains(e.target)) {
-      setpageOptions(false);
-    }
-  }
-
   // 한국 시차 설정하기
   const getKoreanDateTime = (dateString) => {
     const options = {
-      timeZone: "Asia/Seoul",
       year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     };
-    return new Date(dateString).toLocaleString("ko-KR", options);
+    const koreanDate = new Date(dateString).toLocaleDateString(
+      "ko-KR",
+      options
+    );
+    return koreanDate.replace(/-/g, ".");
+  };
+
+  // 좋아요 관리
+  const handleLikeClick = () => {
+    setLiked(!liked);
   };
 
   return (
-    <div className='article-page-container'>
+    <div className={styles.page}>
       {post && (
-        <div key={post.id}>
-          <h1 className='page-title'>{post.title}</h1>
-          <h3 className='page-author'>
-            <p>작성자 : {post.writerName}</p>
-          </h3>
-          <div className='page-views'>
-            <p>조회수 : {post.hit}</p>
-            <p>좋아요 수 : {post.likedCount}</p>
-            <p>작성일자 : {getKoreanDateTime(post.createdDate)}</p>
-            <p>수정일자 : {getKoreanDateTime(post.modifiedDate)}</p>
-            <p className='page-settings' onClick={pageSettings}>
-              <AiFillSetting />
-            </p>
-            {pageOptions && (
-              <div className='page-setting-options'>
-                {isEditable && (
-                  <div className='page-modify' onClick={handleModify}>
-                    수정
-                  </div>
-                )}
-                {isEditable && (
-                  <div className='page-delete' onClick={handleDelete}>
-                    삭제
-                  </div>
-                )}
-              </div>
+        <div className={styles.container} key={post.id}>
+          <h1 className={styles.title}>{post.title}</h1>
+          <div className={styles.views}>
+            {profile.imageUrl !== null ? (
+              <img className={styles.profile_image} src={profile.imageUrl} />
+            ) : (
+              <img className={styles.profile_image} src={anonymous_profile} />
             )}
+
+            <p>{post.writerName}</p>
+            <p>{getKoreanDateTime(post.createdDate)}</p>
+            <p>조회수 {post.hit}</p>
           </div>
-          <p className='page-content'>{post.content}</p>
+          <p className={styles.content}>{post.content}</p>
+
+          <div className={styles.settings}>
+            <div className={styles.liked}>
+              <button className={styles.heart} onClick={handleLikeClick}>
+                {liked ? <AiFillHeart /> : <AiOutlineHeart />}
+              </button>
+              <div className={styles.liked_count}>{post.likedCount}</div>
+            </div>
+            <div className={styles.buttons}>
+              {isEditable && (
+                <div className={styles.button_modify} onClick={handleModify}>
+                  수정
+                </div>
+              )}
+              {isEditable && (
+                <div className={styles.button_delete} onClick={handleDelete}>
+                  삭제
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       )}
-      <CommentCreate postId={post.id} />
+      <TComments postId={post.id} />
     </div>
   );
 }

@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { modifyArticle, showArticle } from "../../Service/ArticleService";
 
-import "./ArticleCreate.css";
+import styles from "./ArticleCreate.module.css";
 
 function ArticleModify() {
   const navigate = useNavigate();
   const { id } = useParams();
-
   const [articleForm, setArticleForm] = useState({
     title: "",
     content: "",
@@ -62,13 +61,16 @@ function ArticleModify() {
         });
     }
   };
+  const handleCancelButtonClick = () => {
+    if (window.confirm("게시글 수정을 취소하시겠습니까?")) {
+      navigate(`/articles/${id}`);
+    }
+  };
 
   return (
-    <div className='article-modify-container'>
-      <h1>게시글 수정</h1>
-      <form onSubmit={handleArticleFormSubmit}>
-        <div className='article-title'>
-          <label htmlFor='title'>제목</label>
+    <div className={styles.box}>
+      <form className={styles.container} onSubmit={handleArticleFormSubmit}>
+        <div className={styles.title}>
           <input
             type='text'
             id='title'
@@ -78,8 +80,7 @@ function ArticleModify() {
             onChange={handleArticleFormChange}
           />
         </div>
-        <div className='article-content'>
-          <label htmlFor='content'>내용</label>
+        <div className={styles.content}>
           <textarea
             id='content'
             name='content'
@@ -88,9 +89,18 @@ function ArticleModify() {
             onChange={handleArticleFormChange}
           />
         </div>
-        <button className='article-button' type='submit'>
-          수정
-        </button>
+        <div className={styles.button}>
+          <button
+            className={styles.button_cancel}
+            type='button'
+            onClick={handleCancelButtonClick}
+          >
+            취소
+          </button>
+          <button className={styles.button_create} type='submit'>
+            수정
+          </button>
+        </div>
       </form>
     </div>
   );

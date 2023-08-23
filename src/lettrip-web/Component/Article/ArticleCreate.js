@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createArticle, listArticle } from "../../Service/ArticleService";
 
-import "./ArticleCreate.css";
+import styles from "./ArticleCreate.module.css";
 
 function ArticleCreate() {
   const navigate = useNavigate();
-
   const [articleForm, setArticleForm] = useState({
     email: "",
     title: "",
@@ -48,7 +47,6 @@ function ArticleCreate() {
           navigate("/articles");
           fetchArticles();
           console.log(response);
-          console.log(articleForm);
         })
         .catch((e) => {
           console.log(e);
@@ -56,7 +54,11 @@ function ArticleCreate() {
         });
     }
   };
-
+  const handleCancelButtonClick = () => {
+    if (window.confirm("게시글 작성을 취소하시겠습니까?")) {
+      navigate("/articles");
+    }
+  };
   const fetchArticles = () => {
     listArticle(pageForm)
       .then((response) => {
@@ -69,33 +71,41 @@ function ArticleCreate() {
   };
 
   return (
-    <div className='article-create-container'>
-      <h1>게시글 작성</h1>
-      <form onSubmit={handleArticleFormSubmit}>
-        <div className='article-title'>
-          <label htmlFor='title'>제목</label>
+    <div className={styles.box}>
+      <form className={styles.container} onSubmit={handleArticleFormSubmit}>
+        <div className={styles.title}>
           <input
             type='text'
             id='title'
             name='title'
+            placeholder='제목을 입력하세요.'
             required
             value={articleForm.title}
             onChange={handleArticleFormChange}
           />
         </div>
-        <div className='article-content'>
-          <label htmlFor='content'>내용</label>
+        <div className={styles.content}>
           <textarea
             id='content'
             name='content'
+            placeholder='내용을 입력하세요.'
             required
             value={articleForm.content}
             onChange={handleArticleFormChange}
           />
         </div>
-        <button className='article-button' type='submit'>
-          등록
-        </button>
+        <div className={styles.button}>
+          <button
+            className={styles.button_cancel}
+            type='button'
+            onClick={handleCancelButtonClick}
+          >
+            취소
+          </button>
+          <button className={styles.button_create} type='submit'>
+            등록
+          </button>
+        </div>
       </form>
     </div>
   );

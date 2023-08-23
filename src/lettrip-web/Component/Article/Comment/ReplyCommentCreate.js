@@ -5,7 +5,7 @@ import {
   createComment,
 } from "../../../Service/ArticleService";
 
-import "./Comments.css";
+import styles from "./Comments.module.css";
 
 function ReplyCommentCreate({
   parent_comment_id,
@@ -87,15 +87,18 @@ function ReplyCommentCreate({
   };
 
   return (
-    <div className='replycomment-create'>
-      <form onSubmit={handleReplyCommentFormSubmit}>
-        <div className='replycomment-input'>
+    <div className={styles.replycomment_create}>
+      <form
+        className={styles.replycreate_box}
+        onSubmit={handleReplyCommentFormSubmit}
+      >
+        <div className={styles.replycomment}>
           <textarea
             name='content'
-            placeholder={`대댓글을 입력하세요.`}
+            placeholder='대댓글을 입력하세요.'
+            required
             value={replyCommentForm.content}
             onChange={handleReplyCommentFormChange}
-            required
           />
           <button type='submit'>등록</button>
         </div>

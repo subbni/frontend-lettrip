@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn } from "../../Service/AuthService";
 import { listArticle } from "../../Service/ArticleService";
 
-import "./Article.css";
+import styles from "./Article.module.css";
 
 function ArticleList() {
   const navigate = useNavigate();
@@ -22,10 +22,11 @@ function ArticleList() {
     listArticle(pageForm)
       .then((response) => {
         setArticleList(response.content);
+        console.log(response.content);
       })
       .catch((e) => {
         console.log(e);
-        window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
+        window.alert("불러오기에 실패했습니다. 다시 시도해주세요.");
       });
   };
 
@@ -46,16 +47,21 @@ function ArticleList() {
     }
   };
 
+  const handlePageClick = (pageNumber) => {
+    setPageForm((prevForm) => ({
+      ...prevForm,
+      page: pageNumber,
+    }));
+    fetchArticles();
+  };
+
   return (
-    <div>
-      <h2 className='article-list'>게시글 목록</h2>
-      <button onClick={handleCreateClick} className='create-button'>
-        글 작성
-      </button>
-      <table className='article-table'>
+    <div className={styles.box}>
+      <h3 className={styles.article_list}>전체 글 목록</h3>
+      <table className={styles.article_table}>
         <thead>
-          <tr className='table-content'>
-            <th>글 제목</th>
+          <tr className={styles.table_content}>
+            <th>제목</th>
             <th>작성자</th>
             <th>작성일자</th>
             <th>조회수</th>
@@ -63,14 +69,10 @@ function ArticleList() {
         </thead>
         <tbody>
           {articleList.map((post) => (
-            <tr
-              key={post.id}
-              id={post.id}
-              className='article-table-row'
-              onClick={handleArticleClick}
-            >
-              <td id={post.id}>{post.title}</td>
-
+            <tr key={post.id} id={post.id} className={styles.table_row}>
+              <td id={post.id} onClick={handleArticleClick}>
+                {post.title}
+              </td>
               <td id={post.id}>{post.writerNickname}</td>
               <td id={post.id}>
                 {new Date(post.createdDate).toLocaleDateString()}
@@ -80,6 +82,9 @@ function ArticleList() {
           ))}
         </tbody>
       </table>
+      <button className={styles.button} onClick={handleCreateClick}>
+        글쓰기
+      </button>
     </div>
   );
 }

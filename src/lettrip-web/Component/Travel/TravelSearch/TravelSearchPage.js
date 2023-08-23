@@ -7,7 +7,7 @@ const TravelSearchPage = () => {
   const [searchForm, setSearchForm] = useState({});
   const [pageForm, setPageForm] = useState({
     page: 0,
-    size: 9,
+    size: 6,
     sort: "id,DESC",
   });
   const [resultTravels, setResultTravels] = useState([]);
