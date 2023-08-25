@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  showArticle,
-  deleteArticle,
-  listArticle,
-} from "../../Service/ArticleService";
+import { showArticle, deleteArticle } from "../../Service/ArticleService";
 import { getMyProfile } from "../../Service/MyPageService";
-import TComments from "./Comment/TComments"; //댓글 참조
+
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"; //하트 아이콘
+
 import styles from ".//Article.module.css";
-import Comments from "./Comment/Comments";
+import TComments from "./Comment/TComments"; //댓글 참조
+import CommentCreate from "./Comment/CommentCreate";
 
 function ArticlePage() {
   const navigate = useNavigate();
@@ -36,10 +34,7 @@ function ArticlePage() {
   }, [post]);
 
   useEffect(() => {
-    fetchArticle();
-  }, []);
-
-  useEffect(() => {
+    fetchArticle(); //게시글 불러오기
     //프로필 사진 가져오기
     getMyProfile()
       .then((response) => {
@@ -73,24 +68,12 @@ function ArticlePage() {
         .then(() => {
           alert("게시글이 삭제되었습니다.");
           navigate("/articles");
-          fetchArticles();
         })
         .catch((e) => {
           console.log(e);
           alert("게시글 삭제에 실패했습니다. 다시 시도해주시길 바랍니다.");
         });
     }
-    //게시글 목록에 업데이트
-    const fetchArticles = () => {
-      listArticle(pageForm)
-        .then(() => {
-          console.log();
-        })
-        .catch((e) => {
-          console.log(e);
-          window.alert("게시글 목록을 불러오는데 실패했습니다.");
-        });
-    };
   };
 
   //게시글 수정
@@ -157,7 +140,7 @@ function ArticlePage() {
           </div>
         </div>
       )}
-      <TComments postId={post.id} />
+      <CommentCreate />
     </div>
   );
 }

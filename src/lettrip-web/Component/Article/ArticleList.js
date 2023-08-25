@@ -47,14 +47,6 @@ function ArticleList() {
     }
   };
 
-  const handlePageClick = (pageNumber) => {
-    setPageForm((prevForm) => ({
-      ...prevForm,
-      page: pageNumber,
-    }));
-    fetchArticles();
-  };
-
   return (
     <div className={styles.box}>
       <h3 className={styles.article_list}>전체 글 목록</h3>
@@ -71,7 +63,10 @@ function ArticleList() {
           {articleList.map((post) => (
             <tr key={post.id} id={post.id} className={styles.table_row}>
               <td id={post.id} onClick={handleArticleClick}>
-                {post.title}
+                {post.title}{" "}
+                <span className={styles.comment_count}>
+                  ({post.commentCount})
+                </span>
               </td>
               <td id={post.id}>{post.writerNickname}</td>
               <td id={post.id}>

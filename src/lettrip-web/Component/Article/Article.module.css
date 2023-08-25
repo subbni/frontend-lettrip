@@ -24,6 +24,9 @@
   border-top: 1px solid #dddddd;
   border-bottom: 1px solid #dddddd;
 }
+.comment_count {
+  color: rgb(164, 164, 164);
+}
 .article_table th:first-child {
   width: 60%;
 }
