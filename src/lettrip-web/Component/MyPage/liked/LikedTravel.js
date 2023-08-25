@@ -24,7 +24,7 @@ const LikedTravel = () => {
 
   return (
     <div>
-      {travelList.length > 0 ? (
+      {travelList && travelList.length > 0 ? (
         <div>
           {travelList.map((travel) => (
             <LikedTravelItem travel={travel} key={travel.id} />

@@ -230,7 +230,7 @@ function Comments({ userEmail }) {
     }
   };
 
-  //설정 아이콘 누르면 메뉴 나오게 하기 (수정, 삭제, ?URL복사)
+  //설정 아이콘 누르면 메뉴 나오게 하기 (수정, 삭제)
   const commentSettings = (commentId) => {
     setComments((prevState) =>
       prevState.map((comment) =>

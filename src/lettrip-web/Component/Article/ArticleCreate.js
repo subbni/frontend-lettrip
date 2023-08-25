@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createArticle, listArticle } from "../../Service/ArticleService";
+import { createArticle } from "../../Service/ArticleService";
 
 import styles from "./ArticleCreate.module.css";
 
@@ -12,15 +12,6 @@ function ArticleCreate() {
     content: "",
     articleType: "FREE_ARTICLE",
   });
-  const [pageForm, setPageForm] = useState({
-    page: 0,
-    size: 10,
-    sort: "id,DESC",
-  });
-
-  useEffect(() => {
-    fetchArticles();
-  }, []);
 
   useEffect(() => {
     const userEmail = localStorage.getItem("email");
@@ -45,7 +36,6 @@ function ArticleCreate() {
         .then((response) => {
           alert("게시글 작성이 완료되었습니다.");
           navigate("/articles");
-          fetchArticles();
           console.log(response);
         })
         .catch((e) => {
@@ -58,16 +48,6 @@ function ArticleCreate() {
     if (window.confirm("게시글 작성을 취소하시겠습니까?")) {
       navigate("/articles");
     }
-  };
-  const fetchArticles = () => {
-    listArticle(pageForm)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((e) => {
-        console.log(e);
-        window.alert("게시글 목록을 불러오는데 실패했습니다.");
-      });
   };
 
   return (
