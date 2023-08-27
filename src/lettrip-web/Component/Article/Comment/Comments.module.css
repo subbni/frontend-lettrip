@@ -1,13 +1,7 @@
 /*Comments.js*/
 .box {
-  margin-top: 15px;
   position: relative;
-  border-top: 1px solid #ccc;
   width: 100%;
-}
-.box h3 {
-  font-size: 16px;
-  margin-bottom: 10px;
 }
 
 .comments {
@@ -128,6 +122,10 @@
   margin-left: 105px;
   margin-top: -8px;
 }
+.replycomment_content {
+  margin-left: 105px;
+  margin-top: -8px;
+}
 .replycomment_createdDate {
   margin-left: 105px;
   margin-top: -8px;
@@ -162,9 +160,42 @@
 .modify_box {
   display: flex;
   flex-direction: column;
-  width: 96%;
-  margin-left: 45px;
+  width: 94.7%;
+  margin-left: 43px;
   margin-bottom: 20px;
+}
+.replymodify_box {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-left: 103px;
+  margin-bottom: 20px;
+}
+
+.modify_comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #ccc;
+  height: 100px;
+}
+.modify_comment textarea {
+  width: 92.5%;
+  margin-left: 12px;
+  height: 80px;
+  border: none;
+}
+.modify_comment button {
+  background-color: #2e3b4c;
+  color: white;
+  padding: 7px 12px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 12px;
+  margin-right: 8px;
+  margin-top: 50px;
 }
 
 /*CommentCreate.js*/

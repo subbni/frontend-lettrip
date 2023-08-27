@@ -11,9 +11,9 @@ import {
   pushLiked,
 } from "../../../Service/LikedService";
 const TravelDetailPage = () => {
-  const likedType = "TRAVEL_LIKE";
   const navigate = useNavigate();
   const { id } = useParams();
+  const likedType = "TRAVEL_LIKE";
   const likedForm = {
     targetId: id,
     likedType: likedType,

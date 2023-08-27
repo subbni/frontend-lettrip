@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { showArticle, deleteArticle } from "../../Service/ArticleService";
 import { getMyProfile } from "../../Service/MyPageService";
+import {
+  checkIfLiked,
+  deleteLiked,
+  pushLiked,
+} from "../../Service/LikedService";
 
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"; //하트 아이콘
 
 import styles from ".//Article.module.css";
-import TComments from "./Comment/TComments"; //댓글 참조
+
 import CommentCreate from "./Comment/CommentCreate";
 
 function ArticlePage() {
@@ -21,6 +26,11 @@ function ArticlePage() {
     sort: "id,DESC",
   });
   const [profile, setProfile] = useState({});
+  const likedType = "ARTICLE_LIKE";
+  const likedForm = {
+    targetId: id,
+    likedType: likedType,
+  };
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
@@ -44,6 +54,7 @@ function ArticlePage() {
         console.log(e);
         alert("오류 발생");
       });
+    checkLiked(); //좋아요 수 불러오기
   }, []);
 
   //게시글 불러오기
@@ -52,6 +63,7 @@ function ArticlePage() {
     showArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
       .then((response) => {
         setPost(response);
+        console.log(response.content);
         console.log(response);
       })
       .catch((e) => {
@@ -96,8 +108,54 @@ function ArticlePage() {
   };
 
   // 좋아요 관리
+  const checkLiked = () => {
+    checkIfLiked(likedType, id)
+      .then((response) => {
+        if (response.liked) {
+          console.log(response);
+          setLiked(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   const handleLikeClick = () => {
-    setLiked(!liked);
+    if (liked) {
+      onDeleteLiked();
+    } else {
+      onSaveLiked();
+    }
+  };
+  const onSaveLiked = () => {
+    pushLiked(likedForm)
+      .then((response) => {
+        console.log(response);
+        console.log(response.content);
+        if (response.success) {
+          setLiked(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        console.log(e.content);
+        window.alert("좋아요 실패");
+      });
+  };
+
+  const onDeleteLiked = () => {
+    deleteLiked(likedForm)
+      .then((response) => {
+        console.log(response);
+        if (response.success) {
+          setLiked(false);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        window.alert("좋아요 취소 실패");
+        console.log(e.content);
+      });
   };
 
   return (
@@ -140,6 +198,7 @@ function ArticlePage() {
           </div>
         </div>
       )}
+      <h3>댓글 {post.commentCount}</h3>
       <CommentCreate />
     </div>
   );
