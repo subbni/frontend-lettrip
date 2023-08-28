@@ -47,7 +47,6 @@ function ArticleCreate() {
           navigate("/articles");
           fetchArticles();
           console.log(response);
-          console.log(response.content);
           console.log(articleForm);
         })
         .catch((e) => {
