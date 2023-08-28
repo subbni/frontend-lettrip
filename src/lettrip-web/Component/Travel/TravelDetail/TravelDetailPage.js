@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 import { getTravelDetail } from "../../../Service/TravelService";
+
 import CourseDetail from "./CourseDetail";
 
 import styles from "./PageDetail.module.css";
-import "./PageDetail.css";
 
 import { checkIfLoggedIn } from "../../../Service/AuthService";
 import {
@@ -47,14 +47,10 @@ const TravelDetailPage = () => {
     getTravelDetail(id)
       .then((response) => {
         console.log(response);
+        console.log(response.totalCost);
         setTravel(response);
-        setCourseList(() =>
-          response.courses.sort((a, b) => {
-            const timeA = new Date(a.arrivedTime);
-            const timeB = new Date(b.arrivedTime);
-            return timeA - timeB;
-          })
-        );
+        const groupedCourses = groupByDay(response.courses);
+        setCourseList(Object.values(groupedCourses));
         checkLiked();
       })
       .catch((e) => {
@@ -108,6 +104,28 @@ const TravelDetailPage = () => {
         alert("좋아요 취소 실패");
       });
   };
+
+  //일차별로 그룹화
+  const groupByDay = (courses) => {
+    const groupedCourses = {};
+
+    courses.forEach((course) => {
+      const day = course.dayCount;
+      if (!groupedCourses[day]) {
+        groupedCourses[day] = [];
+      }
+      groupedCourses[day].push(course);
+      console.log(day);
+    });
+
+    return groupedCourses;
+  };
+
+  //금액 단위 설정
+  const numberWithCommas = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   return (
     <div>
       <div className={styles.container}>
@@ -125,13 +143,24 @@ const TravelDetailPage = () => {
         </div>
         <div className={styles.travelCourse_theme}>#{travel.travelTheme}</div>
         <div className={styles.travelCourse_totalcost}>
-          {travel.totalCost}원 / 인
+          {numberWithCommas(travel.totalCost)}원 / 인
         </div>
       </div>
+
       <div className={styles.courseDetail_container}>
-        {courseList.map((course, idx) => (
-          <div className={styles.courseDetail} key={idx}>
-            <CourseDetail course={course} />
+        {Object.entries(courseList).map(([day, courses], index) => (
+          <div key={day}>
+            <div className={styles.courseDetailGroupTitle}>{index + 1}일차</div>
+            <div className={styles.courseDetailGroupList}>
+              {courses.map((course, idx) => (
+                <div className={styles.courseDetail} key={idx}>
+                  <CourseDetail course={course} />
+                </div>
+              ))}
+            </div>
+            {index < Object.entries(courseList).length - 1 && (
+              <hr className={styles.groupSeparator} />
+            )}
           </div>
         ))}
       </div>
