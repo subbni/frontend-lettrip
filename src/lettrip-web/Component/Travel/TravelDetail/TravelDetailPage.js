@@ -3,7 +3,10 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 import { getTravelDetail } from "../../../Service/TravelService";
 import CourseDetail from "./CourseDetail";
+
+import styles from "./PageDetail.module.css";
 import "./PageDetail.css";
+
 import { checkIfLoggedIn } from "../../../Service/AuthService";
 import {
   checkIfLiked,
@@ -107,28 +110,27 @@ const TravelDetailPage = () => {
   };
   return (
     <div>
-      <div className='travelCourse-container'>
-        <div className='travelCourse-header'>
-          <div className='travelCourse-title'>'{travel.title}' 상세 코스</div>
-          <button
-            className='travelCourse-like-button'
-            onClick={handleLikeClick}
-          >
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <div className={styles.travelCourse_title}>
+            '{travel.title}' 코스 보기
+          </div>
+          <button className={styles.button} onClick={handleLikeClick}>
             {liked ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
         </div>
 
-        <div className='travelCourse-thenumberOf'>
-          다녀온 코스 : {travel.numberOfCourses}개
+        <div className={styles.travelCourse_thenumberOf}>
+          {travel.numberOfCourses}개
         </div>
-        <div className='travelCourse-theme'>#{travel.travelTheme}</div>
-        <div className='travelCourse-totalcost'>
-          총 비용 : {travel.totalCost}원 / 인
+        <div className={styles.travelCourse_theme}>#{travel.travelTheme}</div>
+        <div className={styles.travelCourse_totalcost}>
+          {travel.totalCost}원 / 인
         </div>
       </div>
-      <div className='course_detail_container'>
+      <div className={styles.courseDetail_container}>
         {courseList.map((course, idx) => (
-          <div className='travelCourse-detail' key={idx}>
+          <div className={styles.courseDetail} key={idx}>
             <CourseDetail course={course} />
           </div>
         ))}

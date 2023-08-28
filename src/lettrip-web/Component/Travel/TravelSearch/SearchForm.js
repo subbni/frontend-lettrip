@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TravelData, { Citys, Provinces, TravelThemes } from "../TravelData";
 import { searchTravelList } from "../../../Service/TravelService";
-import "./Search.css";
+
 import styles from "./Search.module.css";
 
 const SearchForm = ({ onGetResult, pageForm }) => {
@@ -159,7 +159,7 @@ const SearchForm = ({ onGetResult, pageForm }) => {
       <div className={styles.searchForm_row}>
         <div className={styles.searchForm_element}>
           <select
-            className='search_select'
+            className={styles.searchForm_select}
             name='province'
             id='province'
             defaultValue='default'
@@ -173,7 +173,7 @@ const SearchForm = ({ onGetResult, pageForm }) => {
         </div>
         <div className={styles.searchForm_element}>
           <select
-            className='search_select'
+            className={styles.searchForm_select}
             name='city'
             id='city'
             onChange={onSearchFormChange}

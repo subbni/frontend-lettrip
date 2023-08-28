@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { TravelPaging } from "../TravelPaging";
 
 import ResultItem from "./ResultItem";
-import "./Search.css";
 import styles from "./Search.module.css";
 
 const TravelSearchResult = ({
