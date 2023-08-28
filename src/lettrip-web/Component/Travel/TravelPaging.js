@@ -1,5 +1,7 @@
 import Pagination from "react-js-pagination";
+
 import "./TravelPaging.css";
+
 export const TravelPaging = ({ currentPage, totalCount, onPageChange }) => {
   return (
     <Pagination

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import ResultItem from "./ResultItem";
-import "./Search.css";
 import { useNavigate } from "react-router-dom";
+
 import { TravelPaging } from "../TravelPaging";
+
+import ResultItem from "./ResultItem";
+import styles from "./Search.module.css";
 
 const TravelSearchResult = ({
   resultTravels,
@@ -15,7 +17,7 @@ const TravelSearchResult = ({
 
   useEffect(() => {
     if (resultTravels.length > 0) {
-      setMsg(`검색 결과 ${totalElements}건`);
+      setMsg(`${totalElements}건`);
     }
   }, [resultTravels]);
 
@@ -26,10 +28,13 @@ const TravelSearchResult = ({
 
   return (
     <div>
-      <div className='searchResult_info'>{msg}</div>
-      <div className='SearchResultContainer'>
+      <div className={styles.searchResult_info}>
+        <span>검색 결과</span>
+        <span className={styles.searchResult_info2}>{msg}</span>
+      </div>
+      <div className={styles.searchResult_container}>
         {resultTravels.map((travel, idx) => (
-          <div className='SerarchResult' key={idx}>
+          <div className={styles.searchResult} key={idx}>
             <ResultItem travel={travel} />
           </div>
         ))}

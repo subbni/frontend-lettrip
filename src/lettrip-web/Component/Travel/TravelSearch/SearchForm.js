@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import TravelData, { Citys, Provinces, TravelThemes } from "../TravelData";
 import { searchTravelList } from "../../../Service/TravelService";
-import "./Search.css";
+
+import styles from "./Search.module.css";
 
 const SearchForm = ({ onGetResult, pageForm }) => {
   const [searchForm, setSearchForm] = useState({
@@ -153,28 +154,26 @@ const SearchForm = ({ onGetResult, pageForm }) => {
   };
 
   return (
-    <div className='travelSearchForm'>
-      <div className='travelSearch_title'>여행 코스 검색</div>
-      <div className='searchForm_row'>
-        <div className='searchForm_element'>
-          <label htmlFor='province'>행정구역</label>
+    <div className={styles.searchForm}>
+      <div className={styles.searchForm_title}>코스 검색</div>
+      <div className={styles.searchForm_row}>
+        <div className={styles.searchForm_element}>
           <select
-            className='search_select'
+            className={styles.searchForm_select}
             name='province'
             id='province'
             defaultValue='default'
             onChange={onSearchFormChange}
           >
             <option value='default' disabled>
-              시도 선택
+              시/도 선택
             </option>
             {provincesOptions}
           </select>
         </div>
-        <div className='searchForm_element'>
-          <label htmlFor='city'>지역</label>
+        <div className={styles.searchForm_element}>
           <select
-            className='search_select'
+            className={styles.searchForm_select}
             name='city'
             id='city'
             onChange={onSearchFormChange}
@@ -189,40 +188,41 @@ const SearchForm = ({ onGetResult, pageForm }) => {
           </select>
         </div>
       </div>
-      <div className='searchForm_row'>
-        <div className='searchForm_element'>
-          <label htmlFor='numberOfCourses'>코스 수</label>
+      <div className={styles.searchForm_row}>
+        <div className={styles.searchForm_element}>
           <select
-            className='search_select'
+            className={styles.searchForm_select}
             name='numberOfCourses'
             onChange={onNumberOfCoursesChange}
           >
-            <option value='전체'>전체</option>
+            <option value='전체'>코스 수</option>
             <option value='5이하'>5개 이하</option>
             <option value='6~10'>6~10개</option>
-            <option value='10이상'>10 이상</option>
+            <option value='10이상'>10개 이상</option>
           </select>
         </div>
-        <div className='searchForm_element'>
-          <label htmlFor='cost'>총 비용</label>
-          <select className='search_select' name='cost' onChange={onCostChange}>
-            <option value='전체'>전체</option>
+        <div className={styles.searchForm_element}>
+          <select
+            className={styles.searchForm_select}
+            name='cost'
+            onChange={onCostChange}
+          >
+            <option value='전체'>총 비용</option>
             <option value='10이하'>10만원 이하</option>
-            <option value='10~20'>10~20</option>
-            <option value='20~30'>20~30</option>
-            <option value='30~40'>30~40</option>
-            <option value='40~50'>40~50</option>
+            <option value='10~20'>10~20만원</option>
+            <option value='20~30'>20~30만원</option>
+            <option value='30~40'>30~40만원</option>
+            <option value='40~50'>40~50만원</option>
             <option value='50이상'>50만원 이상</option>
           </select>
         </div>
-        <div className='searchForm_element'>
-          <label htmlFor='travelTheme'>여행 테마</label>
+        <div className={styles.searchForm_element}>
           <select
-            className='search_select'
+            className={styles.searchForm_select}
             name='travelTheme'
             onChange={onSearchFormChange}
           >
-            <option value='all'>전체</option>
+            <option value='all'>여행 테마</option>
             <option value='문화 여행'>문화 여행</option>
             <option value='자연 여행'>자연 여행</option>
             <option value='식도락 여행'>식도락 여행</option>
@@ -233,7 +233,7 @@ const SearchForm = ({ onGetResult, pageForm }) => {
           </select>
         </div>
       </div>
-      <button className='searchBtn' onClick={onSearchBtnClick}>
+      <button className={styles.searchForm_button} onClick={onSearchBtnClick}>
         검색
       </button>
     </div>

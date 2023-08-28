@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import no_image from "../../../../image/travel/no_image.png";
+
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import "./PageDetail.css";
+
+import styles from "./PageDetail.module.css";
 
 const CourseDetail = ({ course }) => {
   useEffect(() => {
@@ -34,31 +36,35 @@ const CourseDetail = ({ course }) => {
     };
 
     return (
-      <div className='searchresult-images'>
-        <div className='searchresult-image-container'>
-          {course.review.fileUrls.length < 2 && (
+      <div className={styles.images}>
+        {course.review.fileUrls.length < 2 && (
+          <img
+            className={styles.image}
+            src={course.review.fileUrls[currentImage]}
+            alt={`Image ${currentImage + 1}`}
+          />
+        )}
+        {course.review.fileUrls.length > 1 && (
+          <div className={styles.image_container}>
+            <button
+              className={styles.image_prev_button}
+              onClick={handlePrevImage}
+            >
+              {"<"}
+            </button>
             <img
-              className='searchresult-image'
+              className={styles.image}
               src={course.review.fileUrls[currentImage]}
               alt={`Image ${currentImage + 1}`}
             />
-          )}
-          {course.review.fileUrls.length > 1 && (
-            <div className='searchresult-image-navigation'>
-              <button className='image-prev-button' onClick={handlePrevImage}>
-                {"<"}
-              </button>
-              <img
-                className='searchresult-image'
-                src={course.review.fileUrls[currentImage]}
-                alt={`Image ${currentImage + 1}`}
-              />
-              <button className='image-next-button' onClick={handleNextImage}>
-                {">"}
-              </button>
-            </div>
-          )}
-        </div>
+            <button
+              className={styles.image_next_button}
+              onClick={handleNextImage}
+            >
+              {">"}
+            </button>
+          </div>
+        )}
       </div>
     );
   };
@@ -67,8 +73,8 @@ const CourseDetail = ({ course }) => {
   const renderStars = () => {
     const totalRating = course.place.totalRating;
 
-    const filledStar = <AiFillStar className='searchresult-ratingStarIcon' />;
-    const emptyStar = <AiOutlineStar className='searchresult-ratingStarIcon' />;
+    const filledStar = <AiFillStar className={styles.stars} />;
+    const emptyStar = <AiOutlineStar className={styles.stars} />;
 
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -90,52 +96,46 @@ const CourseDetail = ({ course }) => {
   const getKoreanDateTime = (dateString) => {
     const options = {
       timeZone: "Asia/Seoul",
-      year: "2-digit",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
     };
-    const koreanDate = new Date(dateString).toLocaleString("ko-KR", options);
-    const [year, month, day, timePart] = koreanDate.split(". ");
-    return `${year}/${month}/${day} ${timePart}`;
+    const koreanTime = new Date(dateString).toLocaleTimeString(
+      "ko-KR",
+      options
+    );
+    return koreanTime;
+  };
+  //금액 단위 설정
+  const numberWithCommas = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   return (
-    <div className='searchresult-container'>
-      <div className='searchresult-dayCountArrivedTime'>
-        <div className='searchresult-dayCount'>
-          {course.dayCount}일차{" "}
-          <div className='searchresult-date'>
-            {getKoreanDateTime(course.arrivedTime).substring(0, 8)}
-          </div>
-        </div>
-        <div className='searchresult-header'>
-          <div className='searchresult-title'>{course.place.name}</div>
-        </div>
-        <div className='searchresult-arrivedTime'>
-          {getKoreanDateTime(course.arrivedTime).substring(8)}
+    <div className={styles.box}>
+      <div className={styles.searchResult_header}>
+        <div className={styles.searchResult_title}>{course.place.name}</div>
+        <div className={styles.searchResult_time}>
+          {getKoreanDateTime(course.arrivedTime)}
         </div>
       </div>
-
       {renderImages()}
-      <div className='searchresult-cost'>{course.cost}원</div>
-      <div className='searchresult-ratingreview'>
-        <span className='searchresult-ratingStars'>
+      <div className={styles.searchResult_cost}>
+        {numberWithCommas(course.cost)}원
+      </div>
+      <div className={styles.searchResult_reviews}>
+        <span className={styles.searchResult_stars}>
           {renderStars().map((star, index) => (
             <span key={index}>{star}</span>
           ))}
         </span>
-        <span className='searchresult-review-click' onClick={handleReviewClick}>
+        <span className={styles.review} onClick={handleReviewClick}>
           {showReview ? "닫기" : "후기 ->"}
         </span>
       </div>
       {showReview && (
-        <div className='searchresult-review'>
-          <div className='searchresult-content'>
-            {course.review.detailReview}
-          </div>
+        <div className={styles.searchReuslt_review}>
+          {course.review.detailReview}
         </div>
       )}
     </div>

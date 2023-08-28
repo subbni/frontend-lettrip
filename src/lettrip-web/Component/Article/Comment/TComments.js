@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import {
   commentData,
   replyCommentData,
-  createComment,
   modifyComment,
   deleteComment,
 } from "../../../Service/ArticleService";
@@ -48,16 +47,13 @@ function TComments({ storedCommentEmail }) {
   }); //대댓글 작성시 요청 정보
 
   useEffect(() => {
-    showComments(); //댓글 보여주기
+    showComments();
     if (parent_comment_id) {
-      //대댓글 보여주기
-      setReplyCommentForm((prevState) => ({
-        ...prevState,
-        parent_comment_id: parent_comment_id,
-        mentioned_user_email: mentioned_user_email,
-      }));
       showReplyComments();
     }
+  }, [parent_comment_id]);
+
+  useEffect(() => {
     getMyProfile() //프로필 사진 가져오기
       .then((response) => {
         setProfile(response);
@@ -66,7 +62,16 @@ function TComments({ storedCommentEmail }) {
         console.log(e);
         alert("오류 발생");
       });
-  }, [parent_comment_id, mentioned_user_email]);
+  }, []);
+
+  // 댓글 수에 대댓글 수를 합산하여 표시할 변수
+  const TotalCommentCount = () => {
+    return comments.reduce((total, comment) => {
+      const replyCommentList = replyComments[comment.id];
+      const replyCount = replyCommentList ? replyCommentList.length : 0;
+      return total + replyCount + 1; // 댓글과 대댓글 수를 합산
+    }, 0);
+  };
 
   // 댓글 작성자 이메일과 현재 로그인한 사용자의 이메일을 비교하여 동일한지 확인하는 함수
   const isEditable = (email) => {
@@ -77,12 +82,32 @@ function TComments({ storedCommentEmail }) {
     return email === storedCommentEmail;
   };
 
-  //댓글 설정버튼 토글 관리
+  //댓글 설정 버튼 토글 관리
   const toggleOptions = (commentId) => {
     setShowOptions((prevShowOptions) => ({
       ...prevShowOptions,
       [commentId]: !prevShowOptions[commentId],
     }));
+  };
+
+  //댓글 답글 버튼 토글 관리
+  const toggleReplyComments = (parent_id) => {
+    const updatedComments = comments.map((comment) => {
+      if (comment.id === parent_id) {
+        return {
+          ...comment,
+          toggleReplyComment: !comment.toggleReplyComment,
+        };
+      }
+      return comment;
+    });
+    setComments(updatedComments);
+    if (
+      updatedComments.find((comment) => comment.id === parent_id)
+        .toggleReplyComment
+    ) {
+      showReplyComments(parent_id);
+    }
   };
 
   //댓글 불러오기
@@ -157,13 +182,15 @@ function TComments({ storedCommentEmail }) {
             return {
               ...comment,
               reply: response.content,
-              moreReplyComment: true,
+              toggleReplyComment: true,
             };
           }
           return comment;
         });
         setComments(updatedComments);
-        setReplyComments(response.content);
+        setReplyComments((prevReplyComments) => ({
+          ...prevReplyComments,
+        }));
         console.log(response);
       })
       .catch((e) => {
@@ -209,7 +236,8 @@ function TComments({ storedCommentEmail }) {
 
   return (
     <div className={styles.box}>
-      <h3>댓글 {comments.length + replyComments.length}</h3>
+      <h3>댓글 {TotalCommentCount()}</h3>
+
       <div className={styles.comments}>
         {comments && comments.length > 0 ? (
           comments.map((comment) => (
@@ -275,25 +303,16 @@ function TComments({ storedCommentEmail }) {
                 <p className={styles.comment_createdDate}>
                   {getKoreanDateTime(comment.createdDate)}
                 </p>
+
                 <p
                   className={styles.comment_reply}
-                  onClick={() => {
-                    toggleOptions(comment.id);
-                    setShowOptions((prevShowOptions) => ({
-                      ...prevShowOptions,
-                      [comment.id]: false,
-                    }));
-                    setReplyComments((prevReplyComments) => ({
-                      ...prevReplyComments,
-                      [comment.id]: !prevReplyComments[comment.id],
-                    }));
-                  }}
+                  onClick={() => toggleReplyComments(comment.id)}
                 >
-                  {replyComments[comment.id] ? "닫기" : "답글"}
+                  {comment.toggleReplyComment ? "닫기" : "답글"}
                 </p>
               </div>
 
-              {comment.moreReplyComment &&
+              {comment.togglereplyComment &&
                 comment.reply &&
                 comment.reply.length > 0 && (
                   <div className={styles.replycomments}>
@@ -346,11 +365,13 @@ function TComments({ storedCommentEmail }) {
                         <p className={styles.replycomment_reply}> 답글</p>
                       </div>
                     ))}
-                    <ReplyCommentCreate
-                      parent_comment_id={comment.id}
-                      mentioned_user_nickname={comment.nickname}
-                      mentioned_user_email={comment.email} //처리
-                    />
+                    {comment.toggleReplyComment && (
+                      <ReplyCommentCreate
+                        parent_comment_id={comment.id} //정상
+                        mentioned_user_nickname={comment.nickname} //정상
+                        mentioned_user_email={comment.email} //처리
+                      />
+                    )}
                   </div>
                 )}
             </div>

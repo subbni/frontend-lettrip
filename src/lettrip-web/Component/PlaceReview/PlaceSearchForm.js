@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import SearchMapForm from "./SearchMapForm";
 import { RiArrowGoBackLine } from "react-icons/ri";
 import { getPlace, getReviewPage } from "../../Service/PlaceReviewService";
@@ -14,7 +15,7 @@ import {
 } from "../../Service/LikedService";
 
 const PlaceSearchForm = ({ onGetResults }) => {
-  const likedType = "PLACE_LIKE";
+  const { id } = useParams();
   const [pageForm, setPageForm] = useState({
     page: 0,
     size: 10,
@@ -28,8 +29,9 @@ const PlaceSearchForm = ({ onGetResults }) => {
     province: "",
     city: "",
   });
+  const likedType = "PLACE_LIKE";
   const [likedForm, setLikedForm] = useState({
-    targetId: "",
+    targetId: id,
     likedType: likedType,
   });
   const [liked, setLiked] = useState(false);
@@ -97,7 +99,7 @@ const PlaceSearchForm = ({ onGetResults }) => {
   };
 
   // 좋아요 관리
-  const handleLikedClick = () => {
+  const handleLikeClick = () => {
     if (liked) {
       onDeleteLiked();
     } else {
@@ -186,12 +188,12 @@ const PlaceSearchForm = ({ onGetResults }) => {
               {liked ? (
                 <AiFillHeart
                   className='place-liked-button'
-                  onClick={handleLikedClick}
+                  onClick={handleLikeClick}
                 />
               ) : (
                 <AiOutlineHeart
                   className='place-liked-button'
-                  onClick={handleLikedClick}
+                  onClick={handleLikeClick}
                 />
               )}
             </div>

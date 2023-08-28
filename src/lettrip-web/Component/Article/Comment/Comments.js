@@ -6,17 +6,22 @@ import {
   modifyComment,
   deleteComment,
 } from "../../../Service/ArticleService";
+import { getMyProfile } from "../../../Service/MyPageService";
 
 import ReplyCommentCreate from "./ReplyCommentCreate";
-
-import { AiFillSetting } from "react-icons/ai";
 import styles from "./Comments.module.css";
 
-function Comments({ userEmail }) {
+import anonymous_profile from "../../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { BsArrowReturnRight } from "react-icons/bs";
+
+function Comments() {
   const { id, parent_comment_id } = useParams();
 
-  const [commentOptions, setCommentOptions] = useState(false);
-  const menuRef = useRef();
+  const [profile, setProfile] = useState({});
+
+  const [showOptions, setShowOptions] = useState({});
+  const [settingOptions, setSettingOptions] = useState(null);
 
   const [comments, setComments] = useState([]);
   const [replyComments, setReplyComments] = useState([]);
@@ -24,30 +29,26 @@ function Comments({ userEmail }) {
   const [editingComment, setEditingComment] = useState({});
   const [editingReplyComment, setEditingReplyComment] = useState({});
 
-  const [pageForm, setPageForm] = useState({
+  const [commentForm, setCommentForm] = useState({
     page: 0,
     size: 5,
     sort: "id,ASC",
     article_id: id,
     parent_id: parent_comment_id,
   }); //댓글 보여주기 : 5개씩, 오래된 순
-  const [commentForm, setCommentForm] = useState({
-    content: "",
-  }); //댓글 작성시 요청 정보, id는 댓글 id
   const [replyCommentForm, setReplyCommentForm] = useState({
     article_id: id,
     content: "",
     parent_comment_id: parent_comment_id,
     mentioned_user_email: -1,
-  });
+  }); //대댓글 보여주기 : 5개씩, 오래된 순
 
-  useEffect(() => {
-    //댓글 설정 버튼 누르기
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const [modifycommentForm, setModifyCommentForm] = useState({
+    content: "",
+  }); //댓글 수정시 요청 정보, id는 댓글 id
+  const [modifyreplycommentForm, setModifyReplyCommentForm] = useState({
+    content: "",
+  }); //댓글 수정시 요청 정보, id는 댓글 id
 
   useEffect(() => {
     fetchComments();
@@ -56,15 +57,54 @@ function Comments({ userEmail }) {
     }
   }, [parent_comment_id]);
 
+  useEffect(() => {
+    getMyProfile() //프로필 사진 가져오기
+      .then((response) => {
+        setProfile(response);
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("오류 발생");
+      });
+  }, []);
+
   // 댓글 작성자의 닉네임과 현재 로그인한 사용자의 닉네임 비교하여 동일한지 확인하는 함수
   const isEditable = (commentNickname) => {
     const storedNickname = localStorage.getItem("nickname");
     return commentNickname === storedNickname;
   };
 
+  //댓글 설정 버튼 토글 관리
+  const toggleOptions = (id) => {
+    setShowOptions((prevShowOptions) => ({
+      ...prevShowOptions,
+      [id]: !prevShowOptions[id],
+    }));
+  };
+
+  //답글 버튼 토글 관리
+  const moreReplyComment = (parent_id) => {
+    const updatedComments = comments.map((comment) => {
+      if (comment.id === parent_id) {
+        return {
+          ...comment,
+          moreReplyComment: !comment.moreReplyComment,
+        };
+      }
+      return comment;
+    });
+    setComments(updatedComments);
+    if (
+      updatedComments.find((comment) => comment.id === parent_id)
+        .moreReplyComment
+    ) {
+      fetchReplyComments(parent_id);
+    }
+  };
+
   //댓글 불러오기
   const fetchComments = () => {
-    commentData(pageForm)
+    commentData(commentForm)
       .then((response) => {
         const updatedComments = response.content.map((comment) => ({
           ...comment,
@@ -81,12 +121,11 @@ function Comments({ userEmail }) {
 
   //대댓글 불러오기
   const fetchReplyComments = (parent_id) => {
-    const replyPageForm = {
-      ...pageForm,
+    const replyCommentForm = {
+      ...commentForm,
       parent_id: parent_id,
     };
-    console.log(replyPageForm);
-    replyCommentData(replyPageForm)
+    replyCommentData(replyCommentForm)
       .then((response) => {
         const updatedComments = comments.map((comment) => {
           if (comment.id === parent_id) {
@@ -107,49 +146,35 @@ function Comments({ userEmail }) {
         alert("대댓글을 불러오는 중에 오류가 발생했습니다.");
       });
   };
-  //'더보기' 버튼을 눌렀을 때
-  const moreReplyComment = (parent_id) => {
-    const updatedComments = comments.map((comment) => {
-      if (comment.id === parent_id) {
-        return {
-          ...comment,
-          moreReplyComment: !comment.moreReplyComment,
-        };
-      }
-      return comment;
-    });
-    setComments(updatedComments);
-    if (
-      updatedComments.find((comment) => comment.id === parent_id)
-        .moreReplyComment
-    ) {
-      fetchReplyComments(parent_id);
-    }
-  };
 
   //댓글 수정하기
   const handleCommentFormChange = (e) => {
     const { name, value } = e.target;
-    setCommentForm((prevState) => ({
+    setModifyCommentForm((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
   const handleCommentFormSubmit = (e) => {
     e.preventDefault();
+    console.log("Modified reply content:", modifycommentForm.content); // Add this line
     if (editingComment.id) {
       if (window.confirm("댓글을 수정하시겠습니까?")) {
         const modifyForm = {
           id: editingComment.id,
-          content: commentForm.content,
+          content: modifycommentForm.content,
         };
         modifyComment(modifyForm)
           .then((response) => {
-            alert("댓글 수정이 완료되었습니다.");
+            window.alert("댓글 수정이 완료되었습니다.");
             console.log(response);
-            fetchComments();
-            setCommentForm({ content: "" });
+            console.log(response.content);
+            setModifyCommentForm((prevState) => ({
+              ...prevState,
+              content: "",
+            }));
             setEditingComment({});
+            fetchComments();
           })
           .catch((e) => {
             console.log(e);
@@ -163,41 +188,49 @@ function Comments({ userEmail }) {
     const comment = comments.find((comment) => comment.id === commentId);
     if (comment) {
       setEditingComment(comment);
-      setCommentForm({ content: comment.content });
+      setModifyCommentForm((prevState) => ({
+        ...prevState,
+        content: comment.content,
+      }));
     }
   };
 
   // 대댓글 수정하기
   const handleReplyCommentFormChange = (e) => {
     const { name, value } = e.target;
-    setReplyCommentForm((prevState) => ({
+    setModifyReplyCommentForm((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
-  const handleReplyCommentFormSubmit = (e, replyId) => {
+  const handleReplyCommentFormSubmit = (e) => {
     e.preventDefault();
-    if (window.confirm("대댓글을 수정하시겠습니까?")) {
-      const modifyReplyForm = {
-        id: replyId,
-        content: replyCommentForm.content,
-      };
-      modifyComment(modifyReplyForm)
-        .then((response) => {
-          window.alert("대댓글 수정이 완료되었습니다.");
-          fetchReplyComments(parent_comment_id);
-          setReplyCommentForm((prevState) => ({
-            ...prevState,
-            content: "",
-          }));
-          setEditingReplyComment({});
-        })
-        .catch((e) => {
-          console.log(e);
-          window.alert(
-            "대댓글 수정에 실패했습니다. 다시 시도해주시길 바랍니다."
-          );
-        });
+    if (editingReplyComment.id) {
+      if (window.confirm("대댓글을 수정하시겠습니까?")) {
+        const modifyReplyForm = {
+          id: editingReplyComment.id,
+          parent_comment_id: parent_comment_id,
+          content: modifyreplycommentForm.content,
+        };
+        modifyComment(modifyReplyForm)
+          .then((response) => {
+            window.alert("대댓글 수정이 완료되었습니다.");
+            console.log(response);
+            setModifyReplyCommentForm((prevState) => ({
+              ...prevState,
+              content: "",
+            }));
+            setEditingReplyComment({});
+            fetchReplyComments(parent_comment_id);
+            console.log(response.content);
+          })
+          .catch((e) => {
+            console.log(e);
+            window.alert(
+              "대댓글 수정에 실패했습니다. 다시 시도해주시길 바랍니다."
+            );
+          });
+      }
     }
   };
 
@@ -207,7 +240,7 @@ function Comments({ userEmail }) {
     );
     if (replyComment) {
       setEditingReplyComment(replyComment);
-      setReplyCommentForm((prevState) => ({
+      setModifyReplyCommentForm((prevState) => ({
         ...prevState,
         content: replyComment.content,
       }));
@@ -229,182 +262,193 @@ function Comments({ userEmail }) {
         });
     }
   };
-
-  //설정 아이콘 누르면 메뉴 나오게 하기 (수정, 삭제)
-  const commentSettings = (commentId) => {
-    setComments((prevState) =>
-      prevState.map((comment) =>
-        comment.id === commentId
-          ? { ...comment, options: !comment.options }
-          : { ...comment, options: false }
-      )
-    );
-  };
-  function handleClickOutside(e) {
-    if (menuRef.current && !menuRef.current.contains(e.target)) {
-      setCommentOptions(false);
-      setComments((prevState) =>
-        prevState.map((comment) => ({ ...comment, options: false }))
-      );
-    }
-  }
-
-  // 한국 시차 설정하기
+  //시간 설정하기
   const getKoreanDateTime = (dateString) => {
     const options = {
-      timeZone: "Asia/Seoul",
       year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
     };
-    return new Date(dateString).toLocaleString("ko-KR", options);
+    const koreanDate = new Date(dateString).toLocaleDateString(
+      "ko-KR",
+      options
+    );
+    const formattedDate = koreanDate.replace(/\. /g, ".");
+    const separatedDateTime = formattedDate.replace(/\.(?=\d{2}:)/, " ");
+    return separatedDateTime;
   };
 
   return (
-    <div className='comments-container'>
-      <div className='show-comments'>
+    <div className={styles.box}>
+      <div className={styles.comments}>
         {comments && comments.length > 0 ? (
           comments.map((comment) => (
-            <div key={comment.id}>
-              <h3 className='comment-nickname'>{comment.nickname}</h3>
-              <div className='comment-views'>
-                <p className='comment-createdDate'>
-                  {getKoreanDateTime(comment.createdDate)}
-                </p>
-                <p
-                  className='comment-settings'
-                  onClick={() => commentSettings(comment.id)}
-                  ref={menuRef}
-                >
-                  <AiFillSetting />
-                </p>
-                {comment.options && (
-                  <div className='comment-setting-options'>
-                    {isEditable(comment.nickname) && (
-                      <div
-                        className='comment-modify'
-                        onClick={() => handleModifyComment(comment.id)}
-                      >
-                        수정
-                      </div>
-                    )}
-                    {isEditable(comment.nickname) && (
-                      <div
-                        className='comment-delete'
-                        onClick={() => handleDeleteComment(comment.id)}
-                      >
-                        삭제
+            <div className={styles.comment_show} key={comment.id}>
+              <div className={styles.comment_box}>
+                <div className={styles.comment_header}>
+                  {profile.imageUrl !== null ? (
+                    <img
+                      className={styles.profile_image}
+                      src={profile.imageUrl}
+                      alt='Profile'
+                    />
+                  ) : (
+                    <img
+                      className={styles.profile_image}
+                      src={anonymous_profile}
+                      alt='Anonymous Profile'
+                    />
+                  )}
+                  <p className={styles.comment_nickname}>{comment.nickname}</p>
+
+                  <div className={styles.comment_settings}>
+                    <div
+                      className={styles.setting_icon}
+                      onClick={() => toggleOptions(comment.id)}
+                    >
+                      <BiDotsVerticalRounded />
+                    </div>
+                    {showOptions[comment.id] && (
+                      <div className={styles.option_dropdown}>
+                        <ul>
+                          <li onClick={() => handleModifyComment(comment.id)}>
+                            수정
+                          </li>
+                          <li onClick={() => handleDeleteComment(comment.id)}>
+                            삭제
+                          </li>
+                        </ul>
                       </div>
                     )}
                   </div>
-                )}
-              </div>
-              {editingComment.id === comment.id ? (
-                <form
-                  className='comment-modfiy-input'
-                  onSubmit={handleCommentFormSubmit}
-                >
-                  <textarea
-                    id='content'
-                    name='content'
-                    placeholder='댓글을 입력하세요.'
-                    required
-                    value={commentForm.content}
-                    onChange={handleCommentFormChange}
-                  />
-                  <button className='comment-submit' type='submit'>
-                    완료
-                  </button>
-                </form>
-              ) : (
-                <p className='comment-content'>{comment.content}</p>
-              )}
-
-              <div className='replycomments-container'>
-                <div className='show-replycomments'>
-                  <p
-                    className='showReplycomment-button'
-                    onClick={() => moreReplyComment(comment.id)}
+                </div>
+                {editingComment.id === comment.id ? (
+                  <form
+                    className={styles.modify_box}
+                    onSubmit={handleCommentFormSubmit}
                   >
-                    {comment.moreReplyComment ? "답글 닫기" : "답글 보기"}
-                  </p>
-                  {comment.moreReplyComment &&
-                    comment.reply &&
-                    comment.reply.length > 0 && (
-                      <div className='replyComments'>
-                        {comment.reply.map((reply) => (
-                          <div key={reply.id}>
-                            <h4 className='replycomment-nickname'>
-                              {reply.nickname}
-                            </h4>
-                            <div className='replycomment-views'>
-                              <p className='replycomment-createdDate'>
-                                {getKoreanDateTime(reply.createdDate)}
-                              </p>
-                              <div className='replycomment-setting-options'>
-                                <div className='replycomment-mention'>
-                                  언급하기
-                                </div>
-                                {isEditable(reply.nickname) && (
-                                  <div
-                                    className='replycomment-modify'
+                    <div className={styles.modify_comment}>
+                      <textarea
+                        id='content'
+                        name='content'
+                        placeholder='댓글을 입력하세요.'
+                        required
+                        value={modifycommentForm.content}
+                        onChange={handleCommentFormChange}
+                      />
+                      <button type='submit'>완료</button>
+                    </div>
+                  </form>
+                ) : (
+                  <p className={styles.comment_content}>{comment.content}</p>
+                )}
+                <p className={styles.comment_createdDate}>
+                  {getKoreanDateTime(comment.createdDate)}
+                </p>
+                <p
+                  className={styles.comment_reply}
+                  onClick={() => moreReplyComment(comment.id)}
+                >
+                  {comment.toggleReplyComment ? "닫기" : "답글"}
+                </p>
+              </div>
+              {comment.moreReplyComment &&
+                comment.reply &&
+                comment.reply.length > 0 && (
+                  <div className={styles.replycomments}>
+                    {comment.reply.map((reply) => (
+                      <div className={styles.replycomment_box} key={reply.id}>
+                        <div className={styles.replycomment_header}>
+                          <p className={styles.comment_arrow}>
+                            <BsArrowReturnRight />
+                          </p>
+                          {profile.imageUrl !== null ? (
+                            <img
+                              className={styles.profile_image}
+                              src={profile.imageUrl}
+                              alt='Profile'
+                            />
+                          ) : (
+                            <img
+                              className={styles.profile_image}
+                              src={anonymous_profile}
+                              alt='Anonymous Profile'
+                            />
+                          )}
+                          <p className={styles.comment_nickname}>
+                            {reply.nickname}
+                          </p>
+                          <div className={styles.comment_settings}>
+                            <div
+                              className={styles.setting_icon}
+                              onClick={() => toggleOptions(reply.id)}
+                            >
+                              <BiDotsVerticalRounded />
+                            </div>
+
+                            {showOptions[reply.id] && (
+                              <div className={styles.option_dropdown}>
+                                <ul>
+                                  <li
                                     onClick={() =>
                                       handleModifyReplyComment(reply.id)
                                     }
                                   >
                                     수정
-                                  </div>
-                                )}
-                                {isEditable(reply.nickname) && (
-                                  <div
-                                    className='replycomment-delete'
+                                  </li>
+                                  <li
                                     onClick={() =>
                                       handleDeleteComment(reply.id)
                                     }
                                   >
                                     삭제
-                                  </div>
-                                )}
+                                  </li>
+                                </ul>
                               </div>
-                            </div>
-                            {editingReplyComment.id === comment.id ? (
-                              <form
-                                className='comment-modfiy-input'
-                                onSubmit={handleReplyCommentFormSubmit}
-                              >
-                                <textarea
-                                  id='content'
-                                  name='content'
-                                  placeholder='댓글을 입력하세요.'
-                                  required
-                                  value={replyCommentForm.content}
-                                  onChange={handleReplyCommentFormChange}
-                                />
-                                <button
-                                  className='comment-submit'
-                                  type='submit'
-                                >
-                                  완료
-                                </button>
-                              </form>
-                            ) : (
-                              <p className='comment-content'>{reply.content}</p>
                             )}
                           </div>
-                        ))}
+                        </div>
+
+                        {editingReplyComment.id === reply.id ? (
+                          <form
+                            className={styles.replymodify_box}
+                            onSubmit={handleReplyCommentFormSubmit}
+                          >
+                            <div className={styles.modify_comment}>
+                              <textarea
+                                id='content'
+                                name='content'
+                                placeholder='대댓글을 입력하세요.'
+                                required
+                                value={modifyreplycommentForm.content}
+                                onChange={handleReplyCommentFormChange}
+                              />
+                              <button type='submit'>완료</button>
+                            </div>
+                          </form>
+                        ) : (
+                          <p className={styles.replycomment_content}>
+                            {reply.content}
+                          </p>
+                        )}
+                        <p className={styles.replycomment_createdDate}>
+                          {getKoreanDateTime(reply.createdDate)}
+                        </p>
+                        <p className={styles.replycomment_reply}> 답글</p>
                       </div>
-                    )}
-                  {comment.moreReplyComment && (
-                    <ReplyCommentCreate
-                      parent_comment_id={comment.id} //정상
-                      mentioned_user_nickname={comment.nickname} //정상
-                      mentioned_user_email={userEmail} //처리
-                    />
-                  )}
-                </div>
-              </div>
+                    ))}
+                  </div>
+                )}
+              {comment.moreReplyComment && (
+                <ReplyCommentCreate
+                  parent_comment_id={comment.id} //정상
+                  mentioned_user_email={comment.email} //처리
+                  nickname={comment.nickname} //정상
+                />
+              )}
             </div>
           ))
         ) : (
