@@ -126,6 +126,14 @@ const TravelDetailPage = () => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  const formatDate = (date) => {
+    const options = { year: "2-digit", month: "2-digit", day: "2-digit" };
+    const formattedDate = new Date(date)
+      .toLocaleDateString(undefined, options)
+      .replace(/\s/g, "");
+    return formattedDate;
+  };
+
   return (
     <div>
       <div className={styles.container}>
@@ -137,7 +145,10 @@ const TravelDetailPage = () => {
             {liked ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
         </div>
-
+        <div className={styles.travelCourse_date}>
+          {" "}
+          {formatDate(travel.departDate)} ~ {formatDate(travel.lastDate)}
+        </div>
         <div className={styles.travelCourse_thenumberOf}>
           {travel.numberOfCourses}개
         </div>
