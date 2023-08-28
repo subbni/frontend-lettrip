@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import SearchForm from "./SearchForm";
+
 import SearchResultContainer from "./SearchResultContainer";
 import { searchTravelList } from "../../../Service/TravelService";
+
+import styles from "./Search.module.css";
+
+import SearchForm from "./SearchForm";
 
 const TravelSearchPage = () => {
   const [searchForm, setSearchForm] = useState({});
@@ -27,7 +31,7 @@ const TravelSearchPage = () => {
   };
 
   return (
-    <div className='searchPage'>
+    <div className={styles.page}>
       <SearchForm onGetResult={onGetResult} pageForm={pageForm} />
       <SearchResultContainer
         resultTravels={resultTravels}

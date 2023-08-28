@@ -1,7 +1,10 @@
+/* TravelPaging.css */
 .pagination {
+  width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 15px;
+  margin-top: 30px;
+  border: none;
 }
 
 ul {
@@ -13,7 +16,7 @@ ul.pagination li {
   display: inline-block;
   width: 30px;
   height: 30px;
-  border: 1px solid #e2e2e2;
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,7 +33,7 @@ ul.pagination li:last-child {
 
 ul.pagination li a {
   text-decoration: none;
-  color: #337ab7;
+  color: #949494;
   font-size: 1rem;
 }
 
@@ -39,12 +42,7 @@ ul.pagination li.active a {
 }
 
 ul.pagination li.active {
-  background-color: #49697a;
-}
-
-ul.pagination li a:hover,
-ul.pagination li a.active {
-  color: blue;
+  background-color: #b3b3b3;
 }
 
 .page-selection {

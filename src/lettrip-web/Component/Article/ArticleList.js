@@ -5,6 +5,8 @@ import { listArticle } from "../../Service/ArticleService";
 
 import styles from "./Article.module.css";
 
+import Pagination from "react-js-pagination";
+
 function ArticleList() {
   const navigate = useNavigate();
   const [pageForm, setPageForm] = useState({
@@ -14,15 +16,18 @@ function ArticleList() {
   });
   const [articleList, setArticleList] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+
   useEffect(() => {
     fetchArticles();
-  }, []);
+  }, [pageForm.page]);
 
   const fetchArticles = () => {
     listArticle(pageForm)
       .then((response) => {
         setArticleList(response.content);
-        console.log(response.content);
+        setTotalElements(response.totalElements);
       })
       .catch((e) => {
         console.log(e);
@@ -45,6 +50,13 @@ function ArticleList() {
     } else {
       navigate(`/articles/${e.target.id}`);
     }
+  };
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setPageForm({
+      ...pageForm,
+      page: pageNumber - 1,
+    });
   };
 
   return (
@@ -80,6 +92,13 @@ function ArticleList() {
       <button className={styles.button} onClick={handleCreateClick}>
         글쓰기
       </button>
+      <Pagination
+        activePage={currentPage}
+        itemsCountPerPage={pageForm.size}
+        totalItemsCount={totalElements}
+        pageRangeDisplayed={5}
+        onChange={handlePageChange}
+      />
     </div>
   );
 }

@@ -37,11 +37,6 @@
   flex-direction: column;
 }
 
-.searchForm_element label {
-  font-size: 0.8em;
-  color: rgb(148, 154, 170);
-}
-
 .searchBtn {
   border: none;
   border-radius: 4px;
