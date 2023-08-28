@@ -136,7 +136,6 @@
   margin-top: -7px;
   text-align: center;
   margin-left: 45px;
-  color: #3b3b3b;
   border: 1px solid #ccc;
   width: 3%;
   padding: 3px;
@@ -148,11 +147,28 @@
   margin-top: -7px;
   text-align: center;
   margin-left: 105px;
-  color: #3b3b3b;
   border: 1px solid #ccc;
   width: 3%;
   padding: 3px;
   color: #737373;
+  cursor: pointer;
+}
+
+.hiddenButton {
+  margin-top: -35px;
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.hiddenReplyButton {
+  margin-top: -35px;
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  padding: 3px;
   cursor: pointer;
 }
 
@@ -213,6 +229,7 @@
   flex-direction: column;
   width: 100%;
   margin-top: 40px;
+  margin-bottom: 40px;
 }
 .comment {
   display: flex;
@@ -254,7 +271,7 @@
   display: flex;
   flex-direction: column;
   width: 95%;
-  margin-top: 13px;
+  margin-top: 35px;
 }
 .replycomment {
   display: flex;

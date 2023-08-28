@@ -21,10 +21,11 @@ function Comments() {
   const [profile, setProfile] = useState({});
 
   const [showOptions, setShowOptions] = useState({});
-  const [settingOptions, setSettingOptions] = useState(null);
 
   const [comments, setComments] = useState([]);
+  const [hiddenCommentCount, setHiddenCommentCount] = useState(0);
   const [replyComments, setReplyComments] = useState([]);
+  const [hiddenReplyCommentCount, setHiddenReplyCommentCount] = useState(0);
 
   const [editingComment, setEditingComment] = useState({});
   const [editingReplyComment, setEditingReplyComment] = useState({});
@@ -36,12 +37,6 @@ function Comments() {
     article_id: id,
     parent_id: parent_comment_id,
   }); //댓글 보여주기 : 5개씩, 오래된 순
-  const [replyCommentForm, setReplyCommentForm] = useState({
-    article_id: id,
-    content: "",
-    parent_comment_id: parent_comment_id,
-    mentioned_user_email: -1,
-  }); //대댓글 보여주기 : 5개씩, 오래된 순
 
   const [modifycommentForm, setModifyCommentForm] = useState({
     content: "",
@@ -51,9 +46,9 @@ function Comments() {
   }); //댓글 수정시 요청 정보, id는 댓글 id
 
   useEffect(() => {
-    fetchComments();
+    fetchCommentsAndMore();
     if (parent_comment_id) {
-      fetchReplyComments();
+      fetchReplyCommentsAndMore();
     }
   }, [parent_comment_id]);
 
@@ -67,12 +62,6 @@ function Comments() {
         alert("오류 발생");
       });
   }, []);
-
-  // 댓글 작성자의 닉네임과 현재 로그인한 사용자의 닉네임 비교하여 동일한지 확인하는 함수
-  const isEditable = (commentNickname) => {
-    const storedNickname = localStorage.getItem("nickname");
-    return commentNickname === storedNickname;
-  };
 
   //댓글 설정 버튼 토글 관리
   const toggleOptions = (id) => {
@@ -98,32 +87,45 @@ function Comments() {
       updatedComments.find((comment) => comment.id === parent_id)
         .moreReplyComment
     ) {
-      fetchReplyComments(parent_id);
+      fetchReplyCommentsAndMore(parent_id);
     }
   };
 
-  //댓글 불러오기
-  const fetchComments = () => {
+  // 댓글 불러오기
+  const fetchCommentsAndMore = (incrementSize = 0) => {
+    setCommentForm((prevForm) => ({
+      ...prevForm,
+      size: prevForm.size + incrementSize,
+    }));
     commentData(commentForm)
       .then((response) => {
         const updatedComments = response.content.map((comment) => ({
           ...comment,
-          options: false, // 설정 버튼 상태 초기값
+          options: false,
         }));
         setComments(updatedComments);
-        console.log(response);
+        setHiddenCommentCount(
+          Math.max(0, response.totalElements - commentForm.size)
+        );
       })
       .catch((e) => {
         console.log(e);
-        alert("댓글을 불러오는 중에 오류가 발생했습니다.");
+        window.alert("댓글을 불러오는 중에 오류가 발생했습니다.");
       });
   };
 
+  // 댓글 더보기 처리
+  const clickComment = () => {
+    console.log("댓글 더보기 버튼 누름");
+    fetchCommentsAndMore(5);
+  };
+
   //대댓글 불러오기
-  const fetchReplyComments = (parent_id) => {
+  const fetchReplyCommentsAndMore = (parent_id, incrementSize = 0) => {
     const replyCommentForm = {
       ...commentForm,
       parent_id: parent_id,
+      size: commentForm.size + incrementSize,
     };
     replyCommentData(replyCommentForm)
       .then((response) => {
@@ -138,13 +140,21 @@ function Comments() {
           return comment;
         });
         setComments(updatedComments);
+        setHiddenReplyCommentCount(
+          Math.max(0, response.totalElements - replyCommentForm.size)
+        );
         setReplyComments(response.content);
-        console.log(response);
       })
       .catch((e) => {
         console.log(e);
-        alert("대댓글을 불러오는 중에 오류가 발생했습니다.");
+        window.alert("대댓글을 불러오는 중에 오류가 발생했습니다.");
       });
+  };
+
+  // 대댓글 더보기 처리
+  const clickReplyComment = (parent_id) => {
+    console.log("대댓글 더보기 버튼 누름");
+    fetchReplyCommentsAndMore(parent_id, 5);
   };
 
   //댓글 수정하기
@@ -174,7 +184,7 @@ function Comments() {
               content: "",
             }));
             setEditingComment({});
-            fetchComments();
+            fetchCommentsAndMore();
           })
           .catch((e) => {
             console.log(e);
@@ -221,7 +231,7 @@ function Comments() {
               content: "",
             }));
             setEditingReplyComment({});
-            fetchReplyComments(parent_comment_id);
+            fetchReplyCommentsAndMore(parent_comment_id);
             console.log(response.content);
           })
           .catch((e) => {
@@ -254,7 +264,7 @@ function Comments() {
         .then((response) => {
           window.alert("댓글이 삭제되었습니다.");
           console.log(response);
-          fetchComments();
+          fetchCommentsAndMore();
         })
         .catch((e) => {
           console.log(e);
@@ -285,7 +295,7 @@ function Comments() {
     <div className={styles.box}>
       <div className={styles.comments}>
         {comments && comments.length > 0 ? (
-          comments.map((comment) => (
+          comments.map((comment, index) => (
             <div className={styles.comment_show} key={comment.id}>
               <div className={styles.comment_box}>
                 <div className={styles.comment_header}>
@@ -354,12 +364,18 @@ function Comments() {
                 >
                   {comment.toggleReplyComment ? "닫기" : "답글"}
                 </p>
+                {hiddenCommentCount > 0 && index === comments.length - 1 && (
+                  <div className={styles.hiddenButton} onClick={clickComment}>
+                    댓글 더보기 ({hiddenCommentCount}개)
+                  </div>
+                )}
               </div>
+
               {comment.moreReplyComment &&
                 comment.reply &&
                 comment.reply.length > 0 && (
                   <div className={styles.replycomments}>
-                    {comment.reply.map((reply) => (
+                    {comment.reply.map((reply, index) => (
                       <div className={styles.replycomment_box} key={reply.id}>
                         <div className={styles.replycomment_header}>
                           <p className={styles.comment_arrow}>
@@ -438,10 +454,22 @@ function Comments() {
                           {getKoreanDateTime(reply.createdDate)}
                         </p>
                         <p className={styles.replycomment_reply}> 답글</p>
+                        {hiddenReplyCommentCount > 0 &&
+                          comment.reply &&
+                          comment.reply.length > 0 &&
+                          index === comment.reply.length - 1 && (
+                            <div
+                              className={styles.hiddenReplyButton}
+                              onClick={() => clickReplyComment(comment.id)}
+                            >
+                              대댓글 더보기 ({hiddenReplyCommentCount}개)
+                            </div>
+                          )}
                       </div>
                     ))}
                   </div>
                 )}
+
               {comment.moreReplyComment && (
                 <ReplyCommentCreate
                   parent_comment_id={comment.id} //정상

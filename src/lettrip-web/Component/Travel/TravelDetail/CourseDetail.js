@@ -18,11 +18,11 @@ const CourseDetail = ({ course }) => {
   // 이미지 관리
   const renderImages = () => {
     if (fileUrls === null || fileUrls === undefined) {
-      return <img className='basic-image' src={no_image} alt='basic' />;
+      return <img className={styles.image} src={no_image} alt='basic' />;
     }
     // 이미지 렌더링 로직
     if (fileUrls.length === 0) {
-      return <img className='basic-image' src={no_image} alt='basic' />;
+      return <img className={styles.image} src={no_image} alt='basic' />;
     }
     const handlePrevImage = () => {
       setCurrentImage((prevImage) =>
