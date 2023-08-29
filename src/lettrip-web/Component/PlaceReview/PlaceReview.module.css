@@ -1,0 +1,127 @@
+/* PlaceSearchForm.js */
+.place_page {
+  margin-top: -40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.place_page_title {
+  color: rgba(79, 90, 128, 1);
+  font-weight: 700;
+  font-size: 26px;
+}
+/* SearchMapForm.js */
+
+.place_searchForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 2px 5px 8px rgba(153, 153, 153, 0.246);
+  padding: 32px;
+  margin-bottom: 30px;
+  width: 800px;
+  background: #f7f7f7;
+  border-radius: 8px;
+}
+.place_search {
+  width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -10px;
+  margin-bottom: 16px;
+  background-color: white;
+  border-radius: 28px;
+  text-align: center;
+}
+
+.place_search input {
+  width: 530px;
+  height: 32px;
+  text-align: left;
+  margin-left: 16px;
+  border: none;
+  font-size: 17px;
+}
+
+.place_search_btn {
+  color: rgba(79, 90, 128, 1);
+  border: 16px;
+  margin: 12px;
+  margin-right: 16px;
+  cursor: pointer;
+}
+.place_search_btn:hover {
+  color: rgb(136, 151, 203);
+}
+
+.kakao_map {
+  margin-top: 30px;
+  border-radius: 10px;
+  margin-left: -45px;
+}
+
+.place_search_text {
+  border: 16px;
+  margin: 16px;
+  margin-top: 20px;
+  margin-bottom: -10px;
+  font-size: 16px;
+  color: rgb(68, 84, 107);
+}
+
+.place_search_info {
+  background: none;
+  margin: 16px;
+}
+.go_kakao_map {
+  display: inline-block;
+  background-color: rgb(230, 230, 230);
+  color: rgb(22, 8, 100);
+  text-decoration: none;
+  padding: 4px 6px;
+  border-radius: 32px;
+  margin: 9px 7px;
+  cursor: pointer;
+}
+
+.go_kakao_map:hover {
+  background-color: rgb(211, 211, 211);
+  color: rgb(22, 8, 100);
+}
+
+.place_selected_name {
+  padding-top: 4px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.place_selected_name span {
+  margin-left: 5px;
+  font-size: 18px;
+}
+
+.searchBtn {
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-top: 15px;
+  width: 20%;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  background-color: rgba(46, 59, 76);
+}
+
+.searchBtn:hover {
+  background-color: rgb(196, 196, 196);
+  color: rgba(46, 59, 76);
+}

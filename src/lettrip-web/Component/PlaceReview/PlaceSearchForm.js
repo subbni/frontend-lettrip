@@ -8,6 +8,8 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import medal from "../../../image/place/verified_Badge.svg.png";
 
 import "./PlaceReview.css";
+import styles from "./PlaceReview.module.css";
+
 import {
   checkIfLiked,
   deleteLiked,
@@ -180,7 +182,7 @@ const PlaceSearchForm = ({ onGetResults }) => {
 
   return (
     <div>
-      <div className='place_searchForm'>
+      <div className={styles.place_searchForm}>
         {isPlaceSelected ? (
           <div>
             <div className='place_name'>
