@@ -63,8 +63,6 @@ function ArticlePage() {
     showArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
       .then((response) => {
         setPost(response);
-        console.log(response.content);
-        console.log(response);
       })
       .catch((e) => {
         console.log(e);

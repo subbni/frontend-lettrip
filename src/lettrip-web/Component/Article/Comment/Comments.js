@@ -291,6 +291,24 @@ function Comments() {
     return separatedDateTime;
   };
 
+  // 모든 댓글과 대댓글에서 중복 없이 사용자 정보 추출
+  const allUserInfos = new Set();
+  comments.forEach((comment) => {
+    allUserInfos.add({
+      user_email: comment.user_email,
+      nickname: comment.nickname,
+    });
+    if (comment.reply) {
+      comment.reply.forEach((reply) => {
+        allUserInfos.add({
+          user_email: reply.user_email,
+          nickname: reply.nickname,
+        });
+      });
+    }
+  });
+  const uniqueUserInfos = Array.from(allUserInfos);
+
   return (
     <div className={styles.box}>
       <div className={styles.comments}>
@@ -472,9 +490,8 @@ function Comments() {
 
               {comment.moreReplyComment && (
                 <ReplyCommentCreate
-                  parent_comment_id={comment.id} //정상
-                  mentioned_user_email={comment.email} //처리
-                  nickname={comment.nickname} //정상
+                  parent_comment_id={comment.id}
+                  userInfos={uniqueUserInfos} // 사용자 정보 전달
                 />
               )}
             </div>
