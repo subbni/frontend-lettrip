@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
+
 import { createArticle, listArticle } from "../../Service/ArticleService";
 
 import styles from "./ArticleCreate.module.css";
@@ -32,6 +34,7 @@ function ArticleCreate() {
   const handleArticleFormChange = (e) => {
     const changedField = e.target.name;
     let newValue = e.target.value;
+
     setArticleForm({
       ...articleForm,
       [changedField]: newValue,

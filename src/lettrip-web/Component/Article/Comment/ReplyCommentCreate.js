@@ -7,14 +7,7 @@ import {
 
 import styles from "./Comments.module.css";
 
-function ReplyCommentCreate({
-  parent_comment_id,
-  mentioned_user_email,
-  nickname,
-}) {
-  console.log(nickname); // 값이 올바르게 전달되는지 확인
-  console.log(mentioned_user_email);
-
+function ReplyCommentCreate({ parent_comment_id, userInfos }) {
   const { id } = useParams();
   const [replyComments, setReplyComments] = useState([]);
   const [replyCommentForm, setReplyCommentForm] = useState({
@@ -22,7 +15,7 @@ function ReplyCommentCreate({
     content: "",
     parent_comment_id: parent_comment_id,
     mentioned_user_email: -1,
-  }); //대댓글 작성시 요청 정보
+  }); // 대댓글 작성시 요청 정보
 
   useEffect(() => {
     if (parent_comment_id) {
@@ -33,7 +26,7 @@ function ReplyCommentCreate({
       }));
       fetchReplyComments();
     }
-  }, [parent_comment_id, mentioned_user_email]);
+  }, [parent_comment_id]);
 
   const fetchReplyComments = () => {
     const pageForm = {
@@ -57,16 +50,33 @@ function ReplyCommentCreate({
   // 대댓글 작성하기
   const handleReplyCommentFormChange = (e) => {
     const changedField = e.target.name;
-    let newValue = e.target.value;
+    const newValue = e.target.value;
 
     // 멘션 처리 로직 추가
-    if (changedField === "content" && newValue.includes("@")) {
-      const mentionedUserEmail = newValue.match(/@(\S+)/);
-      if (mentionedUserEmail) {
+    if (changedField === "content") {
+      const mentionedNickname = newValue.match(/@(\S+)/);
+      if (mentionedNickname) {
+        const mentionedUser = userInfos.find(
+          (user) => user.nickname === mentionedNickname[1]
+        );
+        if (mentionedUser) {
+          setReplyCommentForm({
+            ...replyCommentForm,
+            content: newValue,
+            mentioned_user_email: mentionedUser.user_email,
+          });
+        } else {
+          setReplyCommentForm({
+            ...replyCommentForm,
+            content: newValue,
+            mentioned_user_email: -1, // 멘션 처리 취소
+          });
+        }
+      } else {
         setReplyCommentForm({
           ...replyCommentForm,
           content: newValue,
-          mentioned_user_email: mentionedUserEmail[1], // 맨션된 이메일
+          mentioned_user_email: -1, // 멘션 처리 취소
         });
       }
     } else {
@@ -88,7 +98,6 @@ function ReplyCommentCreate({
             content: "",
           }));
           fetchReplyComments();
-          console.log(response);
         })
         .catch((e) => {
           console.log(e);
@@ -106,16 +115,9 @@ function ReplyCommentCreate({
         <div className={styles.replycomment}>
           <textarea
             name='content'
-            placeholder='대댓글을 입력하세요.'
+            placeholder='대댓글을 입력하세요. (닉네임 멘션: @닉네임)'
             required
             value={replyCommentForm.content}
-            onChange={handleReplyCommentFormChange}
-          />
-          <input
-            type='text'
-            name='mentioned_user_email'
-            placeholder='언급자 이메일'
-            value={replyCommentForm.mentioned_user_email}
             onChange={handleReplyCommentFormChange}
           />
           <button type='submit'>등록</button>

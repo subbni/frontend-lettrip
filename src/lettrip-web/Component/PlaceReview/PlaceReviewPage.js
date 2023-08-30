@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./PlaceReview.css";
+import styles from "./PlaceReview.module.css";
 import PlaceSearchForm from "./PlaceSearchForm";
 import PlaceSearchResultContainer from "./PlaceSearchResultContainer";
 
@@ -10,8 +10,8 @@ const PlaceReviewPage = () => {
   };
 
   return (
-    <div className='place_review_page'>
-      <h1 className='place_review_title'>장소 검색</h1>
+    <div className={styles.place_page}>
+      <h1 className={styles.place_page_title}>장소 검색</h1>
       <PlaceSearchForm onGetResults={onGetResults} />
       <PlaceSearchResultContainer resultReviews={resultReviews} />
     </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import DOMPurify from "dompurify";
 import { modifyArticle, showArticle } from "../../Service/ArticleService";
 
 import styles from "./ArticleCreate.module.css";
@@ -35,6 +36,7 @@ function ArticleModify() {
 
   const handleArticleFormChange = (e) => {
     const { name, value } = e.target;
+
     setArticleForm((prevState) => ({
       ...prevState,
       [name]: value,

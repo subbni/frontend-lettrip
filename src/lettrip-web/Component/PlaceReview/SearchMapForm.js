@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { GoSearch } from "react-icons/go";
 
+import styles from "./PlaceReview.module.css";
+
 const SearchMapForm = ({ onPlaceSelect }) => {
   const [keyword, setKeyword] = useState("");
   const [markers, setMarkers] = useState([]);
@@ -159,43 +161,45 @@ const SearchMapForm = ({ onPlaceSelect }) => {
 
   return (
     <div>
-      <div className='place_search'>
+      <div className={styles.place_search}>
         <input
-          className='place_search_input'
           type='text'
-          placeholder='검색할 장소'
+          placeholder='검색하고 싶은 장소를 입력하세요.'
           value={keyword}
           onChange={handleKeywordChange}
         />
-        <GoSearch className='place_search_btn' onClick={handleSearch} />
+        <GoSearch className={styles.place_search_btn} onClick={handleSearch} />
       </div>
       <div
-        className='kakao-map'
+        className={styles.kakao_map}
         id='map'
-        style={{ width: "130%", height: "288px" }}
+        style={{ width: "115%", height: "288px" }}
       />
       <div>
         {isPlaceSelected ? (
-          <div className='place_search_info'>
+          <div className={styles.place_search_info}>
             <Link
               to={selectedUrl}
               target='_blank'
-              className='place_go_kakao_map'
+              className={styles.go_kakao_map}
             >
               kakao map으로 보기
             </Link>
-            <div className='place_selected_name'>
+            <div className={styles.place_selected_name}>
               현재 선택 : <span>{selectedPlace.name}</span>
             </div>
             <div>
-              <button className='searchBtn' onClick={handlePlaceConfirmClick}>
+              <button
+                className={styles.searchBtn}
+                onClick={handlePlaceConfirmClick}
+              >
                 검색
               </button>
             </div>
           </div>
         ) : (
-          <div className='form_text'>
-            장소 검색 뒤 원하는 장소를 클릭해주세요 !
+          <div className={styles.place_search_text}>
+            장소 검색 후 원하는 장소를 클릭해주세요.
           </div>
         )}
       </div>

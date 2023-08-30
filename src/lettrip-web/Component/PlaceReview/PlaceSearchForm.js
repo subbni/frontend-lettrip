@@ -7,7 +7,8 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import medal from "../../../image/place/verified_Badge.svg.png";
 
-import "./PlaceReview.css";
+import styles from "./PlaceReview.module.css";
+
 import {
   checkIfLiked,
   deleteLiked,
@@ -55,6 +56,7 @@ const PlaceSearchForm = ({ onGetResults }) => {
     getPlace(place.xpoint, place.ypoint)
       .then((response) => {
         console.log(response);
+        console.log(response.content);
         if (response.errorCode) {
         } else {
           setTotalRating(response.totalRating);
@@ -137,6 +139,7 @@ const PlaceSearchForm = ({ onGetResults }) => {
 
   const onReSearchBtnClick = () => {
     setIsPlaceSelected(false);
+    window.location.reload();
     setPlace({
       name: "",
       xpoint: "",
@@ -151,9 +154,9 @@ const PlaceSearchForm = ({ onGetResults }) => {
   const renderStars = () => {
     const rating = totalRating;
 
-    const filledStar = <FaStar className='searchresult-ratingStarIcon' />;
-    const halfStar = <FaStarHalfAlt className='searchresult-ratingStarIcon' />;
-    const emptyStar = <FaRegStar className='searchresult-ratingStarIcon' />;
+    const filledStar = <FaStar className={styles.star} />;
+    const halfStar = <FaStarHalfAlt className={styles.star} />;
+    const emptyStar = <FaRegStar className={styles.star} />;
 
     const stars = [];
     const integerPart = Math.floor(rating); // 정수 부분
@@ -180,45 +183,46 @@ const PlaceSearchForm = ({ onGetResults }) => {
 
   return (
     <div>
-      <div className='place_searchForm'>
+      <div className={styles.place_searchForm}>
         {isPlaceSelected ? (
-          <div>
-            <div className='place_name'>
-              {place.name}
-              {liked ? (
-                <AiFillHeart
-                  className='place-liked-button'
-                  onClick={handleLikeClick}
-                />
-              ) : (
-                <AiOutlineHeart
-                  className='place-liked-button'
-                  onClick={handleLikeClick}
-                />
-              )}
+          <div className={styles.place_searchForm_box}>
+            <div className={styles.returnBtn}>
+              <RiArrowGoBackLine onClick={onReSearchBtnClick} />
             </div>
             {totalSoloRating >= 0.5 && (
-              <div className='place-medal'>
-                <img className='place-medal-image' src={medal} />
-                <p className='recommend-place-solo-travel'>
+              <div className={styles.place_medal}>
+                <img className={styles.medal} src={medal} />
+                <p className={styles.place_medal_txt}>
                   과반수가 혼자 가기 추천한 여행지
                 </p>
               </div>
             )}
-            <div className='place_category'>{place.categoryName}</div>
+            <div className={styles.place_name}>
+              {place.name}
+              {liked ? (
+                <AiFillHeart
+                  className={styles.place_likedBtn}
+                  onClick={handleLikeClick}
+                />
+              ) : (
+                <AiOutlineHeart
+                  className={styles.place_likedBtn}
+                  onClick={handleLikeClick}
+                />
+              )}
+            </div>
 
-            <div className='place_rating'>
-              <span className='place-ratingStars'>
+            <div className={styles.place_category}>{place.categoryName}</div>
+
+            <div className={styles.place_rating}>
+              <span className={styles.place_ratingStars}>
                 {renderStars().map((star, index) => (
                   <span key={index}>{star}</span>
                 ))}
               </span>
-              {totalRating}점
-            </div>
-
-            <div className='place_research_btn'>
-              <RiArrowGoBackLine onClick={onReSearchBtnClick} />
-              <span className='place_research_msg'>다시 검색</span>
+              <span className={styles.place_starScore}>
+                {totalRating.toFixed(1)}
+              </span>
             </div>
           </div>
         ) : (

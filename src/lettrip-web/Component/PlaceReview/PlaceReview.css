@@ -310,14 +310,14 @@
   color: rgba(131, 131, 131, 1);
 }
 /*ReviewItem.js 추가한 부분*/
-/* .review_item {
+.review_item {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-top: 20px;
 }
-*/
+
 .review-medal {
   position: relative;
   display: flex;
@@ -342,11 +342,11 @@
   padding-left: 5px;
 }
 
-/* .review_item_element {
+.review_item_element {
   display: flex;
   align-items: flex-start;
   margin-bottom: 10px;
-} */
+}
 
 .review_rating {
   display: flex;
