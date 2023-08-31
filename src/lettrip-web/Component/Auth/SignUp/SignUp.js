@@ -5,9 +5,8 @@ import {
   requestEmailVerify,
   signUp,
 } from "../../../Service/AuthService";
-import user_image from "../../../../image/user.png";
 
-import "./SignUp.css";
+import styles from "./SignUp.module.css";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -19,8 +18,8 @@ const SignUp = () => {
     imageUrl: null,
   });
   const [email, setEmail] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [emailCode, setEmailCode] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   // 오류 & 확인 메세지
   const [emailMessage, setEmailMessage] = useState("");
@@ -74,9 +73,6 @@ const SignUp = () => {
     if (isCorrectEmail) {
       requestEmailCode(signUpForm.email)
         .then((response) => {
-          console.log(signUpForm.email);
-          console.log(response);
-
           window.alert(response.message);
           setIsCodeSent(true);
         })
@@ -158,10 +154,10 @@ const SignUp = () => {
   };
 
   return (
-    <form className='sign-container' onSubmit={onSubmit}>
-      <h1 className='sign'>SIGN</h1>
+    <form className={styles.signPage} onSubmit={onSubmit}>
+      <h1 className={styles.signTitle}>SIGN</h1>
       <input
-        className='sign-email'
+        className={styles.signContent}
         type='email'
         name='email'
         placeholder='이메일을 입력하세요.'
@@ -172,18 +168,18 @@ const SignUp = () => {
       />
       <div>
         {isEmailVerified ? null : (
-          <div className='email_verify_container'>
-            <div className='email-message'>{emailMessage}</div>
+          <div className={styles.signContainer}>
+            <div className={styles.signLabel}>{emailMessage}</div>
             <button
               type='button'
-              className='sign-emailcodebutton'
+              className={styles.signBtn01}
               onClick={onEmailCodeClick}
               disabled={isEmailVerified}
             >
               인증코드 전송
             </button>
             <input
-              className='sign-verificationCode'
+              className={styles.signContent}
               type='text'
               name='email_code'
               placeholder='인증번호를 입력하세요'
@@ -193,11 +189,11 @@ const SignUp = () => {
               required
             />
             {isCodeSent && remainingTime > 0 && (
-              <p className='sign-remainingTime'>남은 시간: {remainingTime}초</p>
+              <p className={styles.signLabel}>남은 시간: {remainingTime}초</p>
             )}
             <button
               type='button'
-              className='sign-emailcodebutton'
+              className={styles.signBtn01}
               onClick={onEmailVerifyClick}
               disabled={isEmailVerified}
             >
@@ -207,7 +203,7 @@ const SignUp = () => {
         )}
       </div>
       <input
-        className='sign-name'
+        className={styles.signContent}
         type='text'
         id='name'
         name='name'
@@ -217,7 +213,7 @@ const SignUp = () => {
         required
       />
       <input
-        className='sign-nickname'
+        className={styles.signContent}
         type='text'
         id='nickname'
         name='nickname'
@@ -227,7 +223,7 @@ const SignUp = () => {
         required
       />
       <input
-        className='sign-password'
+        className={styles.signContent}
         type='password'
         id='password'
         name='password'
@@ -237,7 +233,7 @@ const SignUp = () => {
         required
       />
       <input
-        className='sign-repassword'
+        className={styles.signContent}
         type='password'
         id='password_confirm'
         name='password_confirm'
@@ -246,10 +242,10 @@ const SignUp = () => {
         onChange={onPasswordConfirmChange}
         required
       />
-      <div className='password-message'>{passwordConfirmMessage}</div>
+      <div className={styles.signLabel}>{passwordConfirmMessage}</div>
 
       <button
-        className='sign-button'
+        className={styles.signBtn02}
         type='submit'
         disabled={!(isEmailVerified && isPasswordConfirm)}
       >

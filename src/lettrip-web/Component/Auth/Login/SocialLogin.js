@@ -6,23 +6,24 @@ import {
   KAKAO_AUTH_URL,
   NAVER_AUTH_URL,
 } from "../../../Constant/backendAPI";
-import "./Login.css";
+import styles from "./Login.module.css";
+
 const SocialLogin = () => {
   return (
     <div>
-      <div className='socialLogin_container'>
-        <div className='OR_msg'>OR</div>
+      <div className={styles.socialContainer}>
+        <div className={styles.socialLabel01}>OR</div>
 
-        <div className='seperateMsg'>SNS 계정으로 간편 로그인</div>
+        <div className={styles.socialLabel02}>SNS 계정으로 간편 로그인</div>
 
-        <a href={GOOGLE_AUTH_URL} className='socialLogin'>
-          <img className='social_logo' src={googleLogo} alt='Google' />
+        <a href={GOOGLE_AUTH_URL} className={styles.socialcontent}>
+          <img className={styles.logo_img} src={googleLogo} alt='Google' />
         </a>
-        <a href={NAVER_AUTH_URL} className='socialLogin'>
-          <img className='social_logo' src={naverLogo} alt='Naver' />
+        <a href={NAVER_AUTH_URL} className={styles.socialcontent}>
+          <img className={styles.logo_img} src={naverLogo} alt='Naver' />
         </a>
-        <a href={KAKAO_AUTH_URL} className='socialLogin'>
-          <img className='social_logo' src={kakaoLogo} alt='Kakao' />
+        <a href={KAKAO_AUTH_URL} className={styles.socialcontent}>
+          <img className={styles.logo_img} src={kakaoLogo} alt='Kakao' />
         </a>
       </div>
     </div>

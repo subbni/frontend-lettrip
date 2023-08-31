@@ -52,10 +52,10 @@ function App() {
         <Header />
         <Navbar />
         <Routes>
-          <Route path='/slider' element={<MainSlider />}/>
+          <Route path='/slider' element={<MainSlider />} />
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/signUp' element={<SignUp />} />
+          <Route path='/signup' element={<SignUp />} />
           <Route path='oauth2/redirect' element={<OAuth2RedirectHandler />} />
 
           <Route path='/travel/search' element={<TravelSearchPage />} />
