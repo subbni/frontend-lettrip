@@ -32,7 +32,6 @@ label {
   align-items: center;
   justify-content: start;
   border: 1px solid rgba(89, 89, 89, 0.419);
-
   border-radius: 10px;
   padding: 1em;
 }
@@ -246,11 +245,6 @@ select option[value=""][disabled] {
   font-size: 14px;
   margin: 10px;
   margin-top: 2em;
-}
-
-#departDate,
-#lastDate {
-  width: 250px;
 }
 
 .deleteButton,

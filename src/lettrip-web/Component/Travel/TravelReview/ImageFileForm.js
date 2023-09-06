@@ -1,6 +1,7 @@
 import { useState } from "react";
-import "./Review.css";
 import { AiOutlineDelete } from "react-icons/ai";
+
+import styles from "./TravelReview.module.css";
 
 const ImageFileForm = ({
   containerIdx,
@@ -64,16 +65,16 @@ const ImageFileForm = ({
   };
   return (
     <div>
-      <div className='courseComponent'>
+      <div className={styles.imageContainer}>
         <label
-          className='reviewImg_label'
+          className={styles.imageLabel01}
           htmlFor={`${containerIdx}reviewImg_upload${courseIdx}`}
           disabled={confirm}
         >
-          사진 업로드
+          + 사진
         </label>
         <input
-          className='reviewImg_input'
+          className={styles.imageInput}
           id={`${containerIdx}reviewImg_upload${courseIdx}`}
           accept='image/*'
           multiple
@@ -82,18 +83,20 @@ const ImageFileForm = ({
           disabled={confirm}
         />
       </div>
-      <div className='imgnumber'>첨부된 사진 : {imageFiles.length}개 </div>
+      <div className={styles.imageLabel02}>
+        첨부된 사진 : {imageFiles.length}개
+      </div>
       {imageFiles.length > 0 ? (
-        <div className='imageContainer'>
+        <div className={styles.imageContent}>
           {showImages.map((image, id) => (
-            <div className='imageWrapper' key={id}>
-              <img className='reviewImg' src={image} alt={`${image}-${id}`} />
+            <div className={styles.imageWrapper} key={id}>
+              <img className={styles.img} src={image} alt={`${image}-${id}`} />
               <button
-                className='delete_btn'
+                className={styles.btn_05}
                 onClick={() => handleDeleteImage(id)}
                 disabled={confirm}
               >
-                <AiOutlineDelete className='delete_icon' />
+                <AiOutlineDelete className={styles.icon_01} />
               </button>
             </div>
           ))}

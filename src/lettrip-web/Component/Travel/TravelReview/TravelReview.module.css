@@ -1,0 +1,359 @@
+/*TravelReviewTemplate.js*/
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+}
+.page h2 {
+  font-weight: bold;
+  color: #486080;
+  margin: 0px auto 10px 15px;
+}
+.container {
+  width: 100%;
+  display: block;
+  position: relative;
+}
+.content01 {
+  display: flex;
+}
+.mapContainer {
+  border: 1px solid rgb(149, 149, 149);
+  height: 700px;
+  width: 64%;
+}
+.reviewForm {
+  width: 31%;
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0px 15px 0 5px;
+  padding: 10px;
+  overflow-y: auto;
+}
+.reviewForm select {
+  width: 160px;
+  border: none;
+  border-bottom: 1px solid rgb(149, 149, 149);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+  font-weight: 400;
+  color: #949494;
+}
+.reviewForm select:hover {
+  background-color: rgb(214, 217, 221);
+}
+.formContent01 {
+  width: 100%;
+}
+.formContent01 input {
+  width: 98%;
+  border: none;
+  border-bottom: 1px solid rgb(149, 149, 149);
+  font-size: 24px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  padding: 5px;
+  font-weight: 400;
+  text-indent: 5px; /*약간의 여백*/
+}
+.formContent01 input::placeholder {
+  font-weight: 400;
+  color: #949494;
+}
+.formContent02 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 0;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.formContent02 input {
+  width: 160px;
+  text-align: left;
+  border: none;
+  border-bottom: 1px solid rgb(149, 149, 149);
+  font-size: 18px;
+  padding: 5px 3px;
+  cursor: pointer;
+  color: #949494;
+}
+.formContent02 input:hover {
+  background-color: rgb(214, 217, 221);
+}
+.formContent02 label {
+  font-size: 18px;
+  color: #486080;
+}
+.btn_01 {
+  display: block;
+  color: white;
+  background-color: #2e3b4c;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  width: 50%;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.content02 {
+  width: 100%;
+  text-align: center;
+  align-items: center;
+}
+.reviewInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+.infoContent {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+}
+.btn_02 {
+  display: block;
+  color: white;
+  background-color: #2e3b4c;
+  align-items: center;
+  font-size: 16px;
+  cursor: pointer;
+  width: 50%;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+/*CourseReviewContainer.js*/
+.courseContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.dayCount {
+  font-size: 20px;
+  font-weight: bold;
+}
+.courseContent {
+  width: 100%;
+}
+.btn_03 {
+  background-color: #e5e5e5;
+  padding: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+/*CourseReviewItem.js*/
+.reviewContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+}
+.reviewTitle {
+  margin: 20px;
+}
+.reviewTitle label {
+  font-size: 19px;
+  font-weight: 400;
+  color: #8d8d8d;
+}
+.reviewTitle p {
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 10px;
+}
+.reviewContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.reviewContent01 {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+.courseContent01 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.contentInput01 {
+  margin-left: auto;
+  width: 60%;
+  padding: 8px;
+}
+.contentLabel01 {
+  color: #2e3b4c;
+  font-weight: 400;
+  font-size: 17px;
+}
+.reviewContent02 {
+  width: 100%;
+}
+.contentLabel02 {
+  font-size: 14px;
+  color: #8d8d8d;
+}
+.contentForm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+.courseContent02 {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+.btn_04 {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  color: #85b6ff;
+}
+.contentlabel03 {
+  font-size: 14px;
+  margin-left: 3px;
+}
+.reviewContent03 {
+  margin-top: 2%;
+}
+.courseContent03 {
+  margin-top: 10px;
+  width: 300px;
+  height: 150px;
+}
+.contentlabel04 {
+  font-size: 14px;
+  margin-top: 10px;
+}
+.courseContent04 {
+  text-align: center;
+}
+
+.courseReviewMap {
+  position: absolute;
+  top: 0px;
+  right: 20px;
+  width: 850px;
+}
+.btn_06 {
+  background-color: #4c6482;
+  color: #f3f3f3;
+  padding: 10px 20px;
+  margin: 1em;
+  border: none;
+  border-radius: 2em;
+  cursor: pointer;
+}
+/*ImageFileForm.js*/
+.imageContainer {
+  width: 30%;
+  margin-top: 30px;
+}
+
+.imageLabel01 {
+  display: flex;
+  justify-content: center;
+  background-color: rgb(230, 232, 234);
+  width: 96px;
+  height: 32px;
+  border-radius: 32px;
+  line-height: 32px;
+}
+.imageLabel01:hover {
+  background-color: rgb(208, 217, 227);
+}
+
+.imageInput {
+  border: none;
+  background-color: rgb(230, 232, 234);
+  border-radius: 8px;
+  height: 25px;
+  font-size: 14px;
+  color: rgb(89, 88, 92);
+  text-align: center;
+  padding: 5px 3px;
+  cursor: pointer;
+}
+
+.imageInput {
+  display: none;
+}
+
+.imageLabel02 {
+  font-size: 14px;
+  color: gray;
+  margin-top: 20px;
+}
+
+.imageContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30em;
+  height: 250px;
+  overflow-x: auto;
+  position: relative;
+
+  flex-flow: row nowrap;
+  scroll-snap-type: x mandatory;
+}
+.imageContent::-webkit-scrollbar {
+  display: none;
+}
+.imageWrapper {
+  position: relative;
+}
+.img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+.btn_05 {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  border: none;
+  background: rgb(229, 229, 229);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.icon_01 {
+  width: 20px;
+  height: 20px;
+  color: rgb(227, 8, 8);
+}

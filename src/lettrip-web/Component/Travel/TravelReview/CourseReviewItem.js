@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import MapForm from "../TravelPlan/MapForm";
 import ImageFileForm from "./ImageFileForm";
+import styles from "./TravelReview.module.css";
 
 const CourseReviewItem = ({
   onCourseInsert,
@@ -119,67 +120,76 @@ const CourseReviewItem = ({
     onDeleteBtnClick(course, fileNames, imageFiles);
   };
   return (
-    <div>
+    <div className={styles.reviewContainer}>
       {isPlaceSelected ? (
-        <div>
-          <div className='courseComponent'>
+        <div className={styles.reviewContent}>
+          <div className={styles.reviewTitle}>
             <label>장소</label>
             <p>{course.place.name}</p>
           </div>
-          <div className='courseComponent'>
-            <label>도착시간</label>
-            <input
-              type='time'
-              name='arrivedTime'
-              onChange={onChange}
-              disabled={confirm}
-              required
-            />
+          <div className={styles.reviewContent01}>
+            <div className={styles.courseContent01}>
+              <label className={styles.contentLabel01}>도착시간</label>
+              <input
+                className={styles.contentInput01}
+                type='time'
+                name='arrivedTime'
+                onChange={onChange}
+                disabled={confirm}
+                required
+              />
+            </div>
+            <div className={styles.courseContent01}>
+              <label className={styles.contentLabel01}>비용</label>
+              <input
+                className={styles.contentInput01}
+                type='number'
+                name='cost'
+                onChange={onChange}
+                disabled={confirm}
+                required
+              />
+            </div>
+            <div className={styles.courseContent01}>
+              <label className={styles.contentLabel01}>별점</label>
+              <input
+                className={styles.contentInput01}
+                type='number'
+                name='rating'
+                min={1}
+                max={5}
+                onChange={onReviewChange}
+                disabled={confirm}
+                required
+              />
+            </div>
           </div>
-          <div className='courseComponent'>
-            <label>비용</label>
-            <input
-              type='number'
-              name='cost'
-              onChange={onChange}
-              disabled={confirm}
-              required
-            />
-          </div>
-          <div className='courseComponent'>
-            <label>별점</label>
-            <input
-              type='number'
-              name='rating'
-              min={1}
-              max={5}
-              onChange={onReviewChange}
-              disabled={confirm}
-              required
-            />
-          </div>
-          <div className='courseComponent'>
-            <label>혼자 가기에도 좋을까요?</label>
-            <form className='radioButtonForm'>
-              <div className='radio_element'>
+          <div className={styles.reviewContent02}>
+            <label className={styles.contentLabel02}>
+              혼자 가기에도 좋을까요?
+            </label>
+            <form className={styles.contentForm}>
+              <div className={styles.courseContent02}>
                 <input
+                  className={styles.btn_04}
                   type='radio'
                   name='soloFriendlyRating'
                   value={1}
                   onChange={onReviewChange}
                   disabled={confirm}
                 />
-                <div>네</div>
+                <label className={styles.contentlabel03}>네</label>
               </div>
-              <div className='radio_element'>
+              <div className={styles.courseContent02}>
                 <input
+                  className={styles.btn_04}
                   type='radio'
                   name='soloFriendlyRating'
                   value={0}
                   onChange={onReviewChange}
                   disabled={confirm}
                 />
-                <div>아니오</div>
+                <label className={styles.contentlabel03}>아니요</label>
               </div>
             </form>
           </div>
@@ -190,33 +200,35 @@ const CourseReviewItem = ({
             onImageFileDelete={onImageFileDelete}
             confirm={confirm}
           />
-          <div className='courseComponent'>
+          <div className={styles.reviewContent03}>
             <div>
-              <label>상세 후기</label>
+              <label className={styles.contentlabel04}>후기</label>
             </div>
             <textarea
-              className='detailedReview'
+              className={styles.courseContent03}
               name='detailedReview'
               onChange={onReviewChange}
               disabled={confirm}
               placeholder='내용을 입력해 주세요.'
             ></textarea>
           </div>
-          <div className='courseComponent'>
-            <button onClick={onBtnClick} className='submitButton'>
+          <div className={styles.courseContent04}>
+            <button onClick={onBtnClick} className={styles.btn_06}>
               {btnMessage}
             </button>
-            <button onClick={onDeleteClick} className='deleteButton'>
+            <button onClick={onDeleteClick} className={styles.btn_06}>
               삭제
             </button>
           </div>
         </div>
       ) : (
-        <MapForm
-          onPlaceSelect={onPlaceSelect}
-          containerIdx={containerIdx}
-          courseIdx={courseIdx}
-        />
+        <div className={styles.courseReviewMap}>
+          <MapForm
+            onPlaceSelect={onPlaceSelect}
+            containerIdx={containerIdx}
+            courseIdx={courseIdx}
+          />
+        </div>
       )}
     </div>
   );

@@ -1,0 +1,95 @@
+.Page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginTitle {
+  display: inline-block;
+  text-align: center;
+  width: 350px;
+  border-bottom: 2px solid rgb(61, 58, 86);
+  color: #2e3b4c;
+  margin: 10px 0 70px;
+}
+
+.loginLabel {
+  display: inline-block;
+  position: relative;
+  font-size: 14px;
+  margin-right: auto;
+  margin-bottom: 5px;
+  padding: 0px;
+}
+
+.loginContent {
+  width: 350px;
+  border: none;
+  border-bottom: 1px solid rgb(172, 172, 172);
+  margin-bottom: 20px;
+}
+
+.btn {
+  text-align: center;
+  font-size: medium;
+  font-weight: 300;
+  width: 200px;
+  height: 40px;
+  border-radius: 30px;
+  background-color: #2e3b4c;
+  color: white;
+  cursor: pointer;
+  margin: 30px;
+}
+.btn:hover {
+  background-color: #3f4d61;
+}
+
+/*SocialLogin.js 영역 */
+.socialContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+.socialLabel01 {
+  text-align: center;
+  color: rgb(69, 69, 69);
+  font-size: 8px;
+  width: 100px;
+  padding-top: 20px;
+  margin: 10px 0 32px;
+  border-top: 1px solid rgba(61, 58, 86, 0.642);
+}
+
+.socialLabel02 {
+  margin: 16px;
+  color: rgb(113, 113, 113);
+  font-size: 14px;
+}
+.socialcontent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20%;
+  color: rgb(91, 91, 91);
+  font-size: 6px;
+  margin: 8px;
+  text-decoration: none;
+}
+.img {
+  width: 200px;
+}

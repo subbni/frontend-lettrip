@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
-import { login } from "../../../Service/AuthService";
-import "./Login.css";
-import SocialLogin from "./SocialLogin";
+import { ACCESS_TOKEN } from "../../../Constant/backendAPI"; //토큰
+import { login } from "../../../Service/AuthService"; //로그인 서비스
+import SocialLogin from "./SocialLogin"; //소셜 로그인
+
+import styles from "./Login.module.css";
 
 function Login() {
   const navigate = useNavigate();
@@ -41,14 +42,14 @@ function Login() {
   };
 
   return (
-    <div className='login_page'>
-      <form className='login-container' onSubmit={handleLoginFormSubmit}>
-        <h1 className='login'>LOGIN</h1>
-        <label className='label-email' htmlFor='email'>
+    <div className={styles.Page}>
+      <form className={styles.loginContainer} onSubmit={handleLoginFormSubmit}>
+        <h1 className={styles.loginTitle}>LOGIN</h1>
+        <label className={styles.loginLabel} htmlFor='email'>
           ID
         </label>
         <input
-          className='login-username'
+          className={styles.loginContent}
           type='email'
           id='email'
           name='email'
@@ -57,11 +58,11 @@ function Login() {
           value={loginForm.email}
           onChange={handleLoginFormChange}
         />
-        <label className='label-password' htmlFor='password'>
+        <label className={styles.loginLabel} htmlFor='password'>
           PW
         </label>
         <input
-          className='login-password'
+          className={styles.loginContent}
           type='password'
           id='password'
           name='password'
@@ -70,7 +71,7 @@ function Login() {
           value={loginForm.password}
           onChange={handleLoginFormChange}
         />
-        <button className='login-button' type='submit'>
+        <button className={styles.btn} type='submit'>
           로그인
         </button>
       </form>

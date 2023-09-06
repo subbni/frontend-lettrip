@@ -1,5 +1,5 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'react-id-swiper';
+import React from "react";
+import { Swiper, SwiperSlide } from "react-id-swiper";
 import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -21,9 +21,9 @@ const MainSlider = () => {
     <div>
       <Swiper {...swiperParams}>
         <SwiperSlide>
-          <img className="slider-image" src={main1} alt="Main 1" />
-          <img className="slider-image" src={main2} alt="Main 2" />
-          <img className="slider-image" src={main3} alt="Main 3" />
+          <img className='slider-image' src={main1} alt='Main 1' />
+          <img className='slider-image' src={main2} alt='Main 2' />
+          <img className='slider-image' src={main3} alt='Main 3' />
         </SwiperSlide>
       </Swiper>
     </div>

@@ -1,0 +1,91 @@
+/*Header.js 영역*/
+.header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.headerContent {
+  margin-left: auto;
+  margin-top: 10px;
+}
+
+.headerBtn01,
+.headerBtn02,
+.headerBtn03 {
+  border: none;
+  background-color: white;
+  color: gray;
+  padding: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.headerBtn01,
+.headerBtn03 {
+  margin-left: 50px;
+  margin-right: 110px;
+}
+
+/*Navbar.js*/
+.navbar {
+  margin-top: -20px;
+}
+
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.navbarContent01,
+.navbarContent02 {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  position: relative;
+  margin-top: 50px;
+}
+
+.navbarContent01 {
+  margin-left: 60px;
+}
+.navbarContent02 {
+  margin-right: 60px;
+}
+.navbarMenu {
+  display: flex;
+  position: absolute;
+  top: 100%;
+  margin-top: -30px;
+  color: #2e3b4c;
+  padding: 8px;
+  z-index: 1;
+  white-space: nowrap;
+}
+.navbarMenuLink {
+  margin-left: 20px;
+  font-size: medium;
+  cursor: pointer;
+  color: gray;
+  text-decoration: none;
+}
+
+.navbarLink {
+  margin: 0 30px;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+}
+.img_01 {
+  width: 160px;
+  object-fit: contain;
+  margin: auto;
+  display: block;
+}
+.navbar_icon {
+  margin: 35px 60px;
+  font-size: 25px;
+  color: black;
+  cursor: pointer;
+}

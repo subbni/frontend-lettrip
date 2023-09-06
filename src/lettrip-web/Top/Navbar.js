@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { checkIfLoggedIn } from "../Service/AuthService";
-
-import { AiOutlineUser, AiOutlineSearch, AiFillHeart } from "react-icons/ai";
-import logo_image from "../../image/logo.png";
-import "./Top.css";
+import { checkIfLoggedIn } from "../Service/AuthService"; //로그인 여부 확인
+import logo_image from "../../image/logo.png"; //로고 이미지
+import { FaUser } from "react-icons/fa"; //유저 아이콘
+import { HiSearch } from "react-icons/hi"; //돋보기 아이콘
+import { HiHeart } from "react-icons/hi2"; //하트 아이콘
+import styles from "./Top.module.css";
 
 function Navbar() {
   const navigate = useNavigate();
-
-  const [showSubMenu, setShowSubMenu] = useState(false);
   const menuRef = useRef();
+  const [showSubMenu, setShowSubMenu] = useState(false);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -31,7 +31,7 @@ function Navbar() {
       setShowSubMenu(false);
     }
   }
-  function handleTravel() {
+  function handleShowMenu() {
     setShowSubMenu(!showSubMenu);
   }
 
@@ -49,55 +49,72 @@ function Navbar() {
     }
   };
 
-  return (
-    <div className='navbar'>
-      <Link to='/'>
-        <img
-          onClick={handleLogoClick}
-          className='logo-image'
-          src={logo_image}
-          alt='Logo'
-        ></img>
-      </Link>
+  const handlefriend = (e) => {
+    e.preventDefault();
+    if (!checkIfLoggedIn()) {
+      navigate("/login");
+      return;
+    } else {
+      navigate("/friend");
+    }
+  };
 
-      <div className='navbar-container'>
-        <div className='navbar-menu'>
-          <div className='navbar-dropdown' ref={menuRef}>
-            <span className='navbar-travel' onClick={handleTravel}>
+  return (
+    <div className={styles.navbar}>
+      <div className={styles.navbarContainer}>
+        <div className={styles.navbarContent01}>
+          <div ref={menuRef}>
+            <span className={styles.navbarLink} onClick={handleShowMenu}>
               여행코스
             </span>
             {showSubMenu && (
-              <div className='navbar-travel-content'>
-                <Link to='/travel/search' className='navbar-travel-item'>
-                  여행코스 검색
+              <div className={styles.navbarMenu}>
+                <Link to='/travel/search' className={styles.navbarMenuLink}>
+                  여행 코스 검색
                 </Link>
-                <Link to='/travel/course/create' className='navbar-travel-item'>
-                  여행코스 계획 등록
+                <Link
+                  to='/travel/course/create'
+                  className={styles.navbarMenuLink}
+                >
+                  여행 코스 계획
                 </Link>
-                <Link to='/travel/review/create' className='navbar-travel-item'>
-                  여행코스 후기 등록
+                <Link
+                  to='/travel/review/create'
+                  className={styles.navbarMenuLink}
+                >
+                  여행 코스 후기
                 </Link>
               </div>
             )}
           </div>
-          <Link to='/friend' className='navbar-friend'>
+          <div className={styles.navbarLink} onClick={handlefriend}>
             친구매칭
-          </Link>
-          <Link to='/mission' className='navbar-mission'>
+          </div>
+          <Link to='/mission' className={styles.navbarLink}>
             미션
           </Link>
-          <Link to='/articles' className='navbar-community'>
+          <Link to='/articles' className={styles.navbarLink}>
             커뮤니티
           </Link>
         </div>
-        <div className='navbar-icons'>
-          <div className='navbar-icon' onClick={handlemypage}>
-            <AiOutlineUser />
+        <Link to='/'>
+          <img
+            onClick={handleLogoClick}
+            className={styles.img_01}
+            src={logo_image}
+            alt='Logo'
+          ></img>
+        </Link>
+        <div className={styles.navbarContent02}>
+          <div className={styles.navbar_icon} onClick={handlemypage}>
+            <FaUser />
           </div>
-          <Link to='/place' className='navbar-icon'>
-            <AiOutlineSearch />
+          <Link to='/place' className={styles.navbar_icon}>
+            <HiSearch />
           </Link>
-          <AiFillHeart className='navbar-icon' />
+          <Link to='/' className={styles.navbar_icon}>
+            <HiHeart />
+          </Link>
         </div>
       </div>
     </div>
