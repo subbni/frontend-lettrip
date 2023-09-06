@@ -1,6 +1,6 @@
-/*global kakao*/
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import MapForm from "./MapForm";
+import styles from "./Plan.module.css";
 
 const CoursePlanItem = ({
   onCourseInsert,
@@ -76,44 +76,54 @@ const CoursePlanItem = ({
   };
 
   return (
-    <div>
+    <div className={styles.reviewContainer}>
       {isPlaceSelected ? (
-        <div>
-          <div className="courseComponent">
+        <div className={styles.reviewContent}>
+          <div className={styles.reviewTitle}>
             <label>장소</label>
             <p>{course.place.name}</p>
           </div>
-          <div className="courseComponent">
-            <label>예상 도착시간</label>
-            <input
-              type="time"
-              name="arrivedTime"
-              onChange={onChange}
-              disabled={confirm}
-              required
-            />
-          </div>
-          <div className="courseComponent">
-            <label>예상 비용</label>
-            <input
-              type="number"
-              name="cost"
-              onChange={onChange}
-              disabled={confirm}
-              required
-            />
-          </div>
-          <div className="courseComponent">
-            <button onClick={onBtnClick} className="submitButton">{btnMessage}</button>
-            <button onClick={onDeleteClick} className="deleteButton">삭제</button>
+          <div className={styles.reviewContent01}>
+            <div className={styles.courseContent01}>
+              <label className={styles.contentLabel01}>예상 도착시간</label>
+              <input
+                className={styles.contentInput01}
+                type='time'
+                name='arrivedTime'
+                onChange={onChange}
+                disabled={confirm}
+                required
+              />
+            </div>
+            <div className={styles.courseContent01}>
+              <label className={styles.contentLabel01}>예상 비용</label>
+              <input
+                className={styles.contentInput01}
+                type='number'
+                name='cost'
+                onChange={onChange}
+                disabled={confirm}
+                required
+              />
+            </div>
+            <div className={styles.courseContent02}>
+              <button onClick={onBtnClick} className={styles.btn_05}>
+                {btnMessage}
+              </button>
+              <button onClick={onDeleteClick} className={styles.btn_05}>
+                삭제
+              </button>
+            </div>
           </div>
         </div>
       ) : (
-        <MapForm
-          onPlaceSelect={onPlaceSelect}
-          containerIdx={containerIdx}
-          courseIdx={courseIdx}
-        />
+        <div className={styles.courseReviewMap}>
+          <MapForm
+            onPlaceSelect={onPlaceSelect}
+            containerIdx={containerIdx}
+            courseIdx={courseIdx}
+          />
+        </div>
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import MapForm from "../TravelPlan/MapForm";
 import ImageFileForm from "./ImageFileForm";
-import styles from "./TravelReview.module.css";
+import styles from "./Review.module.css";
 
 const CourseReviewItem = ({
   onCourseInsert,

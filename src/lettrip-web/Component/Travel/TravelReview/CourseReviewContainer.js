@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import CourseReviewItem from "./CourseReviewItem";
 
-import styles from "./TravelReview.module.css";
+import styles from "./Review.module.css";
 
 const CourseReviewContainer = ({
   onCourseInsert,
