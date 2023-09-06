@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 
-import styles from "./TravelReview.module.css";
+import styles from "./Review.module.css";
 
 const ImageFileForm = ({
   containerIdx,

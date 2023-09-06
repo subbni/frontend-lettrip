@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { createTravelReviewAxios } from "../../../Service/TravelService";
+import { checkIfLoggedIn } from "../../../Service/AuthService";
 import { Citys, Provinces, TravelThemes } from "../TravelData";
 import CourseReviewContainer from "./CourseReviewContainer";
 
-import { createTravelReviewAxios } from "../../../Service/TravelService";
-import { useNavigate } from "react-router-dom";
-import { checkIfLoggedIn } from "../../../Service/AuthService";
-
-import styles from "./TravelReview.module.css";
+import styles from "./Review.module.css";
 
 const TravelReviewTemplate = () => {
   const navigate = useNavigate();

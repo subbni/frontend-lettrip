@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./Plan.css";
-import MapForm from "./MapForm";
 import CoursePlanItem from "./CoursePlanItem";
+
+import styles from "./Plan.module.css";
 
 const CourseContainer = ({
   onCourseInsert,
@@ -51,12 +51,10 @@ const CourseContainer = ({
 
   useEffect(() => {}, [departDate]);
   return (
-    <div className="courseContainer">
-      <div>
-        <h2>{dayCount}일차</h2>
-      </div>
+    <div className={styles.courseContainer}>
+      <div className={styles.dayCount}>{dayCount}일차</div>
       {courseList.map((course) => (
-        <div key={course.courseId} className="course">
+        <div key={course.courseId} className={styles.courseContent}>
           <CoursePlanItem
             onCourseInsert={onCourseInsert}
             onDeleteBtnClick={onDeleteBtnClick}
@@ -67,8 +65,12 @@ const CourseContainer = ({
           />
         </div>
       ))}
-      <div>
-        <button className="courseAddBtn" onClick={handleAddCourse}>코스 추가</button>
+      <div className={styles.btnContainer}>
+        <button className={styles.btn_03} onClick={handleAddCourse}>
+          코스 추가
+        </button>
+        <button className={styles.btn_04}>리뷰 기반 추천</button>
+        <button className={styles.btn_04}>장소 기반 추천</button>
       </div>
     </div>
   );
