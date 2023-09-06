@@ -64,43 +64,43 @@ function Navbar() {
       <div className={styles.navbarContainer}>
         <div className={styles.navbarContent01}>
           <div ref={menuRef}>
-            <span className={styles.navbarTitle} onClick={handleShowMenu}>
+            <span className={styles.navbarLink} onClick={handleShowMenu}>
               여행코스
             </span>
             {showSubMenu && (
               <div className={styles.navbarMenu}>
-                <Link to='/travel/search' className={styles.navbarMenuTitle}>
-                  여행코스 검색
+                <Link to='/travel/search' className={styles.navbarMenuLink}>
+                  여행 코스 검색
                 </Link>
                 <Link
                   to='/travel/course/create'
-                  className={styles.navbarMenuTitle}
+                  className={styles.navbarMenuLink}
                 >
-                  여행코스 계획 등록
+                  여행 코스 계획
                 </Link>
                 <Link
                   to='/travel/review/create'
-                  className={styles.navbarMenuTitle}
+                  className={styles.navbarMenuLink}
                 >
-                  여행코스 후기 등록
+                  여행 코스 후기
                 </Link>
               </div>
             )}
           </div>
-          <div className={styles.navbarTitle} onClick={handlefriend}>
+          <div className={styles.navbarLink} onClick={handlefriend}>
             친구매칭
           </div>
-          <Link to='/mission' className={styles.navbarTitle}>
+          <Link to='/mission' className={styles.navbarLink}>
             미션
           </Link>
-          <Link to='/articles' className={styles.navbarTitle}>
+          <Link to='/articles' className={styles.navbarLink}>
             커뮤니티
           </Link>
         </div>
         <Link to='/'>
           <img
             onClick={handleLogoClick}
-            className={styles.logo_img}
+            className={styles.img_01}
             src={logo_image}
             alt='Logo'
           ></img>

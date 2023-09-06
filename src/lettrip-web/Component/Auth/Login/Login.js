@@ -42,7 +42,7 @@ function Login() {
   };
 
   return (
-    <div className={styles.loginPage}>
+    <div className={styles.Page}>
       <form className={styles.loginContainer} onSubmit={handleLoginFormSubmit}>
         <h1 className={styles.loginTitle}>LOGIN</h1>
         <label className={styles.loginLabel} htmlFor='email'>
@@ -71,7 +71,7 @@ function Login() {
           value={loginForm.password}
           onChange={handleLoginFormChange}
         />
-        <button className={styles.loginBtn} type='submit'>
+        <button className={styles.btn} type='submit'>
           로그인
         </button>
       </form>

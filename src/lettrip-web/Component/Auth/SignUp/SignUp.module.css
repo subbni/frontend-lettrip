@@ -1,4 +1,4 @@
-.signPage {
+.page {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-.signTitle {
+.title {
   text-align: center;
   border-bottom: 2px solid rgb(61, 58, 86);
   color: #2e3b4c;
@@ -16,20 +16,13 @@
   margin: 10px 0 70px;
 }
 
-.signContent {
+.content {
   border: none;
   border-bottom: 1px solid rgb(172, 172, 172);
   margin-bottom: 30px;
   width: 350px;
 }
-.signContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.signBtn01 {
+.btn_01 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,10 +32,11 @@
   background-color: #2e3b4c;
   color: white;
   border-radius: 30px;
+  margin: auto;
   margin-bottom: 30px;
 }
 
-.signBtn02 {
+.btn_02 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,11 +49,11 @@
   margin: 30px;
 }
 
-.signBtn02:disabled {
+.btn_02:disabled {
   background-color: #75818ec3;
 }
 
-.signLabel {
+.label {
   white-space: pre-wrap;
   color: rgb(150, 150, 150);
   display: inline-block;

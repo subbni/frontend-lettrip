@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import "./Plan.css";
-import CourseContainer from "./CourseContainer";
-import { Citys, Provinces, TravelThemes } from "../TravelData";
-import { createTravelPlan } from "../../../Service/TravelService";
 import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn } from "../../../Service/AuthService";
+import { Citys, Provinces, TravelThemes } from "../TravelData";
+import { createTravelPlan } from "../../../Service/TravelService";
+import CourseContainer from "./CourseContainer";
+
+import "./Plan.css";
+import styles from "./Plan.module.css";
+
 const TravelPlanTemplate = () => {
   const navigate = useNavigate();
   //////// state 관리
@@ -229,10 +232,10 @@ const TravelPlanTemplate = () => {
 
   // 렌더링
   return (
-    <div className='templateBlock'>
-      <h1>여행 계획</h1>
-      <div className='formContainer'>
-        <form className='formBox' onSubmit={onPlanDataSubmit}>
+    <div className={styles.TravelPlanPage}>
+      <h2>여행 계획</h2>
+      <div className={styles.TravelForm}>
+        <form className={styles.TravelFormBox} onSubmit={onPlanDataSubmit}>
           <div className='review_title'>
             <input
               type='text'

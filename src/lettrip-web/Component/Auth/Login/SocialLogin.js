@@ -17,13 +17,13 @@ const SocialLogin = () => {
         <div className={styles.socialLabel02}>SNS 계정으로 간편 로그인</div>
 
         <a href={GOOGLE_AUTH_URL} className={styles.socialcontent}>
-          <img className={styles.logo_img} src={googleLogo} alt='Google' />
+          <img className={styles.img} src={googleLogo} alt='Google' />
         </a>
         <a href={NAVER_AUTH_URL} className={styles.socialcontent}>
-          <img className={styles.logo_img} src={naverLogo} alt='Naver' />
+          <img className={styles.img} src={naverLogo} alt='Naver' />
         </a>
         <a href={KAKAO_AUTH_URL} className={styles.socialcontent}>
-          <img className={styles.logo_img} src={kakaoLogo} alt='Kakao' />
+          <img className={styles.img} src={kakaoLogo} alt='Kakao' />
         </a>
       </div>
     </div>

@@ -4,7 +4,7 @@
   justify-content: flex-end;
 }
 
-.headerContainer {
+.headerContent {
   margin-left: auto;
   margin-top: 10px;
 }
@@ -63,7 +63,7 @@
   z-index: 1;
   white-space: nowrap;
 }
-.navbarMenuTitle {
+.navbarMenuLink {
   margin-left: 20px;
   font-size: medium;
   cursor: pointer;
@@ -71,13 +71,13 @@
   text-decoration: none;
 }
 
-.navbarTitle {
+.navbarLink {
   margin: 0 30px;
   cursor: pointer;
   color: black;
   text-decoration: none;
 }
-.logo_img {
+.img_01 {
   width: 160px;
   object-fit: contain;
   margin: auto;

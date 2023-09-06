@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-import "./MapForm.css";
+
+import styles from "./Map.module.css";
 
 const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   const [mapId, setMapId] = useState(containerIdx + "map" + courseIdx);
@@ -22,6 +23,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   });
   const [selectedUrl, setSelectedUrl] = useState("");
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     //카카오 맵 API 초기화
@@ -59,6 +61,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
 
   const placesSearchCB = (data, status, pagination) => {
     if (status === kakao.maps.services.Status.OK) {
+      setSearchResults(data);
       displayPlaces(data);
       displayPagination(pagination);
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -99,6 +102,20 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
 
     setMarkers(newMarkers);
     map.setBounds(bounds);
+  };
+  // 검색 결과 항목 클릭 핸들러 추가
+  const SearchResultClick = (place) => {
+    setSelectedPlace({
+      name: place.place_name,
+      xpoint: place.x,
+      ypoint: place.y,
+      categoryCode: place.category_group_code,
+      categoryName: place.category_group_name,
+      province: "일단",
+      city: "아무거나",
+    });
+    setIsPlaceSelected(true);
+    setSelectedUrl(place.place_url);
   };
 
   const addMarker = (position, idx) => {
@@ -164,41 +181,64 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   };
 
   return (
-    <div class='placeSearchContainer'>
-      <input
-        type='text'
-        placeholder='추가할 장소'
-        value={keyword}
-        onChange={handleKeywordChange}
-      />
-      <button onClick={handleSearch}>
-        <AiOutlineSearch className='SearchIcon' />
-      </button>
-      <div
-        id={`${containerIdx}map${courseIdx}`}
-        style={{ width: "460px", height: "400px" }}
-      />
-      {isPlaceSelected ? (
-        <div>
-          <hr />
-          <span>선택된 장소 : {selectedPlace.name}</span>
-          <br />
-          <Link to={selectedUrl} target='_blank'>
-            kakao map으로 보기
-          </Link>
-          <br />
-          <button className='confirmButton' onClick={handlePlaceConfirmClick}>
-            확인
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.searchForm}>
+          <input
+            type='text'
+            placeholder='장소를 입력해주세요.'
+            value={keyword}
+            onChange={handleKeywordChange}
+          />
+          <button className={styles.btn_01} onClick={handleSearch}>
+            <AiOutlineSearch className={styles.icon_01} />
           </button>
         </div>
-      ) : (
-        <div>
-          <hr />
-          <div className='mapForm_text'>
-            검색 뒤 원하는 장소를 클릭해주세요!
+        {isPlaceSelected ? (
+          <div className={styles.contentResult}>
+            <div className={styles.contentItem}>
+              <span className={styles.itemName}>
+                장소 : {selectedPlace.name}
+              </span>
+              <Link
+                to={selectedUrl}
+                target='_blank'
+                className={styles.itemLink}
+              >
+                Kakao Map으로 보기
+              </Link>
+              <button
+                className={styles.btn_02}
+                onClick={handlePlaceConfirmClick}
+              >
+                확인
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div>
+            <div className={styles.contentResult}>
+              {searchResults.map((result, index) => (
+                <div
+                  key={index}
+                  className={styles.contentItem}
+                  onClick={() => SearchResultClick(result)}
+                >
+                  <span className={styles.itemName}>{result.place_name}</span>
+                  <span className={styles.itemAddress}>
+                    {result.road_address_name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      <div
+        className={styles.map}
+        id={`${containerIdx}map${courseIdx}`}
+        style={{ width: "475px", height: "700px" }}
+      />
     </div>
   );
 };

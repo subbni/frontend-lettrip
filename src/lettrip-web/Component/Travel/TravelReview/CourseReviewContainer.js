@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import CourseReviewItem from "./CourseReviewItem";
-import "../TravelPlan/Plan.css";
+
+import styles from "./TravelReview.module.css";
+
 const CourseReviewContainer = ({
   onCourseInsert,
   onCourseDelete,
@@ -12,6 +14,7 @@ const CourseReviewContainer = ({
   const [courseList, setCourseList] = useState([]);
   const [isSearchClickedList, setIsSearchClickedList] = useState([]);
   // TODO : 시간 검증 필요 (15:00) 다음에 (11:00)를 등록할 수 없도록
+
   const handleAddCourse = (e) => {
     e.preventDefault();
     setCourseList([
@@ -49,10 +52,10 @@ const CourseReviewContainer = ({
 
   useEffect(() => {}, [departDate]);
   return (
-    <div className='courseContainer'>
-      <div className='course_dayCount_title'>{dayCount}일차</div>
+    <div className={styles.courseContainer}>
+      <div className={styles.dayCount}>{dayCount}일차</div>
       {courseList.map((course) => (
-        <div key={course.courseId} className='course'>
+        <div key={course.courseId} className={styles.courseContent}>
           <CourseReviewItem
             onCourseInsert={onCourseInsert}
             onDeleteBtnClick={onDeleteBtnClick}
@@ -64,7 +67,7 @@ const CourseReviewContainer = ({
         </div>
       ))}
       <div>
-        <button className='courseAddBtn' onClick={handleAddCourse}>
+        <button className={styles.btn_03} onClick={handleAddCourse}>
           코스 추가
         </button>
       </div>

@@ -154,10 +154,10 @@ const SignUp = () => {
   };
 
   return (
-    <form className={styles.signPage} onSubmit={onSubmit}>
-      <h1 className={styles.signTitle}>SIGN</h1>
+    <form className={styles.page} onSubmit={onSubmit}>
+      <h1 className={styles.title}>SIGN</h1>
       <input
-        className={styles.signContent}
+        className={styles.content}
         type='email'
         name='email'
         placeholder='이메일을 입력하세요.'
@@ -168,18 +168,18 @@ const SignUp = () => {
       />
       <div>
         {isEmailVerified ? null : (
-          <div className={styles.signContainer}>
-            <div className={styles.signLabel}>{emailMessage}</div>
+          <div className={styles.content}>
+            <div className={styles.label}>{emailMessage}</div>
             <button
               type='button'
-              className={styles.signBtn01}
+              className={styles.btn_01}
               onClick={onEmailCodeClick}
               disabled={isEmailVerified}
             >
               인증코드 전송
             </button>
             <input
-              className={styles.signContent}
+              className={styles.content}
               type='text'
               name='email_code'
               placeholder='인증번호를 입력하세요'
@@ -189,11 +189,11 @@ const SignUp = () => {
               required
             />
             {isCodeSent && remainingTime > 0 && (
-              <p className={styles.signLabel}>남은 시간: {remainingTime}초</p>
+              <p className={styles.label}>남은 시간: {remainingTime}초</p>
             )}
             <button
               type='button'
-              className={styles.signBtn01}
+              className={styles.btn_01}
               onClick={onEmailVerifyClick}
               disabled={isEmailVerified}
             >
@@ -203,7 +203,7 @@ const SignUp = () => {
         )}
       </div>
       <input
-        className={styles.signContent}
+        className={styles.content}
         type='text'
         id='name'
         name='name'
@@ -213,7 +213,7 @@ const SignUp = () => {
         required
       />
       <input
-        className={styles.signContent}
+        className={styles.content}
         type='text'
         id='nickname'
         name='nickname'
@@ -223,7 +223,7 @@ const SignUp = () => {
         required
       />
       <input
-        className={styles.signContent}
+        className={styles.content}
         type='password'
         id='password'
         name='password'
@@ -233,7 +233,7 @@ const SignUp = () => {
         required
       />
       <input
-        className={styles.signContent}
+        className={styles.content}
         type='password'
         id='password_confirm'
         name='password_confirm'
@@ -242,10 +242,10 @@ const SignUp = () => {
         onChange={onPasswordConfirmChange}
         required
       />
-      <div className={styles.signLabel}>{passwordConfirmMessage}</div>
+      <div className={styles.label}>{passwordConfirmMessage}</div>
 
       <button
-        className={styles.signBtn02}
+        className={styles.btn_02}
         type='submit'
         disabled={!(isEmailVerified && isPasswordConfirm)}
       >
