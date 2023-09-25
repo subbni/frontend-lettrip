@@ -36,7 +36,7 @@ const CourseDetail = ({ course }) => {
     };
 
     return (
-      <div className={styles.images}>
+      <div className={styles.imageContainer}>
         {course.review.fileUrls.length < 2 && (
           <img
             className={styles.image}
@@ -45,11 +45,8 @@ const CourseDetail = ({ course }) => {
           />
         )}
         {course.review.fileUrls.length > 1 && (
-          <div className={styles.image_container}>
-            <button
-              className={styles.image_prev_button}
-              onClick={handlePrevImage}
-            >
+          <div className={styles.imageBox}>
+            <button className={styles.prevBtn} onClick={handlePrevImage}>
               {"<"}
             </button>
             <img
@@ -57,10 +54,7 @@ const CourseDetail = ({ course }) => {
               src={course.review.fileUrls[currentImage]}
               alt={`Image ${currentImage + 1}`}
             />
-            <button
-              className={styles.image_next_button}
-              onClick={handleNextImage}
-            >
+            <button className={styles.nextBtn} onClick={handleNextImage}>
               {">"}
             </button>
           </div>
@@ -73,8 +67,8 @@ const CourseDetail = ({ course }) => {
   const renderStars = () => {
     const totalRating = course.place.totalRating;
 
-    const filledStar = <AiFillStar className={styles.stars} />;
-    const emptyStar = <AiOutlineStar className={styles.stars} />;
+    const filledStar = <AiFillStar className={styles.star} />;
+    const emptyStar = <AiOutlineStar className={styles.star} />;
 
     const stars = [];
     for (let i = 0; i < 5; i++) {
@@ -112,31 +106,27 @@ const CourseDetail = ({ course }) => {
   };
 
   return (
-    <div className={styles.box}>
-      <div className={styles.searchResult_header}>
-        <div className={styles.searchResult_title}>{course.place.name}</div>
-        <div className={styles.searchResult_time}>
+    <div className={styles.detailContainer}>
+      <div className={styles.detailHeader}>
+        <div className={styles.detailTitle}>{course.place.name}</div>
+        <div className={styles.detailTime}>
           {getKoreanDateTime(course.arrivedTime)}
         </div>
       </div>
       {renderImages()}
-      <div className={styles.searchResult_cost}>
-        {numberWithCommas(course.cost)}원
-      </div>
-      <div className={styles.searchResult_reviews}>
-        <span className={styles.searchResult_stars}>
+      <div className={styles.detailCost}>{numberWithCommas(course.cost)}원</div>
+      <div className={styles.detailFooter}>
+        <span className={styles.starBox}>
           {renderStars().map((star, index) => (
             <span key={index}>{star}</span>
           ))}
         </span>
-        <span className={styles.review} onClick={handleReviewClick}>
+        <span className={styles.detailReviewBox} onClick={handleReviewClick}>
           {showReview ? "닫기" : "후기 ->"}
         </span>
       </div>
       {showReview && (
-        <div className={styles.searchReuslt_review}>
-          {course.review.detailReview}
-        </div>
+        <div className={styles.detailReview}>{course.review.detailReview}</div>
       )}
     </div>
   );

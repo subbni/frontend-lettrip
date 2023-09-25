@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn } from "../../../Service/AuthService";
-import { Citys, Provinces, TravelThemes } from "../TravelData";
 import { createTravelPlan } from "../../../Service/TravelService";
+import { Citys, Provinces, TravelThemes } from "../TravelData";
 import CourseContainer from "./CourseContainer";
+import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 
 import styles from "./Plan.module.css";
 
@@ -21,6 +22,7 @@ const TravelPlanTemplate = () => {
     totalCost: "",
     numberOfCourses: "",
     courses: [],
+    address: "",
   });
   const [totalCost, setTotalCost] = useState(0);
   const [numberOfCourses, setNumberOfCourses] = useState(0);
@@ -28,7 +30,6 @@ const TravelPlanTemplate = () => {
   const [matchedCitys, setMatchedCitys] = useState([]);
   const [courses, setCourses] = new useState([]);
   const [isPlanDataSubmit, setIsPlanDataSubmit] = new useState(false);
-
   //////// data list
   // 여행 테마
   const travelThemes = TravelThemes;
@@ -43,13 +44,15 @@ const TravelPlanTemplate = () => {
   // 지역명
   const citys = Citys;
 
-  //////// useEffect
+  const [showContents, setShowContents] = useState(false); //내용 숨기기 및 보여주기
+  const [showFormBtn, setShowFormBtn] = useState(false); //버튼 숨기기 및 보여주기
 
+  /*
   useEffect(() => {
     if (!checkIfLoggedIn()) {
       navigate("/login");
     }
-  }, []);
+  }, []); */
 
   // 행정구역 선택에 따른 지역 option 동적 처리
   useEffect(() => {
@@ -98,6 +101,7 @@ const TravelPlanTemplate = () => {
   const courseId = useRef(1);
   const onCourseInsert = useCallback(
     (courseInfo, placeInfo) => {
+      console.log(placeInfo.address);
       const newCourse = {
         id: courseInfo.id,
         arrivedTime:
@@ -115,6 +119,7 @@ const TravelPlanTemplate = () => {
           ypoint: placeInfo.ypoint,
           province: planForm.province,
           city: planForm.city,
+          address: placeInfo.address,
         },
       };
 
@@ -134,6 +139,7 @@ const TravelPlanTemplate = () => {
     },
     [courses, planForm]
   );
+
   const getArrivedDate = (departDate, dayCount) => {
     var newDate = new Date(departDate);
     newDate.setDate(newDate.getDate() + dayCount);
@@ -193,12 +199,13 @@ const TravelPlanTemplate = () => {
     if (days < 0) {
       return alert("출발 날짜가 마지막 날짜보다 적을 수 없습니다.");
     }
-    console.log(planForm);
+    setShowContents(!showContents);
     setIsPlanDataSubmit(true);
   };
 
   const onPlanFormSubmit = (e) => {
     e.preventDefault();
+    setShowContents(!showContents);
     if (courses.length < 1) {
       return alert("반드시 1개 이상의 코스가 등록되어야 합니다.");
     }
@@ -211,8 +218,8 @@ const TravelPlanTemplate = () => {
       numberOfCourses: number,
       courses: courseList,
     }));
-    console.log(planForm);
     console.log(courses);
+
     createTravelPlan(planForm)
       .then((response) => {
         if (response.success) {
@@ -229,14 +236,28 @@ const TravelPlanTemplate = () => {
       });
   };
 
+  //폼 내용 보는 버튼
+  const showContentBtn = (e) => {
+    e.preventDefault();
+    setShowContents(!showContents); //내용 보이게 하기
+    setShowFormBtn(!showFormBtn); //접기 버튼 안보이게 하기
+  };
+  //폼 내용 닫는 버튼
+  const hideContentBtn = (e) => {
+    e.preventDefault();
+    setShowContents(!showContents); //내용 안 보이게 하기
+    setShowFormBtn(!showFormBtn); //내용 닫기 버튼 안보이게 하기
+  };
+
   return (
     <div className={styles.page}>
       <h2>여행 코스 계획</h2>
       <div className={styles.container}>
-        <div className={styles.content01}>
-          <form className={styles.reviewForm} onSubmit={onPlanDataSubmit}>
-            <div className={styles.formContent01}>
+        <div className={styles.box}>
+          <form className={styles.planForm} onSubmit={onPlanDataSubmit}>
+            <div className={styles.formTitle}>
               <input
+                className={styles.content01}
                 type='text'
                 name='title'
                 id='title'
@@ -245,83 +266,107 @@ const TravelPlanTemplate = () => {
                 required
               />
             </div>
-            <div className={styles.formContent02}>
-              <select
-                name='province'
-                id='province'
-                defaultValue='default'
-                onChange={onPlanFormChange}
+            {!showContents ? (
+              <div className={styles.formShowContent}>
+                <div className={styles.formContent}>
+                  <select
+                    className={styles.content02}
+                    name='province'
+                    id='province'
+                    value={planForm.province}
+                    onChange={onPlanFormChange}
+                    disabled={isPlanDataSubmit}
+                    required
+                  >
+                    <option value='' disabled>
+                      시/도
+                    </option>
+                    {provincesOptions}
+                  </select>
+                  <select
+                    className={styles.content02}
+                    name='city'
+                    id='city'
+                    value={planForm.city}
+                    onChange={onPlanFormChange}
+                    disabled={isPlanDataSubmit}
+                    required
+                  >
+                    <option value='' disabled>
+                      지역
+                    </option>
+                    {matchedCitys.map((city, idx) => (
+                      <option key={idx}>{city}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.formContent}>
+                  <input
+                    className={styles.content03}
+                    type='date'
+                    aria-required='true'
+                    data-placeholder='여행 시작일'
+                    name='departDate'
+                    id='departDate'
+                    value={planForm.departDate}
+                    onChange={onPlanFormChange}
+                    disabled={isPlanDataSubmit}
+                    required
+                  />
+                  <label className={styles.contentLabel01}>~</label>
+                  <input
+                    className={styles.content03}
+                    type='date'
+                    aria-required='true'
+                    data-placeholder='여행 종료일'
+                    name='lastDate'
+                    id='lastDate'
+                    value={planForm.lastDate}
+                    onChange={onPlanFormChange}
+                    disabled={isPlanDataSubmit}
+                    required
+                  />
+                </div>
+                <div className={styles.formContent}>
+                  <select
+                    className={styles.content02}
+                    name='travelTheme'
+                    id='travelTheme'
+                    value={planForm.travelTheme}
+                    disabled={isPlanDataSubmit}
+                    onChange={onPlanFormChange}
+                    required
+                  >
+                    <option value='' disabled>
+                      여행 테마
+                    </option>
+                    {travelThemeOptions}
+                  </select>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.btn02} onClick={showContentBtn}>
+                <p className={styles.btnLabel01}>더보기</p>
+                <AiOutlineDown className={styles.icon01} />
+              </div> //내용 접히고 내용 보는 버튼 나오게 하기
+            )}
+            {!isPlanDataSubmit ? ( //계획 시작하기 버튼 누르면 안보이게 하기
+              <button
+                className={styles.btn01}
+                type='submit'
                 disabled={isPlanDataSubmit}
               >
-                <option value='default' disabled>
-                  시/도
-                </option>
-                {provincesOptions}
-              </select>
-              <select
-                name='city'
-                id='city'
-                defaultValue='default'
-                onChange={onPlanFormChange}
-                disabled={isPlanDataSubmit}
-              >
-                <option value='default' disabled>
-                  지역
-                </option>
-                {matchedCitys.map((city, idx) => (
-                  <option key={idx}>{city}</option>
-                ))}
-              </select>
-            </div>
-            <div className={styles.formContent02}>
-              <input
-                type='date'
-                aria-required='true'
-                data-placeholder='여행 시작일'
-                name='departDate'
-                id='departDate'
-                value={planForm.departDate}
-                onChange={onPlanFormChange}
-                disabled={isPlanDataSubmit}
-                required
-              />
-              <label>~</label>
-              <input
-                type='date'
-                aria-required='true'
-                data-placeholder='여행 종료일'
-                name='lastDate'
-                id='lastDate'
-                value={planForm.lastDate}
-                onChange={onPlanFormChange}
-                disabled={isPlanDataSubmit}
-                required
-              />
-            </div>
-            <div className={styles.formContent02}>
-              <select
-                name='travelTheme'
-                id='travelTheme'
-                defaultValue='default'
-                onChange={onPlanFormChange}
-                required
-              >
-                <option value='default' disabled>
-                  여행 테마
-                </option>
-                {travelThemeOptions}
-              </select>
-            </div>
-            <button
-              className={styles.btn_01}
-              type='submit'
-              disabled={isPlanDataSubmit}
-            >
-              계획 시작하기
-            </button>
-            {isPlanDataSubmit ? (
-              <div className={styles.content02}>
-                <div className={styles.reviewInfo}>
+                게획 시작하기
+              </button>
+            ) : null}
+            {showFormBtn ? ( //펼치기 눌러졌을 때
+              <div className={styles.btn02} onClick={hideContentBtn}>
+                <AiOutlineUp className={styles.icon01} />
+              </div>
+            ) : null}
+            {isPlanDataSubmit ? ( //계획 시작하기 눌렀을 때
+              <div className={styles.formDetail}>
+                <div className={styles.planFormInfo}>
                   <div className={styles.infoContent}>
                     총 비용 : <span> {totalCost}</span>
                   </div>
@@ -343,6 +388,7 @@ const TravelPlanTemplate = () => {
                           dapartDate={planForm.departDate}
                           dayCount={index + 1}
                           containerIdx={index}
+                          planForm={planForm}
                         />
                       );
                     })}
@@ -351,7 +397,7 @@ const TravelPlanTemplate = () => {
                   <div>여행 계획에 대한 정보를 먼저 입력해주세요</div>
                 )}
                 <div className={styles.footer}>
-                  <button className={styles.btn_02} onClick={onPlanFormSubmit}>
+                  <button className={styles.btn03} onClick={onPlanFormSubmit}>
                     계획 마치기
                   </button>
                 </div>

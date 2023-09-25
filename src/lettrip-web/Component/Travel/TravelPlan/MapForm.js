@@ -20,6 +20,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
     categoryName: "",
     province: "",
     city: "",
+    address: "",
   });
   const [selectedUrl, setSelectedUrl] = useState("");
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
@@ -47,9 +48,9 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
     setKeyword(e.target.value);
   };
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     if (keyword.trim() === "") return;
-
     if (map) {
       const ps = new kakao.maps.services.Places(map);
       const searchOption = {
@@ -57,6 +58,8 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
       };
       ps.keywordSearch(keyword, placesSearchCB, searchOption);
     }
+    setSearchResults([]);
+    setIsPlaceSelected(false);
   };
 
   const placesSearchCB = (data, status, pagination) => {
@@ -73,10 +76,8 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
 
   const displayPlaces = (places) => {
     removeAllMarkers();
-
     const bounds = new kakao.maps.LatLngBounds();
     const newMarkers = [];
-
     for (let i = 0; i < places.length; i++) {
       const place = places[i];
       const position = new kakao.maps.LatLng(place.y, place.x);
@@ -84,7 +85,10 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
       kakao.maps.event.addListener(marker, "click", function () {
         // 마커 클릭하면 selectedPlace로 설정
         console.log(place);
+        const position = new kakao.maps.LatLng(place.y, place.x);
+        map.panTo(position); // 해당 위치로 지도 이동
         setSelectedPlace({
+          address: place.address_name,
           name: place.place_name,
           xpoint: place.x,
           ypoint: place.y,
@@ -105,7 +109,11 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   };
   // 검색 결과 항목 클릭 핸들러 추가
   const SearchResultClick = (place) => {
+    const position = new kakao.maps.LatLng(place.y, place.x);
+    map.panTo(position); // 해당 위치로 지도 이동
+    console.log(place);
     setSelectedPlace({
+      address: place.address_name,
       name: place.place_name,
       xpoint: place.x,
       ypoint: place.y,
@@ -150,39 +158,21 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
     setPagination(pagination);
   };
 
-  const handleMarkerMouseOver = (marker, title) => {
-    let tempContent = document.createElement("div");
-    tempContent.innerHTML = title;
-
-    kakao.maps.event.addListener(marker, "mouseover", function () {
-      infowindow.setContent(tempContent);
-      infowindow.open(map, marker);
-    });
-    infowindow.open(map, marker);
-  };
-
-  const handleMarkerMouseOut = () => {
-    infowindow.close();
-  };
-
-  const handleListItemMouseOver = (marker, title) => {
-    setSelectedPlace(title);
-    infowindow.setContent(title);
-    infowindow.open(map, marker);
-  };
-
-  const handleListItemMouseOut = () => {
-    setSelectedPlace(null);
-    infowindow.close();
-  };
-
   const handlePlaceConfirmClick = () => {
     onPlaceSelect(selectedPlace);
+    setKeyword(""); // 검색어 초기화
+    setSearchResults([]); //검색 목록 초기화
+    setIsPlaceSelected(false); // 장소 선택 상태 초기화
+    removeAllMarkers(); //마커 초기화
+  };
+
+  const handleBackButtonClick = () => {
+    handleSearch();
   };
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
+      <div className={styles.box}>
         <div className={styles.searchForm}>
           <input
             type='text'
@@ -190,15 +180,16 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
             value={keyword}
             onChange={handleKeywordChange}
           />
-          <button className={styles.btn_01} onClick={handleSearch}>
-            <AiOutlineSearch className={styles.icon_01} />
+          <button className={styles.btn01} onClick={handleSearch}>
+            <AiOutlineSearch className={styles.icon01} />
           </button>
         </div>
         {isPlaceSelected ? (
           <div className={styles.contentResult}>
             <div className={styles.contentItem}>
-              <span className={styles.itemName}>
-                장소 : {selectedPlace.name}
+              <span className={styles.itemName}>{selectedPlace.name}</span>
+              <span className={styles.itemAddress}>
+                {selectedPlace.address}
               </span>
               <Link
                 to={selectedUrl}
@@ -207,12 +198,20 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
               >
                 Kakao Map으로 보기
               </Link>
-              <button
-                className={styles.btn_02}
-                onClick={handlePlaceConfirmClick}
-              >
-                확인
-              </button>
+              <div className={styles.btnContainer}>
+                <button
+                  className={styles.btn02}
+                  onClick={handlePlaceConfirmClick}
+                >
+                  확인
+                </button>
+                <button
+                  className={styles.btn02}
+                  onClick={handleBackButtonClick}
+                >
+                  취소
+                </button>
+              </div>
             </div>
           </div>
         ) : (
@@ -226,7 +225,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
                 >
                   <span className={styles.itemName}>{result.place_name}</span>
                   <span className={styles.itemAddress}>
-                    {result.road_address_name}
+                    {result.address_name}
                   </span>
                 </div>
               ))}
@@ -237,7 +236,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
       <div
         className={styles.map}
         id={`${containerIdx}map${courseIdx}`}
-        style={{ width: "475px", height: "700px" }}
+        style={{ width: "580px", height: "720px" }}
       />
     </div>
   );

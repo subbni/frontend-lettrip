@@ -1,80 +1,90 @@
+/**/
 .container {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
   border: 1px solid #ccc;
 }
-
+.box {
+  width: 310px;
+  height: 720px;
+}
 .searchForm {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  width: 350px;
+  align-items: center;
+  width: 290px;
   margin: 10px;
+  border: 1px solid #000000;
+  border-radius: 3px;
 }
-
 .searchForm input {
-  width: 100%;
-  border: none;
-  padding: 10px;
+  width: 84%;
   font-size: 16px;
+  padding: 10px;
+  border: none;
 }
-
-.icon_01 {
+.btn01 {
+  background: none;
+  outline: none;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.icon01 {
   vertical-align: middle;
   width: 25px;
   height: 25px;
 }
 
-.btn_01 {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  outline: none;
-}
-.itemLink {
-  border: none;
-  text-align: center;
-  margin: 10px;
-  outline: none;
-  color: black;
-}
-
-.btn_02 {
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  outline: none;
-  margin: auto;
-  background-color: #e5e5e5;
-}
-.btn_02:hover {
-  background-color: #d3d3d3;
-}
 .contentResult {
-  border-top: 1px solid #ccc;
-  max-height: 640px;
+  max-height: 660px;
   overflow-y: auto;
+  border-top: 1px solid #ccc;
 }
 .contentItem {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 20px 25px 12px;
   border-bottom: 1px solid #ccc;
+  gap: 2px;
   cursor: pointer;
 }
 .itemName {
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 2px;
+  margin-right: auto;
 }
 .itemAddress {
   font-size: 14px;
+  margin-right: auto;
 }
-
+.itemLink {
+  text-align: center;
+  font-size: 13px;
+  color: #bdbdbd;
+  outline: none;
+  margin-right: auto;
+  border: none;
+}
+.btnContainer {
+  display: flex;
+  justify-content: wrap;
+  align-items: center;
+  margin: 8px auto 0;
+  gap: 20px;
+}
+.btn02 {
+  background-color: #e5e5e5;
+  outline: none;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn02:hover {
+  background-color: #d3d3d3;
+}
 .map {
   border-left: 1px solid #ccc;
 }
