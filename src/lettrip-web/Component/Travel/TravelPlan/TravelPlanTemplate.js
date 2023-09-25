@@ -5,6 +5,7 @@ import { createTravelPlan } from "../../../Service/TravelService";
 import { Citys, Provinces, TravelThemes } from "../TravelData";
 import CourseContainer from "./CourseContainer";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
+
 import styles from "./Plan.module.css";
 
 const TravelPlanTemplate = () => {

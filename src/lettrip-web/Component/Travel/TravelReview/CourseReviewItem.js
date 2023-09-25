@@ -2,7 +2,6 @@ import { useCallback, useState, useEffect } from "react";
 import MapForm from "../TravelPlan/MapForm";
 import ImageFileForm from "./ImageFileForm";
 import {
-  AiOutlineDown,
   AiFillCheckSquare,
   AiOutlineCheckSquare,
   AiFillStar,
@@ -109,7 +108,10 @@ const CourseReviewItem = ({
     setImageFiles(fileLists);
     const fileNameLists = fileLists.map((file) => file.name);
     setFileNames(fileNameLists);
-    console.log(fileNames);
+    setReview((prevReview) => ({
+      ...prevReview,
+      fileNames: fileNameLists,
+    }));
   };
 
   const onImageFileDelete = (id) => {
@@ -283,12 +285,7 @@ const CourseReviewItem = ({
                 ></textarea>
               </div>
             </div>
-          ) : (
-            <div className={styles.btn02} onClick={showContentBtn}>
-              <AiOutlineDown className={styles.icon01} />
-              <p className={styles.btnLabel01}>더보기</p>
-            </div>
-          )}
+          ) : null}
           <div className={styles.itembtnContainer}>
             <button onClick={onBtnClick} className={styles.btn06}>
               {btnMessage}

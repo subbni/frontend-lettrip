@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import CoursePlanItem from "./CoursePlanItem";
-import CommendItem from "./CommendItem";
 
 import { recommendItem, recommendPlace } from "../../../Service/TravelService";
 import styles from "./Plan.module.css";
@@ -12,7 +11,6 @@ const CourseContainer = ({
   dayCount,
   containerIdx,
   planForm,
-  mainImageName,
 }) => {
   const courseId = useRef(0);
   const [courseList, setCourseList] = useState([]);
@@ -21,28 +19,12 @@ const CourseContainer = ({
     page: 1,
     input_place: "",
   });
-  const [recommendationResult, setRecommendationResult] = useState(null);
+  const [recommendationResult, setRecommendationResult] = useState([]);
+  const [recommendationType, setRecommendationType] = useState("");
 
-  // 장소 입력 버튼을 눌렀을 때 호출되는 함수
-  const handlePlaceInputChange = (e) => {
-    const newPlace = e.target.value;
-    setPageForm((prevForm) => ({
-      ...prevForm,
-      place: newPlace,
-    }));
-  };
-
-  const handleAddCourse = (e) => {
-    e.preventDefault();
-    setCourseList([
-      ...courseList,
-      {
-        courseId: containerIdx + "-" + courseId.current,
-      },
-    ]);
-    setIsSearchClickedList([...isSearchClickedList, false]);
-    courseId.current += 1;
-  };
+  useEffect(() => {
+    console.log(courseList);
+  }, [courseList]);
 
   const handleSearchBtnClick = (index, e) => {
     e.preventDefault();
@@ -63,9 +45,20 @@ const CourseContainer = ({
     }
   };
 
-  useEffect(() => {
-    console.log(courseList);
-  }, [courseList]);
+  //코스 추가 버튼 눌렀을 때
+  const handleAddCourse = (e) => {
+    e.preventDefault();
+    setCourseList([
+      ...courseList,
+      {
+        courseId: containerIdx + "-" + courseId.current,
+      },
+    ]);
+    setIsSearchClickedList([...isSearchClickedList, false]);
+    courseId.current += 1;
+    setRecommendationType("일반");
+    console.log(recommendationType);
+  };
 
   //리뷰 기반 추천
   const recommendItemClick = (e) => {
@@ -78,10 +71,11 @@ const CourseContainer = ({
     ]);
     setIsSearchClickedList([...isSearchClickedList, false]);
     courseId.current += 1;
+    setRecommendationType("리뷰");
     recommendItem(planForm, pageForm)
       .then((response) => {
-        setRecommendationResult(response);
         console.log(response);
+        setRecommendationResult(response);
       })
       .catch((e) => {
         alert("오류가 발생했습니다.");
@@ -100,11 +94,11 @@ const CourseContainer = ({
     ]);
     setIsSearchClickedList([...isSearchClickedList, false]);
     courseId.current += 1;
-
+    setRecommendationType("장소");
     recommendPlace(planForm, pageForm)
       .then((response) => {
         console.log(response);
-        console.log(pageForm);
+        setRecommendationResult(response);
       })
       .catch((e) => {
         alert("오류가 발생했습니다.");
@@ -125,7 +119,9 @@ const CourseContainer = ({
             dayCount={dayCount}
             containerIdx={containerIdx}
             courseIdx={course.courseId}
-            mainImageName={mainImageName}
+            recommendationType={recommendationType}
+            recommendationResult={recommendationResult}
+            province={planForm.province}
           />
         </div>
       ))}

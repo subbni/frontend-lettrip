@@ -1,5 +1,8 @@
-import { useCallback, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
+
 import MapForm from "./MapForm";
+import Recommendation from "./Recommendation";
+
 import styles from "./Plan.module.css";
 
 const CoursePlanItem = ({
@@ -8,6 +11,9 @@ const CoursePlanItem = ({
   dayCount,
   containerIdx,
   courseIdx,
+  recommendationType,
+  recommendationResult,
+  province,
 }) => {
   const [course, setCourse] = useState({
     id: courseIdx,
@@ -30,6 +36,13 @@ const CoursePlanItem = ({
   const [btnMessage, setBtnMessage] = useState("등록");
 
   const [showContents, setShowContents] = useState(false); //내용 숨기기 및 보여주기
+  const [recommendationResponse, setRecommendationResponse] = useState(""); //리뷰인지 장소인지
+
+  useEffect(() => {
+    setRecommendationResponse(recommendationType);
+    console.log(recommendationType);
+    console.log(recommendationResponse);
+  }, [recommendationType]);
 
   // MapForm에 전달할 place 선택 함수
   const onPlaceSelect = useCallback(
@@ -96,11 +109,31 @@ const CoursePlanItem = ({
   return (
     <div className={styles.itemContainer}>
       <div className={styles.courseReviewMap}>
-        <MapForm
-          onPlaceSelect={onPlaceSelect}
-          containerIdx={containerIdx}
-          courseIdx={courseIdx}
-        />
+        {recommendationResponse === "일반" ? (
+          <MapForm
+            onPlaceSelect={onPlaceSelect}
+            containerIdx={containerIdx}
+            courseIdx={courseIdx}
+          />
+        ) : recommendationResponse === "리뷰" ? (
+          <Recommendation
+            onPlaceSelect={onPlaceSelect}
+            containerIdx={containerIdx}
+            courseIdx={courseIdx}
+            recommendationResponse={recommendationResponse}
+            recommendationResult={recommendationResult}
+            province={province}
+          />
+        ) : recommendationResponse === "장소" ? (
+          <Recommendation
+            onPlaceSelect={onPlaceSelect}
+            containerIdx={containerIdx}
+            courseIdx={courseIdx}
+            recommendationResponse={recommendationResponse}
+            recommendationResult={recommendationResult}
+            province={province}
+          />
+        ) : null}
       </div>
       {isPlaceSelected ? (
         <div className={styles.itemContentBox}>

@@ -294,7 +294,7 @@
   padding: 10px 20px;
   margin: 16px;
   border: none;
-  border-radius: 2em;
+  border-radius: 32px;
   cursor: pointer;
 }
 
@@ -410,4 +410,11 @@
   height: 20px;
   color: rgb(227, 8, 8);
   margin-bottom: -2px;
+}
+/*지도 크기 및 위치 고정*/
+.courseReviewMap {
+  position: absolute;
+  top: 0px;
+  right: 20px;
+  width: 890px;
 }
