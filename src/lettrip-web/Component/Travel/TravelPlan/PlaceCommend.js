@@ -8,6 +8,7 @@ const CoursePlanItem = ({
   dayCount,
   containerIdx,
   courseIdx,
+  mainImageName,
 }) => {
   const [course, setCourse] = useState({
     id: courseIdx,
@@ -29,7 +30,8 @@ const CoursePlanItem = ({
   const [confirm, setConfirm] = useState(false);
   const [btnMessage, setBtnMessage] = useState("등록");
 
-  const [showContents, setShowContents] = useState(false); //내용 숨기기 및 보여주기
+  //더보기 버튼 설정하기 (세부사항)
+  const [showPlans, setShowPlans] = useState(false);
 
   // MapForm에 전달할 place 선택 함수
   const onPlaceSelect = useCallback(
@@ -42,15 +44,12 @@ const CoursePlanItem = ({
         ypoint: placeInfo.ypoint,
         province: placeInfo.province,
         city: placeInfo.city,
-        address: placeInfo.address,
       };
-      console.log(placeInfo.address);
       setCourse({
         ...course,
         place: newPlace,
       });
       setIsPlaceSelected((isPlaceSelected) => !isPlaceSelected);
-      console.log(newPlace);
     },
     [course.place]
   );
@@ -62,35 +61,30 @@ const CoursePlanItem = ({
     });
   };
 
-  const onBtnClick = (e) => {
+  const onBtnClick = () => {
     if (!course.arrivedTime.trim() || !course.cost.trim()) {
       alert("모든 정보를 입력해주세요.");
       return;
     }
-    setShowContents(showContents); //내용 보이게 하기
     //TravelPlanForm의 courses에 course 등록
     if (confirm) {
-      e.preventDefault();
       setBtnMessage("등록");
-      setShowContents(!showContents); //내용 보이게 하기
     } else {
-      e.preventDefault();
       onCourseInsert(course, course.place);
+      setShowPlans(!showPlans);
       setBtnMessage("수정");
-      setShowContents(!showContents); //내용 보이게 하기
     }
     setConfirm((confirm) => !confirm);
   };
 
-  const onDeleteClick = (e) => {
-    e.preventDefault();
+  const onDeleteClick = () => {
     onDeleteBtnClick(course);
   };
 
-  //계획 내용 보는 버튼
-  const showContentBtn = (e) => {
-    e.preventDefault();
-    setShowContents(!showContents); //내용 보이게 하기
+  //더보기 버튼 설정하기
+  const btnShowContents = () => {
+    //펼치기 눌렀을 때
+    setShowPlans(!showPlans);
   };
 
   return (
@@ -106,11 +100,9 @@ const CoursePlanItem = ({
         <div className={styles.itemContentBox}>
           <div className={styles.itemTitle}>
             <label className={styles.titleLabel01}>장소</label>
-            <p onClick={showContentBtn} className={styles.titleLabel02}>
-              {course.place.name}
-            </p>
+            <p className={styles.titleLabel02}>{course.place.name}</p>
           </div>
-          {!showContents ? (
+          {!showPlans ? (
             <div className={styles.itemShowContent}>
               <div className={styles.itemContent}>
                 <label className={styles.contentLabel02}>예상 도착시간</label>
@@ -122,7 +114,6 @@ const CoursePlanItem = ({
                   onChange={onChange}
                   disabled={confirm}
                   required
-                  value={course.arrivedTime}
                 />
               </div>
               <div className={styles.itemContent}>
@@ -134,7 +125,6 @@ const CoursePlanItem = ({
                   onChange={onChange}
                   disabled={confirm}
                   required
-                  value={course.cost}
                 />
               </div>
             </div>

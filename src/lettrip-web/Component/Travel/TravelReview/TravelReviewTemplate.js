@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createTravelReviewAxios } from "../../../Service/TravelService";
 import { checkIfLoggedIn } from "../../../Service/AuthService";
 import { Citys, Provinces, TravelThemes } from "../TravelData";
+import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import CourseReviewContainer from "./CourseReviewContainer";
 
 import styles from "./Review.module.css";
@@ -21,9 +22,12 @@ const TravelReviewTemplate = () => {
     lastDate: "",
     totalCost: "",
     numberOfCourses: "",
+    mainImageName: null,
     courses: [],
   });
   const [imageFiles, setImageFiles] = useState([]);
+  const [mainImage, setMainImage] = useState(reviewForm.mainImageName);
+
   const [totalCost, setTotalCost] = useState(0);
   const [numberOfCourses, setNumberOfCourses] = useState(0);
   const [days, setDays] = useState(null);
@@ -44,12 +48,15 @@ const TravelReviewTemplate = () => {
   // 지역명
   const citys = Citys;
 
-  //////// useEffect
+  const [showContents, setShowContents] = useState(false); //내용 숨기기 및 보여주기
+  const [showFormBtn, setShowFormBtn] = useState(false); //버튼 숨기기 및 보여주기
+
+  /*
   useEffect(() => {
     if (!checkIfLoggedIn()) {
       navigate("/login");
     }
-  });
+  }); */
 
   useEffect(() => {
     const selectedProvinceObject = citys.find(
@@ -80,6 +87,16 @@ const TravelReviewTemplate = () => {
       courses: courseList,
     }));
   }, [courses]);
+
+  useEffect(() => {
+    const imgname = mainImage;
+    setReviewForm((reviewForm) => ({
+      ...reviewForm,
+      mainImageName: imgname,
+    }));
+    console.log("mainImage 상태.", mainImage);
+    console.log(reviewForm.mainImageName);
+  }, [mainImage]);
 
   const getDiffDate = (lastDate, departDate) => {
     const firstDate = new Date(lastDate);
@@ -171,6 +188,7 @@ const TravelReviewTemplate = () => {
           })
         )
       );
+
       setTotalCost(
         (cost) =>
           parseInt(cost) -
@@ -212,11 +230,11 @@ const TravelReviewTemplate = () => {
   };
 
   const onReviewDataSubmit = (e) => {
+    setShowContents(!showContents);
     e.preventDefault();
     if (days < 0) {
       return alert("출발 날짜가 마지막 날짜보다 적을 수 없습니다.");
     }
-    console.log(reviewForm);
     setIsReviewDataSubmit(true);
   };
 
@@ -225,7 +243,6 @@ const TravelReviewTemplate = () => {
     if (courses.length < 1) {
       return alert("반드시 1개 이상의 코스가 등록되어야 합니다.");
     }
-
     console.log(reviewForm);
     createTravelReviewAxios({ reviewForm, imageFiles })
       .then((response) => {
@@ -235,6 +252,7 @@ const TravelReviewTemplate = () => {
             navigate(`/travel/course/review/${response.data}`);
           } else {
             console.log(response);
+            console.log(reviewForm);
             alert(`작성 실패. 원인: ${response.data.message}`);
           }
         }
@@ -246,14 +264,32 @@ const TravelReviewTemplate = () => {
     // window.URL.revokeObjectURL(urls); => 메모리 누수 방지, url 삭제해주기
   };
 
+  //폼 내용 보는 버튼
+  const showContentBtn = (e) => {
+    e.preventDefault();
+    setShowContents(!showContents); //내용 보이게 하기
+    setShowFormBtn(!showFormBtn); //접기 버튼 안보이게 하기
+  };
+  //폼 내용 닫는 버튼
+  const hideContentBtn = (e) => {
+    e.preventDefault();
+    setShowContents(!showContents); //내용 안 보이게 하기
+    setShowFormBtn(!showFormBtn); //내용 닫기 버튼 안보이게 하기
+  };
+  //메인이미지 관리
+  const onMainImageSet = (imageName) => {
+    setMainImage(imageName);
+  };
+
   return (
     <div className={styles.page}>
       <h2>여행 코스 기록</h2>
       <div className={styles.container}>
-        <div className={styles.content01}>
-          <form className={styles.reviewForm} onSubmit={onReviewDataSubmit}>
-            <div className={styles.formContent01}>
+        <div className={styles.box}>
+          <form className={styles.planForm} onSubmit={onReviewDataSubmit}>
+            <div className={styles.formTitle}>
               <input
+                className={styles.content01}
                 type='text'
                 name='title'
                 id='title'
@@ -262,83 +298,107 @@ const TravelReviewTemplate = () => {
                 required
               />
             </div>
-            <div className={styles.formContent02}>
-              <select
-                name='province'
-                id='province'
-                defaultValue='default'
-                onChange={onReviewFormChange}
+            {!showContents ? (
+              <div className={styles.formShowContent}>
+                <div className={styles.formContent}>
+                  <select
+                    className={styles.content02}
+                    name='province'
+                    id='province'
+                    value={reviewForm.province}
+                    onChange={onReviewFormChange}
+                    disabled={isReviewDataSubmit}
+                    required
+                  >
+                    <option value='' disabled>
+                      시/도
+                    </option>
+                    {provincesOptions}
+                  </select>
+                  <select
+                    className={styles.content02}
+                    name='city'
+                    id='city'
+                    value={reviewForm.province}
+                    onChange={onReviewFormChange}
+                    disabled={isReviewDataSubmit}
+                    required
+                  >
+                    <option value='' disabled>
+                      지역
+                    </option>
+                    {matchedCitys.map((city, idx) => (
+                      <option key={idx}>{city}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.formContent}>
+                  <input
+                    className={styles.content03}
+                    type='date'
+                    aria-required='true'
+                    data-placeholder='여행 시작일'
+                    name='departDate'
+                    id='departDate'
+                    value={reviewForm.departDate}
+                    onChange={onReviewFormChange}
+                    disabled={isReviewDataSubmit}
+                    required
+                  />
+                  <label className={styles.contentLabel01}>~</label>
+                  <input
+                    className={styles.content03}
+                    type='date'
+                    aria-required='true'
+                    data-placeholder='여행 종료일'
+                    name='lastDate'
+                    id='lastDate'
+                    value={reviewForm.lastDate}
+                    onChange={onReviewFormChange}
+                    disabled={isReviewDataSubmit}
+                    required
+                  />
+                </div>
+                <div className={styles.formContent}>
+                  <select
+                    className={styles.content02}
+                    name='travelTheme'
+                    id='travelTheme'
+                    disabled={isReviewDataSubmit}
+                    value={reviewForm.travelTheme}
+                    onChange={onReviewFormChange}
+                    required
+                  >
+                    <option value='' disabled>
+                      여행 테마
+                    </option>
+                    {travelThemeOptions}
+                  </select>
+                </div>
+              </div>
+            ) : (
+              <div className={styles.btn02} onClick={showContentBtn}>
+                <p className={styles.btnLabel01}>더보기</p>
+                <AiOutlineDown className={styles.icon01} />
+              </div>
+            )}
+            {!isReviewDataSubmit ? ( //계획 시작하기 버튼 누르면 안보이게 하기
+              <button
+                className={styles.btn01}
+                type='submit'
                 disabled={isReviewDataSubmit}
               >
-                <option value='default' disabled>
-                  시/도
-                </option>
-                {provincesOptions}
-              </select>
-              <select
-                name='city'
-                id='city'
-                defaultValue='default'
-                onChange={onReviewFormChange}
-                disabled={isReviewDataSubmit}
-              >
-                <option value='default' disabled>
-                  지역
-                </option>
-                {matchedCitys.map((city, idx) => (
-                  <option key={idx}>{city}</option>
-                ))}
-              </select>
-            </div>
-            <div className={styles.formContent02}>
-              <input
-                type='date'
-                aria-required='true'
-                data-placeholder='여행 시작일'
-                name='departDate'
-                id='departDate'
-                value={reviewForm.departDate}
-                onChange={onReviewFormChange}
-                disabled={isReviewDataSubmit}
-                required
-              />
-              <label>~</label>
-              <input
-                type='date'
-                aria-required='true'
-                data-placeholder='여행 종료일'
-                name='lastDate'
-                id='lastDate'
-                value={reviewForm.lastDate}
-                onChange={onReviewFormChange}
-                disabled={isReviewDataSubmit}
-                required
-              />
-            </div>
-            <div className={styles.formContent02}>
-              <select
-                name='travelTheme'
-                id='travelTheme'
-                defaultValue='default'
-                onChange={onReviewFormChange}
-                required
-              >
-                <option value='default' disabled>
-                  여행 테마
-                </option>
-                {travelThemeOptions}
-              </select>
-            </div>
-            <button
-              className={styles.btn_01}
-              type='submit'
-              disabled={isReviewDataSubmit}
-            >
-              기록 시작하기
-            </button>
+                기록 시작하기
+              </button>
+            ) : null}
+            {showFormBtn ? ( //펼치기 눌러졌을 때
+              <div className={styles.btn02} onClick={hideContentBtn}>
+                <AiOutlineUp className={styles.icon01} />
+              </div>
+            ) : null}
             {isReviewDataSubmit ? (
-              <div className={styles.content02}>
-                <div className={styles.reviewInfo}>
+              <div className={styles.formDetail}>
+                <div className={styles.planFormInfo}>
                   <div className={styles.infoContent}>
                     총 비용 : <span> {totalCost}</span>
                   </div>
@@ -347,7 +407,6 @@ const TravelReviewTemplate = () => {
                   </div>
                 </div>
                 <br />
-
                 {days !== null ? (
                   <div>
                     {Array.from({ length: days + 1 }).map((_, index) => {
@@ -361,19 +420,17 @@ const TravelReviewTemplate = () => {
                           dapartDate={reviewForm.departDate}
                           dayCount={index + 1}
                           containerIdx={index}
+                          onMainImageSet={onMainImageSet}
                         />
                       );
                     })}
                   </div>
                 ) : (
-                  <div>여행에 대한 정보를 먼저 입력해주세요</div>
+                  <div>여행 후기에 대한 정보를 먼저 입력해주세요</div>
                 )}
                 <div className={styles.footer}>
-                  <button
-                    className={styles.btn_02}
-                    onClick={onReviewFormSubmit}
-                  >
-                    기록 마치기
+                  <button className={styles.btn03} onClick={onReviewFormSubmit}>
+                    계획 마치기
                   </button>
                 </div>
               </div>

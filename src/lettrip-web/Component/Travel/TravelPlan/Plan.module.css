@@ -4,145 +4,162 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 90%;
-  margin: 0 auto;
   position: relative;
+  width: 90%;
+  margin: 0 auto 20px;
 }
 .page h2 {
   font-weight: bold;
   color: #486080;
-  margin: 0px auto 10px 15px;
+  margin: 0px auto 5px 15px;
 }
 .container {
-  width: 100%;
   display: block;
   position: relative;
+  width: 100%;
 }
-.content01 {
+.box {
   display: flex;
+  width: 30%;
+  max-height: 700px;
+  overflow-y: auto;
 }
-.mapContainer {
-  border: 1px solid rgb(149, 149, 149);
-  height: 700px;
-  width: 64%;
-}
-.reviewForm {
-  width: 31%;
-  max-height: 600px;
+/*여행 코스 검색 입력 부분*/
+.planForm {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0px 15px 0 5px;
+  width: 96%;
   padding: 10px;
-  overflow-y: auto;
+  margin: 0px 10px 0 5px;
 }
-.reviewForm select {
-  width: 160px;
-  border: none;
-  border-bottom: 1px solid rgb(149, 149, 149);
-  font-size: 18px;
-  cursor: pointer;
-  padding: 5px;
-  font-weight: 400;
-  color: #949494;
-}
-.reviewForm select:hover {
-  background-color: rgb(214, 217, 221);
-}
-.formContent01 {
+.formTitle {
   width: 100%;
 }
-.formContent01 input {
-  width: 98%;
+.content01 {
+  /*Input 내용*/
+  font-size: 23px;
+  font-weight: 400;
+  width: 97%;
+  padding: 5px;
   border: none;
   border-bottom: 1px solid rgb(149, 149, 149);
-  font-size: 24px;
   cursor: pointer;
-  margin-bottom: 20px;
-  padding: 5px;
-  font-weight: 400;
   text-indent: 5px; /*약간의 여백*/
 }
-.formContent01 input::placeholder {
+.content01::placeholder {
   font-weight: 400;
   color: #949494;
 }
-.formContent02 {
+/*내용*/
+.formShowContent {
+  width: 100%;
+}
+.formContent {
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  padding: 8px 0;
   font-size: 18px;
-  margin-bottom: 20px;
+  padding: 5px 0;
+  margin-top: 5px;
 }
-.formContent02 input {
+.content02 {
+  /*Select 내용*/
   width: 160px;
-  text-align: left;
+  font-size: 18px;
+  font-weight: 400;
+  color: #949494;
+  padding: 5px;
   border: none;
   border-bottom: 1px solid rgb(149, 149, 149);
-  font-size: 18px;
-  padding: 5px 3px;
   cursor: pointer;
-  color: #949494;
 }
-.formContent02 input:hover {
+.content02:hover {
   background-color: rgb(214, 217, 221);
 }
-.formContent02 label {
+.content03 {
+  width: 150px;
+  font-size: 16px;
+  color: #949494;
+  padding: 5px;
+  border: none;
+  border-bottom: 1px solid rgb(149, 149, 149);
+  cursor: pointer;
+}
+.content03:hover {
+  background-color: rgb(214, 217, 221);
+}
+.contentLabel01 {
   font-size: 18px;
   color: #486080;
 }
-.btn_01 {
+
+.btn01 {
   display: block;
+  width: 40%;
+  font-size: 16px;
   color: white;
   background-color: #2e3b4c;
-  align-items: center;
-  font-size: 16px;
-  cursor: pointer;
-  width: 50%;
   padding: 10px 20px;
+  margin: 50px auto;
   border: none;
   border-radius: 5px;
-  margin-top: 10px;
+  cursor: pointer;
 }
-.content02 {
-  width: 100%;
+.btn02 {
+  display: block;
   text-align: center;
-  align-items: center;
+  padding: 10px 20px;
+  margin: 10px auto 10px;
+  cursor: pointer;
 }
-.reviewInfo {
+.icon01 {
+  font-size: 22px;
+}
+.btnLabel01 {
+  font-size: 15px;
+  color: #486080;
+  margin: 0px;
+}
+/*계획 시작하기 눌렀을 때*/
+.formDetail {
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+.planFormInfo {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
 }
 .infoContent {
-  margin-bottom: 10px;
   font-size: 16px;
   font-weight: 700;
+  margin-bottom: 10px;
 }
 .footer {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  width: 100%;
   padding: 8px 0;
 }
-.btn_02 {
+.btn03 {
   display: block;
+  align-items: center;
+  width: 45%;
+  font-size: 16px;
   color: white;
   background-color: #2e3b4c;
-  align-items: center;
-  font-size: 16px;
-  cursor: pointer;
-  width: 50%;
   padding: 10px 20px;
+  margin: 10px 0 20px;
   border: none;
   border-radius: 5px;
-  margin-top: 10px;
+  cursor: pointer;
 }
 /*CourseContainer.js*/
 .courseContainer {
@@ -158,96 +175,97 @@
 .courseContent {
   width: 100%;
 }
-.btn_03 {
+.btnContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 32px 0 32px;
+  gap: 15px;
+}
+.btn04 {
+  font-size: 16px;
   background-color: #e5e5e5;
   padding: 8px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+.btn05 {
   font-size: 16px;
-  margin-top: 32px;
-}
-.btnContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 32px;
-}
-.btn_04 {
   background-color: #c5d5ed;
   padding: 8px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
 }
 /*CoursePlanItem.js*/
-.reviewContainer {
+.itemContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  border: 1px solid #ccc;
   margin-top: 20px;
+  border: 1px solid #ccc;
 }
-.reviewTitle {
-  margin: 20px;
+.itemContentBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
-.reviewTitle label {
-  font-size: 19px;
+.itemTitle {
+  margin: 15px;
+}
+.titleLabel01 {
+  font-size: 15px;
   font-weight: 400;
   color: #8d8d8d;
 }
-.reviewTitle p {
+.titleLabel02 {
+  font-size: 19px;
   font-weight: bold;
-  font-size: 20px;
-  margin-top: 10px;
+  margin: 10px 0px;
+  cursor: pointer;
 }
-.reviewContent {
+.itemShowContent {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-.reviewContent01 {
   width: 90%;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
   margin-bottom: 25px;
+  gap: 15px;
 }
-.courseContent01 {
+.itemContent {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.contentInput01 {
-  margin-left: auto;
-  width: 60%;
-  padding: 8px;
-}
-.contentLabel01 {
-  color: #2e3b4c;
+.contentLabel02 {
   font-weight: 400;
-  font-size: 17px;
+  color: #2e3b4c;
 }
-.courseContent02 {
-  text-align: center;
+.content04 {
+  width: 40%;
+  padding: 8px;
+  margin-left: auto;
 }
 
-.btn_05 {
-  background-color: #4c6482;
+.itembtnContainer {
+  text-align: center;
+}
+.btn06 {
+  background-color: #2e3b4c;
   color: #f3f3f3;
   padding: 10px 20px;
-  margin: 1em;
+  margin: 0 16px 16px;
   border: none;
   border-radius: 2em;
   cursor: pointer;
 }
+
+/*지도 크기 및 위치 고정*/
 .courseReviewMap {
   position: absolute;
   top: 0px;
   right: 20px;
-  width: 850px;
+  width: 890px;
 }

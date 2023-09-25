@@ -5,7 +5,12 @@ import { AiOutlineSearch } from "react-icons/ai";
 
 import styles from "./Map.module.css";
 
-const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
+const CommendItem = ({
+  onPlaceSelect,
+  containerIdx,
+  courseIdx,
+  recommendationResult,
+}) => {
   const [mapId, setMapId] = useState(containerIdx + "map" + courseIdx);
   const [keyword, setKeyword] = useState("");
   const [markers, setMarkers] = useState([]);
@@ -48,8 +53,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
     setKeyword(e.target.value);
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
+  const handleSearch = () => {
     if (keyword.trim() === "") return;
     if (map) {
       const ps = new kakao.maps.services.Places(map);
@@ -88,7 +92,6 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
         const position = new kakao.maps.LatLng(place.y, place.x);
         map.panTo(position); // 해당 위치로 지도 이동
         setSelectedPlace({
-          address: place.address_name,
           name: place.place_name,
           xpoint: place.x,
           ypoint: place.y,
@@ -96,6 +99,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
           categoryName: place.category_group_name,
           province: "일단",
           city: "아무거나",
+          address: place.address_name,
         });
         setIsPlaceSelected(true);
         setSelectedUrl(place.place_url);
@@ -111,9 +115,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   const SearchResultClick = (place) => {
     const position = new kakao.maps.LatLng(place.y, place.x);
     map.panTo(position); // 해당 위치로 지도 이동
-    console.log(place);
     setSelectedPlace({
-      address: place.address_name,
       name: place.place_name,
       xpoint: place.x,
       ypoint: place.y,
@@ -121,6 +123,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
       categoryName: place.category_group_name,
       province: "일단",
       city: "아무거나",
+      address: place.address_name,
     });
     setIsPlaceSelected(true);
     setSelectedUrl(place.place_url);
@@ -233,13 +236,8 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
           </div>
         )}
       </div>
-      <div
-        className={styles.map}
-        id={`${containerIdx}map${courseIdx}`}
-        style={{ width: "580px", height: "720px" }}
-      />
     </div>
   );
 };
 
-export default MapForm;
+export default CommendItem;

@@ -1,0 +1,113 @@
+/*TravelPlanDetailPage*/
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  padding: 20px;
+  margin: 0 55px 20px;
+  border-radius: 4px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.courseTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 10px 10px 0;
+}
+/*쓰레기통 버튼*/
+.btn01 {
+  font-size: 20px;
+  color: #949494;
+  margin-left: auto;
+  cursor: pointer;
+}
+.courseDate {
+  font-size: 20px;
+  color: #525252;
+  margin-bottom: 5px;
+}
+.courseNum,
+.courseTheme,
+.courseCost {
+  font-size: 14px;
+  color: #525252;
+  margin-bottom: 5px;
+}
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0 50px 0 50px;
+}
+.group {
+  margin: 0 10px 30px;
+}
+.groupTitle {
+  font-size: 26px;
+  font-weight: bold;
+  margin: 0 auto 0 15px;
+}
+
+.groupList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 10px auto 20px;
+  gap: 15px;
+}
+
+.groupDetail {
+  width: 300px;
+  height: 115px;
+  margin: 0px 10px;
+  border: 1px solid #949494;
+  border-radius: 10px;
+}
+
+/*CourPlanDetail*/
+.detailContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 270px;
+  margin-top: 15px;
+}
+
+.detailTitle {
+  position: relative;
+  font-size: 20.5px;
+  font-weight: bold;
+  margin-right: auto;
+}
+.detailTime {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2e3b4c;
+  margin-left: auto;
+}
+.detailAddress {
+  width: 270px;
+  font-size: 16px;
+  color: #525252;
+  margin: 10px auto 0 15px;
+}
+.detailCost {
+  width: 270px;
+  font-size: 15px;
+  color: #525252;
+  margin: 10px auto 0 15px;
+}

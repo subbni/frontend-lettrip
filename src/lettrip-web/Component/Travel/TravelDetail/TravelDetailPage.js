@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+
 import { useNavigate, useParams } from "react-router-dom";
-import { getTravelDetail } from "../../../Service/TravelService";
-
-import CourseDetail from "./CourseDetail";
-
-import styles from "./PageDetail.module.css";
-
 import { checkIfLoggedIn } from "../../../Service/AuthService";
+import {
+  getTravelDetail,
+  deleteTravelDetail,
+} from "../../../Service/TravelService";
 import {
   checkIfLiked,
   deleteLiked,
   pushLiked,
 } from "../../../Service/LikedService";
+import CourseDetail from "./CourseDetail";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { BsFillTrash3Fill } from "react-icons/bs";
+import styles from "./PageDetail.module.css";
+
 const TravelDetailPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -37,17 +40,27 @@ const TravelDetailPage = () => {
   });
   const [liked, setLiked] = useState(false);
   const [courseList, setCourseList] = useState([]);
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
     if (!checkIfLoggedIn()) {
       navigate("/login");
     }
   }, []);
+
+  useEffect(() => {
+    //여행 코스 작성자와 로그인 사용자 동일 여부 확인하기
+    const storedEmail = localStorage.getItem("email");
+    if (travel.writerEmail === storedEmail) {
+      setIsEditable(true);
+    } else {
+      setIsEditable(false);
+    }
+  }, [travel]);
   useEffect(() => {
     getTravelDetail(id)
       .then((response) => {
         console.log(response);
-        console.log(response.totalCost);
         setTravel(response);
         const groupedCourses = groupByDay(response.courses);
         setCourseList(Object.values(groupedCourses));
@@ -70,6 +83,22 @@ const TravelDetailPage = () => {
         console.log(e);
       });
   };
+
+  //여행 코스 삭제
+  const handleDelete = () => {
+    if (window.confirm("여행 코스를 삭제하시겠습니까?")) {
+      deleteTravelDetail(id)
+        .then(() => {
+          alert("여행 코스가 삭제되었습니다.");
+          navigate("/travel/search");
+        })
+        .catch((e) => {
+          console.log(e);
+          alert("여행 코스 삭제에 실패했습니다. 다시 시도해주시길 바랍니다.");
+        });
+    }
+  };
+
   // 좋아요 관리
   const handleLikeClick = () => {
     if (liked) {
@@ -138,39 +167,39 @@ const TravelDetailPage = () => {
     <div>
       <div className={styles.container}>
         <div className={styles.header}>
-          <div className={styles.travelCourse_title}>
-            '{travel.title}' 코스 보기
-          </div>
-          <button className={styles.button} onClick={handleLikeClick}>
+          <div className={styles.courseTitle}>'{travel.title}' 코스 보기</div>
+          <button className={styles.btn01} onClick={handleLikeClick}>
             {liked ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
+          {isEditable && (
+            <div className={styles.btn02} onClick={handleDelete}>
+              <BsFillTrash3Fill />
+            </div>
+          )}
         </div>
-        <div className={styles.travelCourse_date}>
-          {" "}
+        <div className={styles.courseDate}>
           {formatDate(travel.departDate)} ~ {formatDate(travel.lastDate)}
         </div>
-        <div className={styles.travelCourse_thenumberOf}>
-          {travel.numberOfCourses}개
-        </div>
-        <div className={styles.travelCourse_theme}>#{travel.travelTheme}</div>
-        <div className={styles.travelCourse_totalcost}>
+        <div className={styles.courseNum}>{travel.numberOfCourses}개</div>
+        <div className={styles.courseTheme}>#{travel.travelTheme}</div>
+        <div className={styles.courseCost}>
           {numberWithCommas(travel.totalCost)}원 / 인
         </div>
       </div>
 
-      <div className={styles.courseDetail_container}>
+      <div className={styles.content}>
         {Object.entries(courseList).map(([day, courses], index) => (
           <div key={day}>
-            <div className={styles.courseDetailGroupTitle}>{index + 1}일차</div>
-            <div className={styles.courseDetailGroupList}>
+            <div className={styles.groupTitle}>{index + 1}일차</div>
+            <div className={styles.groupList}>
               {courses.map((course, idx) => (
-                <div className={styles.courseDetail} key={idx}>
+                <div className={styles.groupDetail} key={idx}>
                   <CourseDetail course={course} />
                 </div>
               ))}
             </div>
             {index < Object.entries(courseList).length - 1 && (
-              <hr className={styles.groupSeparator} />
+              <hr className={styles.groupLine} />
             )}
           </div>
         ))}

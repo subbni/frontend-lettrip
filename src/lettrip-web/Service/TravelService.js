@@ -1,5 +1,9 @@
 import axios from "axios";
-import { API_BASE_URL, ACCESS_TOKEN } from "../Constant/backendAPI";
+import {
+  API_BASE_URL,
+  API_APP_BASE_URL,
+  ACCESS_TOKEN,
+} from "../Constant/backendAPI";
 import { formRequest, request } from "./APIService";
 
 export function createTravelPlan(planForm) {
@@ -65,5 +69,38 @@ export function getTravelDetail(id) {
   });
 }
 
+export function deleteTravelDetail(id) {
+  return request({
+    url: API_BASE_URL + `/api/travel/delete/${id}`,
+    method: "DELETE",
+  });
+}
+
+export function recommendItem(planForm, pageForm) {
+  const id = 1;
+  return request({
+    url:
+      API_APP_BASE_URL +
+      "/recommend_request_item/" +
+      `?user_id=${id}&city_name=${encodeURIComponent(planForm.province)}` +
+      `&page=${pageForm.page}`,
+    method: "GET",
+  });
+}
+
+//머신러닝 -> 장소 기반 추천
+export function recommendPlace(planForm, pageForm) {
+  const id = 1;
+  return request({
+    url:
+      API_APP_BASE_URL +
+      "/recommend_request_place/" +
+      `?user_id=${id}&city_name=${encodeURIComponent(
+        planForm.province
+      )}&input_place_name=${encodeURIComponent(pageForm.input_place)}` +
+      `&page=${pageForm.page}`,
+    method: "GET",
+  });
+}
 class TravelService {}
 export default new TravelService();

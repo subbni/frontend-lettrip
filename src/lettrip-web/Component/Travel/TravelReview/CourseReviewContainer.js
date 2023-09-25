@@ -9,6 +9,7 @@ const CourseReviewContainer = ({
   departDate,
   dayCount,
   containerIdx,
+  onMainImageSet,
 }) => {
   const courseId = useRef(0);
   const [courseList, setCourseList] = useState([]);
@@ -63,11 +64,12 @@ const CourseReviewContainer = ({
             dayCount={dayCount}
             containerIdx={containerIdx}
             courseIdx={course.courseId}
+            onMainImageSet={onMainImageSet}
           />
         </div>
       ))}
-      <div>
-        <button className={styles.btn_03} onClick={handleAddCourse}>
+      <div className={styles.btnContainer}>
+        <button className={styles.btn04} onClick={handleAddCourse}>
           코스 추가
         </button>
       </div>
