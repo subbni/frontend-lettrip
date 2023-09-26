@@ -18,6 +18,7 @@ const Recommendation = ({
   pageForm,
   setPageForm,
   planForm,
+  onInputPlaceChange,
 }) => {
   const [mapVisible, setMapVisible] = useState(false);
 
@@ -39,10 +40,12 @@ const Recommendation = ({
   });
   const [selectedUrl, setSelectedUrl] = useState("");
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]); //선택한 장소 결과
 
   const [courseType, setCourseType] = useState(""); //리뷰인지 장소인지
-  const [courseResult, setCourseResult] = useState([]);
+  const [courseResult, setCourseResult] = useState([]); //머신러닝 결과 받아오기
+
+  const [inputPlace, setInputPlace] = useState(""); //장소 검색 받아오기
 
   useEffect(() => {
     //카카오 맵 API 초기화
@@ -81,10 +84,6 @@ const Recommendation = ({
     setCourseResult(recommendationResult);
     console.log(recommendationResult);
   }, [recommendationResult]);
-
-  const handleKeywordChange = (e) => {
-    setKeyword(e.target.value);
-  };
 
   const SearchResultClick = (place) => {
     if (map) {
@@ -174,6 +173,15 @@ const Recommendation = ({
         console.log(e);
       });
   };
+  const handleKeywordChange = (e) => {
+    setInputPlace(e.target.value);
+  };
+  // 입력한 장소 정보를 부모 컴포넌트로 전달
+  const handleInputPlace = (e) => {
+    e.preventDefault();
+    console.log(inputPlace);
+    onInputPlaceChange(inputPlace);
+  };
 
   return (
     <div className={styles.container}>
@@ -254,6 +262,20 @@ const Recommendation = ({
             <div className={styles.box}>
               <div className={styles.reviewBox}>
                 <p className={styles.boxLabel01}>장소 기반 추천</p>
+                <div className={styles.searchForm}>
+                  <input
+                    type='text'
+                    placeholder='장소를 입력해주세요.'
+                    value={inputPlace}
+                    onChange={handleKeywordChange}
+                  />
+                  <button
+                    className={styles.searchBtn}
+                    onClick={handleInputPlace}
+                  >
+                    <AiOutlineSearch className={styles.icon02} />
+                  </button>
+                </div>
               </div>
               <div className={styles.headerBox}>
                 <p className={styles.headerLabel01}> {province} </p>

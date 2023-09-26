@@ -17,6 +17,7 @@ const CoursePlanItem = ({
   pageForm,
   setPageForm,
   planForm,
+  onInputPlaceChange,
 }) => {
   const [course, setCourse] = useState({
     id: courseIdx,
@@ -141,6 +142,7 @@ const CoursePlanItem = ({
             pageForm={pageForm}
             setPageForm={setPageForm}
             planForm={planForm}
+            onInputPlaceChange={onInputPlaceChange}
           />
         ) : null}
       </div>

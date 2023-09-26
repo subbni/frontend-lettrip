@@ -21,6 +21,35 @@
   color: #949494;
   margin-left: 20px;
 }
+.searchForm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 700px;
+  height: 45px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.searchForm input {
+  width: 90%;
+  font-size: 16px;
+  padding: 13px;
+  border: none;
+}
+.searchBtn {
+  background: none;
+  outline: none;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.icon02 {
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
 .headerBox {
   display: flex;
   align-items: center;
