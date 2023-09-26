@@ -122,6 +122,9 @@ const CourseContainer = ({
             recommendationType={recommendationType}
             recommendationResult={recommendationResult}
             province={planForm.province}
+            pageForm={pageForm}
+            setPageForm={setPageForm}
+            planForm={planForm}
           />
         </div>
       ))}

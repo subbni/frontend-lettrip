@@ -218,7 +218,7 @@ const TravelPlanTemplate = () => {
       numberOfCourses: number,
       courses: courseList,
     }));
-    console.log(courses);
+    console.log(planForm);
 
     createTravelPlan(planForm)
       .then((response) => {
