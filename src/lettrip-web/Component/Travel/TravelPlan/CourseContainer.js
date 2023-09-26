@@ -19,12 +19,20 @@ const CourseContainer = ({
     page: 1,
     input_place: "",
   });
+  const [inputPlace, setInputPlace] = useState("");
+
   const [recommendationResult, setRecommendationResult] = useState([]);
   const [recommendationType, setRecommendationType] = useState("");
 
   useEffect(() => {
     console.log(courseList);
   }, [courseList]);
+
+  useEffect(() => {
+    if (pageForm.input_place.trim() !== "") {
+      recommendPlaceShow({ preventDefault: () => {} }); //자동으로 장소 추천 머신러닝 실행되게 하기
+    }
+  }, [pageForm.input_place]);
 
   const handleSearchBtnClick = (index, e) => {
     e.preventDefault();
@@ -83,6 +91,14 @@ const CourseContainer = ({
       });
   };
 
+  //장소 입력 가져오기
+  const onInputPlaceChange = (place) => {
+    const newplace = place;
+    setPageForm((prevForm) => ({
+      ...prevForm,
+      input_place: newplace,
+    }));
+  };
   // 장소 기반 추천 함수
   const recommendPlaceClick = (e) => {
     e.preventDefault();
@@ -95,6 +111,16 @@ const CourseContainer = ({
     setIsSearchClickedList([...isSearchClickedList, false]);
     courseId.current += 1;
     setRecommendationType("장소");
+    // 장소 입력 체크
+    if (pageForm.input_place.trim() === "") {
+      alert("장소를 먼저 입력해주세요.");
+      return;
+    }
+  };
+
+  const recommendPlaceShow = (e) => {
+    e.preventDefault();
+    // 장소 기반 추천 실행
     recommendPlace(planForm, pageForm)
       .then((response) => {
         console.log(response);
@@ -122,6 +148,10 @@ const CourseContainer = ({
             recommendationType={recommendationType}
             recommendationResult={recommendationResult}
             province={planForm.province}
+            pageForm={pageForm}
+            setPageForm={setPageForm}
+            planForm={planForm}
+            onInputPlaceChange={onInputPlaceChange}
           />
         </div>
       ))}
@@ -129,18 +159,6 @@ const CourseContainer = ({
         <button className={styles.btn04} onClick={handleAddCourse}>
           코스 추가
         </button>
-        <input
-          type='text'
-          placeholder='장소 입력'
-          value={pageForm.input_place}
-          onChange={(e) => {
-            const newPlace = e.target.value;
-            setPageForm((prevForm) => ({
-              ...prevForm,
-              input_place: newPlace, // 여기를 input_place로 수정
-            }));
-          }}
-        />
         <button className={styles.btn05} onClick={recommendItemClick}>
           리뷰 기반 추천
         </button>

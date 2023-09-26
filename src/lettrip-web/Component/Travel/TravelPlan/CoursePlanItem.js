@@ -14,6 +14,10 @@ const CoursePlanItem = ({
   recommendationType,
   recommendationResult,
   province,
+  pageForm,
+  setPageForm,
+  planForm,
+  onInputPlaceChange,
 }) => {
   const [course, setCourse] = useState({
     id: courseIdx,
@@ -123,6 +127,9 @@ const CoursePlanItem = ({
             recommendationResponse={recommendationResponse}
             recommendationResult={recommendationResult}
             province={province}
+            pageForm={pageForm}
+            setPageForm={setPageForm}
+            planForm={planForm}
           />
         ) : recommendationResponse === "장소" ? (
           <Recommendation
@@ -132,6 +139,10 @@ const CoursePlanItem = ({
             recommendationResponse={recommendationResponse}
             recommendationResult={recommendationResult}
             province={province}
+            pageForm={pageForm}
+            setPageForm={setPageForm}
+            planForm={planForm}
+            onInputPlaceChange={onInputPlaceChange}
           />
         ) : null}
       </div>

@@ -1,6 +1,7 @@
 /*global kakao*/
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { recommendItem, recommendPlace } from "../../../Service/TravelService";
 
 import { AiOutlineSearch, AiFillStar } from "react-icons/ai";
 import { MdRefresh } from "react-icons/md";
@@ -14,6 +15,10 @@ const Recommendation = ({
   recommendationResponse,
   recommendationResult,
   province,
+  pageForm,
+  setPageForm,
+  planForm,
+  onInputPlaceChange,
 }) => {
   const [mapVisible, setMapVisible] = useState(false);
 
@@ -35,46 +40,12 @@ const Recommendation = ({
   });
   const [selectedUrl, setSelectedUrl] = useState("");
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]); //선택한 장소 결과
 
   const [courseType, setCourseType] = useState(""); //리뷰인지 장소인지
-  const [courseResult, setCourseResult] = useState([
-    {
-      place_name: "서울숲공원",
-      category: "카페",
-      address: "서울시 강남구",
-      percentage_score: 90,
-      pred_score: 5,
-    },
-    {
-      place_name: "선유도공원",
-      category: "음식점",
-      address: "서울시 종로구",
-      percentage_score: 85,
-      pred_score: 4.5,
-    },
-    {
-      place_name: "장소 3",
-      category: "공원",
-      address: "서울시 송파구",
-      percentage_score: 92,
-      pred_score: 3,
-    },
-    {
-      place_name: "장소 4",
-      category: "박물관",
-      address: "서울시 중구",
-      percentage_score: 88,
-      pred_score: 5,
-    },
-    {
-      place_name: "장소 5",
-      category: "영화관",
-      address: "서울시 강서구",
-      percentage_score: 87,
-      pred_score: 4.2,
-    },
-  ]);
+  const [courseResult, setCourseResult] = useState([]); //머신러닝 결과 받아오기
+
+  const [inputPlace, setInputPlace] = useState(""); //장소 검색 받아오기
 
   useEffect(() => {
     //카카오 맵 API 초기화
@@ -108,16 +79,11 @@ const Recommendation = ({
     console.log(recommendationResponse);
   }, [recommendationResponse]);
 
-  /*
   useEffect(() => {
     //결과 가져오기
     setCourseResult(recommendationResult);
     console.log(recommendationResult);
-  }, [recommendationResult]); */
-
-  const handleKeywordChange = (e) => {
-    setKeyword(e.target.value);
-  };
+  }, [recommendationResult]);
 
   const SearchResultClick = (place) => {
     if (map) {
@@ -125,7 +91,6 @@ const Recommendation = ({
       const searchOption = {
         size: 1, // 1개의 결과만 가져오도록 설정
       };
-
       // 장소 이름으로 검색 수행
       ps.keywordSearch(
         place.place_name,
@@ -166,14 +131,58 @@ const Recommendation = ({
     setPagination(pagination);
   };
 
-  const handlePlaceConfirmClick = () => {
+  const handlePlaceConfirmClick = (e) => {
+    e.preventDefault();
     onPlaceSelect(selectedPlace);
     setIsPlaceSelected(false); // 장소 선택 상태 초기화
   };
 
-  const handleBackButtonClick = () => {
+  const handleBackButtonClick = (e) => {
+    e.preventDefault();
     setIsPlaceSelected(false); // 뒤로 가기 버튼을 누르면 장소 선택 상태 초기화
   };
+
+  const itemRefreshBtn = (e) => {
+    e.preventDefault(); //새로고침 버튼 누르기
+    const newPageForm = { ...pageForm, page: pageForm.page + 1 };
+    setPageForm(newPageForm);
+    console.log(pageForm);
+    recommendItem(planForm, pageForm)
+      .then((response) => {
+        console.log(response);
+        setCourseResult(response);
+      })
+      .catch((e) => {
+        alert("오류가 발생했습니다.");
+        console.log(e);
+      });
+  };
+
+  const placeRefreshBtn = (e) => {
+    e.preventDefault(); //새로고침 버튼 누르기
+    const newPageForm = { ...pageForm, page: pageForm.page + 1 };
+    setPageForm(newPageForm);
+    console.log(pageForm);
+    recommendPlace(planForm, pageForm)
+      .then((response) => {
+        console.log(response);
+        setCourseResult(response);
+      })
+      .catch((e) => {
+        alert("오류가 발생했습니다.");
+        console.log(e);
+      });
+  };
+  const handleKeywordChange = (e) => {
+    setInputPlace(e.target.value);
+  };
+  // 입력한 장소 정보를 부모 컴포넌트로 전달
+  const handleInputPlace = (e) => {
+    e.preventDefault();
+    console.log(inputPlace);
+    onInputPlaceChange(inputPlace);
+  };
+
   return (
     <div className={styles.container}>
       {isPlaceSelected ? (
@@ -245,7 +254,7 @@ const Recommendation = ({
                 ))}
               </div>
               <div className={styles.refreshBox}>
-                <MdRefresh className={styles.icon01} />
+                <MdRefresh className={styles.icon01} onClick={itemRefreshBtn} />
                 <p className={styles.boxLabel02}>다시 추천 받기</p>
               </div>
             </div>
@@ -253,6 +262,20 @@ const Recommendation = ({
             <div className={styles.box}>
               <div className={styles.reviewBox}>
                 <p className={styles.boxLabel01}>장소 기반 추천</p>
+                <div className={styles.searchForm}>
+                  <input
+                    type='text'
+                    placeholder='장소를 입력해주세요.'
+                    value={inputPlace}
+                    onChange={handleKeywordChange}
+                  />
+                  <button
+                    className={styles.searchBtn}
+                    onClick={handleInputPlace}
+                  >
+                    <AiOutlineSearch className={styles.icon02} />
+                  </button>
+                </div>
               </div>
               <div className={styles.headerBox}>
                 <p className={styles.headerLabel01}> {province} </p>
@@ -287,7 +310,10 @@ const Recommendation = ({
                 ))}
               </div>
               <div className={styles.refreshBox}>
-                <MdRefresh className={styles.icon01} />
+                <MdRefresh
+                  className={styles.icon01}
+                  onClick={placeRefreshBtn}
+                />
                 <p className={styles.boxLabel02}>다시 추천 받기</p>
               </div>
             </div>
