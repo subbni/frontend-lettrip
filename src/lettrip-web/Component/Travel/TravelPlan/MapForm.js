@@ -11,7 +11,6 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState(null);
   const [infowindow, setInfowindow] = useState(null);
-  const [pagination, setPagination] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState({
     name: "",
     xpoint: "",
@@ -66,7 +65,6 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
     if (status === kakao.maps.services.Status.OK) {
       setSearchResults(data);
       displayPlaces(data);
-      displayPagination(pagination);
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
       alert("검색 결과가 존재하지 않습니다.");
     } else if (status === kakao.maps.services.Status.ERROR) {
@@ -152,10 +150,6 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   const removeAllMarkers = () => {
     markers.forEach((marker) => marker.setMap(null));
     setMarkers([]);
-  };
-
-  const displayPagination = (pagination) => {
-    setPagination(pagination);
   };
 
   const handlePlaceConfirmClick = () => {

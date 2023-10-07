@@ -1,33 +1,28 @@
 /*global kakao*/
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { recommendItem, recommendPlace } from "../../../Service/TravelService";
+import { recommendPlace } from "../../../Service/TravelService";
 
-import { AiOutlineSearch, AiFillStar } from "react-icons/ai";
+import { AiFillStar } from "react-icons/ai";
 import { MdRefresh } from "react-icons/md";
 
-import styles from "./Recommendation.module.css";
+import styles from "./Rec.module.css";
 
-const Recommendation = ({
+const RecPlace = ({
   onPlaceSelect,
   containerIdx,
   courseIdx,
-  recommendationResponse,
   recommendationResult,
   province,
   pageForm,
   setPageForm,
   planForm,
-  onInputPlaceChange,
 }) => {
   const [mapVisible, setMapVisible] = useState(false);
 
   const [mapId, setMapId] = useState(containerIdx + "map" + courseIdx);
-  const [keyword, setKeyword] = useState("");
-  const [markers, setMarkers] = useState([]);
   const [map, setMap] = useState(null);
   const [infowindow, setInfowindow] = useState(null);
-  const [pagination, setPagination] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState({
     name: "",
     xpoint: "",
@@ -42,10 +37,8 @@ const Recommendation = ({
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
   const [searchResults, setSearchResults] = useState([]); //선택한 장소 결과
 
-  const [courseType, setCourseType] = useState(""); //리뷰인지 장소인지
   const [courseResult, setCourseResult] = useState([]); //머신러닝 결과 받아오기
-
-  const [inputPlace, setInputPlace] = useState(""); //장소 검색 받아오기
+  const [isLoading, setIsLoading] = useState(true); //로딩중인지 아닌지
 
   useEffect(() => {
     //카카오 맵 API 초기화
@@ -72,12 +65,6 @@ const Recommendation = ({
   useEffect(() => {
     console.log(selectedPlace);
   }, [selectedPlace]);
-
-  useEffect(() => {
-    //리뷰인지, 장소인지
-    setCourseType(recommendationResponse);
-    console.log(recommendationResponse);
-  }, [recommendationResponse]);
 
   useEffect(() => {
     //결과 가져오기
@@ -127,10 +114,6 @@ const Recommendation = ({
     }
   };
 
-  const displayPagination = (pagination) => {
-    setPagination(pagination);
-  };
-
   const handlePlaceConfirmClick = (e) => {
     e.preventDefault();
     onPlaceSelect(selectedPlace);
@@ -140,22 +123,6 @@ const Recommendation = ({
   const handleBackButtonClick = (e) => {
     e.preventDefault();
     setIsPlaceSelected(false); // 뒤로 가기 버튼을 누르면 장소 선택 상태 초기화
-  };
-
-  const itemRefreshBtn = (e) => {
-    e.preventDefault(); //새로고침 버튼 누르기
-    const newPageForm = { ...pageForm, page: pageForm.page + 1 };
-    setPageForm(newPageForm);
-    console.log(pageForm);
-    recommendItem(planForm, pageForm)
-      .then((response) => {
-        console.log(response);
-        setCourseResult(response);
-      })
-      .catch((e) => {
-        alert("오류가 발생했습니다.");
-        console.log(e);
-      });
   };
 
   const placeRefreshBtn = (e) => {
@@ -172,15 +139,6 @@ const Recommendation = ({
         alert("오류가 발생했습니다.");
         console.log(e);
       });
-  };
-  const handleKeywordChange = (e) => {
-    setInputPlace(e.target.value);
-  };
-  // 입력한 장소 정보를 부모 컴포넌트로 전달
-  const handleInputPlace = (e) => {
-    e.preventDefault();
-    console.log(inputPlace);
-    onInputPlaceChange(inputPlace);
   };
 
   return (
@@ -217,73 +175,21 @@ const Recommendation = ({
         </div>
       ) : (
         <div>
-          {courseType === "리뷰" ? (
-            <div className={styles.box}>
-              <div className={styles.reviewBox}>
-                <p className={styles.boxLabel01}>리뷰 기반 추천</p>
-              </div>
-              <div className={styles.headerBox}>
-                <p className={styles.headerLabel01}> {province} </p>
-                <p className={styles.headerLabel02}> 추천 장소</p>
-                <p className={styles.headerLabel03}> 추천 점수</p>
-              </div>
-              <div className={styles.contentResult}>
-                {courseResult.map((result, index) => (
-                  <div
-                    key={index}
-                    className={styles.contentItem}
-                    onClick={() => SearchResultClick(result)}
-                  >
-                    <div className={styles.itemHeader01}>
-                      <span className={styles.itemName}>
-                        {result.place_name}
-                      </span>
-                      <span className={styles.itemCategory}>
-                        {result.category}
-                      </span>
-                    </div>
-                    <div className={styles.itemHeader02}>
-                      <span className={styles.itemAddress}>
-                        {result.address}
-                      </span>
-                      <span className={styles.itemScore}>
-                        {result.percentage_score}%일치
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className={styles.refreshBox}>
-                <MdRefresh className={styles.icon01} onClick={itemRefreshBtn} />
-                <p className={styles.boxLabel02}>다시 추천 받기</p>
-              </div>
+          <div className={styles.box}>
+            <div className={styles.reviewBox}>
+              <p className={styles.boxLabel01}>장소 기반 추천</p>
             </div>
-          ) : courseType === "장소" ? (
-            <div className={styles.box}>
-              <div className={styles.reviewBox}>
-                <p className={styles.boxLabel01}>장소 기반 추천</p>
-                <div className={styles.searchForm}>
-                  <input
-                    type='text'
-                    placeholder='장소를 입력해주세요.'
-                    value={inputPlace}
-                    onChange={handleKeywordChange}
-                  />
-                  <button
-                    className={styles.searchBtn}
-                    onClick={handleInputPlace}
-                  >
-                    <AiOutlineSearch className={styles.icon02} />
-                  </button>
-                </div>
-              </div>
-              <div className={styles.headerBox}>
-                <p className={styles.headerLabel01}> {province} </p>
-                <p className={styles.headerLabel02}> 추천 장소</p>
-                <p className={styles.headerLabel03}> 사용자 평균 별점</p>
-              </div>
-              <div className={styles.contentResult}>
-                {courseResult.map((result, index) => (
+            <div className={styles.headerBox}>
+              <p className={styles.headerLabel01}> {province} </p>
+              <p className={styles.headerLabel02}> 추천 장소</p>
+              <p className={styles.headerLabel03}> 사용자 평균 별점</p>
+            </div>
+            <div className={styles.contentResult}>
+              {isLoading ? (
+                // 로딩 중인 경우 "로딩 중" 메시지 표시
+                <div className={styles.loading}>로딩 중...</div>
+              ) : (
+                courseResult.map((result, index) => (
                   <div
                     key={index}
                     className={styles.contentItem}
@@ -306,18 +212,18 @@ const Recommendation = ({
                         {result.pred_score}
                       </span>
                     </div>
+                    <div className={styles.refreshBox}>
+                      <MdRefresh
+                        className={styles.icon01}
+                        onClick={placeRefreshBtn}
+                      />
+                      <p className={styles.boxLabel02}>다시 추천 받기</p>
+                    </div>
                   </div>
-                ))}
-              </div>
-              <div className={styles.refreshBox}>
-                <MdRefresh
-                  className={styles.icon01}
-                  onClick={placeRefreshBtn}
-                />
-                <p className={styles.boxLabel02}>다시 추천 받기</p>
-              </div>
+                ))
+              )}
             </div>
-          ) : null}
+          </div>
         </div>
       )}
       <div
@@ -333,4 +239,4 @@ const Recommendation = ({
   );
 };
 
-export default Recommendation;
+export default RecPlace;
