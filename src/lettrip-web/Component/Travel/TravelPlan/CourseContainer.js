@@ -11,6 +11,7 @@ const CourseContainer = ({
   dayCount,
   containerIdx,
   planForm,
+  inputPlace,
 }) => {
   const courseId = useRef(0);
   const [courseList, setCourseList] = useState([]);
@@ -19,8 +20,6 @@ const CourseContainer = ({
     page: 1,
     input_place: "",
   });
-  const [inputPlace, setInputPlace] = useState("");
-
   const [recommendationResult, setRecommendationResult] = useState([]);
   const [recommendationType, setRecommendationType] = useState("");
 
@@ -29,19 +28,12 @@ const CourseContainer = ({
   }, [courseList]);
 
   useEffect(() => {
-    if (pageForm.input_place.trim() !== "") {
-      recommendPlaceShow({ preventDefault: () => {} }); //자동으로 장소 추천 머신러닝 실행되게 하기
-    }
-  }, [pageForm.input_place]);
-
-  const handleSearchBtnClick = (index, e) => {
-    e.preventDefault();
-    setIsSearchClickedList((prevList) => {
-      const updatedList = [...prevList];
-      updatedList[index] = true;
-      return updatedList;
-    });
-  };
+    console.log(inputPlace);
+    setPageForm((prevPageForm) => ({
+      ...prevPageForm,
+      input_place: inputPlace,
+    }));
+  }, [inputPlace]);
 
   const onDeleteBtnClick = (course) => {
     if (window.confirm("해당 코스를 삭제합니다.")) {
@@ -91,14 +83,6 @@ const CourseContainer = ({
       });
   };
 
-  //장소 입력 가져오기
-  const onInputPlaceChange = (place) => {
-    const newplace = place;
-    setPageForm((prevForm) => ({
-      ...prevForm,
-      input_place: newplace,
-    }));
-  };
   // 장소 기반 추천 함수
   const recommendPlaceClick = (e) => {
     e.preventDefault();
@@ -111,16 +95,11 @@ const CourseContainer = ({
     setIsSearchClickedList([...isSearchClickedList, false]);
     courseId.current += 1;
     setRecommendationType("장소");
-    // 장소 입력 체크
+    // 장소 체크
     if (pageForm.input_place.trim() === "") {
-      alert("장소를 먼저 입력해주세요.");
+      alert("최소 2개의 장소 등록이 필요합니다! 장소 등록을 먼저 해주세요!");
       return;
     }
-  };
-
-  const recommendPlaceShow = (e) => {
-    e.preventDefault();
-    // 장소 기반 추천 실행
     recommendPlace(planForm, pageForm)
       .then((response) => {
         console.log(response);
@@ -151,7 +130,7 @@ const CourseContainer = ({
             pageForm={pageForm}
             setPageForm={setPageForm}
             planForm={planForm}
-            onInputPlaceChange={onInputPlaceChange}
+            courseList={courseList}
           />
         </div>
       ))}

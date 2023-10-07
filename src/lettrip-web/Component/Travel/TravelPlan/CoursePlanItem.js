@@ -1,7 +1,8 @@
 import { useEffect, useCallback, useState } from "react";
 
 import MapForm from "./MapForm";
-import Recommendation from "./Recommendation";
+import RecItem from "./RecItem";
+import RecPlace from "./RecPlace";
 
 import styles from "./Plan.module.css";
 
@@ -17,7 +18,7 @@ const CoursePlanItem = ({
   pageForm,
   setPageForm,
   planForm,
-  onInputPlaceChange,
+  courseList,
 }) => {
   const [course, setCourse] = useState({
     id: courseIdx,
@@ -44,8 +45,6 @@ const CoursePlanItem = ({
 
   useEffect(() => {
     setRecommendationResponse(recommendationType);
-    console.log(recommendationType);
-    console.log(recommendationResponse);
   }, [recommendationType]);
 
   // MapForm에 전달할 place 선택 함수
@@ -61,13 +60,11 @@ const CoursePlanItem = ({
         city: placeInfo.city,
         address: placeInfo.address,
       };
-      console.log(placeInfo.address);
       setCourse({
         ...course,
         place: newPlace,
       });
       setIsPlaceSelected((isPlaceSelected) => !isPlaceSelected);
-      console.log(newPlace);
     },
     [course.place]
   );
@@ -120,11 +117,10 @@ const CoursePlanItem = ({
             courseIdx={courseIdx}
           />
         ) : recommendationResponse === "리뷰" ? (
-          <Recommendation
+          <RecItem
             onPlaceSelect={onPlaceSelect}
             containerIdx={containerIdx}
             courseIdx={courseIdx}
-            recommendationResponse={recommendationResponse}
             recommendationResult={recommendationResult}
             province={province}
             pageForm={pageForm}
@@ -132,17 +128,15 @@ const CoursePlanItem = ({
             planForm={planForm}
           />
         ) : recommendationResponse === "장소" ? (
-          <Recommendation
+          <RecPlace
             onPlaceSelect={onPlaceSelect}
             containerIdx={containerIdx}
             courseIdx={courseIdx}
-            recommendationResponse={recommendationResponse}
             recommendationResult={recommendationResult}
             province={province}
             pageForm={pageForm}
             setPageForm={setPageForm}
             planForm={planForm}
-            onInputPlaceChange={onInputPlaceChange}
           />
         ) : null}
       </div>

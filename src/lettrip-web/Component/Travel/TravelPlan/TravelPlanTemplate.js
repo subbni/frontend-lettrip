@@ -47,6 +47,7 @@ const TravelPlanTemplate = () => {
   const [showContents, setShowContents] = useState(false); //내용 숨기기 및 보여주기
   const [showFormBtn, setShowFormBtn] = useState(false); //버튼 숨기기 및 보여주기
 
+  const [inputPlace, setInputPlace] = useState("");
   /*
   useEffect(() => {
     if (!checkIfLoggedIn()) {
@@ -83,6 +84,11 @@ const TravelPlanTemplate = () => {
       numberOfCourses: number,
       courses: courseList,
     }));
+    //최소 2개 이상일 때, 장소 검색에 넣을 장소 추출
+    if (courses.length >= 2) {
+      const lastCourse = courses[courses.length - 1];
+      setInputPlace(lastCourse.place.name);
+    }
   }, [courses]);
 
   const getDiffDate = (lastDate, departDate) => {
@@ -101,7 +107,9 @@ const TravelPlanTemplate = () => {
   const courseId = useRef(1);
   const onCourseInsert = useCallback(
     (courseInfo, placeInfo) => {
-      console.log(placeInfo.address);
+      console.log(planForm.courses);
+      console.log(courses);
+      console.log(placeInfo);
       const newCourse = {
         id: courseInfo.id,
         arrivedTime:
@@ -389,6 +397,7 @@ const TravelPlanTemplate = () => {
                           dayCount={index + 1}
                           containerIdx={index}
                           planForm={planForm}
+                          inputPlace={inputPlace}
                         />
                       );
                     })}
