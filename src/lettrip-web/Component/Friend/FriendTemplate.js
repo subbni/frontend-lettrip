@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn } from "../../Service/AuthService";
 
 import styles from "./Friend.module.css";
-import { RiToggleFill, RiToggleLine } from "react-icons/ri";
+import { RiToggleFill, RiToggleLine } from "react-icons/ri"; //지역 on/off 아이콘
 import FriendContainer from "./FriendContainer";
 
 import Pagination from "react-js-pagination";

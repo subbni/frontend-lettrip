@@ -1,0 +1,154 @@
+/*ArticlePage.js*/
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: -20px 90px 0;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  padding: 0 30px;
+  margin: auto;
+  border: 1px solid #ccc;
+}
+.headerContent01 {
+  /*GPS 정보*/
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #0085ff;
+  margin: 20px 0 0 -8px;
+}
+.gpsIcon {
+  font-size: 22px;
+}
+.headerContent02 {
+  /*지역, 도시 정보*/
+  display: flex;
+  flex-direction: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.headerLabel01 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0px;
+}
+.headerLabel02 {
+  font-size: 20px;
+  margin: 0px;
+}
+.headerContent03 {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 10px 0 5px;
+}
+.headerContent04 {
+  /*성별, 생년월일*/
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.headerLabel03 {
+  margin: 0;
+}
+.maleIcon {
+  font-size: 18px;
+  color: #0062f4;
+}
+.femaleIcon {
+  font-size: 18px;
+  color: #f24e1e;
+}
+.headerLabel04 {
+  font-size: 14px;
+  color: #8d8d8d;
+  margin: 0;
+}
+.headerContent05 {
+  /*프로필 사진, (닉네임, 가입날)*/
+  display: flex;
+  align-items: center;
+  margin: 10px 0 0 2px;
+}
+.headerLabel05 {
+  margin: 0;
+}
+.profileImg {
+  height: 50px;
+  width: 50px;
+  border-radius: 10px;
+  margin-left: 2px;
+  margin-bottom: 5px;
+}
+.headerContent06 {
+  /*닉네임, 가입날*/
+  margin: -10px 10px 0;
+}
+.headerLabel06 {
+  font-size: 15px;
+  margin: 0 0 3px;
+}
+.headerLabel07 {
+  font-size: 14px;
+  color: #8d8d8d;
+  margin: 0;
+}
+.hr {
+  border: none;
+  border-top: 1px solid #bcbcbc;
+  margin: 5px 0;
+}
+.headerContent07 {
+  /*버튼 설정*/
+  display: flex;
+  color: #333333;
+  margin: 35px 10px 0 auto;
+  cursor: pointer;
+  gap: 20px;
+}
+.postBtn01,
+.postBtn02 {
+  margin: 0px;
+}
+
+/*본문*/
+.container {
+  padding: 0 10px;
+}
+.placeContent01 {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: 8px;
+}
+.mapIcon {
+  font-size: 30px;
+  color: #85b6ff;
+  margin: 0 0 0 -5px;
+}
+.placeLabel01 {
+  font-size: 18px;
+  margin: 0px;
+}
+.placeLabel02 {
+  font-size: 13px;
+  color: #8d8d8d;
+  margin: 2px 0 0;
+}
+.placeContent02 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+.placeContent03 {
+  font-size: 17px;
+}
+.footer {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+}

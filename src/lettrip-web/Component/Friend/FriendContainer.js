@@ -60,7 +60,12 @@ function FriendContainer(pageForm) {
     <div className={styles.container}>
       <div className={styles.box}>
         {friendMatchingList.map((friend, index) => (
-          <div key={index} className={styles.boxItem}>
+          <div
+            key={index}
+            className={styles.boxItem}
+            id={friend.id}
+            onClick={() => navigate(`/friend/${friend.id}`)}
+          >
             <div className={styles.friendInfo}>
               <p className={styles.infoContent01}>
                 {friend.gps === 1 ? (
