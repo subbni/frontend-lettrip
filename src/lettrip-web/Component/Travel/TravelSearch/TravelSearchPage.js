@@ -8,7 +8,6 @@ import styles from "./Search.module.css";
 import SearchForm from "./SearchForm";
 
 const TravelSearchPage = () => {
-  const [searchForm, setSearchForm] = useState({});
   const [pageForm, setPageForm] = useState({
     page: 0,
     size: 6,

@@ -1,0 +1,185 @@
+/* FriendTemplate.js */
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: -20px 90px 0;
+}
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pageTitle {
+  color: #486080;
+}
+.pageBtn01 {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  color: #333333;
+  background-color: #ffffff;
+  padding: 5px 10px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  gap: 2px;
+  cursor: pointer;
+}
+.btnText {
+  margin: 0;
+}
+
+.btnIcon {
+  height: 28px;
+  font-size: 26px;
+  color: #0085ff;
+  margin: 0;
+}
+
+.pageBtn02 {
+  font-size: 15px;
+  color: #333333;
+  background-color: #ffffff;
+  padding: 10px 18px;
+  margin-top: 20px;
+  margin-left: auto;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  cursor: pointer;
+}
+/*pagination*/
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.pagination button {
+  background-color: #f0f0f0;
+  border: none;
+  color: #333;
+  padding: 8px 12px;
+  margin: 0 2px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+.pagination button:hover {
+  background-color: #ddd;
+}
+.pagination .activeButton {
+  background-color: #333;
+  color: #fff;
+}
+
+/*FriendContainer.js*/
+.container {
+  width: 97%;
+  margin: 20px auto 0;
+}
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+.boxItem {
+  flex: 0 0 calc(25% - 64px); /* 4개씩, 간격 50px 제외한 너비 계산 */
+  display: flex;
+  flex-direction: column;
+  height: 240px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.infoContent01 {
+  /*GPS 유무*/
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  color: #0085ff;
+  margin: 0;
+}
+.gpsIcon {
+  font-size: 24px;
+}
+.infoContent02 {
+  /*지역, 작성일*/
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.infoLabel01 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0 0;
+}
+.infoLabel02 {
+  font-size: 14px;
+  margin: 10px 0 0;
+}
+.infoLabel03 {
+  color: #6b6b6b;
+  margin: 3px 0 0;
+  padding: 0 5px;
+}
+.infoLabel04 {
+  font-size: 17px;
+  margin: 24px 0 0;
+  padding: 0 8px;
+  max-width: 228px;
+  /*2줄 이상 안되게 하기*/
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.infoContent03 {
+  /*성별, 생년월일*/
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 15px 0 0;
+  padding: 0 8px;
+}
+.infoLabel05 {
+  margin: 0;
+}
+.maleIcon {
+  font-size: 22px;
+  color: #0062f4;
+}
+.femaleIcon {
+  font-size: 22px;
+  color: #f24e1e;
+}
+.infoLabel06 {
+  color: #8d8d8d;
+  margin: 0;
+}
+.infoContent04 {
+  /*프로필 사진, (닉네임, 가입날)*/
+  display: flex;
+  align-items: center;
+  margin: 20px 0 0;
+  padding: 0 8px;
+}
+.infoLabel07 {
+  margin: 0;
+}
+.profileImg {
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
+}
+.infoContent05 {
+  /*닉네임, 가입날*/
+  margin: 0 10px 0;
+}
+.infoLabel08 {
+  font-size: 17px;
+  margin: 0 0 3px;
+}
+.infoLabel09 {
+  font-size: 15px;
+  color: #8d8d8d;
+  margin: 0;
+}

@@ -29,6 +29,9 @@ import TravelPlanTemplate from "./lettrip-web/Component/Travel/TravelPlan/Travel
 //여행코스 후기 경로 설정
 import TravelReviewTemplate from "./lettrip-web/Component/Travel/TravelReview/TravelReviewTemplate";
 
+//친구매칭 경로 설정
+import FriendTemplate from "./lettrip-web/Component/Friend/FriendTemplate";
+
 //미션
 import MissionPage from "./lettrip-web/Component/Mission/MissionPage";
 import QRMissionPage from "./lettrip-web/Component/Mission/QR/QRMissionPage";
@@ -78,6 +81,8 @@ function App() {
             element={<TravelReviewTemplate />}
           />
           <Route path='/travel/review' element={<TravelReviewTemplate />} />
+
+          <Route path='/friend' element={<FriendTemplate />} />
 
           <Route path='/mission' element={<MissionPage />} />
           <Route path='/mission/qr' element={<QRMissionPage />} />

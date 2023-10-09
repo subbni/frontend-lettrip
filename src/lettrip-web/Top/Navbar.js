@@ -49,16 +49,6 @@ function Navbar() {
     }
   };
 
-  const handlefriend = (e) => {
-    e.preventDefault();
-    if (!checkIfLoggedIn()) {
-      navigate("/login");
-      return;
-    } else {
-      navigate("/friend");
-    }
-  };
-
   return (
     <div className={styles.navbar}>
       <div className={styles.navbarContainer}>
@@ -87,9 +77,9 @@ function Navbar() {
               </div>
             )}
           </div>
-          <div className={styles.navbarLink} onClick={handlefriend}>
+          <Link to='/friend' className={styles.navbarLink}>
             친구매칭
-          </div>
+          </Link>
           <Link to='/mission' className={styles.navbarLink}>
             미션
           </Link>
