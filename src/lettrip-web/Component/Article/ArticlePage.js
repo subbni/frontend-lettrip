@@ -20,11 +20,7 @@ function ArticlePage() {
   const { id } = useParams();
   const [isEditable, setIsEditable] = useState(false);
   const [post, setPost] = useState([]);
-  const [pageForm, setPageForm] = useState({
-    page: 0,
-    size: 10,
-    sort: "id,DESC",
-  });
+
   const [profile, setProfile] = useState({});
   const likedType = "ARTICLE_LIKE";
   const likedForm = {

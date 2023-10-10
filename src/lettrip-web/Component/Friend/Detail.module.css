@@ -1,0 +1,345 @@
+/*FriendDetail.js*/
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: -20px 90px 0;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  padding: 0 30px;
+  margin: auto;
+}
+.headerContent01 {
+  /*GPS 정보*/
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #0085ff;
+  margin: 20px 0 0 -8px;
+}
+.gpsIcon {
+  font-size: 22px;
+}
+.headerContent02 {
+  /*지역, 도시 정보*/
+  display: flex;
+  flex-direction: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+.headerLabel01 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0px;
+}
+.headerLabel02 {
+  font-size: 20px;
+  margin: 0px;
+}
+.headerContent03 {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 10px 0 5px;
+}
+.headerContent04 {
+  /*성별, 생년월일*/
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.headerLabel03 {
+  margin: 0;
+}
+.maleIcon {
+  font-size: 18px;
+  color: #0062f4;
+}
+.femaleIcon {
+  font-size: 18px;
+  color: #f24e1e;
+}
+.headerLabel04 {
+  font-size: 14px;
+  color: #8d8d8d;
+  margin: 0;
+}
+.headerContent05 {
+  /*프로필 사진, (닉네임, 가입날)*/
+  display: flex;
+  align-items: center;
+  margin: 10px 0 0 2px;
+}
+.headerLabel05 {
+  margin: 0;
+}
+.profileImg {
+  height: 50px;
+  width: 50px;
+  border-radius: 10px;
+  margin-left: 2px;
+  margin-bottom: 5px;
+}
+.headerContent06 {
+  /*닉네임, 가입날*/
+  margin: -10px 10px 0;
+}
+.headerLabel06 {
+  font-size: 15px;
+  margin: 0 0 3px;
+}
+.headerLabel07 {
+  font-size: 14px;
+  color: #8d8d8d;
+  margin: 0;
+}
+.hr {
+  border: none;
+  border-top: 1px solid #bcbcbc;
+  margin: 5px 0;
+}
+.headerContent07 {
+  /*버튼 설정*/
+  display: flex;
+  color: #333333;
+  margin: 35px 10px 0 auto;
+  cursor: pointer;
+  gap: 20px;
+}
+.postBtn01,
+.postBtn02 {
+  margin: 0px;
+}
+/*본문*/
+.container {
+  padding: 0 10px;
+}
+.placeContent01 {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: 8px;
+}
+.mapIcon {
+  font-size: 30px;
+  color: #85b6ff;
+  margin: 0 0 0 -5px;
+}
+.placeLabel01 {
+  font-size: 18px;
+  margin: 0px;
+}
+.placeLabel02 {
+  font-size: 13px;
+  color: #8d8d8d;
+  margin: 2px 0 0;
+}
+.placeContent02 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+.placeContent03 {
+  font-size: 17px;
+}
+.planDetail {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+.handTap {
+  display: flex;
+  flex-direction: wrap;
+  margin: 10px 5px;
+}
+
+/*@@@FriendPlanDetail 부분@@@*/
+.planContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+.planHeader {
+  font-size: 20px;
+  color: #8d8d8d;
+  padding: 10px;
+  margin-left: 10px;
+}
+.hr2 {
+  border: none;
+  border-top: 1px solid #bdbdbd;
+  margin: 0 5px;
+}
+.planBox {
+  display: flex;
+  padding: 10px;
+}
+.boxContent {
+  padding: 5px 15px;
+}
+.boxLabel01 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 8px;
+}
+.boxLabel02 {
+  font-size: 15px;
+  font-weight: 500;
+  color: #525252;
+  margin: 0 0 3px;
+}
+.boxLabel03 {
+  font-size: 14px;
+  color: #525252;
+  margin: 0 0 2px;
+}
+
+.boxBtn {
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  background-color: #2e3b4c;
+  padding: 8px 15px;
+  margin: 80px 0 0 auto;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+}
+/*@@@FriendTap 부분@@@*/
+.tapIcon {
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  border: 1px solid #e8e8e8;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.tapContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+/*이미지 겹쳐보이게 하기*/
+.tapImgContainer {
+  position: relative;
+}
+.tapProfileImg01 {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  background-color: #ffffff;
+  padding: 2px;
+  border-radius: 30px;
+  border: 1px solid #ffffff;
+}
+.tapProfileImg02 {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  background-color: #ffffff;
+  padding: 2px;
+  border-radius: 30px;
+  border: 1px solid #ffffff;
+  left: -15px; /* 이미지의 위치 조절 (왼쪽으로 겹치게) */
+}
+.tapProfileImg03 {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  background-color: #ffffff;
+  padding: 2px;
+  border-radius: 30px;
+  border: 1px solid #ffffff;
+  left: -30px; /* 이미지의 위치 조절 (왼쪽으로 겹치게) */
+}
+.tapLabel01 {
+  font-size: 17px;
+  margin: 0 0 0 -30px;
+  cursor: pointer;
+}
+
+/*@@@ Overlay돼서 보여지는 부분(쿡찌르기 확인하기)@@@*/
+
+.tapPeopleCount {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+.tapCloseBtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 28px;
+  color: #2e3b4c;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+.tapPeopleList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 25px;
+}
+.peopleContainer {
+  flex: 0 0 calc(50% - 55px); /* 4개씩, 간격 50px 제외한 너비 계산 */
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+  margin: auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+.tapPeopleHeader {
+  display: flex;
+  flex-direction: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.tapPeopleInfoImg {
+  height: 50px;
+  width: 50px;
+}
+.tapPeopleInfo {
+  display: flex;
+  flex-direction: column;
+}
+.tapInfoContent01 {
+  margin: 0 0 2px;
+}
+.tapInfoContent02 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  gap: 3px;
+}
+.tapInfoLable01,
+.tapInfoLable02 {
+  margin: 0;
+}
+.tapInfoContent03 {
+  position: relative;
+  padding: 20px;
+  height: 39px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+}
+.tapInfoBtn {
+  font-size: 16px;
+  font-weight: 400;
+  color: #ffffff;
+  background-color: #2e3b4c;
+  padding: 8px 12px;
+  margin: -4px auto 0px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}

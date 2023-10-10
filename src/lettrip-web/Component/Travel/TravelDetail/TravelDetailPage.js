@@ -155,10 +155,12 @@ const TravelDetailPage = () => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
+  //날짜 형식 변경
   const formatDate = (date) => {
     const options = { year: "2-digit", month: "2-digit", day: "2-digit" };
     const formattedDate = new Date(date)
       .toLocaleDateString(undefined, options)
+      .replace(/\.$/, "")
       .replace(/\s/g, "");
     return formattedDate;
   };
