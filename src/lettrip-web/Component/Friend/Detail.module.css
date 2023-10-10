@@ -207,6 +207,7 @@
   border: none;
   border-radius: 8px;
   text-decoration: none;
+  cursor: pointer;
 }
 /*@@@FriendTap 부분@@@*/
 .tapIcon {
