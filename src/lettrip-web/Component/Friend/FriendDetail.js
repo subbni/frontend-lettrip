@@ -10,6 +10,8 @@ import { TbMap2 } from "react-icons/tb";
 import styles from "./Detail.module.css";
 
 import TestData2 from "./TestData2";
+import FriendPlanDetail from "./FriendPlanDetail";
+import FriendTap from "./FriendTap";
 
 function FriendDetail() {
   const navigate = useNavigate();
@@ -112,8 +114,12 @@ function FriendDetail() {
             <p className={styles.placeContent02}>{post.plan_date}</p>
             <p className={styles.placeContent03}>{post.content}</p>
           </div>
-          <div className={styles.footer}>여기에 여행계획 그거 넣기</div>
-          <div>이거는 쿡 찌르기</div>
+          <div className={styles.planDetail}>
+            <FriendPlanDetail writer={post.writerName} />
+          </div>
+          <div className={styles.handTap}>
+            <FriendTap />
+          </div>
         </div>
       )}
     </div>

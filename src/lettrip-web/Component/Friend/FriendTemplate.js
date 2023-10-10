@@ -27,7 +27,8 @@ function FriendTemplate() {
   }, []); */
 
   const regionIcon = isRegionBtnOn ? <RiToggleFill /> : <RiToggleLine />; // 아이콘 설정
-  const handleRegionBtnClick = () => {
+  const handleRegionBtnClick = (e) => {
+    e.preventDefault();
     // "지역" 버튼을 클릭할 때 상태 토글
     setIsRegionBtnOn(!isRegionBtnOn);
   };
