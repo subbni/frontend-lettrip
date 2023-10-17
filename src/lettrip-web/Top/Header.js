@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN } from "../Constant/backendAPI"; //토큰
+
+import { ACCESS_TOKEN } from "../Constant/backendAPI";
 import styles from "./Top.module.css";
 
 function Header() {

@@ -85,8 +85,14 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
         console.log(place);
         const position = new kakao.maps.LatLng(place.y, place.x);
         map.panTo(position); // 해당 위치로 지도 이동
+
+        // address를 동까지만 자르기
+        const addressParts = place.address_name.split(" ");
+        const address = `${addressParts[0]} ${addressParts[1]} ${addressParts[2]}`;
+        console.log(address);
+
         setSelectedPlace({
-          address: place.address_name,
+          address,
           name: place.place_name,
           xpoint: place.x,
           ypoint: place.y,
@@ -109,9 +115,14 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   const SearchResultClick = (place) => {
     const position = new kakao.maps.LatLng(place.y, place.x);
     map.panTo(position); // 해당 위치로 지도 이동
-    console.log(place);
+
+    // address를 동까지만 자르기
+    const addressParts = place.address_name.split(" ");
+    const address = `${addressParts[0]} ${addressParts[1]} ${addressParts[2]}`;
+    console.log(address);
+
     setSelectedPlace({
-      address: place.address_name,
+      address,
       name: place.place_name,
       xpoint: place.x,
       ypoint: place.y,

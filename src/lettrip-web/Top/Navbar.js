@@ -4,13 +4,19 @@ import { checkIfLoggedIn } from "../Service/AuthService"; //로그인 여부 확
 import logo_image from "../../image/logo.png"; //로고 이미지
 import { FaUser } from "react-icons/fa"; //유저 아이콘
 import { HiSearch } from "react-icons/hi"; //돋보기 아이콘
-import { HiHeart } from "react-icons/hi2"; //하트 아이콘
+import { BsFillChatFill } from "react-icons/bs";
+
+import Modal from "react-modal";
+//overlay 라이브러리 사용하기
+
 import styles from "./Top.module.css";
+import ChatTemplate from "../Component/Chat/ChatTemplate";
 
 function Navbar() {
   const navigate = useNavigate();
   const menuRef = useRef();
   const [showSubMenu, setShowSubMenu] = useState(false);
+  const [showChatTemplate, setShowChatTemplate] = useState(false); // ChatTemplate 보이기 여부를 관리
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -47,6 +53,11 @@ function Navbar() {
     } else {
       navigate("/mypage");
     }
+  };
+
+  const handleChat = (e) => {
+    e.preventDefault();
+    setShowChatTemplate(true); // 채팅 아이콘 클릭 시 ChatTemplate 보이기
   };
 
   return (
@@ -102,9 +113,22 @@ function Navbar() {
           <Link to='/place' className={styles.navbar_icon}>
             <HiSearch />
           </Link>
-          <Link to='/' className={styles.navbar_icon}>
-            <HiHeart />
-          </Link>
+          <div className={styles.navbar_icon} onClick={handleChat}>
+            <BsFillChatFill />
+          </div>
+          <Modal
+            isOpen={showChatTemplate} // 모달의 열림/닫힘 상태를 제어
+            onRequestClose={() => setShowChatTemplate(false)} // 모달을 닫기 위한 함수 설정
+            style={{
+              content: {
+                maxWidth: "800px", // Modal의 최대 너비 설정
+                margin: "auto", // 가운데 정렬
+                padding: "0", // 내용 패딩
+              },
+            }}
+          >
+            <ChatTemplate />
+          </Modal>
         </div>
       </div>
     </div>

@@ -1,0 +1,123 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Moment from "moment"; //날짜 및 시간 표시 라이브러리
+
+import { showMeetUpPost } from "../../Service/MeetUpPostService";
+
+import styles from "./PostDetail.module.css";
+import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
+import { MdOutlineLocationOn, MdOutlineLocationOff } from "react-icons/md"; //gps on/off 아이콘
+import { PiGenderFemaleBold, PiGenderMaleBold } from "react-icons/pi"; //성별 아이콘
+import { TbMap2 } from "react-icons/tb";
+
+import PostTravelDetail from "./PostTravelDetail";
+import Poke from "./Poke";
+
+function PostDetail() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [post, setPost] = useState([]);
+  const [isEditable, setIsEditable] = useState(false);
+
+  useEffect(() => {
+    //게시글 작성자와 로그인 사용자 동일 여부 확인하기
+    const storedEmail = localStorage.getItem("email");
+    if (post.writerEmail === storedEmail) {
+      setIsEditable(true);
+    } else {
+      setIsEditable(false);
+    }
+  }, [post]);
+
+  useEffect(() => {
+    fetchMeetUpPost(); //게시글 불러오기
+  }, []);
+
+  //게시글 불러오기
+  const fetchMeetUpPost = () => {
+    showMeetUpPost(id)
+      .then((response) => {
+        console.log(response);
+        setPost(response);
+      })
+      .catch((e) => {
+        console.log(e);
+        window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
+        navigate("/friend");
+      });
+  };
+
+  //날짜 및 시간 표시 방법 수정
+  const formattedMeetUpDate = Moment(post.meetUpDate).format("YY.MM.DD HH:mm");
+  const formattedcreatedDate = Moment(post.createdDate).format("YYYY.MM.DD");
+  const formattedbirthDate = Moment(post.createdDate).format("YYYY.MM.DD");
+
+  return (
+    <div className={styles.page}>
+      {post && post.userDto ? (
+        <div className={styles.container} key={post.id}>
+          {/*제목 부분 내용*/}
+          <p className={styles.content01}>
+            {post.isGPSEnabled === true ? (
+              <>
+                <MdOutlineLocationOn className={styles.gpsIcon} /> GPS 정보 필요
+              </>
+            ) : (
+              <>
+                <MdOutlineLocationOff className={styles.gpsIcon} /> GPS 정보
+                불필요
+              </>
+            )}
+          </p>
+          <div className={styles.content02}>
+            <p className={styles.postProvince}>{post.province}</p>
+            <p className={styles.postCity}>{post.city}</p>
+          </div>
+          <h1 className={styles.postTitle}>{post.title}</h1>
+          <div className={styles.content03}>
+            <p className={styles.postSex}>
+              {post.userDto.sex === "male" ? (
+                <PiGenderMaleBold className={styles.maleIcon} />
+              ) : (
+                <PiGenderFemaleBold className={styles.femaleIcon} />
+              )}
+            </p>
+            <p className={styles.postBirthDate}>{formattedbirthDate}</p>
+          </div>
+          <div className={styles.content04}>
+            <p className={styles.postProfile}>
+              <img className={styles.profileImg} src={anonymous_profile} />
+            </p>
+            <div className={styles.content05}>
+              <p className={styles.postNickname}>{post.userDto.nickname}</p>
+              <p className={styles.postCreatedDate}>{formattedcreatedDate}</p>
+            </div>
+            <div className={styles.contentBtnBox}>
+              <p className={styles.modifyBtn}>수정</p>
+              <p className={styles.deleteBtn}>삭제</p>
+            </div>
+          </div>
+          <hr className={styles.hr} />
+          {/*본문 내용*/}
+          <div className={styles.contentBox}>
+            <div className={styles.content06}>
+              <TbMap2 className={styles.mapIcon} />
+              <p className={styles.postPlaceName}>{post.placename}</p>
+              <p className={styles.postAddress}>{post.address}</p>
+            </div>
+            <p className={styles.postMeetUpDate}>{formattedMeetUpDate}</p>
+            <p className={styles.postContent}>{post.content}</p>
+          </div>
+          <div className={styles.planDetail}>
+            <PostTravelDetail writer={post.userDto.nickname} />
+          </div>
+          <div className={styles.Poke}>
+            <Poke id={id} />
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+export default PostDetail;

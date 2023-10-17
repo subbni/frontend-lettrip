@@ -30,8 +30,9 @@ import TravelPlanTemplate from "./lettrip-web/Component/Travel/TravelPlan/Travel
 import TravelReviewTemplate from "./lettrip-web/Component/Travel/TravelReview/TravelReviewTemplate";
 
 //친구매칭 경로 설정
-import FriendTemplate from "./lettrip-web/Component/Friend/FriendTemplate";
-import FriendDetail from "./lettrip-web/Component/Friend/FriendDetail";
+import MeetUpTemplate from "./lettrip-web/Component/Friend/MeetUpTemplate";
+import PostDetail from "./lettrip-web/Component/Friend/PostDetail";
+import MeetUpPostCreate from "./lettrip-web/Component/Friend/MeetUpPostCreate";
 
 //미션
 import MissionPage from "./lettrip-web/Component/Mission/MissionPage";
@@ -83,8 +84,9 @@ function App() {
           />
           <Route path='/travel/review' element={<TravelReviewTemplate />} />
 
-          <Route path='/friend' element={<FriendTemplate />} />
-          <Route path='/friend/:id' element={<FriendDetail />} />
+          <Route path='/friend' element={<MeetUpTemplate />} />
+          <Route path='/friend/:id' element={<PostDetail />} />
+          <Route path='/friend/create' element={<MeetUpPostCreate />} />
 
           <Route path='/mission' element={<MissionPage />} />
           <Route path='/mission/qr' element={<QRMissionPage />} />

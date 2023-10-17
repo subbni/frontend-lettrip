@@ -1,0 +1,116 @@
+.page {
+  width: 100%;
+}
+.header {
+  /*맨 윗 줄 설정*/
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #d9d9d9;
+  height: 70px;
+}
+.listHeader {
+  /*채팅방 목록*/
+  width: 365px;
+  border-right: 0.5px solid #d8d8d8;
+}
+.headerText {
+  font-weight: 400;
+  padding: 20px;
+  margin: 0;
+}
+.chatHeader {
+  /*채팅방 내용*/
+  display: flex;
+  align-items: center;
+  width: 435px;
+  border-left: 0.5px solid #d8d8d8;
+}
+.headerImg {
+  height: 45px;
+  width: 45px;
+  border-radius: 10px;
+  margin: auto 12px;
+}
+.headerNickname {
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0;
+}
+.headerBtn {
+  margin: 0 10px 0 auto;
+  cursor: pointer;
+}
+.headerIcon {
+  font-size: 40px;
+}
+
+/*본문 내용*/
+.contaner {
+  display: flex;
+  justify-content: space-between;
+  height: 590px;
+}
+.listContainer {
+  width: 365px;
+  border-right: 0.5px solid #d8d8d8;
+  overflow-y: auto;
+}
+.chatRoomList {
+  display: flex;
+  padding: 15px 20px 10px;
+  border-bottom: 1px solid #d9d9d9;
+}
+.listProfile {
+  margin: 0px;
+}
+.listInfo {
+  margin-left: 10px;
+}
+.listNickname {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 3px 0 0;
+}
+.listLastContent {
+  margin: 0;
+}
+.listLastTime {
+  font-size: 13px;
+  font-weight: 200;
+  margin: auto -5px 6px auto;
+}
+.profileImg {
+  height: 45px;
+  width: 45px;
+  border-radius: 10px;
+}
+.chatContainer {
+  width: 435px;
+  border-left: 0.5px solid #d8d8d8;
+  overflow-y: auto;
+}
+.chatRoomContent {
+  padding: 10px;
+}
+.chatBox {
+  display: flex;
+  gap: 10px;
+}
+.chatProfileImg {
+  height: 35px;
+  width: 35px;
+  border-radius: 10px;
+}
+.chatMessage {
+  text-align: center;
+  padding: 5px 10px;
+  margin: 0;
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+}
+.chatCreatedTime {
+  font-size: 13px;
+  font-weight: 200;
+  margin: auto -5px 0px;
+}

@@ -90,8 +90,14 @@ const RecItem = ({
                 resultPlace.x
               );
               map.panTo(position); // 검색된 장소의 위치로 지도 이동
+
+              // address를 동까지만 자르기
+              const addressParts = place.address_name.split(" ");
+              const address = `${addressParts[0]} ${addressParts[1]} ${addressParts[2]}`;
+              console.log(address);
+
               setSelectedPlace({
-                address: resultPlace.address_name,
+                address,
                 name: resultPlace.place_name,
                 xpoint: resultPlace.x,
                 ypoint: resultPlace.y,

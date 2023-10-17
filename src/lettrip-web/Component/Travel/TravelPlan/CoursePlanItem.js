@@ -18,7 +18,6 @@ const CoursePlanItem = ({
   pageForm,
   setPageForm,
   planForm,
-  courseList,
 }) => {
   const [course, setCourse] = useState({
     id: courseIdx,

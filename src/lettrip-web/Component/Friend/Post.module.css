@@ -1,0 +1,153 @@
+.page {
+  width: 84%;
+  margin: 0 auto 20px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 15px;
+}
+.headerTitle {
+  margin: 0;
+}
+.headerSubTitle {
+  font-size: 17px;
+  color: #f24e1e;
+  margin: 0;
+}
+/*내용 작성 부분*/
+.container {
+  border-top: 1.5px solid #333333;
+  border-bottom: 1.5px solid #333333;
+}
+.content {
+  display: flex;
+  align-items: center;
+  padding: 20px 30px;
+  border-top: 0.5px solid #d7d7d7;
+  border-bottom: 0.5px solid #d7d7d7;
+}
+.contentHeader {
+  display: flex;
+  width: 12%;
+  gap: 4px;
+}
+.contentOpt {
+  margin: 0;
+}
+.optRequired {
+  font-size: 17px;
+  color: #f24e1e;
+  margin: 0;
+}
+
+/*input 부분*/
+.contentTitle {
+  width: 88%;
+  font-size: 17px;
+  padding: 8px 10px;
+  border: 0.5px solid #949494;
+  border-radius: 4px;
+}
+.contentBox01 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 40px;
+}
+.contentGps {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+/* 라디오 버튼 크기 및 색상 변경 */
+input[type="radio"] {
+  width: 22px;
+  height: 22px;
+  background-color: #85b6ff;
+  margin: 0 8px 0 0;
+  border-color: #85b6ff;
+}
+input[type="radio"]:checked {
+  background-color: #85b6ff;
+  border-color: #85b6ff;
+}
+.contentMeetUpDate {
+  width: 260px;
+  font-size: 16px;
+  color: #949494;
+  padding: 5px;
+  border: none;
+  border-bottom: 1px solid rgb(149, 149, 149);
+  cursor: pointer;
+}
+.contentProvince,
+.contentCity {
+  width: 150px;
+  font-size: 16px;
+  color: #949494;
+  padding: 5px;
+  border: none;
+  border-bottom: 1px solid rgb(149, 149, 149);
+  cursor: pointer;
+}
+.contentPlaceBox {
+  width: 88%;
+  padding: 8px 0;
+}
+.contentPlace {
+  display: flex;
+  width: 98%;
+  font-size: 17px;
+  padding: 8px 10px;
+  margin-top: 20px;
+  border: 0.5px solid #949494;
+  border-radius: 4px;
+}
+.mapIcon {
+  font-size: 30px;
+  color: #85b6ff;
+  margin: auto 0 auto 5px;
+}
+.contentPlaceInput {
+  width: 93%;
+  font-size: 17px;
+  padding: 8px 10px;
+  margin-left: auto;
+  border: none;
+}
+.contentPostContent {
+  width: 88%;
+  height: 200px;
+  font-size: 17px;
+  padding: 8px 10px;
+  border: 0.5px solid #949494;
+  border-radius: 4px;
+}
+/*버튼 부분*/
+.footer {
+  text-align: center;
+  margin: 40px;
+}
+.cancelBtn {
+  font-size: 15px;
+  color: black;
+  background-color: white;
+  padding: 10px 18px;
+  margin-right: 20px;
+  border: 1px solid lightgray;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+}
+.submitBtn {
+  font-size: 15px;
+  color: white;
+  background-color: #2e3b4c;
+  padding: 10px 18px;
+  border: 1px solid lightgray;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+}
