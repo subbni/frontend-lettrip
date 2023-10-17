@@ -1,18 +1,18 @@
-/*FriendDetail.js*/
+/*PostDetail.js*/
 .page {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin: -20px 90px 0;
 }
-.header {
+.container {
   display: flex;
   flex-direction: column;
   width: 95%;
   padding: 0 30px;
   margin: auto;
 }
-.headerContent01 {
+.content01 {
   /*GPS 정보*/
   display: flex;
   align-items: center;
@@ -23,7 +23,7 @@
 .gpsIcon {
   font-size: 22px;
 }
-.headerContent02 {
+.content02 {
   /*지역, 도시 정보*/
   display: flex;
   flex-direction: wrap;
@@ -31,27 +31,28 @@
   gap: 10px;
   margin-top: 10px;
 }
-.headerLabel01 {
+.postProvince {
   font-size: 28px;
   font-weight: bold;
   margin: 0px;
 }
-.headerLabel02 {
+.postCity {
   font-size: 20px;
   margin: 0px;
 }
-.headerContent03 {
+.postTitle {
+  /*제목*/
   font-size: 22px;
   font-weight: 400;
   margin: 10px 0 5px;
 }
-.headerContent04 {
+.content03 {
   /*성별, 생년월일*/
   display: flex;
   align-items: center;
   gap: 5px;
 }
-.headerLabel03 {
+.postSex {
   margin: 0;
 }
 .maleIcon {
@@ -62,18 +63,18 @@
   font-size: 18px;
   color: #f24e1e;
 }
-.headerLabel04 {
+.postBirthDate {
   font-size: 14px;
   color: #8d8d8d;
   margin: 0;
 }
-.headerContent05 {
+.content04 {
   /*프로필 사진, (닉네임, 가입날)*/
   display: flex;
   align-items: center;
   margin: 10px 0 0 2px;
 }
-.headerLabel05 {
+.postProfile {
   margin: 0;
 }
 .profileImg {
@@ -83,15 +84,15 @@
   margin-left: 2px;
   margin-bottom: 5px;
 }
-.headerContent06 {
+.content05 {
   /*닉네임, 가입날*/
   margin: -10px 10px 0;
 }
-.headerLabel06 {
+.postNickname {
   font-size: 15px;
   margin: 0 0 3px;
 }
-.headerLabel07 {
+.postCreatedDate {
   font-size: 14px;
   color: #8d8d8d;
   margin: 0;
@@ -101,7 +102,7 @@
   border-top: 1px solid #bcbcbc;
   margin: 5px 0;
 }
-.headerContent07 {
+.contentBtnBox {
   /*버튼 설정*/
   display: flex;
   color: #333333;
@@ -109,15 +110,15 @@
   cursor: pointer;
   gap: 20px;
 }
-.postBtn01,
-.postBtn02 {
+.modifyBtn,
+.deleteBtn {
   margin: 0px;
 }
 /*본문*/
-.container {
+.contentBox {
   padding: 0 10px;
 }
-.placeContent01 {
+.content06 {
   display: flex;
   align-items: center;
   margin-top: 10px;
@@ -128,41 +129,41 @@
   color: #85b6ff;
   margin: 0 0 0 -5px;
 }
-.placeLabel01 {
+.postPlaceName {
   font-size: 18px;
   margin: 0px;
 }
-.placeLabel02 {
+.postAddress {
   font-size: 13px;
   color: #8d8d8d;
   margin: 2px 0 0;
 }
-.placeContent02 {
+.postMeetUpDate {
   font-size: 18px;
   font-weight: 600;
   margin-top: 8px;
 }
-.placeContent03 {
+.postContent {
   font-size: 17px;
 }
 .planDetail {
+  margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin: 10px 0;
 }
-.handTap {
+.Poke {
   display: flex;
   flex-direction: wrap;
   margin: 10px 5px;
 }
 
 /*@@@FriendPlanDetail 부분@@@*/
-.planContainer {
+.planDetailContainer {
   display: flex;
   flex-direction: column;
   padding: 5px;
 }
-.planHeader {
+.planDetailHeader {
   font-size: 20px;
   color: #8d8d8d;
   padding: 10px;
@@ -173,31 +174,32 @@
   border-top: 1px solid #bdbdbd;
   margin: 0 5px;
 }
-.planBox {
+.planDetailBox {
   display: flex;
   padding: 10px;
 }
 .boxContent {
   padding: 5px 15px;
 }
-.boxLabel01 {
+.planTitle {
   font-size: 24px;
   font-weight: bold;
   margin: 0 0 8px;
 }
-.boxLabel02 {
+.planDate {
   font-size: 15px;
   font-weight: 500;
   color: #525252;
   margin: 0 0 3px;
 }
-.boxLabel03 {
+.planCourse,
+.planTheme,
+.planCost {
   font-size: 14px;
   color: #525252;
   margin: 0 0 2px;
 }
-
-.boxBtn {
+.planCheckBtn {
   font-size: 18px;
   font-weight: 400;
   color: #ffffff;
@@ -210,7 +212,12 @@
   cursor: pointer;
 }
 /*@@@FriendTap 부분@@@*/
-.tapIcon {
+.pokeContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.pokeIcon {
   width: 50px;
   height: 50px;
   padding: 10px;
@@ -218,59 +225,57 @@
   border-radius: 50px;
   cursor: pointer;
 }
+.isPokedIcon {
+  width: 50px;
+  height: 50px;
+  color: #0085ff;
+  padding: 10px;
+  border: 1px solid #e8e8e8;
+  border-radius: 50px;
+  cursor: pointer;
+}
 
-.tapContainer {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
 /*이미지 겹쳐보이게 하기*/
-.tapImgContainer {
+.pokeImgContainer {
   position: relative;
 }
-.tapProfileImg01 {
+.pokeImg01 {
   position: relative;
-  height: 40px;
   width: 40px;
+  height: 40px;
   background-color: #ffffff;
   padding: 2px;
-  border-radius: 30px;
   border: 1px solid #ffffff;
+  border-radius: 30px;
 }
-.tapProfileImg02 {
+.pokeImg02 {
   position: relative;
-  height: 40px;
   width: 40px;
+  height: 40px;
   background-color: #ffffff;
   padding: 2px;
   border-radius: 30px;
   border: 1px solid #ffffff;
   left: -15px; /* 이미지의 위치 조절 (왼쪽으로 겹치게) */
 }
-.tapProfileImg03 {
+.pokeImg03 {
   position: relative;
-  height: 40px;
   width: 40px;
+  height: 40px;
   background-color: #ffffff;
   padding: 2px;
-  border-radius: 30px;
   border: 1px solid #ffffff;
+  border-radius: 30px;
   left: -30px; /* 이미지의 위치 조절 (왼쪽으로 겹치게) */
 }
-.tapLabel01 {
+.pokePeopleCount {
   font-size: 17px;
   margin: 0 0 0 -30px;
   cursor: pointer;
 }
 
 /*@@@ Overlay돼서 보여지는 부분(쿡찌르기 확인하기)@@@*/
-
-.tapPeopleCount {
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 10px;
-}
-.tapCloseBtn {
+.pokeCloseBtn {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -281,12 +286,18 @@
   cursor: pointer;
   text-decoration: none;
 }
-.tapPeopleList {
+.pokeCount {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 0;
+}
+/*이제 찌른 사람들 목록*/
+.pokePeopleContainer {
   display: flex;
   flex-wrap: wrap;
   gap: 20px 25px;
 }
-.peopleContainer {
+.pokeItem {
   flex: 0 0 calc(50% - 55px); /* 4개씩, 간격 50px 제외한 너비 계산 */
   display: flex;
   flex-direction: column;
@@ -295,44 +306,44 @@
   border: 1px solid #ccc;
   border-radius: 10px;
 }
-.tapPeopleHeader {
+.pokeHeader {
   display: flex;
   flex-direction: wrap;
   align-items: center;
   gap: 10px;
 }
-.tapPeopleInfoImg {
+.pokeProfile {
   height: 50px;
   width: 50px;
 }
-.tapPeopleInfo {
+.pokePeopleInfoContent01 {
   display: flex;
   flex-direction: column;
 }
-.tapInfoContent01 {
+.pokeName {
   margin: 0 0 2px;
 }
-.tapInfoContent02 {
+.pokePeopleInfoContent02 {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   margin: 0;
   gap: 3px;
 }
-.tapInfoLable01,
-.tapInfoLable02 {
+.pokeAge,
+.pokeSex {
   margin: 0;
 }
-.tapInfoContent03 {
+.pokeMessage {
   position: relative;
-  padding: 20px;
-  height: 39px;
   overflow-y: auto;
+  height: 39px;
+  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
 }
-.tapInfoBtn {
+.meetUpPokeBtn {
   font-size: 16px;
   font-weight: 400;
   color: #ffffff;

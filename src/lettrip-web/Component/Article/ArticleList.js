@@ -44,6 +44,7 @@ function ArticleList() {
       navigate("/articles/create");
     }
   };
+
   const handleArticleClick = (e) => {
     if (!checkIfLoggedIn()) {
       navigate("/login");

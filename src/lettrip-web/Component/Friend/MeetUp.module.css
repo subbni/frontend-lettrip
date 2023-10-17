@@ -1,11 +1,36 @@
-/* FriendTemplate.js */
+/*pagination*/
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.pagination button {
+  font-size: 14px;
+  color: #333;
+  background-color: #f0f0f0;
+  padding: 8px 12px;
+  margin: 0 2px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.pagination button:hover {
+  background-color: #ddd;
+}
+.pagination .activeButton {
+  color: #fff;
+  background-color: #333;
+}
+
+/* MeetUpTemplate.js */
 .page {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin: -20px 90px 0;
 }
-.pageHeader {
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -13,7 +38,7 @@
 .pageTitle {
   color: #486080;
 }
-.pageBtn01 {
+.gpsBtnBox {
   display: flex;
   align-items: center;
   margin-left: auto;
@@ -25,18 +50,16 @@
   gap: 2px;
   cursor: pointer;
 }
-.btnText {
+.gpsText {
   margin: 0;
 }
-
-.btnIcon {
+.gpsBtn {
   height: 28px;
   font-size: 26px;
   color: #0085ff;
   margin: 0;
 }
-
-.pageBtn02 {
+.createBtn {
   font-size: 15px;
   color: #333333;
   background-color: #ffffff;
@@ -47,32 +70,8 @@
   border-radius: 3px;
   cursor: pointer;
 }
-/*pagination*/
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-.pagination button {
-  background-color: #f0f0f0;
-  border: none;
-  color: #333;
-  padding: 8px 12px;
-  margin: 0 2px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-.pagination button:hover {
-  background-color: #ddd;
-}
-.pagination .activeButton {
-  background-color: #333;
-  color: #fff;
-}
 
-/*FriendContainer.js*/
+/*MeetUpContainer.js*/
 .container {
   width: 97%;
   margin: 20px auto 0;
@@ -87,9 +86,9 @@
   display: flex;
   flex-direction: column;
   height: 240px;
+  padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 10px 12px;
   cursor: pointer;
 }
 .infoContent01 {
@@ -109,24 +108,24 @@
   align-items: center;
   justify-content: space-between;
 }
-.infoLabel01 {
+.contentProvince {
   font-size: 20px;
   font-weight: bold;
   margin: 10px 0 0;
 }
-.infoLabel02 {
+.contentMeetUpDate {
   font-size: 14px;
   margin: 10px 0 0;
 }
-.infoLabel03 {
+.contentCity {
   color: #6b6b6b;
-  margin: 3px 0 0;
   padding: 0 5px;
+  margin: 3px 0 0;
 }
-.infoLabel04 {
+.contentTitle {
   font-size: 17px;
-  margin: 24px 0 0;
   padding: 0 8px;
+  margin: 24px 0 0;
   max-width: 228px;
   /*2줄 이상 안되게 하기*/
   white-space: nowrap;
@@ -141,7 +140,7 @@
   margin: 15px 0 0;
   padding: 0 8px;
 }
-.infoLabel05 {
+.contentSex {
   margin: 0;
 }
 .maleIcon {
@@ -152,7 +151,7 @@
   font-size: 22px;
   color: #f24e1e;
 }
-.infoLabel06 {
+.contentBirthDate {
   color: #8d8d8d;
   margin: 0;
 }
@@ -163,7 +162,7 @@
   margin: 20px 0 0;
   padding: 0 8px;
 }
-.infoLabel07 {
+.contentProfile {
   margin: 0;
 }
 .profileImg {
@@ -175,11 +174,11 @@
   /*닉네임, 가입날*/
   margin: 0 10px 0;
 }
-.infoLabel08 {
+.contentNickname {
   font-size: 17px;
   margin: 0 0 3px;
 }
-.infoLabel09 {
+.contentCreatedDate {
   font-size: 15px;
   color: #8d8d8d;
   margin: 0;

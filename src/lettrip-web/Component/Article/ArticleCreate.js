@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import DOMPurify from "dompurify";
 
 import { createArticle, listArticle } from "../../Service/ArticleService";
 
