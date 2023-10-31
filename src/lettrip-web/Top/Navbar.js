@@ -11,7 +11,6 @@ import Modal from "react-modal";
 
 import styles from "./Top.module.css";
 import ChatTemplate from "../Component/Chat/ChatTemplate";
-
 function Navbar() {
   const navigate = useNavigate();
   const menuRef = useRef();

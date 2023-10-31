@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Moment from "moment"; //날짜 및 시간 표시 라이브러리
 
-import { showMeetUpPost } from "../../Service/MeetUpPostService";
+import {
+  deleteMeetUpPost,
+  showMeetUpPost,
+} from "../../Service/MeetUpPostService";
 
 import styles from "./PostDetail.module.css";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
@@ -20,18 +23,19 @@ function PostDetail() {
   const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
-    //게시글 작성자와 로그인 사용자 동일 여부 확인하기
+    fetchMeetUpPost(); // 게시글 불러오기
+  }, []);
+
+  // 게시글 불러오기 완료 후 실행
+  useEffect(() => {
+    // 게시글 작성자와 로그인 사용자 동일 여부 확인하기
     const storedEmail = localStorage.getItem("email");
-    if (post.writerEmail === storedEmail) {
+    if (post.userDto && post.userDto.email === storedEmail) {
       setIsEditable(true);
     } else {
       setIsEditable(false);
     }
   }, [post]);
-
-  useEffect(() => {
-    fetchMeetUpPost(); //게시글 불러오기
-  }, []);
 
   //게시글 불러오기
   const fetchMeetUpPost = () => {
@@ -45,6 +49,26 @@ function PostDetail() {
         window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
         navigate("/friend");
       });
+  };
+
+  //게시글 삭제
+  const handleDelete = () => {
+    if (window.confirm("친구매칭글을 삭제하시겠습니까?")) {
+      deleteMeetUpPost(id)
+        .then(() => {
+          alert("친구매칭글이 삭제되었습니다.");
+          navigate("/friend");
+        })
+        .catch((e) => {
+          console.log(e);
+          alert("친구매칭글 삭제에 실패했습니다. 다시 시도해주시길 바랍니다.");
+        });
+    }
+  };
+
+  //게시글 수정
+  const handleModify = () => {
+    navigate(`/friend/modify/${post.id}`);
   };
 
   //날짜 및 시간 표시 방법 수정
@@ -93,8 +117,16 @@ function PostDetail() {
               <p className={styles.postCreatedDate}>{formattedcreatedDate}</p>
             </div>
             <div className={styles.contentBtnBox}>
-              <p className={styles.modifyBtn}>수정</p>
-              <p className={styles.deleteBtn}>삭제</p>
+              {isEditable && (
+                <p className={styles.modifyBtn} onClick={handleModify}>
+                  수정
+                </p>
+              )}
+              {isEditable && (
+                <p className={styles.deleteBtn} onClick={handleDelete}>
+                  삭제
+                </p>
+              )}
             </div>
           </div>
           <hr className={styles.hr} />

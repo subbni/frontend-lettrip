@@ -1,53 +1,151 @@
-import React, { useRef, useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useRef, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import * as StompJs from "@stomp/stompjs";
 
-import { getMyProfile } from "../../Service/MyPageService";
+import { showChatHistory } from "../../Service/ChatService";
+import moment from "moment"; //날짜 설정하는 라이브러리
+import "moment/locale/ko";
+
+import styles from "./Chat.module.css";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { BsSendFill } from "react-icons/bs";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 
-import { RxCross2 } from "react-icons/rx";
-import styles from "./Chat.module.css";
+function ChatContainer({ enterChatRoom, chatHistory }) {
+  const [chatList, setChatList] = useState([]);
+  const [chat, setChat] = useState("");
+  const client = useRef({});
+  const [userId, setUserId] = useState(1);
 
-function ChatContainer() {
+  const [chatRoomInfo, setChatRoomInfo] = useState([]); //입장한 채팅방 정보
+  const [chatHistoryInfo, setChatHistoryInfo] = useState([]); //채팅 내역
+
+  useEffect(() => {
+    setChatRoomInfo(enterChatRoom);
+    setChatHistoryInfo(chatHistory);
+
+    connect();
+    return () => disconnect();
+  }, [enterChatRoom, chatHistory]);
+
+  const connect = () => {
+    client.current = new StompJs.Client({
+      brokerURL: "ws://3.39.177.200:8080/ws/chat",
+      onConnect: () => {
+        console.log("연결 성공");
+        subscribe(); //연결 성공 시 채팅방 입장 (구독)
+      },
+    });
+    client.current.activate(); // 클라이언트 활성화
+  };
+
+  const publish = (chat) => {
+    if (!client.current.connected) console.log("채팅 연결 실패!");
+
+    client.current.publish({
+      destination: "/pub/message",
+      body: JSON.stringify({
+        roomId: chatRoomInfo.roomId,
+        senderId: userId,
+        receiverId: chatRoomInfo.participant.id,
+        message: chat,
+        isImage: false,
+      }),
+    });
+    setChat("");
+  };
+
+  // 구독한 채널에서 메시지가 왔을 때 처리
+  const subscribe = () => {
+    client.current.subscribe(`/sub/chat/${chatRoomInfo.roomId}`, ({ body }) => {
+      const newMessage = JSON.parse(body);
+      const momentTime = moment();
+      const localCreatedAt = momentTime.format("a h:mm");
+      setChatList((prevMessages) => [
+        ...prevMessages,
+        {
+          ...newMessage,
+          createdAt: localCreatedAt,
+        },
+      ]);
+    });
+  };
+
+  const disconnect = () => {
+    client.current.deactivate();
+    console.log("채팅 종료!");
+  };
+
+  const handleChange = (event) => {
+    setChat(event.target.value);
+  };
+
+  const handleSubmit = (event, chat) => {
+    event.preventDefault();
+    publish(chat);
+  };
+
+  const formatDateTime = (time) => {
+    const momentTime = moment(time);
+    return momentTime.format("a h:mm");
+  };
+
   return (
-    <div className={styles.page}>
-      <div className={styles.header}>
-        <div className={styles.listHeader}>
-          <h2 className={styles.headerText}>채팅</h2>
-        </div>
-        <div className={styles.chatHeader}>
-          <img className={styles.headerImg} src={anonymous_profile} />
-          <p className={styles.headerNickname}>닉네임</p>
-
-          <p className={styles.headerBtn}>
-            <RxCross2 className={styles.headerIcon} />
-          </p>
-        </div>
-      </div>
-      <div className={styles.contaner}>
-        <div className={styles.listContainer}>
-          <div className={styles.chatRoomList}>
-            <p className={styles.listProfile}>
-              <img className={styles.profileImg} src={anonymous_profile} />
-            </p>
-            <div className={styles.listInfo}>
-              <p className={styles.listNickname}>닉네임</p>
-              <p className={styles.listLastContent}>마지막 채팅 내용</p>
+    <div className={styles.chatRoomContent}>
+      {chatRoomInfo && chatRoomInfo.participant && chatHistoryInfo ? (
+        <div className={styles.chatMessages}>
+          {chatHistoryInfo.map((message, index) => (
+            <div key={index} className={styles.message}>
+              <img
+                className={styles.chatProfileImg}
+                src={anonymous_profile}
+                alt='Profile'
+              />
+              <div className={styles.messageContent}>
+                <p>{message.message}</p>
+                <p> {formatDateTime(message.createdAt)}</p>
+              </div>
             </div>
-            <p className={styles.listLastTime}>08:02</p>
-          </div>
-        </div>
-        <div className={styles.chatContainer}>
-          <div className={styles.chatRoomContent}>
-            <div className={styles.chatBox}>
-              <img className={styles.chatProfileImg} src={anonymous_profile} />
-              <p className={styles.chatMessage}>
-                안녕하세요! 반가워요 엥 이거 왜 사라짐 ?
-              </p>
-              <p className={styles.chatCreatedTime}>08:02</p>
+          ))}
+          <h3>새로운 메시지</h3>
+          {chatList.map((newMessage, index) => (
+            <div key={index} className={styles.message}>
+              <img
+                className={styles.chatProfileImg}
+                src={anonymous_profile}
+                alt='Profile'
+              />
+              <div className={styles.messageContent}>
+                <p>{newMessage.message}</p>
+                <p> {newMessage.createdAt}</p>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
+      ) : null}
+      <div className={styles.chatSendBox}>
+        <form
+          onSubmit={(event) => handleSubmit(event, chat)}
+          className={styles.chatSendForm}
+        >
+          <AiOutlinePlusCircle className={styles.chatOptBtn} />
+          <div className={styles.chatInputBox}>
+            <input
+              type='text'
+              name='chatInput'
+              onChange={handleChange}
+              value={chat}
+              placeholder='메세지를 입력하세요'
+              className={styles.chatInput}
+            />
+            <BsSendFill
+              input
+              type='submit'
+              value='Send'
+              className={styles.chatSendBtn}
+            />
+          </div>
+        </form>
       </div>
     </div>
   );

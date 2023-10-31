@@ -59,6 +59,7 @@
   display: flex;
   padding: 15px 20px 10px;
   border-bottom: 1px solid #d9d9d9;
+  cursor: pointer;
 }
 .listProfile {
   margin: 0px;
@@ -72,8 +73,13 @@
   margin: 3px 0 0;
 }
 .listLastContent {
+  max-width: 210px;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 .listLastTime {
   font-size: 13px;
   font-weight: 200;
@@ -90,7 +96,9 @@
   overflow-y: auto;
 }
 .chatRoomContent {
+  max-height: 515px;
   padding: 10px;
+  overflow-y: auto;
 }
 .chatBox {
   display: flex;
@@ -113,4 +121,48 @@
   font-size: 13px;
   font-weight: 200;
   margin: auto -5px 0px;
+}
+
+/*메세지 보내기 Container*/
+.chatSendBox {
+  width: 52%;
+  padding: 10px;
+  border-top: 0.5px solid #d8d8d8;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.chatSendForm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chatOptBtn {
+  width: 28px;
+  height: 28px;
+  color: #bdbdbd;
+  cursor: pointer;
+}
+.chatInputBox {
+  display: flex;
+  text-align: center;
+  width: 90%;
+  height: 100%;
+  background-color: #f1f3f6;
+  padding: 5px 10px;
+  border: 1px solid #f1f3f6;
+  border-radius: 10px;
+  gap: 10px;
+}
+.chatInput {
+  width: 90%;
+  background-color: #f1f3f6;
+  padding: 5px;
+  border: none;
+  text-decoration: none;
+}
+.chatSendBtn {
+  width: 23px;
+  height: 23px;
+  cursor: pointer;
 }

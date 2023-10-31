@@ -5,8 +5,8 @@ import {
   createPoke,
   deletePoke,
   showAllPokesInMeetUpPost,
-  createChatRoom,
 } from "../../Service/PokeService";
+import { createChatRoom } from "../../Service/ChatService";
 import styles from "./PostDetail.module.css";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 import {
@@ -20,6 +20,7 @@ function Poke({ id }) {
   const [people, setPeople] = useState([]); //찌른 사람들 정보 가져오기
   const [peopleImg, setPeopleImg] = useState([]); //찌른 사람들 3명까지 정보가져오기
   const [showAllPokes, setShowAllPokes] = useState(false); //찌른 사람들 정보 보기 (modal설정)
+  const [modalIsOpen, setModalIsOpen] = useState(false); //modal 설정
   const [pokeForm, setPokeForm] = useState({
     meetUpPostId: id,
     briefMessage: "",
@@ -58,6 +59,13 @@ function Poke({ id }) {
     setShowAllPokes(true);
   };
 
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   //쿡 찌르기 버튼 누르기
   const onClickCreatePoke = (e) => {
     e.preventDefault();
@@ -66,6 +74,8 @@ function Poke({ id }) {
         console.log(response);
         window.alert("쿡 찔렀습니다!");
         setIsPoked(true);
+        closeModal(); // 쿡 찌르기 후 모달 닫기
+        console.log(pokeForm);
       })
       .catch((e) => {
         console.log(e);
@@ -115,11 +125,42 @@ function Poke({ id }) {
 
   return (
     <div className={styles.pokeContainer}>
-      {isPoked ? (
-        <PiHandTap className={styles.pokeIcon} onClick={onClickCreatePoke} />
+      {/*{isPoked ? (
+      <PiHandTap className={styles.pokeIcon} onClick={onClickCreatePoke} />
       ) : (
-        <PiHandTap className={styles.isPokedIcon} onClick={onClickDeletePoke} />
-      )}
+      <PiHandTap className={styles.isPokedIcon} onClick={onClickDeletePoke} />
+      )} */}
+      <PiHandTap className={styles.pokeIcon} onClick={openModal} />
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+          content: {
+            maxWidth: "400px",
+            maxHeight: "220px",
+            margin: "auto",
+            padding: "0px 35px",
+          },
+        }}
+      >
+        <h2 className={styles.pokeTitle}>쿡 찌르기</h2>
+        <textarea
+          value={pokeForm.briefMessage}
+          onChange={(e) =>
+            setPokeForm({ ...pokeForm, briefMessage: e.target.value })
+          }
+          placeholder='원하는 멘트를 입력하세요!'
+          className={styles.pokeBriefMsg}
+        />
+        <div className={styles.pokeBtnContainer}>
+          <button className={styles.pokeCreateBtn} onClick={onClickCreatePoke}>
+            찌르기
+          </button>
+          <button className={styles.pokeCancelBtn} onClick={closeModal}>
+            취소
+          </button>
+        </div>
+      </Modal>
       <div className={styles.pokeImgContainer}>
         <img
           className={styles.pokeImg01}
@@ -145,9 +186,9 @@ function Poke({ id }) {
         onRequestClose={() => setShowAllPokes(false)}
         style={{
           content: {
-            maxWidth: "630px", // Modal의 최대 너비 설정
-            margin: "auto", // 가운데 정렬
-            padding: "30px 35px", // 내용 패딩
+            maxWidth: "630px",
+            margin: "auto",
+            padding: "30px 35px",
           },
         }}
       >
