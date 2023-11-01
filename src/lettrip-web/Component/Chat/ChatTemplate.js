@@ -1,97 +1,113 @@
-import { useRef, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import * as StompJs from "@stomp/stompjs";
+import React, { useState, useEffect } from "react";
+import { listChatRoom, showChatHistory } from "../../Service/ChatService";
+import moment from "moment"; //날짜 설정하는 라이브러리
+import "moment/locale/ko";
+
+import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
+
+import { RxCross2 } from "react-icons/rx";
+import styles from "./Chat.module.css";
+import ChatContainer from "./ChatContainer";
 
 function ChatTemplate() {
-  const [chatList, setChatList] = useState([]);
-  const [chat, setChat] = useState("");
-  const { apply_id: id } = useParams();
-  const client = useRef({});
-  const [userId, setUserId] = useState(1);
-
-  const roomId = "652e29083ca7fc2c4e1de2e1";
+  const [chatRooms, setChatRooms] = useState([]); //채팅방 목록 상태
+  const [enterChatRoom, setEnterChatRoom] = useState(null); //채팅방 입장 (현재 접속중인 채팅방)
+  const [chatHistory, setChatHistory] = useState([]); //채팅 목록 저장
 
   useEffect(() => {
-    connect();
-    return () => disconnect();
+    loadChatRooms(); // 추가: 채팅방 목록을 불러옴
   }, []);
 
-  useEffect(() => {
-    console.log(chatList);
-  }, [chatList]);
-
-  const connect = () => {
-    client.current = new StompJs.Client({
-      brokerURL: "ws://13.125.210.42:8080/ws/chat",
-      onConnect: () => {
-        console.log("연결 성공");
-        subscribe(); //연결 성공 시 채팅방 입장 (구독)
-      },
-    });
-    client.current.activate(); // 클라이언트 활성화
+  //채팅방 목록을 불러오기
+  const loadChatRooms = () => {
+    listChatRoom()
+      .then((response) => {
+        setChatRooms(response.content); // 채팅방 목록을 상태에 저장
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("채팅방 목록을 불러오지 못했습니다.", error);
+      });
   };
 
-  const publish = (chat) => {
-    if (!client.current.connected) console.log("채팅 연결 실패!");
+  const handleChatRoomClick = (room) => {
+    setEnterChatRoom(room);
+    console.log("채팅방입장");
 
-    client.current.publish({
-      destination: "/pub/message",
-      body: JSON.stringify({
-        roomId: "652e29083ca7fc2c4e1de2e1",
-        senderId: userId,
-        receiverId: 26,
-        message: chat,
-        isImage: false,
-      }),
-    });
-    console.log("채팅보냄");
-
-    setChat("");
+    showChatHistory(room.roomId)
+      .then((response) => {
+        console.log(response);
+        setChatHistory(response.content);
+      })
+      .catch((error) => {
+        console.error("채팅 목록을 불러오지 못했습니다.", error);
+      });
   };
 
-  // 구독한 채널에서 메시지가 왔을 때 처리
-  const subscribe = () => {
-    client.current.subscribe(`/sub/chat/${roomId}`, ({ body }) => {
-      setChatList((_chat_list) => [..._chat_list, JSON.parse(body)]);
-    });
-  };
+  // 날짜 및 시간 표시 방법 수정
+  const formatDateTime = (time) => {
+    const momentTime = moment(time);
+    const currentTime = moment();
+    const diffDays = momentTime.diff(currentTime, "days");
 
-  const disconnect = () => {
-    client.current.deactivate();
-    console.log("채팅 종료!");
-  };
-
-  const handleChange = (event) => {
-    setChat(event.target.value);
-  };
-
-  const handleSubmit = (event, chat) => {
-    event.preventDefault();
-    publish(chat);
+    if (momentTime.isSame(currentTime, "day")) {
+      return momentTime.format("a h:mm");
+    } else if (diffDays === -1) {
+      return "어제";
+    } else {
+      return momentTime.format("M월 D일");
+    }
   };
 
   return (
-    <div>
-      <div>
-        {/* 채팅 메시지 목록을 매핑하여 화면에 출력 */}
-        {chatList.map((message, index) => (
-          <div key={index}>
-            <strong>{message.writerId}: </strong>
-            {message.message}
-          </div>
-        ))}
+    <div className={styles.page}>
+      <div className={styles.header}>
+        <div className={styles.listHeader}>
+          <h2 className={styles.headerText}>채팅</h2>
+        </div>
+
+        <div className={styles.chatHeader}>
+          <img className={styles.headerImg} src={anonymous_profile} />
+          <p className={styles.headerNickname}>닉네임</p>
+
+          <p className={styles.headerBtn}>
+            <RxCross2 className={styles.headerIcon} />
+          </p>
+        </div>
       </div>
-      <form onSubmit={(event) => handleSubmit(event, chat)}>
-        <div>
-          <input
-            type={"text"}
-            name={"chatInput"}
-            onChange={handleChange}
-            value={chat}
+      <div className={styles.contaner}>
+        <div className={styles.listContainer}>
+          {chatRooms.map((room, index) => (
+            <div
+              className={styles.chatRoomList}
+              key={index}
+              onClick={() => handleChatRoomClick(room)}
+            >
+              <p className={styles.listProfile}>
+                <img
+                  className={styles.profileImg}
+                  src={room.participant.imageUrl || anonymous_profile}
+                />
+              </p>
+              <div className={styles.listInfo}>
+                <p className={styles.listNickname}>
+                  {room.participant.nickname}
+                </p>
+                <p className={styles.listLastContent}>{room.lastMessage}</p>
+              </div>
+              <p className={styles.listLastTime}>
+                {formatDateTime(room.lastMessageTime)}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div className={styles.chatContainer}>
+          <ChatContainer
+            enterChatRoom={enterChatRoom}
+            chatHistory={chatHistory}
           />
         </div>
-        <p>{userId}:</p> <input type={"submit"} value={"전송"} />
-      </form>
+      </div>
     </div>
   );
 }

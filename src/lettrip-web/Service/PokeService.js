@@ -30,13 +30,5 @@ export function showAllPokesInMeetUpPost(meetUpPostId) {
   });
 } //쿡 찌르기 전체 조회 요청
 
-export function createChatRoom(chatRoomForm) {
-  return request({
-    url: API_BASE_URL + "/api/chat/room/create",
-    method: "POST",
-    body: JSON.stringify(chatRoomForm),
-  });
-} //웹소켓 채팅방 생성 요청
-
 class AuthService {}
 export default new AuthService();
