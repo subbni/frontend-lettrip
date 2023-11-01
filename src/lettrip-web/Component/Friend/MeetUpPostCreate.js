@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Moment from "moment"; //날짜 설정하는 라이브러리
+import "moment/locale/ko";
+import Calendar from "react-calendar"; //달력 설정하는 라이브러리
+import "react-calendar/dist/Calendar.css";
 
 import { createMeetUpPost } from "../../Service/MeetUpPostService";
 import { Citys, Provinces } from "../Travel/TravelData";
@@ -51,6 +54,13 @@ function MeetUpPostCreate() {
       ...meetUpPostForm,
       [changingField]: e.target.value,
     }));
+  };
+
+  const handleDateChange = (date) => {
+    setMeetUpPostForm({
+      ...meetUpPostForm,
+      meetUpDate: date,
+    });
   };
 
   const handlePostSubmit = (e) => {
@@ -144,6 +154,11 @@ function MeetUpPostCreate() {
             onChange={handlePostChange}
             required
           />
+          <Calendar
+            onChange={handleDateChange}
+            value={meetUpPostForm.meetUpDate}
+            formatDay={(locale, date) => Moment(date).format("DD")}
+          />
         </div>
         <div className={styles.content}>
           <div className={styles.contentHeader}>
@@ -183,7 +198,6 @@ function MeetUpPostCreate() {
             </div>
             <div className={styles.contentPlace}>
               <TbMap2 className={styles.mapIcon} />
-              {/* 
               <input
                 className={styles.contentPlaceInput}
                 type='text'
@@ -191,10 +205,9 @@ function MeetUpPostCreate() {
                 id='placeId'
                 value={meetUpPostForm.placeId}
                 onChange={handlePostChange}
-                placeholder='장소 검색하기'
+                placeholder='장소 검색하기 (선택)'
                 required
               />
-              */}
             </div>
           </div>
         </div>

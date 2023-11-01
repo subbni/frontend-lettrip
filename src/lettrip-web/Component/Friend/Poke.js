@@ -90,6 +90,7 @@ function Poke({ id }) {
       deletePoke(id)
         .then((response) => {
           console.log(response);
+          console.log(id);
           window.alert("다음에 다시 만나요!");
           setIsPoked(false);
         })
@@ -103,7 +104,7 @@ function Poke({ id }) {
   //찌르기 수락 -> 채팅방 개설
   const onClickMeetUpPoke = (e) => {
     e.preventDefault();
-    console.log("취소 버튼 누름");
+    console.log("찌르기 요청 수락");
     if (window.confirm("쿸 찌르기 요청을 수락하시겠습니까?")) {
       const newChatRoomForm = {
         meetUpPostId: id,
@@ -125,12 +126,11 @@ function Poke({ id }) {
 
   return (
     <div className={styles.pokeContainer}>
-      {/*{isPoked ? (
-      <PiHandTap className={styles.pokeIcon} onClick={onClickCreatePoke} />
+      {isPoked ? (
+        <PiHandTap className={styles.pokeIcon} onClick={openModal} />
       ) : (
-      <PiHandTap className={styles.isPokedIcon} onClick={onClickDeletePoke} />
-      )} */}
-      <PiHandTap className={styles.pokeIcon} onClick={openModal} />
+        <PiHandTap className={styles.isPokedIcon} onClick={onClickDeletePoke} />
+      )}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

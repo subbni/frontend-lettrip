@@ -84,7 +84,7 @@
 .gpsBtn {
   height: 28px;
   font-size: 26px;
-  color: #0085ff;
+  color: #2e3b4c;
   margin: 0;
 }
 .createBtn {
@@ -209,5 +209,13 @@
 .contentCreatedDate {
   font-size: 15px;
   color: #8d8d8d;
+  margin: 0;
+}
+.gpsBox {
+}
+.gpsSpinner {
+  margin: 0;
+}
+.gpsAddress {
   margin: 0;
 }
