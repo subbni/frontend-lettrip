@@ -1,13 +1,49 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getTravelDetail } from "../../Service/TravelService";
+import Moment from "moment"; //날짜 및 시간 표시 라이브러리
+
 import styles from "./PostDetail.module.css";
 
-function PostTravelDetail({ writer }) {
+function PostTravelDetail({ writer, travelId }) {
   const navigate = useNavigate();
+  const [travel, setTravel] = useState({
+    writerNickname: "",
+    writerEmail: "",
+    title: "",
+    travelTheme: "",
+    province: "",
+    departDate: "",
+    lastDate: "",
+    totalCost: "",
+    numberOfCourses: "",
+    courses: [],
+  });
+
+  useEffect(() => {
+    getTravelDetail(travelId)
+      .then((response) => {
+        console.log(response);
+        setTravel(response);
+      })
+      .catch((e) => {
+        window.alert("오류가 발생했습니다.");
+        console.log(e);
+      });
+  }, []);
+
   const handleCheckPlan = (e) => {
     e.preventDefault();
     console.log("계획확인 누르기 (travel 페이지로 이동하기");
-    navigate("/travel");
+    navigate(`/travel/${travelId}`);
+  };
+
+  //금액 단위 설정 (예시 : 10,000원 )
+  const numberWithCommas = (number) => {
+    if (number === undefined) {
+      number = 0;
+    }
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
   return (
@@ -18,15 +54,19 @@ function PostTravelDetail({ writer }) {
       <hr className={styles.hr2} />
       <div className={styles.planDetailBox}>
         <div className={styles.boxContent}>
-          <p className={styles.planTitle}> 제목 </p>
-          <p className={styles.planDate}> 23.10.10. ~ 23.10.10 </p>
-          <p className={styles.planCourse}> 코스 수 </p>
-          <p className={styles.planTheme}> 테마 </p>
-          <p className={styles.planCost}> 금액 </p>
+          <p className={styles.planTitle}> {travel.title} </p>
+          <p className={styles.planDate}>
+            {Moment(travel.departDate).format("YY.MM.DD")} ~
+            {Moment(travel.lastDate).format("YY.MM.DD")}
+          </p>
+          <p className={styles.planCourse}> {travel.numberOfCourses}개</p>
+          <p className={styles.planTheme}> #{travel.travelTheme} </p>
+          <p className={styles.planCost}>
+            {numberWithCommas(travel.totalCost)}원 / 인
+          </p>
         </div>
         <button className={styles.planCheckBtn} onClick={handleCheckPlan}>
-          {" "}
-          플랜확인{" "}
+          플랜확인
         </button>
       </div>
     </div>

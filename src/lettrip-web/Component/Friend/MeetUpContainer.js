@@ -11,13 +11,14 @@ function MeetUpContainer({ meetUpPostList }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setFriendMatchingList();
+    setFriendMatchingList(meetUpPostList);
+    console.log(friendMatchingList);
   }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.box}>
-        {meetUpPostList.map((post, index) => (
+        {friendMatchingList.map((post, index) => (
           <div
             key={index}
             className={styles.boxItem}

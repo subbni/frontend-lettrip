@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { createArticle, listArticle } from "../../Service/ArticleService";
-
 import styles from "./ArticleCreate.module.css";
 
 function ArticleCreate() {

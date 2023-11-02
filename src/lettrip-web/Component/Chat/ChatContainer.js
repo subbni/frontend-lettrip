@@ -9,7 +9,10 @@ import "moment/locale/ko";
 import styles from "./Chat.module.css";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsSendFill } from "react-icons/bs";
+import { RxCross2 } from "react-icons/rx";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
+
+import ChatOption from "./ChatOption";
 
 function ChatContainer({ enterChatRoom, chatHistory }) {
   const [chatList, setChatList] = useState([]);
@@ -19,6 +22,7 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
 
   const [chatRoomInfo, setChatRoomInfo] = useState([]); //입장한 채팅방 정보
   const [chatHistoryInfo, setChatHistoryInfo] = useState([]); //채팅 내역
+  const [isOptClicked, setIsOptClicked] = useState(false); //옵션 버튼 눌렀는지 상태
 
   useEffect(() => {
     setChatRoomInfo(enterChatRoom);
@@ -28,9 +32,15 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
     return () => disconnect();
   }, [enterChatRoom, chatHistory]);
 
+  useEffect(() => {
+    if (chatRoomInfo && chatRoomInfo.roomId) {
+      subscribe();
+    }
+  }, [chatRoomInfo, chatList]);
+
   const connect = () => {
     client.current = new StompJs.Client({
-      brokerURL: "ws://3.39.177.200:8080/ws/chat",
+      brokerURL: "ws://13.124.154.146:8080/ws/chat",
       onConnect: () => {
         console.log("연결 성공");
         subscribe(); //연결 성공 시 채팅방 입장 (구독)
@@ -57,18 +67,23 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
 
   // 구독한 채널에서 메시지가 왔을 때 처리
   const subscribe = () => {
-    client.current.subscribe(`/sub/chat/${chatRoomInfo.roomId}`, ({ body }) => {
-      const newMessage = JSON.parse(body);
-      const momentTime = moment();
-      const localCreatedAt = momentTime.format("a h:mm");
-      setChatList((prevMessages) => [
-        ...prevMessages,
-        {
-          ...newMessage,
-          createdAt: localCreatedAt,
-        },
-      ]);
-    });
+    if (chatRoomInfo && chatRoomInfo.roomId) {
+      client.current.subscribe(
+        `/sub/chat/${chatRoomInfo.roomId}`,
+        ({ body }) => {
+          const newMessage = JSON.parse(body);
+          const momentTime = moment();
+          const localCreatedAt = momentTime.format("a h:mm");
+          setChatList((prevMessages) => [
+            ...prevMessages,
+            {
+              ...newMessage,
+              createdAt: localCreatedAt,
+            },
+          ]);
+        }
+      );
+    }
   };
 
   const disconnect = () => {
@@ -88,6 +103,16 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
   const formatDateTime = (time) => {
     const momentTime = moment(time);
     return momentTime.format("a h:mm");
+  };
+
+  const optionIcon = isOptClicked ? (
+    <RxCross2 className={styles.optIcon} />
+  ) : (
+    <AiOutlinePlusCircle className={styles.optIcon} />
+  ); // 아이콘 설정
+  const handleOptClick = (e) => {
+    e.preventDefault();
+    setIsOptClicked(!isOptClicked);
   };
 
   return (
@@ -128,7 +153,10 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
           onSubmit={(event) => handleSubmit(event, chat)}
           className={styles.chatSendForm}
         >
-          <AiOutlinePlusCircle className={styles.chatOptBtn} />
+          <p onClick={handleOptClick} className={styles.chatOptBtn}>
+            {optionIcon}
+          </p>
+
           <div className={styles.chatInputBox}>
             <input
               type='text'
@@ -146,6 +174,8 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
             />
           </div>
         </form>
+
+        {isOptClicked ? <ChatOption isOptClicked={isOptClicked} /> : null}
       </div>
     </div>
   );

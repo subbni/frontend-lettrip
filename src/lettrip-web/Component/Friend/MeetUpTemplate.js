@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn } from "../../Service/AuthService";
 import { showMeetUpPostList } from "../../Service/MeetUpPostService";
-import MeetUpContainer from "./MeetUpContainer";
+import Pagination from "react-js-pagination";
 import styles from "./MeetUp.module.css";
 import { RiToggleFill, RiToggleLine } from "react-icons/ri"; // 지역 on/off 아이콘
-import Pagination from "react-js-pagination";
-
-import { Citys, Provinces } from "../Travel/TravelData";
+import { Provinces } from "../Travel/TravelData";
+import MeetUpContainer from "./MeetUpContainer";
+import MeetUpGPS from "./MeetUpGPS";
 
 function MeetUpTemplate() {
   const navigate = useNavigate();
@@ -20,6 +20,7 @@ function MeetUpTemplate() {
   }); //친구 매칭 전체 글 불러오기 조회 리스트
   const [meetUpPostList, setMeetUpPostList] = useState([]); //매칭 글 리스트 저장할 곳
   const [isRegionBtnOn, setIsRegionBtnOn] = useState(false); // "지역" 버튼 상태
+  const [address, setAddress] = useState(null);
 
   const [searchForm, setSearchForm] = useState({
     province: "",
@@ -61,7 +62,7 @@ function MeetUpTemplate() {
   const regionIcon = isRegionBtnOn ? <RiToggleFill /> : <RiToggleLine />; // 아이콘 설정
   const handleRegionBtnClick = (e) => {
     e.preventDefault();
-    // "지역" 버튼을 클릭할 때 상태 토글
+    setAddress(null);
     setIsRegionBtnOn(!isRegionBtnOn);
   };
 
@@ -76,6 +77,16 @@ function MeetUpTemplate() {
   const handleCreatePage = (e) => {
     e.preventDefault();
     navigate("/friend/create");
+  };
+
+  //GPS 지역 가져오기
+  const handleAddressUpdate = (newAddress) => {
+    console.log(newAddress);
+    setAddress(newAddress);
+    setSearchForm((prevSearchForm) => ({
+      ...prevSearchForm,
+      province: newAddress,
+    }));
   };
 
   return (
@@ -106,6 +117,7 @@ function MeetUpTemplate() {
             value={searchForm.province}
             onChange={handlePostChange}
             required
+            disabled={address !== null}
           >
             <option value='' disabled>
               지역
@@ -118,7 +130,8 @@ function MeetUpTemplate() {
           </select>
         </div>
         <div className={styles.gpsBtnBox} onClick={handleRegionBtnClick}>
-          <p className={styles.gpsText}>GPS</p>
+          {!isRegionBtnOn ? <p className={styles.gpsText}>GPS</p> : null}
+          {isRegionBtnOn && <MeetUpGPS onAddressUpdate={handleAddressUpdate} />}
           <p className={styles.gpsBtn}>{regionIcon}</p>
         </div>
       </div>

@@ -14,16 +14,17 @@ const MyTravelPlan = () => {
     getMyTravel(false, pageForm)
       .then((response) => {
         setPlanList(response.content);
+        console.log(response);
       })
       .catch((e) => {
         console.log(e);
         alert("오류 발생");
       });
-  }, []);
+  }, [pageForm]);
 
   return (
     <div>
-      {planList.length > 0 ? (
+      {planList ? (
         <div>
           {planList.map((travel) => (
             <MyTravelItem

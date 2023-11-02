@@ -1,18 +1,20 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import Modal from "react-modal"; //overlay 라이브러리 사용하기
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Moment from "moment"; //날짜 설정하는 라이브러리
 import "moment/locale/ko";
-import { createMeetUpPost } from "../../Service/MeetUpPostService";
+
+import {
+  modifyMeetUpPost,
+  showMeetUpPost,
+} from "../../Service/MeetUpPostService";
 import { Citys, Provinces } from "../Travel/TravelData";
+
 import styles from "./Post.module.css";
 import { TbMap2 } from "react-icons/tb";
-import { MdAddCircleOutline } from "react-icons/md";
-import MapSearch from "./MapSearch";
-import MeetUpPlan from "./MeetUpPlan";
 
-function MeetUpPostCreate() {
+function MeetUpPostModify() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [meetUpPostForm, setMeetUpPostForm] = useState({
     title: "",
     isGpsEnabled: true,
@@ -31,10 +33,10 @@ function MeetUpPostCreate() {
   ));
   // 지역명
   const citys = Citys;
-  const [isPlaceSearch, setIsPlaceSearched] = useState(false); //modal 장소 검색
-  const [placeName, setPlaceName] = useState("");
-  const [isPlanSearch, setIsPlanSearched] = useState(false); //modal 장소 검색
-  const [planName, setPlanName] = useState("");
+
+  useEffect(() => {
+    fetchMeetUpPost();
+  }, []);
 
   // 행정구역 선택에 따른 지역 option 동적 처리
   useEffect(() => {
@@ -51,6 +53,38 @@ function MeetUpPostCreate() {
     }
   }, [meetUpPostForm.province]);
 
+  const fetchMeetUpPost = () => {
+    showMeetUpPost(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
+      .then((response) => {
+        const {
+          title,
+          isGpsEnabled,
+          meetUpDate,
+          province,
+          city,
+          content,
+          placeId,
+          travelId,
+        } = response;
+        setMeetUpPostForm({
+          title,
+          isGpsEnabled,
+          meetUpDate,
+          province,
+          city,
+          content,
+          placeId,
+          travelId,
+        });
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e);
+        alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
+        navigate("/friend");
+      });
+  };
+
   //////// event 핸들링
   const handlePostChange = (e) => {
     const changingField = e.target.name;
@@ -59,45 +93,12 @@ function MeetUpPostCreate() {
       [changingField]: e.target.value,
     }));
   };
-  //장소 검색 Modal 켜고 끄기
-  const handlePlaceOpen = () => {
-    setIsPlaceSearched(true);
-  };
-  const closePlaceSearch = () => {
-    setIsPlaceSearched(false);
-  };
-  const handlePlanOpen = () => {
-    setIsPlanSearched(true);
-  };
-  const closePlanSearch = () => {
-    setIsPlanSearched(false);
-  };
 
-  // MapForm에 전달할 place 선택 함수
-  const onPlaceSelect = useCallback(
-    (placeInfo) => {
-      const newPlace = {
-        name: placeInfo.name,
-        categoryCode: placeInfo.categoryCode,
-        categoryName: placeInfo.categoryName,
-        xpoint: placeInfo.xpoint,
-        ypoint: placeInfo.ypoint,
-        province: placeInfo.province,
-        city: placeInfo.city,
-        address: placeInfo.address,
-        placeId: placeInfo.place_id,
-      };
-      setMeetUpPostForm((meetUpPostForm) => ({
-        ...meetUpPostForm,
-        placeId: newPlace.placeId,
-      }));
-      setPlaceName(newPlace.name);
-    },
-    [meetUpPostForm]
-  );
-  const onPlanSelect = (planTitle, selectedTravelId) => {
-    console.log(selectedTravelId);
-    setPlanName(planTitle);
+  const handleDateChange = (date) => {
+    setMeetUpPostForm({
+      ...meetUpPostForm,
+      meetUpDate: date,
+    });
   };
 
   const handlePostSubmit = (e) => {
@@ -105,22 +106,28 @@ function MeetUpPostCreate() {
     const formattedMeetUpDate = Moment(meetUpPostForm.meetUpDate).format(
       "YYYY-MM-DD HH:mm:ss"
     );
-    if (window.confirm("친구 매칭글을 작성하시겠습니까?")) {
-      createMeetUpPost({
+    if (window.confirm("친구 매칭글을 수정하시겠습니까?")) {
+      modifyMeetUpPost({
         ...meetUpPostForm,
         meetUpDate: formattedMeetUpDate,
       })
         .then((response) => {
+          window.alert("친구 매칭글 수정이 완료되었습니다.");
+          navigate(`/articles/${id}`);
           console.log(response);
-          window.alert("게시글 작성이 완료되었습니다.");
-          navigate("/friend");
         })
         .catch((e) => {
           console.log(e);
           window.alert(
-            "게시글 작성에 실패했습니다. 다시 시도해주시길 바랍니다."
+            "친구 매칭글 수정에 실패했습니다. 다시 시도해주시길 바랍니다."
           );
         });
+    }
+  };
+
+  const handlePostCancel = () => {
+    if (window.confirm("친구 매칭글 수정을 취소하시겠습니까?")) {
+      navigate(`/friend/${id}`);
     }
   };
 
@@ -143,7 +150,6 @@ function MeetUpPostCreate() {
             id='title'
             value={meetUpPostForm.title}
             onChange={handlePostChange}
-            placeholder='제목을 입력하세요.'
             required
           />
         </div>
@@ -229,34 +235,17 @@ function MeetUpPostCreate() {
               </select>
             </div>
             <div className={styles.contentPlace}>
-              <TbMap2 className={styles.mapIcon} onClick={handlePlaceOpen} />
+              <TbMap2 className={styles.mapIcon} />
               <input
                 className={styles.contentPlaceInput}
                 type='text'
                 name='placeId'
                 id='placeId'
-                value={placeName}
+                value={meetUpPostForm.placeId}
                 onChange={handlePostChange}
                 placeholder='장소 검색하기 (선택)'
                 required
               />
-              <Modal
-                isOpen={isPlaceSearch}
-                onRequestClose={closePlaceSearch}
-                style={{
-                  content: {
-                    maxWidth: "650px",
-                    maxHeight: "520px",
-                    margin: "auto",
-                    padding: "10px",
-                  },
-                }}
-              >
-                <MapSearch
-                  onPlaceSelect={onPlaceSelect}
-                  onConfirm={closePlaceSearch}
-                />
-              </Modal>
             </div>
           </div>
         </div>
@@ -267,53 +256,24 @@ function MeetUpPostCreate() {
           </div>
           <textarea
             className={styles.contentPostContent}
+            id='content'
             name='content'
             onChange={handlePostChange}
-            placeholder='매칭에 대한 정확한 내용 등을 입력해주세요.'
-            value={meetUpPostForm.content}
             required
+            value={meetUpPostForm.content}
           ></textarea>
         </div>
         <div className={styles.content}>
           <div className={styles.contentHeader}>
             <p className={styles.contentOpt}>계획연동</p>
           </div>
-          <div className={styles.contentPlan}>
-            <MdAddCircleOutline
-              className={styles.planIcon}
-              onClick={handlePlanOpen}
-            />
-            <input
-              className={styles.contentPlanInput}
-              type='text'
-              name='travelId'
-              id='travelId'
-              value={planName}
-              onChange={handlePostChange}
-              placeholder='계획 선택'
-              disabled
-            />
-            <Modal
-              isOpen={isPlanSearch}
-              onRequestClose={closePlanSearch}
-              style={{
-                content: {
-                  maxWidth: "700px",
-                  margin: "auto",
-                  padding: "30px 35px",
-                },
-              }}
-            >
-              <MeetUpPlan
-                onPlanSelect={onPlanSelect}
-                onConfirm={closePlanSearch}
-              />
-            </Modal>
-          </div>
+          <input></input>
         </div>
       </div>
       <div className={styles.footer}>
-        <button className={styles.cancelBtn}>취소</button>
+        <button className={styles.cancelBtn} onClick={handlePostCancel}>
+          취소
+        </button>
         <button className={styles.submitBtn} onClick={handlePostSubmit}>
           등록
         </button>
@@ -322,4 +282,4 @@ function MeetUpPostCreate() {
   );
 }
 
-export default MeetUpPostCreate;
+export default MeetUpPostModify;

@@ -137,11 +137,14 @@
   align-items: center;
   gap: 10px;
 }
-.chatOptBtn {
+.optIcon {
   width: 28px;
   height: 28px;
   color: #bdbdbd;
+}
+.chatOptBtn {
   cursor: pointer;
+  margin: 5px 0 0;
 }
 .chatInputBox {
   display: flex;
@@ -165,4 +168,88 @@
   width: 23px;
   height: 23px;
   cursor: pointer;
+}
+/*ChatOption.js*/
+.optBox {
+  padding: 15px 0 0 40px;
+}
+.optContent {
+  display: flex;
+  align-items: center;
+  gap: 45px;
+}
+.optSchedule,
+.optPhoto {
+  text-align: center;
+  cursor: pointer;
+}
+.calendarBackground {
+  width: 50px;
+  height: 50px;
+  background-color: #4395ff;
+  border-radius: 30px;
+  margin: 0;
+}
+.calendarIcon {
+  width: 32px;
+  height: 32px;
+  color: white;
+  padding: 5px;
+  margin-top: 4px;
+}
+.pictureBackground {
+  width: 50px;
+  height: 50px;
+  background-color: #73ff81;
+  border-radius: 30px;
+  margin: 0;
+}
+.pictureIcon {
+  width: 32px;
+  height: 32px;
+  color: white;
+  padding: 5px;
+  margin-top: 4px;
+}
+.calendarText,
+.pictureText {
+  font-size: 14px;
+  color: #8d8d8d;
+  margin: 10px 0 0;
+}
+/*Schedule*/
+.scheduleBox {
+  padding-left: 40px;
+}
+
+.scheduleTitle {
+  font-size: 16px;
+  margin: 0;
+}
+.scheduleBtn {
+  font-size: 15px;
+  color: white;
+  background-color: #2e3b4c;
+  padding: 7px 10px;
+  border: 1px solid lightgray;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+}
+.scheduleOptBox {
+  display: flex;
+  align-items: center;
+  gap: 23px;
+  margin: 10px 0;
+}
+.clockIcon {
+  width: 28px;
+  height: 28px;
+}
+.dateOpt,
+.timeOpt {
+  padding: 8px 16px;
+  margin: 0;
+  border: 0.5px solid #949494;
+  border-radius: 5px;
 }
