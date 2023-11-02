@@ -61,7 +61,7 @@ function MeetUpPlan({ onPlanSelect, onConfirm }) {
             >
               <h1 className={styles.planTitle}>{travel.title}</h1>
               <p className={styles.planDate}>
-                {Moment(travel.departDate).format("YY.MM.DD")} ~{" "}
+                {Moment(travel.departDate).format("YY.MM.DD")} ~
                 {Moment(travel.lastDate).format("YY.MM.DD")}
               </p>
               <p className={styles.planNumOfCourses}>

@@ -144,7 +144,10 @@ function PostDetail() {
             <p className={styles.postContent}>{post.content}</p>
           </div>
           <div className={styles.planDetail}>
-            <PostTravelDetail writer={post.userDto.nickname} />
+            <PostTravelDetail
+              writer={post.userDto.nickname}
+              travelId={post.travelId}
+            />
           </div>
           <div className={styles.Poke}>
             <Poke id={id} isEditable={isEditable} />
