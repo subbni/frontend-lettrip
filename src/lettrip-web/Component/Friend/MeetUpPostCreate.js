@@ -34,6 +34,7 @@ function MeetUpPostCreate() {
   const [isPlaceSearch, setIsPlaceSearched] = useState(false); //modal 장소 검색
   const [placeName, setPlaceName] = useState("");
   const [isPlanSearch, setIsPlanSearched] = useState(false); //modal 장소 검색
+  const [planName, setPlanName] = useState("");
 
   // 행정구역 선택에 따른 지역 option 동적 처리
   useEffect(() => {
@@ -94,6 +95,10 @@ function MeetUpPostCreate() {
     },
     [meetUpPostForm]
   );
+  const onPlanSelect = (planTitle, selectedTravelId) => {
+    console.log(selectedTravelId);
+    setPlanName(planTitle);
+  };
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
@@ -283,7 +288,7 @@ function MeetUpPostCreate() {
               type='text'
               name='travelId'
               id='travelId'
-              value={meetUpPostForm.travelId}
+              value={planName}
               onChange={handlePostChange}
               placeholder='계획 선택'
               disabled
@@ -299,7 +304,10 @@ function MeetUpPostCreate() {
                 },
               }}
             >
-              <MeetUpPlan />
+              <MeetUpPlan
+                onPlanSelect={onPlanSelect}
+                onConfirm={closePlanSearch}
+              />
             </Modal>
           </div>
         </div>

@@ -128,12 +128,13 @@ input[type="radio"]:checked {
   height: 200px;
   font-size: 17px;
   padding: 8px 10px;
+
   border: 0.5px solid #949494;
   border-radius: 4px;
 }
 .contentPlan {
   display: flex;
-  width: 10%;
+  width: 12%;
   font-size: 17px;
   padding: 8px 5px;
   border: 0.5px solid #949494;
@@ -143,7 +144,7 @@ input[type="radio"]:checked {
   width: 50px;
   height: 30px;
   color: #85b6ff;
-  margin: 0 0 0 5px;
+  margin: 0 0 0 8px;
   cursor: pointer;
 }
 .contentPlanInput {
@@ -153,6 +154,9 @@ input[type="radio"]:checked {
   padding: 0px 10px;
   margin: 0 0 0 auto;
   border: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /*버튼 부분*/
 .footer {

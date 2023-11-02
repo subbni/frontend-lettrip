@@ -6,7 +6,7 @@ import Moment from "moment"; //날짜 및 시간 표시 라이브러리
 import styles from "./MeetUp.module.css";
 import { RxCross2 } from "react-icons/rx";
 
-function MeetUpPlan() {
+function MeetUpPlan({ onPlanSelect, onConfirm }) {
   const navigate = useNavigate();
   const [planList, setPlanList] = useState([]);
   const [pageForm, setPageForm] = useState({
@@ -16,7 +16,7 @@ function MeetUpPlan() {
   });
 
   useEffect(() => {
-    getMyTravel(true, pageForm)
+    getMyTravel(false, pageForm)
       .then((response) => {
         setPlanList(response.content);
         console.log(response);
@@ -26,6 +26,16 @@ function MeetUpPlan() {
         alert("오류 발생");
       });
   }, [pageForm]);
+
+  //계획 연동
+  const handlePlanClick = (travelId, planTitle) => {
+    const confirmMessage = `${planTitle} 계획을 연동하시겠습니까? `;
+    if (window.confirm(confirmMessage)) {
+      onConfirm();
+      onPlanSelect(planTitle, travelId);
+    }
+    console.log(travelId);
+  };
 
   //금액 단위 설정 (예시 : 10,000원 )
   const numberWithCommas = (number) => {
@@ -44,7 +54,11 @@ function MeetUpPlan() {
       {planList ? (
         <div className={styles.planContainer}>
           {planList.map((travel) => (
-            <div key={travel.id} className={styles.planItem}>
+            <div
+              key={travel.id}
+              className={styles.planItem}
+              onClick={() => handlePlanClick(travel.id, travel.title)}
+            >
               <h1 className={styles.planTitle}>{travel.title}</h1>
               <p className={styles.planDate}>
                 {Moment(travel.departDate).format("YY.MM.DD")} ~{" "}
@@ -61,7 +75,7 @@ function MeetUpPlan() {
           ))}
         </div>
       ) : (
-        <div className='travel_info'> 아직 등록된 여행 플랜이 없습니다.</div>
+        <div> 아직 등록된 여행 플랜이 없습니다.</div>
       )}
     </div>
   );
