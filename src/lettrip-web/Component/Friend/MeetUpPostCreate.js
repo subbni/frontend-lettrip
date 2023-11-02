@@ -293,7 +293,7 @@ function MeetUpPostCreate() {
               onRequestClose={closePlanSearch}
               style={{
                 content: {
-                  maxWidth: "630px",
+                  maxWidth: "700px",
                   margin: "auto",
                   padding: "30px 35px",
                 },

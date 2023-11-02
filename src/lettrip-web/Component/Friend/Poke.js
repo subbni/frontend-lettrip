@@ -54,6 +54,7 @@ function Poke({ id, isEditable }) {
     showAllPokesInMeetUpPost(id)
       .then((response) => {
         setPeople(response.content);
+        console.log(response);
       })
       .catch((e) => {
         console.log(e);
@@ -223,12 +224,12 @@ function Poke({ id, isEditable }) {
                   />
                   <div className={styles.pokePeopleInfoContent01}>
                     <p className={styles.pokeName}>
-                      {person.name} ({person.nickname})
+                      {person.userProfile.nickname}
                     </p>
                     <div className={styles.pokePeopleInfoContent02}>
                       <p className={styles.pokeAge}>{person.birthDate}세</p>
                       <p className={styles.pokeSex}>
-                        {person.sex === "MALE" ? (
+                        {person.userProfile.sex === "MALE" ? (
                           <PiGenderMaleBold className={styles.maleIcon} />
                         ) : (
                           <PiGenderFemaleBold className={styles.femaleIcon} />
@@ -238,12 +239,14 @@ function Poke({ id, isEditable }) {
                   </div>
                 </div>
                 <p className={styles.pokeMessage}>{person.briefMessage}</p>
-                <button
-                  className={styles.meetUpPokeBtn}
-                  onClick={onClickMeetUpPoke}
-                >
-                  수락
-                </button>
+                {isEditable ? (
+                  <button
+                    className={styles.meetUpPokeBtn}
+                    onClick={onClickMeetUpPoke}
+                  >
+                    수락
+                  </button>
+                ) : null}
               </div>
             ))}
           </div>

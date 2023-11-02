@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMyTravel } from "../../Service/MyPageService";
+import Moment from "moment"; //날짜 및 시간 표시 라이브러리
+
 import styles from "./MeetUp.module.css";
+import { RxCross2 } from "react-icons/rx";
 
 function MeetUpPlan() {
   const navigate = useNavigate();
@@ -13,7 +16,7 @@ function MeetUpPlan() {
   });
 
   useEffect(() => {
-    getMyTravel(false, pageForm)
+    getMyTravel(true, pageForm)
       .then((response) => {
         setPlanList(response.content);
         console.log(response);
@@ -24,39 +27,36 @@ function MeetUpPlan() {
       });
   }, [pageForm]);
 
+  //금액 단위 설정 (예시 : 10,000원 )
+  const numberWithCommas = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   return (
     <div>
       <button
-        className={styles.pokeCloseBtn}
+        className={styles.planCloseBtn}
         onClick={() => navigate("/friend")}
       >
-        x
+        <RxCross2 />
       </button>
-      <h2 className={styles.pokeCount}>연동할 계획을 선택해주세요.</h2>
+      <h2 className={styles.planText}>연동할 계획을 선택해주세요.</h2>
       {planList ? (
-        <div className={styles.pokePeopleContainer}>
+        <div className={styles.planContainer}>
           {planList.map((travel) => (
-            <div key={travel.id}>
-              <div className='travel_item_element'>
-                <div>
-                  <div className='travel_theme'>{travel.travelTheme}</div>
-                  <div className='travel_text'>{travel.totalCost}원</div>
-                </div>
-                <div>
-                  <div className='travel_text'>
-                    코스 {travel.numberOfCourses}개
-                  </div>
-                </div>
-              </div>
-              <div className='travel_item_element'>
-                <div className='travel_place'>
-                  {travel.city}
-                  <span className='travel_place_small'> {travel.province}</span>
-                </div>
-                <div className='travel_text'>
-                  {travel.departDate} ~ {travel.lastDate}
-                </div>
-              </div>
+            <div key={travel.id} className={styles.planItem}>
+              <h1 className={styles.planTitle}>{travel.title}</h1>
+              <p className={styles.planDate}>
+                {Moment(travel.departDate).format("YY.MM.DD")} ~{" "}
+                {Moment(travel.lastDate).format("YY.MM.DD")}
+              </p>
+              <p className={styles.planNumOfCourses}>
+                {travel.numberOfCourses}개
+              </p>
+              <p className={styles.planTheme}>#{travel.travelTheme}</p>
+              <p className={styles.planTotalCost}>
+                {numberWithCommas(travel.totalCost)}원 / 인
+              </p>
             </div>
           ))}
         </div>
