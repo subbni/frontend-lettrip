@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn } from "../../Service/AuthService";
 import { showMeetUpPostList } from "../../Service/MeetUpPostService";
-import MeetUpContainer from "./MeetUpContainer";
+import Pagination from "react-js-pagination";
 import styles from "./MeetUp.module.css";
 import { RiToggleFill, RiToggleLine } from "react-icons/ri"; // 지역 on/off 아이콘
-import Pagination from "react-js-pagination";
-
-import { Citys, Provinces } from "../Travel/TravelData";
+import { Provinces } from "../Travel/TravelData";
+import MeetUpContainer from "./MeetUpContainer";
 import MeetUpGPS from "./MeetUpGPS";
 
 function MeetUpTemplate() {

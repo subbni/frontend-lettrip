@@ -5,7 +5,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 
 import styles from "./Map.module.css";
 
-const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
+const MapSearch = ({ onPlaceSelect, onConfirm, containerIdx, courseIdx }) => {
   const [mapId, setMapId] = useState(containerIdx + "map" + courseIdx);
   const [keyword, setKeyword] = useState("");
   const [markers, setMarkers] = useState([]);
@@ -20,6 +20,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
     province: "",
     city: "",
     address: "",
+    place_id: "",
   });
   const [selectedUrl, setSelectedUrl] = useState("");
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
@@ -100,6 +101,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
           categoryName: place.category_group_name,
           province: "일단",
           city: "아무거나",
+          place_id: place.id,
         });
         setIsPlaceSelected(true);
         setSelectedUrl(place.place_url);
@@ -111,6 +113,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
     setMarkers(newMarkers);
     map.setBounds(bounds);
   };
+
   // 검색 결과 항목 클릭 핸들러 추가
   const SearchResultClick = (place) => {
     const position = new kakao.maps.LatLng(place.y, place.x);
@@ -130,6 +133,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
       categoryName: place.category_group_name,
       province: "일단",
       city: "아무거나",
+      place_id: place.id,
     });
     setIsPlaceSelected(true);
     setSelectedUrl(place.place_url);
@@ -164,11 +168,12 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   };
 
   const handlePlaceConfirmClick = () => {
-    onPlaceSelect(selectedPlace);
+    onPlaceSelect(selectedPlace); // 선택된 장소를 부모 컴포넌트로 전달
     setKeyword(""); // 검색어 초기화
-    setSearchResults([]); //검색 목록 초기화
+    setSearchResults([]); // 검색 목록 초기화
     setIsPlaceSelected(false); // 장소 선택 상태 초기화
-    removeAllMarkers(); //마커 초기화
+    removeAllMarkers(); // 마커 초기화
+    onConfirm();
   };
 
   const handleBackButtonClick = () => {
@@ -241,10 +246,10 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
       <div
         className={styles.map}
         id={`${containerIdx}map${courseIdx}`}
-        style={{ width: "580px", height: "720px" }}
+        style={{ width: "580px", height: "505px" }}
       />
     </div>
   );
 };
 
-export default MapForm;
+export default MapSearch;

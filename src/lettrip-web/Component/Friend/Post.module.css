@@ -114,6 +114,7 @@ input[type="radio"]:checked {
   font-size: 30px;
   color: #85b6ff;
   margin: auto 0 auto 5px;
+  cursor: pointer;
 }
 .contentPlaceInput {
   width: 93%;
@@ -123,12 +124,35 @@ input[type="radio"]:checked {
   border: none;
 }
 .contentPostContent {
-  width: 88%;
+  width: 87%;
   height: 200px;
   font-size: 17px;
   padding: 8px 10px;
   border: 0.5px solid #949494;
   border-radius: 4px;
+}
+.contentPlan {
+  display: flex;
+  width: 10%;
+  font-size: 17px;
+  padding: 8px 5px;
+  border: 0.5px solid #949494;
+  border-radius: 4px;
+}
+.planIcon {
+  width: 50px;
+  height: 30px;
+  color: #85b6ff;
+  margin: 0 0 0 5px;
+  cursor: pointer;
+}
+.contentPlanInput {
+  width: 93%;
+  font-size: 17px;
+  background-color: white;
+  padding: 0px 10px;
+  margin: 0 0 0 auto;
+  border: none;
 }
 /*버튼 부분*/
 .footer {

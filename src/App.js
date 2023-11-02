@@ -33,6 +33,7 @@ import TravelReviewTemplate from "./lettrip-web/Component/Travel/TravelReview/Tr
 import MeetUpTemplate from "./lettrip-web/Component/Friend/MeetUpTemplate";
 import PostDetail from "./lettrip-web/Component/Friend/PostDetail";
 import MeetUpPostCreate from "./lettrip-web/Component/Friend/MeetUpPostCreate";
+import MeetUpPostModify from "./lettrip-web/Component/Friend/MeetUpPostModify";
 
 //미션
 import MissionPage from "./lettrip-web/Component/Mission/MissionPage";
@@ -87,6 +88,7 @@ function App() {
           <Route path='/friend' element={<MeetUpTemplate />} />
           <Route path='/friend/:id' element={<PostDetail />} />
           <Route path='/friend/create' element={<MeetUpPostCreate />} />
+          <Route path='/friend/modify/:id' element={<MeetUpPostModify />} />
 
           <Route path='/mission' element={<MissionPage />} />
           <Route path='/mission/qr' element={<QRMissionPage />} />

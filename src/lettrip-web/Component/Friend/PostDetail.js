@@ -11,7 +11,7 @@ import styles from "./PostDetail.module.css";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 import { MdOutlineLocationOn, MdOutlineLocationOff } from "react-icons/md"; //gps on/off 아이콘
 import { PiGenderFemaleBold, PiGenderMaleBold } from "react-icons/pi"; //성별 아이콘
-import { TbMap2 } from "react-icons/tb";
+import { TbMap2 } from "react-icons/tb"; //지도 아이콘
 
 import PostTravelDetail from "./PostTravelDetail";
 import Poke from "./Poke";
@@ -19,8 +19,9 @@ import Poke from "./Poke";
 function PostDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [post, setPost] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
+  const [post, setPost] = useState([]);
+  const [profile, setProfile] = useState({});
 
   useEffect(() => {
     fetchMeetUpPost(); // 게시글 불러오기
@@ -41,8 +42,8 @@ function PostDetail() {
   const fetchMeetUpPost = () => {
     showMeetUpPost(id)
       .then((response) => {
-        console.log(response);
         setPost(response);
+        console.log(response);
       })
       .catch((e) => {
         console.log(e);
@@ -74,7 +75,9 @@ function PostDetail() {
   //날짜 및 시간 표시 방법 수정
   const formattedMeetUpDate = Moment(post.meetUpDate).format("YY.MM.DD HH:mm");
   const formattedcreatedDate = Moment(post.createdDate).format("YYYY.MM.DD");
-  const formattedbirthDate = Moment(post.createdDate).format("YYYY.MM.DD");
+  const formattedbirthDate = post.userDto
+    ? Moment(post.userDto.birthDate).format("YYYY.MM.DD")
+    : ""; // userDto가 유효한 경우에만 Moment를 사용하도록 수정
 
   return (
     <div className={styles.page}>
@@ -144,7 +147,7 @@ function PostDetail() {
             <PostTravelDetail writer={post.userDto.nickname} />
           </div>
           <div className={styles.Poke}>
-            <Poke id={id} />
+            <Poke id={id} isEditable={isEditable} />
           </div>
         </div>
       ) : null}

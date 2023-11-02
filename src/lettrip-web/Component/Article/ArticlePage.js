@@ -7,11 +7,9 @@ import {
   deleteLiked,
   pushLiked,
 } from "../../Service/LikedService";
-
+import styles from ".//Article.module.css";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"; //하트 아이콘
-
-import styles from ".//Article.module.css";
 
 import CommentCreate from "./Comment/CommentCreate";
 
@@ -20,7 +18,6 @@ function ArticlePage() {
   const { id } = useParams();
   const [isEditable, setIsEditable] = useState(false);
   const [post, setPost] = useState([]);
-
   const [profile, setProfile] = useState({});
   const likedType = "ARTICLE_LIKE";
   const likedForm = {
@@ -28,6 +25,10 @@ function ArticlePage() {
     likedType: likedType,
   };
   const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    fetchArticle(); // 게시글 불러오기
+  }, []);
 
   useEffect(() => {
     //게시글 작성자와 로그인 사용자 동일 여부 확인하기
@@ -40,7 +41,6 @@ function ArticlePage() {
   }, [post]);
 
   useEffect(() => {
-    fetchArticle(); //게시글 불러오기
     //프로필 사진 가져오기
     getMyProfile()
       .then((response) => {
@@ -55,10 +55,10 @@ function ArticlePage() {
 
   //게시글 불러오기
   const fetchArticle = () => {
-    console.log(`현재 파라미터 = ${id}`);
     showArticle(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
       .then((response) => {
         setPost(response);
+        console.log(response);
       })
       .catch((e) => {
         console.log(e);

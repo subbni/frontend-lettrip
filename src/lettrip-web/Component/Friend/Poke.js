@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "react-modal"; //overlay 라이브러리 사용하기
 import {
   createPoke,
@@ -15,8 +15,7 @@ import {
   PiHandTap,
 } from "react-icons/pi"; //성별 아이콘, 클릭 아이콘
 
-function Poke({ id }) {
-  const navigate = useNavigate();
+function Poke({ id, isEditable }) {
   const [people, setPeople] = useState([]); //찌른 사람들 정보 가져오기
   const [peopleImg, setPeopleImg] = useState([]); //찌른 사람들 3명까지 정보가져오기
   const [showAllPokes, setShowAllPokes] = useState(false); //찌른 사람들 정보 보기 (modal설정)
@@ -30,7 +29,8 @@ function Poke({ id }) {
     writeUserId: "",
     requestUserId: "",
   }); //채팅방 개설 요청 보낼 때
-  const [isPoked, setIsPoked] = useState(false); //쿡 찌르기 상태 저장
+  const [isPoked, setIsPoked] = useState(false);
+  const storedEmail = localStorage.getItem("email"); // 로그인 사용자의 닉네임 가져오기
 
   useEffect(() => {
     fetchShowAllPokes();
@@ -40,11 +40,19 @@ function Poke({ id }) {
     setPeopleImg(people.slice(0, maxPeopleToShow)); */
   }, []);
 
+  useEffect(() => {
+    // isPoked 값을 사용하여 쿡 찌르기 버튼 표시 상태 업데이트
+    if (people.some((person) => person.userProfile.email === storedEmail)) {
+      setIsPoked(true); // 사용자가 이미 찌름
+    } else {
+      setIsPoked(false); // 사용자가 찌르지 않음
+    }
+  }, [people, storedEmail]);
+
   //쿡 찌르기 전체 조회 (useEffect 돌려서 프로필 사진, 수 체크하기)
   const fetchShowAllPokes = () => {
     showAllPokesInMeetUpPost(id)
       .then((response) => {
-        console.log(response.content);
         setPeople(response.content);
       })
       .catch((e) => {
@@ -60,6 +68,10 @@ function Poke({ id }) {
   };
 
   const openModal = () => {
+    if (isEditable) {
+      window.alert("본인 글에는 찌를 수 없습니다.");
+      return;
+    }
     setModalIsOpen(true);
   };
   const closeModal = () => {
@@ -71,11 +83,10 @@ function Poke({ id }) {
     e.preventDefault();
     createPoke(pokeForm)
       .then((response) => {
-        console.log(response);
         window.alert("쿡 찔렀습니다!");
-        setIsPoked(true);
         closeModal(); // 쿡 찌르기 후 모달 닫기
-        console.log(pokeForm);
+        setIsPoked(true);
+        fetchShowAllPokes();
       })
       .catch((e) => {
         console.log(e);
@@ -86,13 +97,12 @@ function Poke({ id }) {
   //쿡 찌르기 취소 버튼 누르기
   const onClickDeletePoke = (e) => {
     e.preventDefault();
-    if (window.confirm("쿸 찌르기 요청을 취소하시겠습니까?")) {
+    if (window.confirm("쿡 찌르기 요청을 취소하시겠습니까?")) {
       deletePoke(id)
         .then((response) => {
-          console.log(response);
-          console.log(id);
           window.alert("다음에 다시 만나요!");
           setIsPoked(false);
+          fetchShowAllPokes();
         })
         .catch((e) => {
           console.log(e);
@@ -105,7 +115,7 @@ function Poke({ id }) {
   const onClickMeetUpPoke = (e) => {
     e.preventDefault();
     console.log("찌르기 요청 수락");
-    if (window.confirm("쿸 찌르기 요청을 수락하시겠습니까?")) {
+    if (window.confirm("쿡 찌르기 요청을 수락하시겠습니까?")) {
       const newChatRoomForm = {
         meetUpPostId: id,
         writeUserId: 22,
@@ -127,9 +137,9 @@ function Poke({ id }) {
   return (
     <div className={styles.pokeContainer}>
       {isPoked ? (
-        <PiHandTap className={styles.pokeIcon} onClick={openModal} />
-      ) : (
         <PiHandTap className={styles.isPokedIcon} onClick={onClickDeletePoke} />
+      ) : (
+        <PiHandTap className={styles.pokeIcon} onClick={openModal} />
       )}
       <Modal
         isOpen={modalIsOpen}
@@ -218,7 +228,7 @@ function Poke({ id }) {
                     <div className={styles.pokePeopleInfoContent02}>
                       <p className={styles.pokeAge}>{person.birthDate}세</p>
                       <p className={styles.pokeSex}>
-                        {person.sex === "male" ? (
+                        {person.sex === "MALE" ? (
                           <PiGenderMaleBold className={styles.maleIcon} />
                         ) : (
                           <PiGenderFemaleBold className={styles.femaleIcon} />
