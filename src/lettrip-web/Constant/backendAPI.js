@@ -1,5 +1,4 @@
-export const API_BASE_URL = "http://13.124.154.146:8080";
-//export const API_BASE_URL = "http://localhost:3000";
+export const API_BASE_URL = "http://3.34.130.252:8080";
 export const API_APP_BASE_URL = "http://3.34.98.95:5001";
 
 export const ACCESS_TOKEN = "accessToken";

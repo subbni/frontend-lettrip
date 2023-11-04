@@ -40,7 +40,7 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
 
   const connect = () => {
     client.current = new StompJs.Client({
-      brokerURL: "ws://13.124.154.146:8080/ws/chat",
+      brokerURL: "ws://15.164.97.221:8080/ws/chat",
       onConnect: () => {
         console.log("연결 성공");
         subscribe(); //연결 성공 시 채팅방 입장 (구독)

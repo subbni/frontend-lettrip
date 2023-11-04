@@ -59,6 +59,7 @@ function MeetUpPostCreate() {
       [changingField]: e.target.value,
     }));
   };
+
   //장소 검색 Modal 켜고 끄기
   const handlePlaceOpen = () => {
     setIsPlaceSearched(true);

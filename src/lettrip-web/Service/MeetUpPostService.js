@@ -24,15 +24,27 @@ export function deleteMeetUpPost(id) {
   });
 } //친구 매칭 글 작성 삭제 요청
 
-export function showMeetUpPostList(pageForm) {
+export function showMeetUpPostList(searchAllForm, pageForm) {
   return request({
     url:
       API_BASE_URL +
       "/api/meetUpPost" +
-      `?page=${pageForm.page}&size=${pageForm.size}&sort=${pageForm.sort}`,
+      `?province=${searchAllForm.province}&city=${searchAllForm.city}` +
+      `&page=${pageForm.page}&size=${pageForm.size}&sort=${pageForm.sort}`,
     method: "GET",
   });
 } //친구 매칭 글 전체 목록 불러오기 요청
+
+export function showMeetUpPostOption(searchForm, pageForm) {
+  return request({
+    url:
+      API_BASE_URL +
+      "/api/meetUpPost" +
+      `?province=${searchForm.province}&city=${searchForm.city}&meetUpPostStatus=${searchForm.meetUpPostStatus}&isGpsEnabled=${searchForm.isGpsEnabled}` +
+      `&page=${pageForm.page}&size=${pageForm.size}&sort=${pageForm.sort}`,
+    method: "GET",
+  });
+} //친구 매칭 글 전체 옵션 불러오기 요청
 
 export function showMeetUpPost(meetUpPostId) {
   return request({

@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Modal from "react-modal"; //overlay 라이브러리 사용하기
 import Moment from "moment"; //날짜 설정하는 라이브러리
 import "moment/locale/ko";
-
 import {
   modifyMeetUpPost,
   showMeetUpPost,
 } from "../../Service/MeetUpPostService";
 import { Citys, Provinces } from "../Travel/TravelData";
-
 import styles from "./Post.module.css";
 import { TbMap2 } from "react-icons/tb";
+import { MdAddCircleOutline } from "react-icons/md";
+import MapSearch from "./MapSearch";
+import MeetUpPlan from "./MeetUpPlan";
 
 function MeetUpPostModify() {
   const navigate = useNavigate();
@@ -33,6 +35,10 @@ function MeetUpPostModify() {
   ));
   // 지역명
   const citys = Citys;
+  const [isPlaceSearch, setIsPlaceSearched] = useState(false); //modal 장소 검색
+  const [placeName, setPlaceName] = useState("");
+  const [isPlanSearch, setIsPlanSearched] = useState(false); //modal 장소 검색
+  const [planName, setPlanName] = useState("");
 
   useEffect(() => {
     fetchMeetUpPost();
@@ -94,13 +100,46 @@ function MeetUpPostModify() {
     }));
   };
 
-  const handleDateChange = (date) => {
-    setMeetUpPostForm({
-      ...meetUpPostForm,
-      meetUpDate: date,
-    });
+  //장소 검색 Modal 켜고 끄기
+  const handlePlaceOpen = () => {
+    setIsPlaceSearched(true);
+  };
+  const closePlaceSearch = () => {
+    setIsPlaceSearched(false);
+  };
+  const handlePlanOpen = () => {
+    setIsPlanSearched(true);
+  };
+  const closePlanSearch = () => {
+    setIsPlanSearched(false);
   };
 
+  // MapForm에 전달할 place 선택 함수
+  const onPlaceSelect = useCallback(
+    (placeInfo) => {
+      const newPlace = {
+        name: placeInfo.name,
+        categoryCode: placeInfo.categoryCode,
+        categoryName: placeInfo.categoryName,
+        xpoint: placeInfo.xpoint,
+        ypoint: placeInfo.ypoint,
+        province: placeInfo.province,
+        city: placeInfo.city,
+        address: placeInfo.address,
+        placeId: placeInfo.place_id,
+      };
+      setMeetUpPostForm((meetUpPostForm) => ({
+        ...meetUpPostForm,
+        placeId: newPlace.placeId,
+      }));
+      setPlaceName(newPlace.name);
+    },
+    [meetUpPostForm]
+  );
+  const onPlanSelect = (planTitle, selectedTravelId) => {
+    console.log(selectedTravelId);
+    setPlanName(planTitle);
+  };
   const handlePostSubmit = (e) => {
     e.preventDefault();
     const formattedMeetUpDate = Moment(meetUpPostForm.meetUpDate).format(
@@ -235,17 +274,34 @@ function MeetUpPostModify() {
               </select>
             </div>
             <div className={styles.contentPlace}>
-              <TbMap2 className={styles.mapIcon} />
+              <TbMap2 className={styles.mapIcon} onClick={handlePlaceOpen} />
               <input
                 className={styles.contentPlaceInput}
                 type='text'
                 name='placeId'
                 id='placeId'
-                value={meetUpPostForm.placeId}
+                value={placeName}
                 onChange={handlePostChange}
                 placeholder='장소 검색하기 (선택)'
                 required
               />
+              <Modal
+                isOpen={isPlaceSearch}
+                onRequestClose={closePlaceSearch}
+                style={{
+                  content: {
+                    maxWidth: "650px",
+                    maxHeight: "520px",
+                    margin: "auto",
+                    padding: "10px",
+                  },
+                }}
+              >
+                <MapSearch
+                  onPlaceSelect={onPlaceSelect}
+                  onConfirm={closePlaceSearch}
+                />
+              </Modal>
             </div>
           </div>
         </div>
@@ -267,7 +323,38 @@ function MeetUpPostModify() {
           <div className={styles.contentHeader}>
             <p className={styles.contentOpt}>계획연동</p>
           </div>
-          <input></input>
+          <div className={styles.contentPlan}>
+            <MdAddCircleOutline
+              className={styles.planIcon}
+              onClick={handlePlanOpen}
+            />
+            <input
+              className={styles.contentPlanInput}
+              type='text'
+              name='travelId'
+              id='travelId'
+              value={planName}
+              onChange={handlePostChange}
+              placeholder='계획 선택'
+              disabled
+            />
+            <Modal
+              isOpen={isPlanSearch}
+              onRequestClose={closePlanSearch}
+              style={{
+                content: {
+                  maxWidth: "700px",
+                  margin: "auto",
+                  padding: "30px 35px",
+                },
+              }}
+            >
+              <MeetUpPlan
+                onPlanSelect={onPlanSelect}
+                onConfirm={closePlanSearch}
+              />
+            </Modal>
+          </div>
         </div>
       </div>
       <div className={styles.footer}>

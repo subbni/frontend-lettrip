@@ -24,9 +24,8 @@ const MeetUpGPS = ({ onAddressUpdate }) => {
           const addressParts =
             data.documents[0].road_address.address_name.split(" ");
           const address = `${addressParts[0]} ${addressParts[1]}`;
-          const addressUpdate = `${addressParts[0]}`;
           setAddress(address); // 주소를 상태에 업데이트
-          onAddressUpdate(addressUpdate); //Template로 address 정보 보내기
+          onAddressUpdate(address); //Template로 address 정보 보내기
         } else {
           console.error("주소 정보를 찾을 수 없습니다.");
         }

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn } from "../../Service/AuthService";
-import { showMeetUpPostList } from "../../Service/MeetUpPostService";
+import {
+  showMeetUpPostList,
+  showMeetUpPostOption,
+} from "../../Service/MeetUpPostService";
 import Pagination from "react-js-pagination";
 import styles from "./MeetUp.module.css";
 import { RiToggleFill, RiToggleLine } from "react-icons/ri"; // 지역 on/off 아이콘
-import { Provinces } from "../Travel/TravelData";
+import { Provinces, Citys } from "../Travel/TravelData";
 import MeetUpContainer from "./MeetUpContainer";
 import MeetUpGPS from "./MeetUpGPS";
 
@@ -17,15 +20,29 @@ function MeetUpTemplate() {
     page: 0,
     size: 8,
     sort: "id,DESC",
+  });
+  const [searchAllForm, setSearchAllForm] = useState({
+    province: "all",
+    city: "all",
   }); //친구 매칭 전체 글 불러오기 조회 리스트
+  const [searchOptionForm, setSearchOptionForm] = useState({
+    province: "",
+    city: "",
+    meetUpPostStatus: "UNSCHEDULED",
+    isGpsEnabled: false,
+  });
+
   const [meetUpPostList, setMeetUpPostList] = useState([]); //매칭 글 리스트 저장할 곳
   const [isRegionBtnOn, setIsRegionBtnOn] = useState(false); // "지역" 버튼 상태
   const [address, setAddress] = useState(null);
-
-  const [searchForm, setSearchForm] = useState({
-    province: "",
-    isMatched: "",
-  });
+  const [matchedCitys, setMatchedCitys] = useState([]);
+  // 행정구역
+  const provinces = Provinces;
+  const provincesOptions = provinces.map((province, idx) => (
+    <option key={idx}>{province}</option>
+  ));
+  // 지역명
+  const citys = Citys;
 
   useEffect(() => {
     if (!checkIfLoggedIn()) {
@@ -33,21 +50,50 @@ function MeetUpTemplate() {
     }
   }, []);
 
+  // 행정구역 선택에 따른 지역 option 동적 처리
   useEffect(() => {
-    fetchPosts();
+    const selectedProvinceObject = citys.find(
+      (object) => object.province === searchOptionForm.province
+    );
+    if (selectedProvinceObject) {
+      setMatchedCitys(selectedProvinceObject.citys);
+    }
+  }, [searchOptionForm.province]);
+
+  useEffect(() => {
+    searchAllPosts();
   }, [pageForm.page]);
 
   //////// event 핸들링
   const handlePostChange = (e) => {
     const changingField = e.target.name;
-    setSearchForm((searchForm) => ({
-      ...searchForm,
+    setSearchOptionForm((searchOptionForm) => ({
+      ...searchOptionForm,
       [changingField]: e.target.value,
     }));
   };
 
-  const fetchPosts = () => {
-    showMeetUpPostList(pageForm)
+  const onSearchBtnClick = (e) => {
+    e.preventDefault();
+    console.log(searchOptionForm);
+    searchOptionPosts();
+  };
+
+  const searchAllPosts = () => {
+    showMeetUpPostList(searchAllForm, pageForm)
+      .then((response) => {
+        setMeetUpPostList(response.content);
+        setTotalElements(response.totalElements);
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e);
+        window.alert("불러오기에 실패했습니다. 다시 시도해주세요.");
+      });
+  };
+
+  const searchOptionPosts = () => {
+    showMeetUpPostOption(searchOptionForm, pageForm)
       .then((response) => {
         setMeetUpPostList(response.content);
         setTotalElements(response.totalElements);
@@ -79,13 +125,17 @@ function MeetUpTemplate() {
     navigate("/friend/create");
   };
 
-  //GPS 지역 가져오기
+  //GPS 지역 가져오기 -> 가져오면 자동으로 지역 및 도시 입력 완료 (수정불가))
   const handleAddressUpdate = (newAddress) => {
-    console.log(newAddress);
     setAddress(newAddress);
-    setSearchForm((prevSearchForm) => ({
+    const addressPart = newAddress.split(" ");
+    const gpsProvince = `${addressPart[0]}`;
+    const gpsCity = `${addressPart[1]}`;
+    setSearchOptionForm((prevSearchForm) => ({
       ...prevSearchForm,
-      province: newAddress,
+      province: gpsProvince,
+      city: gpsCity,
+      isGpsEnabled: true,
     }));
   };
 
@@ -96,17 +146,17 @@ function MeetUpTemplate() {
         <div className={styles.isScheduledBtnBox}>
           <select
             className={styles.searchOpt}
-            name='isMatched'
-            id='isMatched'
-            value={searchForm.isMatched}
+            name='meetUpPostStatus'
+            id='meetUpPostStatus'
+            value={searchOptionForm.meetUpPostStatus}
             onChange={handlePostChange}
-            required
+            defaultValue='default'
           >
-            <option value='' disabled>
+            <option value='default' disabled>
               매칭여부
             </option>
-            <option value='false'>매칭전</option>
-            <option value='true'>매칭완료</option>
+            <option value='UNSCHEDULED'>매칭전</option>
+            <option value='SCHEDULED'>매칭완료</option>
           </select>
         </div>
         <div className={styles.provinceBtnBox}>
@@ -114,18 +164,30 @@ function MeetUpTemplate() {
             className={styles.searchOpt}
             name='province'
             id='province'
-            value={searchForm.province}
+            value={searchOptionForm.province}
             onChange={handlePostChange}
-            required
+            disabled={address !== null}
+          >
+            <option value='' disabled>
+              시/도 선택
+            </option>
+            {provincesOptions}
+          </select>
+        </div>
+        <div className={styles.cityBtnBox}>
+          <select
+            className={styles.searchOpt}
+            name='city'
+            id='city'
+            value={searchOptionForm.city}
+            onChange={handlePostChange}
             disabled={address !== null}
           >
             <option value='' disabled>
               지역
             </option>
-            {Provinces.map((province, idx) => (
-              <option key={idx} value={province}>
-                {province}
-              </option>
+            {matchedCitys.map((city, idx) => (
+              <option key={idx}>{city}</option>
             ))}
           </select>
         </div>
@@ -134,6 +196,9 @@ function MeetUpTemplate() {
           {isRegionBtnOn && <MeetUpGPS onAddressUpdate={handleAddressUpdate} />}
           <p className={styles.gpsBtn}>{regionIcon}</p>
         </div>
+        <button className={styles.searchForm_button} onClick={onSearchBtnClick}>
+          검색
+        </button>
       </div>
       <MeetUpContainer meetUpPostList={meetUpPostList} />
       <button className={styles.createBtn} onClick={handleCreatePage}>
