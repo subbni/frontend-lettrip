@@ -36,7 +36,7 @@ function ChatRoom({ enterChatRoom, chatHistory, handleMeetUpId }) {
 
   const connect = () => {
     client.current = new StompJs.Client({
-      brokerURL: "ws://13.209.3.88:8080/ws/chat",
+      brokerURL: "ws://43.200.173.195:8080/ws/chat",
       onConnect: () => {
         console.log("연결 성공");
         subscribe(); //연결 성공 시 채팅방 입장 (구독)

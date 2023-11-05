@@ -19,7 +19,7 @@ function ChatHeaderOpt({ meetUpId, enterChatRoom }) {
   const [verificationResult, setVerificationResult] = useState(""); // 인증 결과 상태
   const [verifyForm, setVerifyForm] = useState({
     code: "", // 인증 번호를 저장하는 프로퍼티
-    meetUpId: "46",
+    meetUpId: "1",
   });
 
   // 여기에서 약속 정보를 가져오는 비동기 함수를 호출

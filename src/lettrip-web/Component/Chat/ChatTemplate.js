@@ -37,7 +37,7 @@ function ChatTemplate() {
   const handleChatRoomClick = (room) => {
     setEnterChatRoom(room);
     //setMeetUpId(room.meetUpId);
-    setMeetUpId("46");
+    setMeetUpId("1");
     console.log("채팅방입장");
     showChatHistory(room.roomId)
       .then((response) => {

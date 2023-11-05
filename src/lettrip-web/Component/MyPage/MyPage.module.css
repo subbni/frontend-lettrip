@@ -19,11 +19,28 @@
   color: rgba(79, 90, 128, 1);
   margin: auto;
 }
-.hr {
+.hr01 {
   border: 0.5px solid #d9d9d9;
 }
 /*프로필 설정*/
 .profileContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  padding: 30px 20px;
+}
+.profileImg {
+  width: 225px;
+  height: 225px;
+  border-radius: 320px;
+}
+.profileNickname {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
 /*optionHeader 설정*/

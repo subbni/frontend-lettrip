@@ -23,11 +23,11 @@ export function sendMeetUpCode(meetUpId) {
   });
 } //만남 약속 인증 코드 요청
 
-export function verifyMeetUp(vertifyForm) {
+export function verifyMeetUp(verifyForm) {
   return request({
     url: API_BASE_URL + "/api/meetUp/meetUp-verify",
     method: "POST",
-    body: JSON.stringify(vertifyForm),
+    body: JSON.stringify(verifyForm),
   });
 } //만남 약속 인증 요청
 
