@@ -50,14 +50,14 @@ function MeetUpContainer({ meetUpPostList }) {
                 <p className={styles.contentTitle}>{post.title}</p>
                 <div className={styles.infoContent03}>
                   <p className={styles.contentSex}>
-                    {post.userDto.sex === "남성" ? (
+                    {post.userProfile.sex === "남성" ? (
                       <PiGenderMaleBold className={styles.maleIcon} />
                     ) : (
                       <PiGenderFemaleBold className={styles.femaleIcon} />
                     )}
                   </p>
                   <p className={styles.contentBirthDate}>
-                    {Moment(post.userDto.birthDate).format("YYYY.MM.DD")}
+                    {Moment(post.userProfile.birthDate).format("YYYY.MM.DD")}
                   </p>
                 </div>
                 <div className={styles.infoContent04}>
@@ -69,7 +69,7 @@ function MeetUpContainer({ meetUpPostList }) {
                   </p>
                   <div className={styles.infoContent05}>
                     <p className={styles.contentNickname}>
-                      {post.userDto.nickname}
+                      {post.userProfile.nickname}
                     </p>
                     <p className={styles.contentCreatedDate}>
                       {Moment(post.createdDate).format("YYYY.MM.DD")}

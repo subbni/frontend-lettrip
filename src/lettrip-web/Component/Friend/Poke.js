@@ -15,7 +15,7 @@ import {
   PiHandTap,
 } from "react-icons/pi"; //성별 아이콘, 클릭 아이콘
 
-function Poke({ id, isEditable }) {
+function Poke({ id, isEditable, writerUserId }) {
   const [people, setPeople] = useState([]); //찌른 사람들 정보 가져오기
   const [peopleImg, setPeopleImg] = useState([]); //찌른 사람들 3명까지 정보가져오기
   const [showAllPokes, setShowAllPokes] = useState(false); //찌른 사람들 정보 보기 (modal설정)
@@ -26,8 +26,8 @@ function Poke({ id, isEditable }) {
   }); //쿡 찌르기 요청 보낼 때
   const [chatRoomForm, setChatRoomForm] = useState({
     meetUpPostId: id,
-    writeUserId: "",
-    requestUserId: "",
+    writeUserId: writerUserId, //매칭글 쓴 사람
+    requestUserId: "", //찌른 사람
   }); //채팅방 개설 요청 보낼 때
   const [isPoked, setIsPoked] = useState(false);
   const storedEmail = localStorage.getItem("email"); // 로그인 사용자의 닉네임 가져오기
@@ -113,18 +113,16 @@ function Poke({ id, isEditable }) {
   };
 
   //찌르기 수락 -> 채팅방 개설
-  const onClickMeetUpPoke = (e) => {
-    e.preventDefault();
-    console.log("찌르기 요청 수락");
+  const onClickMeetUpPoke = (selectedPoke) => {
+    const updatedChatRoomForm = {
+      ...chatRoomForm,
+      requestUserId: selectedPoke.userProfile.id,
+    };
     if (window.confirm("쿡 찌르기 요청을 수락하시겠습니까?")) {
-      const newChatRoomForm = {
-        meetUpPostId: id,
-        writeUserId: 22,
-        requestUserId: 123,
-      };
-      createChatRoom(newChatRoomForm)
+      createChatRoom(updatedChatRoomForm) // 업데이트된 chatRoomForm 사용
         .then((response) => {
           console.log(response);
+          console.log(updatedChatRoomForm);
           window.alert("채팅방이 개설되었습니다!");
           setShowAllPokes(false);
         })
@@ -242,7 +240,7 @@ function Poke({ id, isEditable }) {
                 {isEditable ? (
                   <button
                     className={styles.meetUpPokeBtn}
-                    onClick={onClickMeetUpPoke}
+                    onClick={() => onClickMeetUpPoke(person)}
                   >
                     수락
                   </button>

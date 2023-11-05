@@ -85,6 +85,7 @@ function MeetUpTemplate() {
         setMeetUpPostList(response.content);
         setTotalElements(response.totalElements);
         console.log(response);
+        console.log(searchAllForm);
       })
       .catch((e) => {
         console.log(e);

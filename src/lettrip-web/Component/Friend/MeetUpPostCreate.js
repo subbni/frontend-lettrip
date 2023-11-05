@@ -102,6 +102,7 @@ function MeetUpPostCreate() {
   };
 
   const handlePostSubmit = (e) => {
+    console.log(meetUpPostForm);
     e.preventDefault();
     const formattedMeetUpDate = Moment(meetUpPostForm.meetUpDate).format(
       "YYYY-MM-DD HH:mm:ss"
@@ -122,6 +123,12 @@ function MeetUpPostCreate() {
             "게시글 작성에 실패했습니다. 다시 시도해주시길 바랍니다."
           );
         });
+    }
+  };
+
+  const handlePostCancel = () => {
+    if (window.confirm("친구 매칭글 수정을 취소하시겠습니까?")) {
+      navigate(`/friend`);
     }
   };
 
@@ -314,7 +321,9 @@ function MeetUpPostCreate() {
         </div>
       </div>
       <div className={styles.footer}>
-        <button className={styles.cancelBtn}>취소</button>
+        <button className={styles.cancelBtn} onClick={handlePostCancel}>
+          취소
+        </button>
         <button className={styles.submitBtn} onClick={handlePostSubmit}>
           등록
         </button>

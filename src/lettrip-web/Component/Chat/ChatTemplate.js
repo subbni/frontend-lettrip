@@ -7,7 +7,7 @@ import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //
 
 import { RxCross2 } from "react-icons/rx";
 import styles from "./Chat.module.css";
-import ChatContainer from "./ChatContainer";
+import ChatRoom from "./ChatRoom";
 
 function ChatTemplate() {
   const [chatRooms, setChatRooms] = useState([]); //채팅방 목록 상태
@@ -16,6 +16,7 @@ function ChatTemplate() {
 
   useEffect(() => {
     loadChatRooms(); // 추가: 채팅방 목록을 불러옴
+    console.log("채팅불러오기");
   }, []);
 
   //채팅방 목록을 불러오기
@@ -23,7 +24,7 @@ function ChatTemplate() {
     listChatRoom()
       .then((response) => {
         setChatRooms(response.content); // 채팅방 목록을 상태에 저장
-        console.log(response);
+        console.log(response.content);
       })
       .catch((error) => {
         console.error("채팅방 목록을 불러오지 못했습니다.", error);
@@ -32,12 +33,12 @@ function ChatTemplate() {
 
   const handleChatRoomClick = (room) => {
     setEnterChatRoom(room);
+    console.log(room);
     console.log("채팅방입장");
-
     showChatHistory(room.roomId)
       .then((response) => {
-        console.log(response);
         setChatHistory(response.content);
+        console.log(response.content);
       })
       .catch((error) => {
         console.error("채팅 목록을 불러오지 못했습니다.", error);
@@ -65,11 +66,9 @@ function ChatTemplate() {
         <div className={styles.listHeader}>
           <h2 className={styles.headerText}>채팅</h2>
         </div>
-
         <div className={styles.chatHeader}>
           <img className={styles.headerImg} src={anonymous_profile} />
           <p className={styles.headerNickname}>닉네임</p>
-
           <p className={styles.headerBtn}>
             <RxCross2 className={styles.headerIcon} />
           </p>
@@ -101,12 +100,7 @@ function ChatTemplate() {
             </div>
           ))}
         </div>
-        <div className={styles.chatContainer}>
-          <ChatContainer
-            enterChatRoom={enterChatRoom}
-            chatHistory={chatHistory}
-          />
-        </div>
+        <ChatRoom enterChatRoom={enterChatRoom} chatHistory={chatHistory} />
       </div>
     </div>
   );

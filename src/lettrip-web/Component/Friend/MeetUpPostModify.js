@@ -60,11 +60,11 @@ function MeetUpPostModify() {
   }, [meetUpPostForm.province]);
 
   const fetchMeetUpPost = () => {
-    showMeetUpPost(id) // 해당 id에 해당하는 article 하나만 결과로 넘어옴
+    showMeetUpPost(id)
       .then((response) => {
         const {
           title,
-          isGpsEnabled,
+          isGPSEnabled,
           meetUpDate,
           province,
           city,
@@ -74,7 +74,7 @@ function MeetUpPostModify() {
         } = response;
         setMeetUpPostForm({
           title,
-          isGpsEnabled,
+          isGpsEnabled: isGPSEnabled,
           meetUpDate,
           province,
           city,
@@ -98,6 +98,7 @@ function MeetUpPostModify() {
       ...meetUpPostForm,
       [changingField]: e.target.value,
     }));
+    console.log(meetUpPostForm);
   };
 
   //장소 검색 Modal 켜고 끄기
@@ -152,7 +153,7 @@ function MeetUpPostModify() {
       })
         .then((response) => {
           window.alert("친구 매칭글 수정이 완료되었습니다.");
-          navigate(`/articles/${id}`);
+          navigate(`/friend/${id}`);
           console.log(response);
         })
         .catch((e) => {
@@ -173,7 +174,7 @@ function MeetUpPostModify() {
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <h2 className={styles.headerTitle}>매칭 글 작성 </h2>
+        <h2 className={styles.headerTitle}>매칭 글 수정 </h2>
         <p className={styles.headerSubTitle}>*필수 항목</p>
       </div>
       <div className={styles.container}>

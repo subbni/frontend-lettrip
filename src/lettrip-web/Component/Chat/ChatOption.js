@@ -4,11 +4,16 @@ import "moment/locale/ko";
 import styles from "./Chat.module.css";
 import { AiOutlinePicture, AiOutlineClockCircle } from "react-icons/ai";
 import { FiCalendar } from "react-icons/fi";
+import ChatImageFileForm from "./ChatImageFileForm";
 
-function ChatOption({ isOptClicked }) {
+function ChatOption({ isOptClicked, handleImageFile }) {
   const [isClicked, setIsClicked] = useState(false);
   const [isScheduleClicked, setIsScheduleClicked] = useState(false);
   const [isPictureClicked, setIsPictureClicked] = useState(false);
+
+  useEffect(() => {
+    onImageFileUpload();
+  }, []);
 
   const handleScheduleClick = (e) => {
     e.preventDefault();
@@ -22,6 +27,10 @@ function ChatOption({ isOptClicked }) {
     setIsClicked(true);
     setIsPictureClicked(true);
     setIsScheduleClicked(false); // 약속 잡기 관련 상태 초기화
+  };
+
+  const onImageFileUpload = (imageUrl) => {
+    handleImageFile(imageUrl);
   };
 
   return (
@@ -63,7 +72,12 @@ function ChatOption({ isOptClicked }) {
           </div>
         </div>
       )}
-      {isPictureClicked && <div>사진 전송 관련 컨텐츠가 나타납니다.</div>}
+      {isPictureClicked && (
+        <div>
+          <h2>사진 전송</h2>
+          <ChatImageFileForm onImageFileUpload={onImageFileUpload} />
+        </div>
+      )}
     </div>
   );
 }

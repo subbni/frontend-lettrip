@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Moment from "moment"; //날짜 및 시간 표시 라이브러리
-
 import {
   deleteMeetUpPost,
   showMeetUpPost,
 } from "../../Service/MeetUpPostService";
-
 import styles from "./PostDetail.module.css";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 import { MdOutlineLocationOn, MdOutlineLocationOff } from "react-icons/md"; //gps on/off 아이콘
 import { PiGenderFemaleBold, PiGenderMaleBold } from "react-icons/pi"; //성별 아이콘
 import { TbMap2 } from "react-icons/tb"; //지도 아이콘
-
 import PostTravelDetail from "./PostTravelDetail";
 import Poke from "./Poke";
 
@@ -31,7 +28,7 @@ function PostDetail() {
   useEffect(() => {
     // 게시글 작성자와 로그인 사용자 동일 여부 확인하기
     const storedEmail = localStorage.getItem("email");
-    if (post.userDto && post.userDto.email === storedEmail) {
+    if (post.userProfile && post.userProfile.email === storedEmail) {
       setIsEditable(true);
     } else {
       setIsEditable(false);
@@ -75,13 +72,13 @@ function PostDetail() {
   //날짜 및 시간 표시 방법 수정
   const formattedMeetUpDate = Moment(post.meetUpDate).format("YY.MM.DD HH:mm");
   const formattedcreatedDate = Moment(post.createdDate).format("YYYY.MM.DD");
-  const formattedbirthDate = post.userDto
-    ? Moment(post.userDto.birthDate).format("YYYY.MM.DD")
-    : ""; // userDto가 유효한 경우에만 Moment를 사용하도록 수정
+  const formattedbirthDate = post.userProfilev
+    ? Moment(post.userProfile.birthDate).format("YYYY.MM.DD")
+    : ""; // userProfile가 유효한 경우에만 Moment를 사용하도록 수정
 
   return (
     <div className={styles.page}>
-      {post && post.userDto ? (
+      {post && post.userProfile ? (
         <div className={styles.container} key={post.id}>
           {/*제목 부분 내용*/}
           <p className={styles.content01}>
@@ -103,7 +100,7 @@ function PostDetail() {
           <h1 className={styles.postTitle}>{post.title}</h1>
           <div className={styles.content03}>
             <p className={styles.postSex}>
-              {post.userDto.sex === "male" ? (
+              {post.userProfile.sex === "male" ? (
                 <PiGenderMaleBold className={styles.maleIcon} />
               ) : (
                 <PiGenderFemaleBold className={styles.femaleIcon} />
@@ -116,7 +113,7 @@ function PostDetail() {
               <img className={styles.profileImg} src={anonymous_profile} />
             </p>
             <div className={styles.content05}>
-              <p className={styles.postNickname}>{post.userDto.nickname}</p>
+              <p className={styles.postNickname}>{post.userProfile.nickname}</p>
               <p className={styles.postCreatedDate}>{formattedcreatedDate}</p>
             </div>
             <div className={styles.contentBtnBox}>
@@ -145,12 +142,16 @@ function PostDetail() {
           </div>
           <div className={styles.planDetail}>
             <PostTravelDetail
-              writer={post.userDto.nickname}
+              writer={post.userProfile.nickname}
               travelId={post.travelId}
             />
           </div>
           <div className={styles.Poke}>
-            <Poke id={id} isEditable={isEditable} />
+            <Poke
+              id={id}
+              isEditable={isEditable}
+              writerUserId={post.userProfile.id}
+            />
           </div>
         </div>
       ) : null}
