@@ -14,14 +14,7 @@ const SearchForm = ({ onGetResult, pageForm }) => {
     maxNumberOfCourses: -1,
     travelTheme: "all",
   });
-  const [cost, setCost] = useState({
-    minCost: "",
-    maxCost: "",
-  });
-  const [numberOfCourses, setNumberOfCourses] = useState({
-    minNumberOfCourses: "",
-    maxNumberOfCourses: "",
-  });
+
   const [matchedCitys, setMatchedCitys] = useState([]);
 
   //////// data list
@@ -141,6 +134,7 @@ const SearchForm = ({ onGetResult, pageForm }) => {
     searchTravelList(searchForm, pageForm)
       .then((response) => {
         console.log(response);
+        console.log(searchForm);
         if (response.content.length === 0) {
           alert("해당하는 여행 코스가 존재하지 않습니다.");
         }

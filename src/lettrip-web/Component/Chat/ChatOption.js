@@ -2,13 +2,25 @@ import React, { useState, useEffect } from "react";
 import moment from "moment"; //날짜 설정하는 라이브러리
 import "moment/locale/ko";
 import styles from "./Chat.module.css";
-import { AiOutlinePicture, AiOutlineClockCircle } from "react-icons/ai";
+import { AiOutlinePicture } from "react-icons/ai";
 import { FiCalendar } from "react-icons/fi";
+import ChatImageFileForm from "./ChatImageFileForm";
+import ChatShedule from "./ChatSchedule";
 
-function ChatOption({ isOptClicked }) {
+function ChatOption({
+  isOptClicked,
+  handleImageFile,
+  handleSchedule,
+  chatRoomInfo,
+}) {
   const [isClicked, setIsClicked] = useState(false);
   const [isScheduleClicked, setIsScheduleClicked] = useState(false);
   const [isPictureClicked, setIsPictureClicked] = useState(false);
+  const [isMeetUpScheduled, setIsMeetUpScheduled] = useState(false);
+
+  useEffect(() => {
+    onImageFileUpload();
+  }, []);
 
   const handleScheduleClick = (e) => {
     e.preventDefault();
@@ -22,6 +34,16 @@ function ChatOption({ isOptClicked }) {
     setIsClicked(true);
     setIsPictureClicked(true);
     setIsScheduleClicked(false); // 약속 잡기 관련 상태 초기화
+  };
+
+  const onImageFileUpload = (imageUrl) => {
+    handleImageFile(imageUrl);
+  };
+
+  const onMeetUpScheduled = (MeetUpId) => {
+    console.log(MeetUpId);
+    handleSchedule(MeetUpId);
+    setIsMeetUpScheduled(true);
   };
 
   return (
@@ -52,18 +74,23 @@ function ChatOption({ isOptClicked }) {
           ) : null}
         </div>
       ) : null}
-      {isScheduleClicked && (
-        <div className={styles.scheduleBox}>
-          <h3 className={styles.scheduleTitle}>약속 잡기</h3>
-          <div className={styles.scheduleOptBox}>
-            <AiOutlineClockCircle className={styles.clockIcon} />
-            <p className={styles.dateOpt}>2023.11.02</p>
-            <p className={styles.timeOpt}>오후 1:33</p>
-            <button className={styles.scheduleBtn}> 약속 등록</button>
-          </div>
+      {isMeetUpScheduled ? (
+        <button onClick={() => console.log("약속 취소")}>약속 취소</button>
+      ) : null}
+      {isScheduleClicked && !isMeetUpScheduled && (
+        <div>
+          <ChatShedule
+            chatRoomInfo={chatRoomInfo}
+            onMeetUpScheduled={onMeetUpScheduled}
+          />
         </div>
       )}
-      {isPictureClicked && <div>사진 전송 관련 컨텐츠가 나타납니다.</div>}
+      {isPictureClicked && (
+        <div>
+          <h2>사진 전송</h2>
+          <ChatImageFileForm onImageFileUpload={onImageFileUpload} />
+        </div>
+      )}
     </div>
   );
 }

@@ -91,18 +91,20 @@
   border-radius: 10px;
 }
 .chatContainer {
+  display: flex;
+  flex-direction: column;
   width: 435px;
+  height: 100%;
   border-left: 0.5px solid #d8d8d8;
-  overflow-y: auto;
 }
 .chatRoomContent {
+  flex: 1;
   max-height: 515px;
   padding: 10px;
   overflow-y: auto;
 }
-.chatBox {
-  display: flex;
-  gap: 10px;
+.chatMessages {
+  overflow-y: auto;
 }
 .chatProfileImg {
   height: 35px;
@@ -122,15 +124,15 @@
   font-weight: 200;
   margin: auto -5px 0px;
 }
+.msgImage {
+  width: 20%;
+}
 
 /*메세지 보내기 Container*/
 .chatSendBox {
-  width: 52%;
+  width: 415px;
   padding: 10px;
   border-top: 0.5px solid #d8d8d8;
-  position: absolute;
-  bottom: 0;
-  right: 0;
 }
 .chatSendForm {
   display: flex;
@@ -252,4 +254,7 @@
   margin: 0;
   border: 0.5px solid #949494;
   border-radius: 5px;
+}
+.img {
+  width: 50%;
 }

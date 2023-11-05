@@ -1,22 +1,19 @@
 import { useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import * as StompJs from "@stomp/stompjs";
-
-import { showChatHistory } from "../../Service/ChatService";
 import moment from "moment"; //날짜 설정하는 라이브러리
 import "moment/locale/ko";
-
 import styles from "./Chat.module.css";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsSendFill } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
-
 import ChatOption from "./ChatOption";
 
-function ChatContainer({ enterChatRoom, chatHistory }) {
+function ChatRoom({ enterChatRoom, chatHistory, handleMeetUpId }) {
   const [chatList, setChatList] = useState([]);
   const [chat, setChat] = useState("");
+  const [status, setStatus] = useState("false");
   const client = useRef({});
   const [userId, setUserId] = useState(1);
 
@@ -27,20 +24,19 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
   useEffect(() => {
     setChatRoomInfo(enterChatRoom);
     setChatHistoryInfo(chatHistory);
-
     connect();
     return () => disconnect();
   }, [enterChatRoom, chatHistory]);
 
   useEffect(() => {
-    if (chatRoomInfo && chatRoomInfo.roomId) {
-      subscribe();
-    }
+    //if (chatRoomInfo && chatRoomInfo.roomId) {
+    //subscribe();
+    //}
   }, [chatRoomInfo, chatList]);
 
   const connect = () => {
     client.current = new StompJs.Client({
-      brokerURL: "ws://13.124.154.146:8080/ws/chat",
+      brokerURL: "ws://43.200.173.195:8080/ws/chat",
       onConnect: () => {
         console.log("연결 성공");
         subscribe(); //연결 성공 시 채팅방 입장 (구독)
@@ -49,20 +45,36 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
     client.current.activate(); // 클라이언트 활성화
   };
 
-  const publish = (chat) => {
+  const publish = (chat, status) => {
     if (!client.current.connected) console.log("채팅 연결 실패!");
-
+    const sendData = {
+      roomId: chatRoomInfo.roomId,
+      senderId: chatRoomInfo.currentUserId,
+      receiverId: chatRoomInfo.participant.id,
+      message: chat,
+      isImage: status,
+    };
     client.current.publish({
       destination: "/pub/message",
-      body: JSON.stringify({
-        roomId: chatRoomInfo.roomId,
-        senderId: userId,
-        receiverId: chatRoomInfo.participant.id,
-        message: chat,
-        isImage: false,
-      }),
+      body: JSON.stringify(sendData),
     });
     setChat("");
+    console.log(sendData);
+  };
+
+  //사진을 보낼 때
+  const handleImageFile = (imageUrl) => {
+    console.log(imageUrl);
+    setStatus("true");
+    if (imageUrl !== undefined) {
+      publish(imageUrl, status);
+    }
+    console.log(status);
+  };
+
+  const handleSchedule = (MeetUpId) => {
+    handleMeetUpId(MeetUpId);
+    console.log(MeetUpId);
   };
 
   // 구독한 채널에서 메시지가 왔을 때 처리
@@ -91,13 +103,17 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
     console.log("채팅 종료!");
   };
 
-  const handleChange = (event) => {
-    setChat(event.target.value);
+  const handleChange = (e) => {
+    setChat(e.target.value);
   };
 
-  const handleSubmit = (event, chat) => {
-    event.preventDefault();
-    publish(chat);
+  const handleSubmit = (e, chat) => {
+    e.preventDefault();
+    setStatus("false");
+    // 채팅 내용이 비어있지 않은 경우에만 전송
+    if (chat.trim() !== "") {
+      publish(chat, status);
+    }
   };
 
   const formatDateTime = (time) => {
@@ -116,38 +132,56 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
   };
 
   return (
-    <div className={styles.chatRoomContent}>
-      {chatRoomInfo && chatRoomInfo.participant && chatHistoryInfo ? (
-        <div className={styles.chatMessages}>
-          {chatHistoryInfo.map((message, index) => (
-            <div key={index} className={styles.message}>
-              <img
-                className={styles.chatProfileImg}
-                src={anonymous_profile}
-                alt='Profile'
-              />
-              <div className={styles.messageContent}>
-                <p>{message.message}</p>
-                <p> {formatDateTime(message.createdAt)}</p>
+    <div className={styles.chatContainer}>
+      <div className={styles.chatRoomContent}>
+        {enterChatRoom && enterChatRoom.participant && chatHistoryInfo ? (
+          <div className={styles.chatMessages}>
+            {chatHistoryInfo.map((message, index) => (
+              <div key={index} className={styles.message}>
+                <img
+                  className={styles.chatProfileImg}
+                  src={anonymous_profile}
+                  alt='Profile'
+                />
+                <div className={styles.messageContent}>
+                  {message.isImage == "true" ? (
+                    <img
+                      src={message.message}
+                      alt='Image'
+                      className={styles.msgImage}
+                    />
+                  ) : (
+                    <p>{message.message}</p>
+                  )}
+                  <p> {formatDateTime(message.createdAt)}</p>
+                </div>
               </div>
-            </div>
-          ))}
-          <h3>새로운 메시지</h3>
-          {chatList.map((newMessage, index) => (
-            <div key={index} className={styles.message}>
-              <img
-                className={styles.chatProfileImg}
-                src={anonymous_profile}
-                alt='Profile'
-              />
-              <div className={styles.messageContent}>
-                <p>{newMessage.message}</p>
-                <p> {newMessage.createdAt}</p>
+            ))}
+            <h3>새로운 메시지</h3>
+            {chatList.map((newMessage, index) => (
+              <div key={index} className={styles.message}>
+                <img
+                  className={styles.chatProfileImg}
+                  src={anonymous_profile}
+                  alt='Profile'
+                />
+                <div className={styles.messageContent}>
+                  {newMessage.isImage == "true" ? (
+                    <img
+                      src={newMessage.message}
+                      alt='Image'
+                      className={styles.msgImage}
+                    />
+                  ) : (
+                    <p>{newMessage.message}</p>
+                  )}
+                  <p>{formatDateTime(newMessage.createdAt)}</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      ) : null}
+            ))}
+          </div>
+        ) : null}
+      </div>
       <div className={styles.chatSendBox}>
         <form
           onSubmit={(event) => handleSubmit(event, chat)}
@@ -165,6 +199,7 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
               value={chat}
               placeholder='메세지를 입력하세요'
               className={styles.chatInput}
+              required
             />
             <BsSendFill
               input
@@ -175,10 +210,17 @@ function ChatContainer({ enterChatRoom, chatHistory }) {
           </div>
         </form>
 
-        {isOptClicked ? <ChatOption isOptClicked={isOptClicked} /> : null}
+        {isOptClicked ? (
+          <ChatOption
+            isOptClicked={isOptClicked}
+            handleImageFile={handleImageFile}
+            handleSchedule={handleSchedule}
+            chatRoomInfo={chatRoomInfo}
+          />
+        ) : null}
       </div>
     </div>
   );
 }
 
-export default ChatContainer;
+export default ChatRoom;

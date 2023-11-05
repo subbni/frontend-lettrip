@@ -7,15 +7,19 @@ import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //
 
 import { RxCross2 } from "react-icons/rx";
 import styles from "./Chat.module.css";
-import ChatContainer from "./ChatContainer";
+import ChatRoom from "./ChatRoom";
+import ChatHeaderOpt from "./ChatHeaderOpt";
 
 function ChatTemplate() {
   const [chatRooms, setChatRooms] = useState([]); //채팅방 목록 상태
   const [enterChatRoom, setEnterChatRoom] = useState(null); //채팅방 입장 (현재 접속중인 채팅방)
   const [chatHistory, setChatHistory] = useState([]); //채팅 목록 저장
+  const [nickname, setNickname] = useState(""); //닉네임 저장
+  const [meetUpId, setMeetUpId] = useState(null);
 
   useEffect(() => {
     loadChatRooms(); // 추가: 채팅방 목록을 불러옴
+    console.log("채팅불러오기");
   }, []);
 
   //채팅방 목록을 불러오기
@@ -23,7 +27,7 @@ function ChatTemplate() {
     listChatRoom()
       .then((response) => {
         setChatRooms(response.content); // 채팅방 목록을 상태에 저장
-        console.log(response);
+        console.log(response.content);
       })
       .catch((error) => {
         console.error("채팅방 목록을 불러오지 못했습니다.", error);
@@ -32,12 +36,13 @@ function ChatTemplate() {
 
   const handleChatRoomClick = (room) => {
     setEnterChatRoom(room);
+    //setMeetUpId(room.meetUpId);
+    setMeetUpId("1");
     console.log("채팅방입장");
-
     showChatHistory(room.roomId)
       .then((response) => {
-        console.log(response);
         setChatHistory(response.content);
+        console.log(response.content);
       })
       .catch((error) => {
         console.error("채팅 목록을 불러오지 못했습니다.", error);
@@ -59,17 +64,20 @@ function ChatTemplate() {
     }
   };
 
+  const handleMeetUpId = (MeetUpId) => {
+    console.log(MeetUpId);
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.header}>
         <div className={styles.listHeader}>
           <h2 className={styles.headerText}>채팅</h2>
         </div>
-
         <div className={styles.chatHeader}>
           <img className={styles.headerImg} src={anonymous_profile} />
           <p className={styles.headerNickname}>닉네임</p>
-
+          <ChatHeaderOpt meetUpId={meetUpId} enterChatRoom={enterChatRoom} />
           <p className={styles.headerBtn}>
             <RxCross2 className={styles.headerIcon} />
           </p>
@@ -101,12 +109,11 @@ function ChatTemplate() {
             </div>
           ))}
         </div>
-        <div className={styles.chatContainer}>
-          <ChatContainer
-            enterChatRoom={enterChatRoom}
-            chatHistory={chatHistory}
-          />
-        </div>
+        <ChatRoom
+          enterChatRoom={enterChatRoom}
+          chatHistory={chatHistory}
+          handleMeetUpId={handleMeetUpId}
+        />
       </div>
     </div>
   );
