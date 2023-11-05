@@ -8,11 +8,14 @@ import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //
 import { RxCross2 } from "react-icons/rx";
 import styles from "./Chat.module.css";
 import ChatRoom from "./ChatRoom";
+import ChatHeaderOpt from "./ChatHeaderOpt";
 
 function ChatTemplate() {
   const [chatRooms, setChatRooms] = useState([]); //채팅방 목록 상태
   const [enterChatRoom, setEnterChatRoom] = useState(null); //채팅방 입장 (현재 접속중인 채팅방)
   const [chatHistory, setChatHistory] = useState([]); //채팅 목록 저장
+  const [nickname, setNickname] = useState(""); //닉네임 저장
+  const [meetUpId, setMeetUpId] = useState(null);
 
   useEffect(() => {
     loadChatRooms(); // 추가: 채팅방 목록을 불러옴
@@ -33,7 +36,8 @@ function ChatTemplate() {
 
   const handleChatRoomClick = (room) => {
     setEnterChatRoom(room);
-    console.log(room);
+    //setMeetUpId(room.meetUpId);
+    setMeetUpId("46");
     console.log("채팅방입장");
     showChatHistory(room.roomId)
       .then((response) => {
@@ -60,6 +64,10 @@ function ChatTemplate() {
     }
   };
 
+  const handleMeetUpId = (MeetUpId) => {
+    console.log(MeetUpId);
+  };
+
   return (
     <div className={styles.page}>
       <div className={styles.header}>
@@ -69,6 +77,7 @@ function ChatTemplate() {
         <div className={styles.chatHeader}>
           <img className={styles.headerImg} src={anonymous_profile} />
           <p className={styles.headerNickname}>닉네임</p>
+          <ChatHeaderOpt meetUpId={meetUpId} enterChatRoom={enterChatRoom} />
           <p className={styles.headerBtn}>
             <RxCross2 className={styles.headerIcon} />
           </p>
@@ -100,7 +109,11 @@ function ChatTemplate() {
             </div>
           ))}
         </div>
-        <ChatRoom enterChatRoom={enterChatRoom} chatHistory={chatHistory} />
+        <ChatRoom
+          enterChatRoom={enterChatRoom}
+          chatHistory={chatHistory}
+          handleMeetUpId={handleMeetUpId}
+        />
       </div>
     </div>
   );

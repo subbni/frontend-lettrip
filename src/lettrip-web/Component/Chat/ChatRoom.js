@@ -10,7 +10,7 @@ import { RxCross2 } from "react-icons/rx";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 import ChatOption from "./ChatOption";
 
-function ChatRoom({ enterChatRoom, chatHistory }) {
+function ChatRoom({ enterChatRoom, chatHistory, handleMeetUpId }) {
   const [chatList, setChatList] = useState([]);
   const [chat, setChat] = useState("");
   const [status, setStatus] = useState("false");
@@ -24,7 +24,6 @@ function ChatRoom({ enterChatRoom, chatHistory }) {
   useEffect(() => {
     setChatRoomInfo(enterChatRoom);
     setChatHistoryInfo(chatHistory);
-
     connect();
     return () => disconnect();
   }, [enterChatRoom, chatHistory]);
@@ -37,7 +36,7 @@ function ChatRoom({ enterChatRoom, chatHistory }) {
 
   const connect = () => {
     client.current = new StompJs.Client({
-      brokerURL: "ws://3.36.74.101:8080/ws/chat",
+      brokerURL: "ws://13.209.3.88:8080/ws/chat",
       onConnect: () => {
         console.log("연결 성공");
         subscribe(); //연결 성공 시 채팅방 입장 (구독)
@@ -50,7 +49,7 @@ function ChatRoom({ enterChatRoom, chatHistory }) {
     if (!client.current.connected) console.log("채팅 연결 실패!");
     const sendData = {
       roomId: chatRoomInfo.roomId,
-      senderId: userId,
+      senderId: chatRoomInfo.currentUserId,
       receiverId: chatRoomInfo.participant.id,
       message: chat,
       isImage: status,
@@ -67,8 +66,15 @@ function ChatRoom({ enterChatRoom, chatHistory }) {
   const handleImageFile = (imageUrl) => {
     console.log(imageUrl);
     setStatus("true");
-    publish(imageUrl, status);
+    if (imageUrl !== undefined) {
+      publish(imageUrl, status);
+    }
     console.log(status);
+  };
+
+  const handleSchedule = (MeetUpId) => {
+    handleMeetUpId(MeetUpId);
+    console.log(MeetUpId);
   };
 
   // 구독한 채널에서 메시지가 왔을 때 처리
@@ -104,7 +110,10 @@ function ChatRoom({ enterChatRoom, chatHistory }) {
   const handleSubmit = (e, chat) => {
     e.preventDefault();
     setStatus("false");
-    publish(chat, status);
+    // 채팅 내용이 비어있지 않은 경우에만 전송
+    if (chat.trim() !== "") {
+      publish(chat, status);
+    }
   };
 
   const formatDateTime = (time) => {
@@ -135,7 +144,7 @@ function ChatRoom({ enterChatRoom, chatHistory }) {
                   alt='Profile'
                 />
                 <div className={styles.messageContent}>
-                  {message.message == "true" ? (
+                  {message.isImage == "true" ? (
                     <img
                       src={message.message}
                       alt='Image'
@@ -190,6 +199,7 @@ function ChatRoom({ enterChatRoom, chatHistory }) {
               value={chat}
               placeholder='메세지를 입력하세요'
               className={styles.chatInput}
+              required
             />
             <BsSendFill
               input
@@ -204,6 +214,8 @@ function ChatRoom({ enterChatRoom, chatHistory }) {
           <ChatOption
             isOptClicked={isOptClicked}
             handleImageFile={handleImageFile}
+            handleSchedule={handleSchedule}
+            chatRoomInfo={chatRoomInfo}
           />
         ) : null}
       </div>

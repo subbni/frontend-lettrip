@@ -130,7 +130,7 @@
 
 /*메세지 보내기 Container*/
 .chatSendBox {
-  width: 52%;
+  width: 415px;
   padding: 10px;
   border-top: 0.5px solid #d8d8d8;
 }
