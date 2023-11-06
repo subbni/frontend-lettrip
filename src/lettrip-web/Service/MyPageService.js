@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import { API_BASE_URL } from "../Constant/backendAPI";
 import { formRequest, request } from "./APIService";
 
@@ -72,3 +70,27 @@ export function checkMyPassword(userForm) {
     body: JSON.stringify(userForm),
   });
 } //마이페이지 프로필 비밀번호 확인 요청
+
+//내가 쓴 meetUpPost 글 목록 불러오기
+export function getMyMeetUpPost(pageForm) {
+  return request({
+    url:
+      API_BASE_URL +
+      "/api/meetUpPost/my" +
+      `?page=${pageForm.page}&size=${pageForm.size}&sort=${pageForm.sort}`,
+    method: "GET",
+  });
+}
+//내가 찌른 meetUpPost 글 목록 불러오기
+export function getMyPoke(pageForm) {
+  return request({
+    url:
+      API_BASE_URL +
+      "/api/meetUpPost/my/poked" +
+      `?page=${pageForm.page}&size=${pageForm.size}&sort=${pageForm.sort}`,
+    method: "GET",
+  });
+}
+
+class AuthService {}
+export default new AuthService();

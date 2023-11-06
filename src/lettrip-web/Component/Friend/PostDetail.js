@@ -5,6 +5,7 @@ import {
   deleteMeetUpPost,
   showMeetUpPost,
 } from "../../Service/MeetUpPostService";
+import { showPlaceById } from "../../Service/PlaceReviewService";
 import styles from "./PostDetail.module.css";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 import { MdOutlineLocationOn, MdOutlineLocationOff } from "react-icons/md"; //gps on/off 아이콘
@@ -18,7 +19,8 @@ function PostDetail() {
   const { id } = useParams();
   const [isEditable, setIsEditable] = useState(false);
   const [post, setPost] = useState([]);
-  const [profile, setProfile] = useState({});
+  const [place, setPlace] = useState(null);
+  const [placeInfo, setPlaceInfo] = useState(null);
 
   useEffect(() => {
     fetchMeetUpPost(); // 게시글 불러오기
@@ -35,11 +37,28 @@ function PostDetail() {
     }
   }, [post]);
 
+  //장소 id를 이용해서 불러오기
+  useEffect(() => {
+    if (place) {
+      showPlaceById(place)
+        .then((response) => {
+          setPlaceInfo(response.name);
+          console.log(response);
+        })
+        .catch((e) => {
+          console.log(e);
+          window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
+          navigate("/friend");
+        });
+    }
+  }, [place]);
+
   //게시글 불러오기
   const fetchMeetUpPost = () => {
     showMeetUpPost(id)
       .then((response) => {
         setPost(response);
+        setPlace(response.placeId);
         console.log(response);
       })
       .catch((e) => {
@@ -134,8 +153,7 @@ function PostDetail() {
           <div className={styles.contentBox}>
             <div className={styles.content06}>
               <TbMap2 className={styles.mapIcon} />
-              <p className={styles.postPlaceName}>{post.placename}</p>
-              <p className={styles.postAddress}>{post.address}</p>
+              <p className={styles.postPlaceName}>{placeInfo}</p>
             </div>
             <p className={styles.postMeetUpDate}>{formattedMeetUpDate}</p>
             <p className={styles.postContent}>{post.content}</p>

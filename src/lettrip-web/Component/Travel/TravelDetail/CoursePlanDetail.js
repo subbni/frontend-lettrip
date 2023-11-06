@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./TravelPlan.module.css";
 
@@ -36,7 +36,9 @@ const CoursePlanDetail = ({ course }) => {
           {getKoreanTime(course.arrivedTime)}
         </div>
       </div>
-      <div className={styles.detailAddress}> {course.place.province} </div>
+      <div className={styles.detailAddress}>
+        {course.place.province} {course.place.city}
+      </div>
       <div className={styles.detailCost}>
         예상 금액 : {numberWithCommas(course.cost)}원
       </div>

@@ -1,0 +1,243 @@
+.page {
+  display: flex;
+  width: 100%;
+  height: 657px;
+}
+.leftPage {
+  width: 45%;
+  border-right: 0.5px solid #ccc;
+}
+.leftHeader {
+  border-bottom: 0.5px solid #ccc;
+}
+.headerText {
+  font-size: 22px;
+  font-weight: 400;
+  padding: 20px 25px;
+  margin: 0;
+}
+.rightPage {
+  width: 55%;
+  border-left: 0.5px solid #ccc;
+}
+.rightHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 0.5px solid #ccc;
+  /*box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2); */
+}
+.header01 {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.headerImage {
+  width: 45px;
+  height: 45px;
+  margin-right: 15px;
+}
+.headerNickname {
+  font-size: 18px;
+  font-weight: 400;
+}
+.headerOption {
+  font-size: 30px;
+  color: #2e3b4c;
+  margin-left: auto;
+  cursor: pointer;
+}
+.headerCancel {
+  font-size: 30px;
+  color: #2e3b4c;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.header02 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 15px 0 10px;
+}
+.headerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.postInfo {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.postAddress {
+  display: flex;
+  padding: 0 20px;
+  gap: 5px;
+}
+.postBtn {
+  font-size: 15px;
+  background-color: white;
+  padding: 5px 10px;
+  border: 0.5px solid #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.header03 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 15px 0 10px;
+}
+.planTitle {
+  font-size: 14px;
+  color: #949494;
+}
+/*ChatList***********************************************/
+.chatList {
+  display: flex;
+  padding: 15px 20px 10px;
+  border-bottom: 1px solid #d9d9d9;
+  cursor: pointer;
+}
+.listProfile {
+  margin: 0px;
+}
+.listInfo {
+  margin-left: 10px;
+}
+.listNickname {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 3px 0 0;
+}
+.listLastContent {
+  max-width: 210px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listLastTime {
+  font-size: 13px;
+  font-weight: 200;
+  margin: auto -5px 6px auto;
+}
+.profileImg {
+  height: 45px;
+  width: 45px;
+  border-radius: 10px;
+}
+/*Chatting***********************************************/
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 522px;
+}
+.chatRoomContent {
+  flex: 1;
+  background-color: #f8f8f8;
+  padding: 10px;
+  overflow-y: auto;
+}
+.chatMessages {
+  overflow-y: auto;
+}
+.messageBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.messageText {
+  background-color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+}
+.messageTime {
+  font-size: 12px;
+  color: #949494;
+  margin: 25px 0 0;
+}
+.chatProfileImg {
+  height: 40px;
+  width: 40px;
+  border-radius: 10px;
+}
+.chatMessage {
+  text-align: center;
+  padding: 5px 10px;
+  margin: 0;
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
+}
+.chatCreatedTime {
+  font-size: 13px;
+  font-weight: 200;
+  margin: auto -5px 0px;
+}
+.messageImage {
+  width: 20%;
+}
+
+/*메세지 보내기 Container*/
+.chatSendBox {
+  width: 415px;
+  padding: 10px;
+  border-top: 0.5px solid #d8d8d8;
+}
+.chatSendForm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.optIcon {
+  width: 28px;
+  height: 28px;
+  color: #bdbdbd;
+}
+.chatOptBtn {
+  cursor: pointer;
+  margin: 5px 0 0;
+}
+.chatInputBox {
+  display: flex;
+  text-align: center;
+  width: 90%;
+  height: 100%;
+  background-color: #f1f3f6;
+  padding: 5px 10px;
+  border: 1px solid #f1f3f6;
+  border-radius: 10px;
+  gap: 10px;
+}
+.chatInput {
+  width: 90%;
+  background-color: #f1f3f6;
+  padding: 5px;
+  border: none;
+  text-decoration: none;
+}
+.chatSendBtn {
+  width: 23px;
+  height: 23px;
+  cursor: pointer;
+}
+.calendarBackground {
+  width: 50px;
+  height: 50px;
+  background-color: #4395ff;
+  border-radius: 30px;
+  margin: 0;
+}
+.calendarIcon {
+  width: 32px;
+  height: 32px;
+  color: white;
+  padding: 5px;
+  margin-top: 4px;
+}

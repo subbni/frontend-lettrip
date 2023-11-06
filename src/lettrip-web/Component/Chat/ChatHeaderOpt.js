@@ -7,6 +7,7 @@ import {
   sendMeetUpCode, // 인증 번호를 요청하는 함수
   verifyMeetUp, // 인증 번호를 확인하는 함수
 } from "../../Service/MeetUpService";
+import { createMeetUpReview } from "../../Service/MeetUpReivew";
 import styles from "./Chat.module.css";
 
 function ChatHeaderOpt({ meetUpId, enterChatRoom }) {
@@ -20,6 +21,11 @@ function ChatHeaderOpt({ meetUpId, enterChatRoom }) {
   const [verifyForm, setVerifyForm] = useState({
     code: "", // 인증 번호를 저장하는 프로퍼티
     meetUpId: "1",
+  });
+  const [meetUpReviewForm, setMeetUpReviewForm] = useState({
+    meetUpId: "1",
+    objectUserId: "",
+    content: "",
   });
 
   // 여기에서 약속 정보를 가져오는 비동기 함수를 호출
@@ -92,16 +98,39 @@ function ChatHeaderOpt({ meetUpId, enterChatRoom }) {
       });
   };
 
+  const createReview = () => {
+    createMeetUpReview(meetUpReviewForm)
+      .then((response) => {
+        setMeetUp(response.content);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("만남을 불러오지 못했습니다.", error);
+      });
+  };
+
   return (
     <div>
       <button onClick={showMeetUps}>만남</button>
       <button onClick={cancelMeetUps}>만남 취소</button>
       <button onClick={verifyMeetUps}>인증하기</button>
+      <button onClick={createReview}>한줄평 작성</button>
       <input
         type='text'
         placeholder='인증 번호 입력'
         value={verificationCode}
         onChange={(e) => setVerificationCode(e.target.value)}
+      />
+      <input
+        type='text'
+        placeholder='한줄평 작성'
+        value={meetUpReviewForm.content}
+        onChange={(e) =>
+          setMeetUpReviewForm({
+            ...meetUpReviewForm,
+            content: e.target.value,
+          })
+        }
       />
       <p>{verificationResult}</p>
       {showMeetUpList && meetUp && (

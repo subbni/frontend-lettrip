@@ -74,31 +74,22 @@ function MeetUpPostCreate() {
     setIsPlanSearched(false);
   };
 
-  // MapForm에 전달할 place 선택 함수
-  const onPlaceSelect = useCallback(
-    (placeInfo) => {
-      const newPlace = {
-        name: placeInfo.name,
-        categoryCode: placeInfo.categoryCode,
-        categoryName: placeInfo.categoryName,
-        xpoint: placeInfo.xpoint,
-        ypoint: placeInfo.ypoint,
-        province: placeInfo.province,
-        city: placeInfo.city,
-        address: placeInfo.address,
-        placeId: placeInfo.place_id,
-      };
-      setMeetUpPostForm((meetUpPostForm) => ({
-        ...meetUpPostForm,
-        placeId: newPlace.placeId,
-      }));
-      setPlaceName(newPlace.name);
-    },
-    [meetUpPostForm]
-  );
+  const onPlaceSelect = (placeId, placeName) => {
+    console.log(placeId, placeName);
+    setMeetUpPostForm((prevMeetUpPostForm) => ({
+      ...prevMeetUpPostForm,
+      placeId: placeId,
+    }));
+    setPlaceName(placeName);
+  };
+
   const onPlanSelect = (planTitle, selectedTravelId) => {
     console.log(selectedTravelId);
     setPlanName(planTitle);
+    setMeetUpPostForm((prevMeetUpPostForm) => ({
+      ...prevMeetUpPostForm,
+      travelId: selectedTravelId,
+    }));
   };
 
   const handlePostSubmit = (e) => {
@@ -114,6 +105,7 @@ function MeetUpPostCreate() {
       })
         .then((response) => {
           console.log(response);
+          console.log(meetUpPostForm);
           window.alert("게시글 작성이 완료되었습니다.");
           navigate("/friend");
         })

@@ -1,38 +1,25 @@
 import { useRef, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import * as StompJs from "@stomp/stompjs";
 import moment from "moment"; //날짜 설정하는 라이브러리
 import "moment/locale/ko";
-import styles from "./Chat.module.css";
+import styles from "./Chatting.module.css";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { BsSendFill } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 import ChatOption from "./ChatOption";
 
-function ChatRoom({ enterChatRoom, chatHistory, handleMeetUpId }) {
-  const [chatList, setChatList] = useState([]);
-  const [chat, setChat] = useState("");
-  const [status, setStatus] = useState("false");
+function Chatting({ enterChatRoom, chatHistory }) {
   const client = useRef({});
-  const [userId, setUserId] = useState(1);
-
-  const [chatRoomInfo, setChatRoomInfo] = useState([]); //입장한 채팅방 정보
-  const [chatHistoryInfo, setChatHistoryInfo] = useState([]); //채팅 내역
+  const [chatList, setChatList] = useState([]); //새로운 메시지
+  const [chat, setChat] = useState(""); //입력하는 메시지
+  const [status, setStatus] = useState("false"); //isImage 상태
   const [isOptClicked, setIsOptClicked] = useState(false); //옵션 버튼 눌렀는지 상태
 
   useEffect(() => {
-    setChatRoomInfo(enterChatRoom);
-    setChatHistoryInfo(chatHistory);
     connect();
     return () => disconnect();
-  }, [enterChatRoom, chatHistory]);
-
-  useEffect(() => {
-    //if (chatRoomInfo && chatRoomInfo.roomId) {
-    //subscribe();
-    //}
-  }, [chatRoomInfo, chatList]);
+  }, []);
 
   const connect = () => {
     client.current = new StompJs.Client({
@@ -48,9 +35,9 @@ function ChatRoom({ enterChatRoom, chatHistory, handleMeetUpId }) {
   const publish = (chat, status) => {
     if (!client.current.connected) console.log("채팅 연결 실패!");
     const sendData = {
-      roomId: chatRoomInfo.roomId,
-      senderId: chatRoomInfo.currentUserId,
-      receiverId: chatRoomInfo.participant.id,
+      roomId: enterChatRoom.roomId,
+      senderId: enterChatRoom.currentUserId,
+      receiverId: enterChatRoom.participant.id,
       message: chat,
       isImage: status,
     };
@@ -72,16 +59,11 @@ function ChatRoom({ enterChatRoom, chatHistory, handleMeetUpId }) {
     console.log(status);
   };
 
-  const handleSchedule = (MeetUpId) => {
-    handleMeetUpId(MeetUpId);
-    console.log(MeetUpId);
-  };
-
   // 구독한 채널에서 메시지가 왔을 때 처리
   const subscribe = () => {
-    if (chatRoomInfo && chatRoomInfo.roomId) {
+    if (enterChatRoom && enterChatRoom.roomId) {
       client.current.subscribe(
-        `/sub/chat/${chatRoomInfo.roomId}`,
+        `/sub/chat/${enterChatRoom.roomId}`,
         ({ body }) => {
           const newMessage = JSON.parse(body);
           const momentTime = moment();
@@ -134,27 +116,33 @@ function ChatRoom({ enterChatRoom, chatHistory, handleMeetUpId }) {
   return (
     <div className={styles.chatContainer}>
       <div className={styles.chatRoomContent}>
-        {enterChatRoom && enterChatRoom.participant && chatHistoryInfo ? (
+        {enterChatRoom && enterChatRoom.participant && chatHistory ? (
           <div className={styles.chatMessages}>
-            {chatHistoryInfo.map((message, index) => (
-              <div key={index} className={styles.message}>
+            {chatHistory.map((message, index) => (
+              <div key={index} className={styles.messageBox}>
                 <img
                   className={styles.chatProfileImg}
-                  src={anonymous_profile}
-                  alt='Profile'
+                  src={
+                    enterChatRoom.participant.imageUrl
+                      ? enterChatRoom.participant.imageUrl
+                      : anonymous_profile
+                  }
+                  alt='Chat-Image'
                 />
-                <div className={styles.messageContent}>
+                <div className={styles.message}>
                   {message.isImage == "true" ? (
                     <img
                       src={message.message}
                       alt='Image'
-                      className={styles.msgImage}
+                      className={styles.messageImage}
                     />
                   ) : (
-                    <p>{message.message}</p>
+                    <p className={styles.messageText}>{message.message}</p>
                   )}
-                  <p> {formatDateTime(message.createdAt)}</p>
                 </div>
+                <p className={styles.messageTime}>
+                  {formatDateTime(message.createdAt)}
+                </p>
               </div>
             ))}
             <h3>새로운 메시지</h3>
@@ -175,7 +163,7 @@ function ChatRoom({ enterChatRoom, chatHistory, handleMeetUpId }) {
                   ) : (
                     <p>{newMessage.message}</p>
                   )}
-                  <p>{formatDateTime(newMessage.createdAt)}</p>
+                  <p>{newMessage.createdAt}</p>
                 </div>
               </div>
             ))}
@@ -214,8 +202,7 @@ function ChatRoom({ enterChatRoom, chatHistory, handleMeetUpId }) {
           <ChatOption
             isOptClicked={isOptClicked}
             handleImageFile={handleImageFile}
-            handleSchedule={handleSchedule}
-            chatRoomInfo={chatRoomInfo}
+            enterChatRoom={enterChatRoom}
           />
         ) : null}
       </div>
@@ -223,4 +210,4 @@ function ChatRoom({ enterChatRoom, chatHistory, handleMeetUpId }) {
   );
 }
 
-export default ChatRoom;
+export default Chatting;

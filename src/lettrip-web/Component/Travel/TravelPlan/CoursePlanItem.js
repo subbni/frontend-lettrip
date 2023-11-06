@@ -67,6 +67,7 @@ const CoursePlanItem = ({
     },
     [course.place]
   );
+  console.log(course);
 
   const onChange = (e) => {
     setCourse({

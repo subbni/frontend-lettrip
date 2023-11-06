@@ -22,7 +22,7 @@
 .hr01 {
   border: 0.5px solid #d9d9d9;
 }
-/*프로필 설정*/
+/*프로필 설정 ProfileContainer*/
 .profileContainer {
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@
   align-items: center;
   text-align: center;
   width: 100%;
-  padding: 30px 20px;
+  padding: 30px 20px 0;
 }
 .profileImg {
   width: 225px;
@@ -40,9 +40,63 @@
 .profileNickname {
   font-size: 18px;
   font-weight: bold;
-  margin-top: 10px;
+  margin: 10px 0 0;
 }
-
+.profileInfo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  margin: 3px 0;
+}
+.profileName {
+  font-weight: bold;
+  margin: 0;
+}
+.maleIcon {
+  font-size: 20px;
+  color: #0062f4;
+  margin-bottom: 5px;
+}
+.femaleIcon {
+  font-size: 20px;
+  color: #f24e1e;
+  margin-bottom: 5px;
+}
+.profileBirthDate {
+  font-size: 13px;
+  color: #8d8d8d;
+  margin: 0;
+}
+.profilePoint {
+  font-size: 15px;
+  color: #8d8d8d;
+  margin: 2px 0;
+}
+.profileMeetUpCount {
+  font-size: 15px;
+  color: #8d8d8d;
+}
+/*AccountContainer*/
+.accountBtnContainer {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0 0;
+}
+.accountBtn {
+  font-size: 18px;
+  font-weight: 400;
+  color: #ffffff;
+  background-color: #2e3b4c;
+  padding: 8px 40px;
+  border: none;
+  border-radius: 20px;
+  text-decoration: none;
+  cursor: pointer;
+}
 /*optionHeader 설정*/
 .container {
   padding: 0 10px;
@@ -56,7 +110,7 @@
 .meetUpReview,
 .travelPlan,
 .travelReview,
-.articleLiked,
+.travelLiked,
 .meetUpPoke {
   font-size: 18px;
   color: #486080;
@@ -77,13 +131,185 @@
   border: 0.5px solid #d9d9d9;
 }
 
-/*해당 내용 별 css*/
-.meetUpReviewContainer,
-.travelReviewContainer,
-.articleLikedContainer,
-.meetUpPokeContainer {
+/*meetUpReview*/
+.meetUpReviewContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 0;
+  margin: auto;
+}
+.completedContainer {
+  width: 50%;
+  padding: 10px 30px;
+  border-right: 0.5px dotted #949494;
+}
+.canceledContainer {
+  width: 50%;
+  padding: 10px 30px;
+  border-left: 0.5px dotted #949494;
+}
+.completedText,
+.canceledText {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0 10px;
+}
+.meetUpReviewBox {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  gap: 8px;
+}
+.meetUpReviewImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.meetUpReviewContent {
+  text-align: center;
+  width: 82%;
+  font-size: 15px;
+  background-color: #ebebeb;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+/*TravelPlan*/
+.travelPlanContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 98%;
+  padding: 20px;
+  gap: 30px;
+}
+.travelPlanItem {
+  width: calc(33.33% - 82px); /* 3개씩 나란히 표시, 간격 제외한 너비 설정 */
+  padding: 20px 30px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  cursor: pointer;
+}
+.travelPlanTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 8px;
+}
+.travelPlanDate {
+  font-size: 16px;
+  color: #525252;
+  margin: 0 0 3px;
+}
+.travelPlanCourse,
+.travelPlanTheme,
+.travelPlanCost {
+  font-size: 15px;
+  color: #525252;
+  margin: 0 0 3px;
+}
+.travelPlanInfo {
+  text-align: center;
+}
+
+/*TravelReview*/
+.travelReviewContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 10px 0;
+  gap: 10px;
+}
+.travelReviewItem {
+  width: calc(33.33% - 71px); /* 3개씩 나란히 표시, 간격 제외한 너비 설정 */
+  color: rgba(46, 59, 76);
+  background: white;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.246);
+  padding: 16px;
+  margin: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.travelReviewDate {
+  text-align: end;
+  font-size: 13px;
+  color: #7c7c7c;
+  margin: 5px 20px 8px auto;
+}
+.mainImage {
+  display: flex;
+  background-color: rgba(0, 34, 85, 0.431);
+  width: 320px;
+  height: 320px;
+  object-fit: cover;
+  margin: auto;
+}
+.travelReviewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+.travelReviewTitle {
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 10px 0 17px;
+  white-space: normal;
+}
+.travelReviewPlace {
+  color: #949494;
+  margin-right: 17px;
+}
+.travelReviewCity {
+  display: inline-block;
+  width: 75px;
+  font-size: 14px;
+  background-color: none;
+  padding: 4px 8px;
+  border: 1px solid #949494;
+  border-radius: 20px;
+}
+.travelReviewProvince {
+  color: rgba(131, 131, 131, 1);
+  font-size: 10px;
+}
+.travelReviewBox {
+  text-align: left;
+  font-size: 14px;
+  color: #525252;
+  margin-left: 17px;
+}
+/*좋아요한 코스 LikedTravelReview*/
+.travelLikedContainer {
   padding: 10px;
 }
-.travelPlanContainer {
-  padding: 20px;
+.travelReviewProfile {
+  display: flex;
+  align-items: center;
+  margin: 0 0 10px 17px;
+}
+.travelReviewNickname {
+  font-size: 17px;
+  font-weight: bold;
+  margin: 12px 2px 0;
+}
+.travelReviewWriterImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.travelReviewLikedDate {
+  text-align: end;
+  font-size: 13px;
+  color: #7c7c7c;
+  margin: 25px 20px 0px auto;
+}
+.meetUpPokeContainer {
+  padding: 10px;
 }

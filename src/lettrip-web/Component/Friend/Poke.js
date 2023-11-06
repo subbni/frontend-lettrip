@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import Modal from "react-modal"; //overlay 라이브러리 사용하기
 import {
   createPoke,

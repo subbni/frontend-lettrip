@@ -24,6 +24,7 @@ function MeetUpTemplate() {
   const [searchAllForm, setSearchAllForm] = useState({
     province: "all",
     city: "all",
+    isGpsEnabled: false,
   }); //친구 매칭 전체 글 불러오기 조회 리스트
   const [searchOptionForm, setSearchOptionForm] = useState({
     province: "",

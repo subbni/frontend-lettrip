@@ -34,6 +34,11 @@ const AccountModify = () => {
       });
   }, []);
 
+  // 회원 탈퇴 페이지로 이동
+  const handleWithdrawClick = () => {
+    navigate("/mypage/withdraw");
+  };
+
   // 정보 입력
   const onFormChange = (e) => {
     const { name, value } = e.target;
