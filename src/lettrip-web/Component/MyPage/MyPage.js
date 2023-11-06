@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn } from "../../Service/AuthService";
 import AccountContainer from "./account/AccountContainer";
 import ProfileContainer from "./profile/ProfileContainer";
-import TravelPlan from "./my/TravelPlan";
-import TravelReview from "./my/TravelReview";
-import LikedContainer from "./liked/LikedContainer";
+import MeetUpReview from "./MeetUpReview/MeetUpReview";
+import TravelPlan from "./myTravel/TravelPlan";
+import TravelReview from "./myTravel/TravelReview";
+import LikedTravelReview from "./liked/LikedTravelReview";
+import PokeContainer from "./MeetUpPoke/PokeContainer";
 import styles from "./MyPage.module.css";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 
@@ -76,11 +78,11 @@ const MyPage = () => {
               </button>
               <button
                 className={
-                  activeButton === "articleLiked"
-                    ? `${styles.articleLiked} ${styles.active}`
-                    : styles.articleLiked
+                  activeButton === "travelLiked"
+                    ? `${styles.travelLiked} ${styles.active}`
+                    : styles.travelLiked
                 }
-                onClick={() => handleButtonClick("articleLiked")}
+                onClick={() => handleButtonClick("travelLiked")}
               >
                 좋아요
               </button>
@@ -102,14 +104,13 @@ const MyPage = () => {
             {content === "meetUpReview" && (
               <div className={styles.meetUpReviewContainer}>
                 {/* meetUpReview에 대한 내용 출력 */}
-                meetUpReview에
+                <MeetUpReview />
               </div>
             )}
 
             {content === "travelPlan" && (
               <div className={styles.travelPlanContainer}>
                 {/* travelPlan에 대한 내용 출력 */}
-                travelPlan에
                 <TravelPlan />
               </div>
             )}
@@ -117,23 +118,21 @@ const MyPage = () => {
             {content === "travelReview" && (
               <div className={styles.travelReviewContainer}>
                 {/* travelReview에 대한 내용 출력 */}
-                travelReview에
                 <TravelReview />
               </div>
             )}
 
-            {content === "articleLiked" && (
-              <div className={styles.articleLikedContainer}>
-                {/* articleLiked에 대한 내용 출력 */}
-                articleLiked에
-                <LikedContainer />
+            {content === "travelLiked" && (
+              <div className={styles.travelLikedContainer}>
+                {/* travelLiked 대한 내용 출력 */}
+                <LikedTravelReview />
               </div>
             )}
 
             {content === "meetUpPoke" && (
               <div className={styles.meetUpPokeContainer}>
                 {/* meetUpPoke에 대한 내용 출력 */}
-                meetUpPoke에
+                <PokeContainer />
               </div>
             )}
           </div>

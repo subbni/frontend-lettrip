@@ -1,8 +1,7 @@
-import "../MyPage.css";
-
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
+import styles from "../MyPage.module.css";
 
 const AccountContainer = () => {
   const navigate = useNavigate();
@@ -17,30 +16,16 @@ const AccountContainer = () => {
     }
   }, []);
 
-  const handleLogout = () => {
-    const confirmLogout = window.confirm("로그아웃 하시겠습니까?");
-    if (confirmLogout) {
-      setIsLoggedIn(false);
-      localStorage.removeItem(ACCESS_TOKEN);
-      window.alert("로그아웃 되었습니다.");
-      navigate("/");
-      window.location.reload();
-    }
+  // 정보 수정 페이지로 이동
+  const handleModifyClick = () => {
+    navigate("/mypage/modify");
   };
 
   return (
-    <div className='mypage_container'>
-      <Link to='/mypage/modify' className='account_text'>
-        정보 수정
-      </Link>
-      <div className='hr'></div>
-      <div className='account_text' onClick={handleLogout}>
-        로그아웃
-      </div>
-      <div className='hr'></div>
-      <Link to='/mypage/withdraw' className='account_text'>
-        회원 탈퇴
-      </Link>
+    <div className={styles.accountBtnContainer}>
+      <button className={styles.accountBtn} onClick={handleModifyClick}>
+        프로필 수정
+      </button>
     </div>
   );
 };

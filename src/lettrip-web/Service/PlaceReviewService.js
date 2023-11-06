@@ -18,3 +18,21 @@ export function getReviewPage(placeId, pageForm) {
     method: "GET",
   });
 }
+
+export function createPlace(meetUpReviewForm) {
+  return request({
+    url: API_BASE_URL + "/api/place/create",
+    method: "POST",
+    body: JSON.stringify(meetUpReviewForm),
+  });
+} //장소 id 가져오기
+
+export function showPlaceById(placeId) {
+  return request({
+    url: API_BASE_URL + "/api/place/" + placeId,
+    method: "GET",
+  });
+} //장소 id 가져오기
+
+class TravelService {}
+export default new TravelService();

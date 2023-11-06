@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
-
+import { createPlace } from "../../Service/PlaceReviewService";
 import styles from "./Map.module.css";
 
 const MapSearch = ({ onPlaceSelect, onConfirm, containerIdx, courseIdx }) => {
@@ -20,7 +20,6 @@ const MapSearch = ({ onPlaceSelect, onConfirm, containerIdx, courseIdx }) => {
     province: "",
     city: "",
     address: "",
-    place_id: "",
   });
   const [selectedUrl, setSelectedUrl] = useState("");
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
@@ -101,7 +100,6 @@ const MapSearch = ({ onPlaceSelect, onConfirm, containerIdx, courseIdx }) => {
           categoryName: place.category_group_name,
           province: "일단",
           city: "아무거나",
-          place_id: place.id,
         });
         setIsPlaceSelected(true);
         setSelectedUrl(place.place_url);
@@ -109,7 +107,6 @@ const MapSearch = ({ onPlaceSelect, onConfirm, containerIdx, courseIdx }) => {
       newMarkers.push(marker);
       bounds.extend(position);
     }
-
     setMarkers(newMarkers);
     map.setBounds(bounds);
   };
@@ -118,12 +115,10 @@ const MapSearch = ({ onPlaceSelect, onConfirm, containerIdx, courseIdx }) => {
   const SearchResultClick = (place) => {
     const position = new kakao.maps.LatLng(place.y, place.x);
     map.panTo(position); // 해당 위치로 지도 이동
-
     // address를 동까지만 자르기
     const addressParts = place.address_name.split(" ");
     const address = `${addressParts[0]} ${addressParts[1]} ${addressParts[2]}`;
     console.log(address);
-
     setSelectedPlace({
       address,
       name: place.place_name,
@@ -133,7 +128,6 @@ const MapSearch = ({ onPlaceSelect, onConfirm, containerIdx, courseIdx }) => {
       categoryName: place.category_group_name,
       province: "일단",
       city: "아무거나",
-      place_id: place.id,
     });
     setIsPlaceSelected(true);
     setSelectedUrl(place.place_url);
@@ -168,12 +162,22 @@ const MapSearch = ({ onPlaceSelect, onConfirm, containerIdx, courseIdx }) => {
   };
 
   const handlePlaceConfirmClick = () => {
-    onPlaceSelect(selectedPlace); // 선택된 장소를 부모 컴포넌트로 전달
-    setKeyword(""); // 검색어 초기화
-    setSearchResults([]); // 검색 목록 초기화
-    setIsPlaceSelected(false); // 장소 선택 상태 초기화
-    removeAllMarkers(); // 마커 초기화
-    onConfirm();
+    // 선택된 장소 정보를 서버에 등록 요청
+    createPlace(selectedPlace)
+      .then((response) => {
+        console.log(response);
+        onPlaceSelect(response.data, selectedPlace.name);
+      })
+      .catch((error) => {
+        console.error("장소 등록 중 오류 발생:", error);
+      })
+      .finally(() => {
+        setKeyword(""); // 검색어 초기화
+        setSearchResults([]); // 검색 목록 초기화
+        setIsPlaceSelected(false); // 장소 선택 상태 초기화
+        removeAllMarkers(); // 마커 초기화
+        onConfirm();
+      });
   };
 
   const handleBackButtonClick = () => {
