@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkIfLoggedIn } from "../../Service/AuthService";
 import AccountContainer from "./account/AccountContainer";
-
-import UserProfileContainer from "./profile/UserProfileContainer";
+import ProfileContainer from "./profile/ProfileContainer";
 import MeetUpReview from "./MeetUpReview/MeetUpReview";
 import TravelPlan from "./myTravel/TravelPlan";
 import TravelReview from "./myTravel/TravelReview";
@@ -42,7 +41,7 @@ const MyPage = () => {
           </div>
           <hr className={styles.hr01} />
           <div className={styles.profileContainer}>
-            <UserProfileContainer />
+            <ProfileContainer />
             <AccountContainer />
           </div>
           <div className={styles.container}>

@@ -27,7 +27,7 @@ function Chatting({ enterChatRoom, chatHistory }) {
 
   const connect = () => {
     client.current = new StompJs.Client({
-      brokerURL: "ws://15.164.162.247:8080/ws/chat",
+      brokerURL: "ws://3.36.64.137:8080/ws/chat",
       onConnect: () => {
         console.log("연결 성공");
         subscribe(); //연결 성공 시 채팅방 입장 (구독)
@@ -137,7 +137,7 @@ function Chatting({ enterChatRoom, chatHistory }) {
                 )}
                 {message.senderId !== enterChatRoom.currentUserId ? (
                   <div className={styles.message}>
-                    {message.isImage == "true" ? (
+                    {message.isImage === true ? (
                       <img
                         src={message.message}
                         alt='Image'
@@ -155,7 +155,7 @@ function Chatting({ enterChatRoom, chatHistory }) {
                     <p className={styles.messageTime}>
                       {formatDateTime(message.createdAt)}
                     </p>
-                    {message.isImage == "true" ? (
+                    {message.isImage === true ? (
                       <img
                         src={message.message}
                         alt='Image'
@@ -184,7 +184,7 @@ function Chatting({ enterChatRoom, chatHistory }) {
                 )}
                 {newMessage.senderId !== enterChatRoom.currentUserId ? (
                   <div className={styles.message}>
-                    {newMessage.isImage == "true" ? (
+                    {newMessage.isImage === true ? (
                       <img
                         src={newMessage.message}
                         alt='Image'
@@ -198,7 +198,7 @@ function Chatting({ enterChatRoom, chatHistory }) {
                 ) : (
                   <div className={styles.myMessage}>
                     <p className={styles.messageTime}>{newMessage.createdAt}</p>
-                    {newMessage.isImage == "true" ? (
+                    {newMessage.isImage === true ? (
                       <img
                         src={newMessage.message}
                         alt='Image'

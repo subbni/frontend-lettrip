@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { showMyMeetUpReview } from "../../../Service/MeetUpReivew";
+import { showMyMeetUpReview } from "../../../Service/MeetUpReivewService";
 import styles from "../MyPage.module.css";
 import anonymous_profile from "../../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 
@@ -56,11 +56,16 @@ const MeetUpReview = () => {
         <h3 className={styles.completedText}> 매칭 성공 한줄평</h3>
         {completedreview.map((review, index) => (
           <div key={index} className={styles.meetUpReviewBox}>
-            <img
-              className={styles.meetUpReviewImg}
-              src={review.imageUrl || anonymous_profile}
-              alt='User Profile'
-            />
+            <div className={styles.meetUpReivewHeader}>
+              <img
+                className={styles.meetUpReviewImg}
+                src={review.imageUrl || anonymous_profile}
+                alt='User Profile'
+              />
+              <span className={styles.meetUpReviewNickname}>
+                {review.userProfile.nickname}
+              </span>
+            </div>
             <p className={styles.meetUpReviewContent}>{review.content}</p>
           </div>
         ))}
@@ -69,11 +74,16 @@ const MeetUpReview = () => {
         <h3 className={styles.canceledText}> 매칭 파토 한줄평</h3>
         {canceledreview.map((review, index) => (
           <div key={index} className={styles.meetUpReviewBox}>
-            <img
-              className={styles.meetUpReviewImg}
-              src={review.imageUrl || anonymous_profile}
-              alt='User Profile'
-            />
+            <div className={styles.meetUpReivewHeader}>
+              <img
+                className={styles.meetUpReviewImg}
+                src={review.imageUrl || anonymous_profile}
+                alt='User Profile'
+              />
+              <span className={styles.meetUpReviewNickname}>
+                {review.userProfile.nickname}
+              </span>
+            </div>
             <p className={styles.meetUpReviewContent}>{review.content}</p>
           </div>
         ))}

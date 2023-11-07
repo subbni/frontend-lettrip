@@ -5,7 +5,7 @@ import {
   sendMeetUpCode, // 인증 번호를 요청하는 함수
   verifyMeetUp, // 인증 번호를 확인하는 함수
 } from "../../Service/MeetUpService";
-import { createMeetUpReview } from "../../Service/MeetUpReivew";
+import { createMeetUpReview } from "../../Service/MeetUpReivewService";
 import styles from "./Chatting.module.css";
 
 function ChatMeetUp({ enterChatRoom, post, meetUp }) {

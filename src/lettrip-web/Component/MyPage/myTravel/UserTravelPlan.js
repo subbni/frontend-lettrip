@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getMyTravel } from "../../../Service/MyPageService";
+import { getUserTravel } from "../../../Service/UserMyPageService";
 import Moment from "moment"; //날짜 및 시간 표시 라이브러리
 import styles from "../MyPage.module.css";
 
-const TravelPlan = () => {
+const UserTravelPlan = ({ UserId }) => {
   const navigate = useNavigate();
   const [planList, setPlanList] = useState([]);
   const [pageForm, setPageForm] = useState({
@@ -14,10 +14,10 @@ const TravelPlan = () => {
   });
 
   useEffect(() => {
-    getMyTravel(false, pageForm)
+    getUserTravel(UserId, false, pageForm)
       .then((response) => {
         setPlanList(response.content);
-        console.log(response.content);
+        console.log(response);
       })
       .catch((e) => {
         console.log(e);
@@ -67,4 +67,4 @@ const TravelPlan = () => {
   );
 };
 
-export default TravelPlan;
+export default UserTravelPlan;

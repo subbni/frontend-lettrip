@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getMyLikedTravel } from "../../../Service/MyPageService";
+import { getUserTravel } from "../../../Service/UserMyPageService";
 import Moment from "moment"; //날짜 및 시간 표시 라이브러리
 import styles from "../MyPage.module.css";
 import no_image from "../../../../image/travel/no_image.png";
-import anonymous_profile from "../../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 
-const LikedTravelReview = () => {
+const UserTravelReview = ({ UserId }) => {
   const navigate = useNavigate();
-  const [travelList, setTravelList] = useState([]);
+  const [reviewList, setReviewList] = useState([]);
   const [pageForm, setPageForm] = useState({
     page: 0,
     size: 5,
@@ -16,10 +15,10 @@ const LikedTravelReview = () => {
   });
 
   useEffect(() => {
-    getMyLikedTravel(pageForm)
+    getUserTravel(UserId, true, pageForm)
       .then((response) => {
-        console.log(response.content);
-        setTravelList(response.content);
+        setReviewList(response.content);
+        console.log(response);
       })
       .catch((e) => {
         console.log(e);
@@ -28,7 +27,7 @@ const LikedTravelReview = () => {
   }, []);
 
   const handleReviewClick = (reviewId) => {
-    navigate(`/travel/course/reivew/${reviewId}`);
+    navigate(`/travel/course/review/${reviewId}`);
   };
 
   //금액 단위 설정 (예시 : 10,000원 )
@@ -41,32 +40,17 @@ const LikedTravelReview = () => {
 
   return (
     <div className={styles.travelReviewContainer}>
-      {travelList.length > 0 ? (
-        travelList.map((travel, index) => (
+      {reviewList ? (
+        reviewList.map((travel, index) => (
           <div
             key={index}
             className={styles.travelReviewItem}
             onClick={() => handleReviewClick(travel.id)}
           >
-            <div className={styles.travelReviewProfile}>
-              <img
-                className={styles.travelReviewWriterImage}
-                src={
-                  travel.writerImageUrl
-                    ? travel.writerImageUrl
-                    : anonymous_profile
-                }
-                alt='Writer Image'
-              />
-
-              <p className={styles.travelReviewNickname}>
-                {travel.writerNickname}
-              </p>
-              <p className={styles.travelReviewLikedDate}>
-                {Moment(travel.departDate).format("YY.MM.DD")} ~
-                {Moment(travel.lastDate).format("YY.MM.DD")}
-              </p>
-            </div>
+            <p className={styles.travelReviewDate}>
+              {Moment(travel.departDate).format("YY.MM.DD")} ~
+              {Moment(travel.lastDate).format("YY.MM.DD")}
+            </p>
             <img
               className={styles.mainImage}
               src={travel.mainImageUrl ? travel.mainImageUrl : no_image}
@@ -91,12 +75,12 @@ const LikedTravelReview = () => {
           </div>
         ))
       ) : (
-        <div className={styles.likedTravelReviewInfo}>
-          아직 좋아요한 여행 기록이 없습니다.
+        <div className={styles.travelReviewInfo}>
+          아직 등록된 여행 기록이 없습니다.
         </div>
       )}
     </div>
   );
 };
 
-export default LikedTravelReview;
+export default UserTravelReview;

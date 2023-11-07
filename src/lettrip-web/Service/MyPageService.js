@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "../Constant/backendAPI";
-import { formRequest, request } from "./APIService";
+import { request } from "./APIService";
 
 export function getMyProfile() {
   return request({
@@ -7,14 +7,6 @@ export function getMyProfile() {
     method: "GET",
   });
 }
-
-export function getUserProfile(id) {
-  return request({
-    url: API_BASE_URL + "/api/user/profile" + id,
-    method: "GET",
-  });
-}
-
 export function getMyTravel(isVisited, pageForm) {
   return request({
     url:

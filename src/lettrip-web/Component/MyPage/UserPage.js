@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { checkIfLoggedIn } from "../../Service/AuthService";
-import AccountContainer from "./account/AccountContainer";
-import ProfileContainer from "./profile/ProfileContainer";
+import UserProfileContainer from "./profile/UserProfileContainer";
 import MeetUpReview from "./MeetUpReview/MeetUpReview";
-import TravelPlan from "./myTravel/TravelPlan";
-import TravelReview from "./myTravel/TravelReview";
-import LikedTravelReview from "./liked/LikedTravelReview";
-import PokeContainer from "./MeetUpPoke/PokeContainer";
+import UserTravelPlan from "./myTravel/UserTravelPlan";
+import UserTravelReview from "./myTravel/UserTravelReview";
 import styles from "./MyPage.module.css";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeButton, setActiveButton] = useState("meetUpReview"); //기본으로는 한줄평 css
   const [content, setContent] = useState("meetUpReview"); //기본으로 한줄평
@@ -41,8 +39,7 @@ const MyPage = () => {
           </div>
           <hr className={styles.hr01} />
           <div className={styles.profileContainer}>
-            <ProfileContainer />
-            <AccountContainer />
+            <UserProfileContainer UserId={id} />
           </div>
           <div className={styles.container}>
             <div className={styles.optionHeader}>
@@ -76,26 +73,6 @@ const MyPage = () => {
               >
                 여행기록
               </button>
-              <button
-                className={
-                  activeButton === "travelLiked"
-                    ? `${styles.travelLiked} ${styles.active}`
-                    : styles.travelLiked
-                }
-                onClick={() => handleButtonClick("travelLiked")}
-              >
-                좋아요
-              </button>
-              <button
-                className={
-                  activeButton === "meetUpPoke"
-                    ? `${styles.meetUpPoke} ${styles.active}`
-                    : styles.meetUpPoke
-                }
-                onClick={() => handleButtonClick("meetUpPoke")}
-              >
-                쿡 찌르기
-              </button>
             </div>
             <hr className={styles.hr02} />
           </div>
@@ -104,35 +81,21 @@ const MyPage = () => {
             {content === "meetUpReview" && (
               <div className={styles.meetUpReviewContainer}>
                 {/* meetUpReview에 대한 내용 출력 */}
-                <MeetUpReview />
+                <MeetUpReview UserId={id} />
               </div>
             )}
 
             {content === "travelPlan" && (
               <div className={styles.travelPlanContainer}>
                 {/* travelPlan에 대한 내용 출력 */}
-                <TravelPlan />
+                <UserTravelPlan UserId={id} />
               </div>
             )}
 
             {content === "travelReview" && (
               <div className={styles.travelReviewContainer}>
                 {/* travelReview에 대한 내용 출력 */}
-                <TravelReview />
-              </div>
-            )}
-
-            {content === "travelLiked" && (
-              <div className={styles.travelLikedContainer}>
-                {/* travelLiked 대한 내용 출력 */}
-                <LikedTravelReview />
-              </div>
-            )}
-
-            {content === "meetUpPoke" && (
-              <div className={styles.meetUpPokeContainer}>
-                {/* meetUpPoke에 대한 내용 출력 */}
-                <PokeContainer />
+                <UserTravelReview UserId={id} />
               </div>
             )}
           </div>

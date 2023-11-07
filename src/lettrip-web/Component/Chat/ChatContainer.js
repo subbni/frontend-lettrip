@@ -67,6 +67,9 @@ function ChatContainer() {
   };
 
   //채팅방 목록을 불러오기
+  const checkStatus = () => {};
+
+  //채팅방 목록을 불러오기
   const loadChatRooms = () => {
     listChatRoom()
       .then((response) => {
@@ -100,15 +103,17 @@ function ChatContainer() {
         console.log(e);
         window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
       });
-    showMeetUp(room.meetUpId) //만남 일정 불러오기
-      .then((response) => {
-        console.log(response);
-        setMeetUp(response);
-      })
-      .catch((e) => {
-        console.log(e);
-        window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
-      });
+    if (room.meetUpId) {
+      showMeetUp(room.meetUpId) //만남 일정 불러오기
+        .then((response) => {
+          console.log(response);
+          setMeetUp(response);
+        })
+        .catch((e) => {
+          console.log(e);
+          window.alert("불러오기에 실패했습니다. 다시 시도해주시길 바랍니다.");
+        });
+    }
   };
 
   return (

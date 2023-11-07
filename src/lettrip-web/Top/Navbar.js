@@ -10,7 +10,6 @@ import Modal from "react-modal";
 //overlay 라이브러리 사용하기
 
 import styles from "./Top.module.css";
-import ChatTemplate from "../Component/Chat/ChatTemplate";
 import ChatContainer from "../Component/Chat/ChatContainer";
 function Navbar() {
   const navigate = useNavigate();
@@ -128,7 +127,6 @@ function Navbar() {
             }}
           >
             <ChatContainer />
-            {/*    <ChatTemplate />*/}
           </Modal>
         </div>
       </div>

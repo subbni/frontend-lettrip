@@ -170,6 +170,7 @@ function MeetUpPostCreate() {
                 value='false'
                 defaultChecked={meetUpPostForm.isGpsEnabled === false}
                 onChange={handlePostChange}
+                default
               />
               미반영
             </label>

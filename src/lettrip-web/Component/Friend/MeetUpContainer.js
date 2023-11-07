@@ -50,7 +50,7 @@ function MeetUpContainer({ meetUpPostList }) {
                 <p className={styles.contentTitle}>{post.title}</p>
                 <div className={styles.infoContent03}>
                   <p className={styles.contentSex}>
-                    {post.userProfile.sex === "남성" ? (
+                    {post.userProfile.sex === "MALE" ? (
                       <PiGenderMaleBold className={styles.maleIcon} />
                     ) : (
                       <PiGenderFemaleBold className={styles.femaleIcon} />
