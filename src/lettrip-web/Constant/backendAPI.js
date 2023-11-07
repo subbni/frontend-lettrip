@@ -1,6 +1,6 @@
-export const API_BASE_URL = "http://15.164.162.247:8080";
+export const API_BASE_URL = "http://52.78.165.208:8080";
 //export const API_BASE_URL = "http://localhost:3000";
-export const API_APP_BASE_URL = "http://3.34.98.95:5001";
+export const API_APP_BASE_URL = "http://3.34.136.218:5001";
 
 export const ACCESS_TOKEN = "accessToken";
 export const ACCESS_TOKEN_EXPIRED_MESC = 604800000;

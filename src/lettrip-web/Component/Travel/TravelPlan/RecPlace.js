@@ -69,6 +69,9 @@ const RecPlace = ({
   useEffect(() => {
     //결과 가져오기
     setCourseResult(recommendationResult);
+    if (courseResult) {
+      setIsLoading(false);
+    }
     console.log(recommendationResult);
   }, [recommendationResult]);
 
