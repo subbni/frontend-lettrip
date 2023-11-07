@@ -26,7 +26,7 @@ const TravelReview = () => {
   }, []);
 
   const handleReviewClick = (reviewId) => {
-    navigate(`/travel/course/reivew/${reviewId}`);
+    navigate(`/travel/course/review/${reviewId}`);
   };
 
   //금액 단위 설정 (예시 : 10,000원 )

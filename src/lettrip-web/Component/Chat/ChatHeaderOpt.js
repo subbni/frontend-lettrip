@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import "moment/locale/ko";
 import {
-  showMeetUpPost,
+  showMeetUp,
   cancelMeetUp,
   sendMeetUpCode, // 인증 번호를 요청하는 함수
   verifyMeetUp, // 인증 번호를 확인하는 함수
@@ -88,7 +88,7 @@ function ChatHeaderOpt({ meetUpId, enterChatRoom }) {
   };
 
   const fetchMeetUp = () => {
-    showMeetUpPost(meetUpId)
+    showMeetUp(meetUpId)
       .then((response) => {
         setMeetUp(response.content);
         console.log(response);

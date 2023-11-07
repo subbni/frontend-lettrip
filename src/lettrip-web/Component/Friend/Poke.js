@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Modal from "react-modal"; //overlay 라이브러리 사용하기
 import {
   createPoke,
@@ -15,6 +16,7 @@ import {
 } from "react-icons/pi"; //성별 아이콘, 클릭 아이콘
 
 function Poke({ id, isEditable, writerUserId }) {
+  const navigate = useNavigate();
   const [people, setPeople] = useState([]); //찌른 사람들 정보 가져오기
   const [peopleImg, setPeopleImg] = useState([]); //찌른 사람들 3명까지 정보가져오기
   const [showAllPokes, setShowAllPokes] = useState(false); //찌른 사람들 정보 보기 (modal설정)
@@ -47,6 +49,12 @@ function Poke({ id, isEditable, writerUserId }) {
       setIsPoked(false); // 사용자가 찌르지 않음
     }
   }, [people, storedEmail]);
+
+  //쿡 찌른 사람 프로필로 이동하기
+  const onClickProfile = (e) => {
+    e.preventDefault();
+    navigate("/mypage");
+  };
 
   //쿡 찌르기 전체 조회 (useEffect 돌려서 프로필 사진, 수 체크하기)
   const fetchShowAllPokes = () => {
@@ -220,7 +228,7 @@ function Poke({ id, isEditable, writerUserId }) {
                     alt={`Profile ${index}`}
                   />
                   <div className={styles.pokePeopleInfoContent01}>
-                    <p className={styles.pokeName}>
+                    <p className={styles.pokeName} onClick={onClickProfile}>
                       {person.userProfile.nickname}
                     </p>
                     <div className={styles.pokePeopleInfoContent02}>

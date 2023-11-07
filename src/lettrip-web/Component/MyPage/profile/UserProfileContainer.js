@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import anonymous_profile from "../../../../image/lettrip_anonymous_profile.png";
 import { getMyProfile } from "../../../Service/MyPageService";
 import Moment from "moment"; //날짜 및 시간 표시 라이브러리
 import styles from "../MyPage.module.css";
 import { PiGenderFemaleBold, PiGenderMaleBold } from "react-icons/pi"; //성별 아이콘
 
-const ProfileContainer = () => {
-  const { id } = useParams;
+const UserProfileContainer = () => {
   const [profile, setProfile] = useState({});
 
   useEffect(() => {
-    getMyProfile(id)
+    getMyProfile()
       .then((response) => {
         setProfile(response);
         console.log(response);
@@ -56,4 +54,4 @@ const ProfileContainer = () => {
   );
 };
 
-export default ProfileContainer;
+export default UserProfileContainer;

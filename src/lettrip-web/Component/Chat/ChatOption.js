@@ -1,26 +1,35 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment"; //날짜 설정하는 라이브러리
-import "moment/locale/ko";
+import { cancelMeetUp } from "../../Service/MeetUpService";
 import styles from "./Chat.module.css";
 import { AiOutlinePicture } from "react-icons/ai";
-import { FiCalendar } from "react-icons/fi";
+import { LuCalendar, LuCalendarX2 } from "react-icons/lu";
 import ChatImageFileForm from "./ChatImageFileForm";
 import ChatShedule from "./ChatSchedule";
 
-function ChatOption({
-  isOptClicked,
-  handleImageFile,
-  handleSchedule,
-  chatRoomInfo,
-}) {
+function ChatOption({ isOptClicked, handleImageFile, enterChatRoom }) {
   const [isClicked, setIsClicked] = useState(false);
   const [isScheduleClicked, setIsScheduleClicked] = useState(false);
   const [isPictureClicked, setIsPictureClicked] = useState(false);
+  const [meetUpId, setMeetUpId] = useState(null);
   const [isMeetUpScheduled, setIsMeetUpScheduled] = useState(false);
+  const [canceled, setCanceled] = useState(false);
 
   useEffect(() => {
     onImageFileUpload();
+    onMeetUpId();
   }, []);
+
+  useEffect(() => {
+    if (enterChatRoom && enterChatRoom.meetUpId !== null) {
+      setIsMeetUpScheduled(true);
+      setMeetUpId(enterChatRoom.meetUpId);
+      if (enterChatRoom.meetUpStatus === "CANCELED") {
+        setCanceled(true);
+      }
+    } else {
+      setIsMeetUpScheduled(false);
+    }
+  }, [enterChatRoom]);
 
   const handleScheduleClick = (e) => {
     e.preventDefault();
@@ -40,10 +49,28 @@ function ChatOption({
     handleImageFile(imageUrl);
   };
 
-  const onMeetUpScheduled = (MeetUpId) => {
-    console.log(MeetUpId);
-    handleSchedule(MeetUpId);
-    setIsMeetUpScheduled(true);
+  const onMeetUpId = (meetUpId) => {
+    console.log(meetUpId);
+    setMeetUpId(meetUpId);
+  };
+
+  const ondeleteMeetUp = (meetUpId) => {
+    console.log(isMeetUpScheduled);
+    const shouldCancel = window.confirm("만남을 취소하시겠습니까?");
+    if (shouldCancel) {
+      // 사용자가 확인을 누르면 취소 요청을 보냄
+      cancelMeetUp(meetUpId)
+        .then((response) => {
+          console.log(response);
+          // 취소된 약속인 경우 메시지 표시
+          if (canceled === true) {
+            window.alert("이미 취소된 약속입니다.");
+          }
+        })
+        .catch((error) => {
+          console.error("만남을 취소하지 못했습니다.", error);
+        });
+    }
   };
 
   return (
@@ -52,15 +79,27 @@ function ChatOption({
         <div className={styles.optBox}>
           {!isClicked ? (
             <div className={styles.optContent}>
-              <div className={styles.optSchedule}>
-                <p
-                  className={styles.calendarBackground}
-                  onClick={handleScheduleClick}
-                >
-                  <FiCalendar className={styles.calendarIcon} />
-                </p>
-                <p className={styles.calendarText}>약속 잡기</p>
-              </div>
+              {isMeetUpScheduled ? (
+                <div className={styles.optSchedule}>
+                  <p
+                    className={styles.calendarBackground}
+                    onClick={() => ondeleteMeetUp(meetUpId)}
+                  >
+                    <LuCalendarX2 className={styles.calendarIcon} />
+                  </p>
+                  <p className={styles.calendarText}>약속 취소</p>
+                </div>
+              ) : (
+                <div className={styles.optSchedule}>
+                  <p
+                    className={styles.calendarBackground}
+                    onClick={handleScheduleClick}
+                  >
+                    <LuCalendar className={styles.calendarIcon} />
+                  </p>
+                  <p className={styles.calendarText}>약속 잡기</p>
+                </div>
+              )}
               <div className={styles.optPhoto}>
                 <p
                   className={styles.pictureBackground}
@@ -74,22 +113,11 @@ function ChatOption({
           ) : null}
         </div>
       ) : null}
-      {isMeetUpScheduled ? (
-        <button onClick={() => console.log("약속 취소")}>약속 취소</button>
-      ) : null}
       {isScheduleClicked && !isMeetUpScheduled && (
-        <div>
-          <ChatShedule
-            chatRoomInfo={chatRoomInfo}
-            onMeetUpScheduled={onMeetUpScheduled}
-          />
-        </div>
+        <ChatShedule enterChatRoom={enterChatRoom} onMeetUpId={onMeetUpId} />
       )}
       {isPictureClicked && (
-        <div>
-          <h2>사진 전송</h2>
-          <ChatImageFileForm onImageFileUpload={onImageFileUpload} />
-        </div>
+        <ChatImageFileForm onImageFileUpload={onImageFileUpload} />
       )}
     </div>
   );

@@ -5,11 +5,11 @@ import { createMeetUp } from "../../Service/MeetUpService";
 import styles from "./Chat.module.css";
 import { AiOutlineClockCircle } from "react-icons/ai";
 
-function ChatShedule({ chatRoomInfo, onMeetUpScheduled }) {
+function ChatShedule({ enterChatRoom, onMeetUpId }) {
   const [meetUpForm, setMeetUpForm] = useState({
-    roomId: chatRoomInfo.roomId,
-    meetUpPostId: chatRoomInfo.meetUpPostId,
-    participantId: chatRoomInfo.participant.id,
+    roomId: enterChatRoom.roomId,
+    meetUpPostId: enterChatRoom.meetUpPostId,
+    participantId: enterChatRoom.participant.id,
     meetUpDate: "",
   });
   const [date, setDate] = useState({
@@ -43,10 +43,9 @@ function ChatShedule({ chatRoomInfo, onMeetUpScheduled }) {
     if (window.confirm("만남을 약속하시겠습니까?")) {
       createMeetUp(meetUpForm)
         .then((response) => {
-          onMeetUpScheduled(response.MeetUpId);
+          onMeetUpId(response.data);
           console.log(response);
           window.alert("만남이 등록되었습니다.");
-          console.log(meetUpForm);
         })
         .catch((e) => {
           console.log(e);
@@ -66,12 +65,13 @@ function ChatShedule({ chatRoomInfo, onMeetUpScheduled }) {
           value={meetUpForm.meetUpDate}
           onChange={handleDateChange}
         />
+        {/*
         <input
           type='time'
           className={styles.timeOpt}
           value={date.meetUpTime}
           onChange={handleTimeChange}
-        />
+        />*/}
         <button className={styles.scheduleBtn} onClick={handleScheduleSubmit}>
           약속 등록
         </button>

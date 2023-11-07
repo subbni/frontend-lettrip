@@ -31,7 +31,7 @@ export function verifyMeetUp(verifyForm) {
   });
 } //만남 약속 인증 요청
 
-export function showMeetUpPost(meetUpId) {
+export function showMeetUp(meetUpId) {
   return request({
     url: API_BASE_URL + "/api/meetUp/" + meetUpId,
     method: "GET",

@@ -8,6 +8,13 @@ export function getMyProfile() {
   });
 }
 
+export function getUserProfile(id) {
+  return request({
+    url: API_BASE_URL + "/api/user/profile" + id,
+    method: "GET",
+  });
+}
+
 export function getMyTravel(isVisited, pageForm) {
   return request({
     url:
