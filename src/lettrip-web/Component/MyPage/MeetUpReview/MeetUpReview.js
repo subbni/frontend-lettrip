@@ -11,7 +11,7 @@ const MeetUpReview = () => {
     sort: "id,ASC",
   });
   const [CanceledpageForm, setCanceledPageForm] = useState({
-    meetUpStatus: "CANCELED",
+    meetUpStatus: "CANCELLED",
     page: 0,
     size: 6,
     sort: "id,ASC",
@@ -28,8 +28,7 @@ const MeetUpReview = () => {
   const fetchCompletedReview = () => {
     showMyMeetUpReview(CompletedPageForm)
       .then((response) => {
-        console.log(response);
-        console.log(CompletedPageForm);
+        console.log(response.content);
         setCompletedReview(response.content);
       })
       .catch((e) => {
@@ -42,8 +41,7 @@ const MeetUpReview = () => {
   const fetchCanceledReview = () => {
     showMyMeetUpReview(CanceledpageForm)
       .then((response) => {
-        console.log(response);
-        console.log(CanceledpageForm);
+        console.log(response.content);
         setCanceledReview(response.content);
       })
       .catch((e) => {
@@ -56,17 +54,29 @@ const MeetUpReview = () => {
     <div className={styles.meetUpReviewContainer}>
       <div className={styles.completedContainer}>
         <h3 className={styles.completedText}> 매칭 성공 한줄평</h3>
-        <div className={styles.meetUpReviewBox}>
-          <img className={styles.meetUpReviewImg} src={anonymous_profile} />
-          <p className={styles.meetUpReviewContent}> 한줄평</p>
-        </div>
+        {completedreview.map((review, index) => (
+          <div key={index} className={styles.meetUpReviewBox}>
+            <img
+              className={styles.meetUpReviewImg}
+              src={review.imageUrl || anonymous_profile}
+              alt='User Profile'
+            />
+            <p className={styles.meetUpReviewContent}>{review.content}</p>
+          </div>
+        ))}
       </div>
       <div className={styles.canceledContainer}>
         <h3 className={styles.canceledText}> 매칭 파토 한줄평</h3>
-        <div className={styles.meetUpReviewBox}>
-          <img className={styles.meetUpReviewImg} src={anonymous_profile} />
-          <p className={styles.meetUpReviewContent}> 한줄평</p>
-        </div>
+        {canceledreview.map((review, index) => (
+          <div key={index} className={styles.meetUpReviewBox}>
+            <img
+              className={styles.meetUpReviewImg}
+              src={review.imageUrl || anonymous_profile}
+              alt='User Profile'
+            />
+            <p className={styles.meetUpReviewContent}>{review.content}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

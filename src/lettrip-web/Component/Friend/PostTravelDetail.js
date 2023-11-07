@@ -35,7 +35,7 @@ function PostTravelDetail({ writer, travelId }) {
   const handleCheckPlan = (e) => {
     e.preventDefault();
     console.log("계획확인 누르기 (travel 페이지로 이동하기");
-    navigate(`/travel/${travelId}`);
+    navigate(`/travel/course/plan/${travelId}`);
   };
 
   //금액 단위 설정 (예시 : 10,000원 )

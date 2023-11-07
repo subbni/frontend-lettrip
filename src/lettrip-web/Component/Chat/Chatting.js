@@ -21,6 +21,10 @@ function Chatting({ enterChatRoom, chatHistory }) {
     return () => disconnect();
   }, []);
 
+  useEffect(() => {
+    setChatList([]);
+  }, [enterChatRoom]);
+
   const connect = () => {
     client.current = new StompJs.Client({
       brokerURL: "ws://15.164.162.247:8080/ws/chat",
@@ -114,57 +118,97 @@ function Chatting({ enterChatRoom, chatHistory }) {
   };
 
   return (
-    <div className={styles.chatContainer}>
+    <div className={styles.chatRoomContainer}>
       <div className={styles.chatRoomContent}>
         {enterChatRoom && enterChatRoom.participant && chatHistory ? (
           <div className={styles.chatMessages}>
             {chatHistory.map((message, index) => (
               <div key={index} className={styles.messageBox}>
-                <img
-                  className={styles.chatProfileImg}
-                  src={
-                    enterChatRoom.participant.imageUrl
-                      ? enterChatRoom.participant.imageUrl
-                      : anonymous_profile
-                  }
-                  alt='Chat-Image'
-                />
-                <div className={styles.message}>
-                  {message.isImage == "true" ? (
-                    <img
-                      src={message.message}
-                      alt='Image'
-                      className={styles.messageImage}
-                    />
-                  ) : (
-                    <p className={styles.messageText}>{message.message}</p>
-                  )}
-                </div>
-                <p className={styles.messageTime}>
-                  {formatDateTime(message.createdAt)}
-                </p>
+                {message.senderId !== enterChatRoom.currentUserId && (
+                  <img
+                    className={styles.chatProfileImg}
+                    src={
+                      enterChatRoom.participant.imageUrl
+                        ? enterChatRoom.participant.imageUrl
+                        : anonymous_profile
+                    }
+                    alt='Chat-Image'
+                  />
+                )}
+                {message.senderId !== enterChatRoom.currentUserId ? (
+                  <div className={styles.message}>
+                    {message.isImage == "true" ? (
+                      <img
+                        src={message.message}
+                        alt='Image'
+                        className={styles.messageImage}
+                      />
+                    ) : (
+                      <p className={styles.messageText}>{message.message}</p>
+                    )}
+                    <p className={styles.messageTime}>
+                      {formatDateTime(message.createdAt)}
+                    </p>
+                  </div>
+                ) : (
+                  <div className={styles.myMessage}>
+                    <p className={styles.messageTime}>
+                      {formatDateTime(message.createdAt)}
+                    </p>
+                    {message.isImage == "true" ? (
+                      <img
+                        src={message.message}
+                        alt='Image'
+                        className={styles.messageImage}
+                      />
+                    ) : (
+                      <p className={styles.messageText}>{message.message}</p>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
-            <h3>새로운 메시지</h3>
+            <h3 className={styles.chatText}>새로운 메시지</h3>
             {chatList.map((newMessage, index) => (
-              <div key={index} className={styles.message}>
-                <img
-                  className={styles.chatProfileImg}
-                  src={anonymous_profile}
-                  alt='Profile'
-                />
-                <div className={styles.messageContent}>
-                  {newMessage.isImage == "true" ? (
-                    <img
-                      src={newMessage.message}
-                      alt='Image'
-                      className={styles.msgImage}
-                    />
-                  ) : (
-                    <p>{newMessage.message}</p>
-                  )}
-                  <p>{newMessage.createdAt}</p>
-                </div>
+              <div key={index} className={styles.messageBox}>
+                {newMessage.senderId !== enterChatRoom.currentUserId && (
+                  <img
+                    className={styles.chatProfileImg}
+                    src={
+                      enterChatRoom.participant.imageUrl
+                        ? enterChatRoom.participant.imageUrl
+                        : anonymous_profile
+                    }
+                    alt='Chat-Image'
+                  />
+                )}
+                {newMessage.senderId !== enterChatRoom.currentUserId ? (
+                  <div className={styles.message}>
+                    {newMessage.isImage == "true" ? (
+                      <img
+                        src={newMessage.message}
+                        alt='Image'
+                        className={styles.messageImage}
+                      />
+                    ) : (
+                      <p className={styles.messageText}>{newMessage.message}</p>
+                    )}
+                    <p className={styles.messageTime}>{newMessage.createdAt}</p>
+                  </div>
+                ) : (
+                  <div className={styles.myMessage}>
+                    <p className={styles.messageTime}>{newMessage.createdAt}</p>
+                    {newMessage.isImage == "true" ? (
+                      <img
+                        src={newMessage.message}
+                        alt='Image'
+                        className={styles.messageImage}
+                      />
+                    ) : (
+                      <p className={styles.messageText}>{newMessage.message}</p>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -197,7 +241,6 @@ function Chatting({ enterChatRoom, chatHistory }) {
             />
           </div>
         </form>
-
         {isOptClicked ? (
           <ChatOption
             isOptClicked={isOptClicked}

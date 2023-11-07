@@ -5,7 +5,6 @@ import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //
 import styles from "./Chatting.module.css";
 
 function ChatList({ chatRooms, onClickChatRoom }) {
-  const [chatParticipant, setChatParticipant] = useState([]); //해당 채팅방 상대 정보
   useEffect(() => {
     console.log(chatRooms);
   }, []);
@@ -13,8 +12,6 @@ function ChatList({ chatRooms, onClickChatRoom }) {
   //해당 채팅방 클릭했을 시
   const handleChatRoomClick = (room) => {
     onClickChatRoom(room); //채팅방 생성 -> container 전송
-    setChatParticipant(room.participant);
-    console.log(room.participant);
     console.log("채팅방 입장");
   };
 
@@ -34,24 +31,23 @@ function ChatList({ chatRooms, onClickChatRoom }) {
   };
 
   return (
-    <div>
+    <div className={styles.chatListContainer}>
       {chatRooms.map((room, index) => (
         <div
           className={styles.chatList}
           key={index}
           onClick={() => handleChatRoomClick(room)}
         >
-          <p className={styles.listProfile}>
-            <img
-              className={styles.profileImg}
-              src={room.participant.imageUrl || anonymous_profile}
-            />
-          </p>
+          <img
+            className={styles.listProfileImg}
+            src={room.participant.imageUrl || anonymous_profile}
+          />
+
           <div className={styles.listInfo}>
             <p className={styles.listNickname}>{room.participant.nickname}</p>
-            <p className={styles.listLastContent}>{room.lastMessage}</p>
+            <p className={styles.listMessage}>{room.lastMessage}</p>
           </div>
-          <p className={styles.listLastTime}>
+          <p className={styles.listTime}>
             {formatDateTime(room.lastMessageTime)}
           </p>
         </div>

@@ -127,8 +127,8 @@ function Navbar() {
               },
             }}
           >
-            <ChatTemplate />
-            {/* <ChatContainer /> */}
+            <ChatContainer />
+            {/*    <ChatTemplate />*/}
           </Modal>
         </div>
       </div>

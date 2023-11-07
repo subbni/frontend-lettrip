@@ -360,6 +360,7 @@
 }
 .pokeName {
   margin: 0 0 2px;
+  cursor: pointer;
 }
 .pokePeopleInfoContent02 {
   display: flex;

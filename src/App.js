@@ -41,6 +41,7 @@ import QRMissionPage from "./lettrip-web/Component/Mission/QR/QRMissionPage";
 
 //마이페이지
 import MyPage from "./lettrip-web/Component/MyPage/MyPage";
+import UserPage from "./lettrip-web/Component/MyPage/UserPage";
 //마이페이지 정보 수정 전, 비밀번호 확인하기 (본인확인)
 import AccountConfirm from "./lettrip-web/Component/MyPage/account/AccountConfirm";
 //마이페이지 정보 수정
@@ -98,6 +99,7 @@ function App() {
           <Route path='/articles/create' element={<ArticleCreate />} />
           <Route path='/articles/modify/:id' element={<ArticleModify />} />
 
+          <Route path='/mypage/:id' element={<UserPage />} />
           <Route path='/mypage' element={<MyPage />} />
           <Route path='/mypage/modify' element={<AccountModify />} />
           <Route path='/mypage/confirm' element={<AccountConfirm />} />
