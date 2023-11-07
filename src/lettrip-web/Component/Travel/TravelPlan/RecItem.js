@@ -70,6 +70,9 @@ const RecItem = ({
     //결과 가져오기
     setCourseResult(recommendationResult);
     console.log(recommendationResult);
+    if (courseResult) {
+      setIsLoading(false);
+    }
   }, [recommendationResult]);
 
   const SearchResultClick = (place) => {
