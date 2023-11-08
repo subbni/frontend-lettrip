@@ -193,3 +193,8 @@
 .btn02:hover {
   background-color: #d3d3d3;
 }
+.Spinner {
+  text-align: center;
+  align-items: center;
+  margin: 200px 0 120px;
+}

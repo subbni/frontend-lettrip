@@ -69,9 +69,6 @@ const RecPlace = ({
   useEffect(() => {
     //결과 가져오기
     setCourseResult(recommendationResult);
-    if (courseResult) {
-      setIsLoading(false);
-    }
     console.log(recommendationResult);
   }, [recommendationResult]);
 
@@ -136,6 +133,8 @@ const RecPlace = ({
 
   const placeRefreshBtn = (e) => {
     e.preventDefault(); //새로고침 버튼 누르기
+    setCourseResult([]); // 기존 결과 초기화
+    setIsLoading(true);
     const newPageForm = { ...pageForm, page: pageForm.page + 1 };
     setPageForm(newPageForm);
     console.log(pageForm);
@@ -216,21 +215,24 @@ const RecPlace = ({
                       <span className={styles.itemAddress}>
                         {result.address}
                       </span>
-                      <AiFillStar className={styles.star} />
-                      <span className={styles.itemRating}>
-                        {result.pred_score}
+                      <span className={styles.itemScore}>
+                        {result.percentage_score}일치
                       </span>
-                    </div>
-                    <div className={styles.refreshBox}>
-                      <MdRefresh
-                        className={styles.icon01}
-                        onClick={placeRefreshBtn}
-                      />
-                      <p className={styles.boxLabel02}>다시 추천 받기</p>
+                      {/*   <AiFillStar className={styles.star} />
+                      <span className={styles.itemRating}>
+                        {result.pred_score} 
+                      </span> */}
                     </div>
                   </div>
                 ))
               )}
+              <div className={styles.refreshBox}>
+                <MdRefresh
+                  className={styles.icon01}
+                  onClick={placeRefreshBtn}
+                />
+                <p className={styles.boxLabel02}>다시 추천 받기</p>
+              </div>
             </div>
           </div>
         </div>

@@ -30,6 +30,17 @@ function ChatList({ chatRooms, onClickChatRoom }) {
     }
   };
 
+  // 이미지 URL 여부 확인 및 렌더링 함수
+  const renderLastMessage = (message) => {
+    if (message && message.startsWith("https")) {
+      // 이미지 URL인 경우
+      return "사진";
+    } else {
+      // 일반 텍스트인 경우
+      return message;
+    }
+  };
+
   return (
     <div className={styles.chatListContainer}>
       {chatRooms.map((room, index) => (
@@ -45,7 +56,9 @@ function ChatList({ chatRooms, onClickChatRoom }) {
 
           <div className={styles.listInfo}>
             <p className={styles.listNickname}>{room.participant.nickname}</p>
-            <p className={styles.listMessage}>{room.lastMessage}</p>
+            <p className={styles.listMessage}>
+              {renderLastMessage(room.lastMessage)}
+            </p>
           </div>
           <p className={styles.listTime}>
             {formatDateTime(room.lastMessageTime)}

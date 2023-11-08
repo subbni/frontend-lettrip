@@ -91,9 +91,12 @@ function PostDetail() {
   //날짜 및 시간 표시 방법 수정
   const formattedMeetUpDate = Moment(post.meetUpDate).format("YY.MM.DD HH:mm");
   const formattedcreatedDate = Moment(post.createdDate).format("YYYY.MM.DD");
-  const formattedbirthDate = post.userProfilev
-    ? Moment(post.userProfile.birthDate).format("YYYY.MM.DD")
-    : ""; // userProfile가 유효한 경우에만 Moment를 사용하도록 수정
+  if (post.userProfile) {
+    const formattedBirthDate = post.userProfile.birthDate
+      ? Moment(post.userProfile.birthDate).format("YYYY.MM.DD")
+      : "정보없음"; // userProfile가 유효한 경우에만 Moment를 사용하도록 수정하고, birthDate가 없을 경우 "정보없음"을 반환
+    console.log(formattedBirthDate);
+  }
 
   return (
     <div className={styles.page}>
@@ -119,13 +122,17 @@ function PostDetail() {
           <h1 className={styles.postTitle}>{post.title}</h1>
           <div className={styles.content03}>
             <p className={styles.postSex}>
-              {post.userProfile.sex === "male" ? (
+              {post.userProfile.sex === "MALE" ? (
                 <PiGenderMaleBold className={styles.maleIcon} />
               ) : (
                 <PiGenderFemaleBold className={styles.femaleIcon} />
               )}
             </p>
-            <p className={styles.postBirthDate}>{formattedbirthDate}</p>
+            <p className={styles.postBirthDate}>
+              {post.userProfile
+                ? Moment(post.userProfile.birthDate).format("YYYY.MM.DD")
+                : "정보없음"}
+            </p>
           </div>
           <div className={styles.content04}>
             <p className={styles.postProfile}>
@@ -153,7 +160,11 @@ function PostDetail() {
           <div className={styles.contentBox}>
             <div className={styles.content06}>
               <TbMap2 className={styles.mapIcon} />
-              <p className={styles.postPlaceName}>{placeInfo}</p>
+              {placeInfo ? (
+                <p className={styles.postPlaceName}>{placeInfo}</p>
+              ) : (
+                <p className={styles.postPlaceName}>장소 없음</p>
+              )}
             </div>
             <p className={styles.postMeetUpDate}>{formattedMeetUpDate}</p>
             <p className={styles.postContent}>{post.content}</p>

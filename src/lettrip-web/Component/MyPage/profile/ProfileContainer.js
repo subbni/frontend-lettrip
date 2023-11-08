@@ -32,7 +32,7 @@ const ProfileContainer = () => {
       <p className={styles.profileNickname}>{profile.nickname}</p>
       <div className={styles.profileInfo}>
         <p className={styles.profileName}>{profile.name}</p>
-        {profile.sex === "male" ? (
+        {profile.sex === "MALE" ? (
           <PiGenderMaleBold className={styles.maleIcon} />
         ) : (
           <PiGenderFemaleBold className={styles.femaleIcon} />

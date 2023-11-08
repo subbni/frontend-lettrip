@@ -51,9 +51,9 @@ function Poke({ id, isEditable, writerUserId }) {
   }, [people, storedEmail]);
 
   //쿡 찌른 사람 프로필로 이동하기
-  const onClickProfile = (e) => {
+  const onClickProfile = (e, userId) => {
     e.preventDefault();
-    navigate("/mypage");
+    navigate(`/mypage/${userId}`);
   };
 
   //쿡 찌르기 전체 조회 (useEffect 돌려서 프로필 사진, 수 체크하기)
@@ -203,6 +203,7 @@ function Poke({ id, isEditable, writerUserId }) {
         style={{
           content: {
             maxWidth: "630px",
+            maxHeight: "440px",
             margin: "auto",
             padding: "30px 35px",
           },
@@ -228,7 +229,10 @@ function Poke({ id, isEditable, writerUserId }) {
                     alt={`Profile ${index}`}
                   />
                   <div className={styles.pokePeopleInfoContent01}>
-                    <p className={styles.pokeName} onClick={onClickProfile}>
+                    <p
+                      className={styles.pokeName}
+                      onClick={(e) => onClickProfile(e, person.userProfile.id)}
+                    >
                       {person.userProfile.nickname}
                     </p>
                     <div className={styles.pokePeopleInfoContent02}>

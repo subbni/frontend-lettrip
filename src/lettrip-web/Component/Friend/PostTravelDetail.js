@@ -48,27 +48,35 @@ function PostTravelDetail({ writer, travelId }) {
 
   return (
     <div className={styles.planDetailContainer}>
-      <div className={styles.planDetailHeader}>
-        {writer}님의 여행 계획이 궁금하세요? 플랜을 클릭해 확인해보세요.
-      </div>
-      <hr className={styles.hr2} />
-      <div className={styles.planDetailBox}>
-        <div className={styles.boxContent}>
-          <p className={styles.planTitle}> {travel.title} </p>
-          <p className={styles.planDate}>
-            {Moment(travel.departDate).format("YY.MM.DD")} ~
-            {Moment(travel.lastDate).format("YY.MM.DD")}
-          </p>
-          <p className={styles.planCourse}> {travel.numberOfCourses}개</p>
-          <p className={styles.planTheme}> #{travel.travelTheme} </p>
-          <p className={styles.planCost}>
-            {numberWithCommas(travel.totalCost)}원 / 인
-          </p>
+      {travel.length > 0 ? (
+        <div>
+          <div className={styles.planDetailHeader}>
+            {writer}님의 여행 계획이 궁금하세요? 플랜을 클릭해 확인해보세요.
+          </div>
+          <hr className={styles.hr2} />
+          <div className={styles.planDetailBox}>
+            <div className={styles.boxContent}>
+              <p className={styles.planTitle}> {travel.title} </p>
+              <p className={styles.planDate}>
+                {Moment(travel.departDate).format("YY.MM.DD")} ~
+                {Moment(travel.lastDate).format("YY.MM.DD")}
+              </p>
+              <p className={styles.planCourse}> {travel.numberOfCourses}개</p>
+              <p className={styles.planTheme}> #{travel.travelTheme} </p>
+              <p className={styles.planCost}>
+                {numberWithCommas(travel.totalCost)}원 / 인
+              </p>
+            </div>
+            <button className={styles.planCheckBtn} onClick={handleCheckPlan}>
+              플랜확인
+            </button>
+          </div>
         </div>
-        <button className={styles.planCheckBtn} onClick={handleCheckPlan}>
-          플랜확인
-        </button>
-      </div>
+      ) : (
+        <div className={styles.planDetailHeader}>
+          {writer}님의 여행 계획은 아직 없어요.
+        </div>
+      )}
     </div>
   );
 }

@@ -6,7 +6,12 @@ import { LuCalendar, LuCalendarX2 } from "react-icons/lu";
 import ChatImageFileForm from "./ChatImageFileForm";
 import ChatShedule from "./ChatSchedule";
 
-function ChatOption({ isOptClicked, handleImageFile, enterChatRoom }) {
+function ChatOption({
+  isOptClicked,
+  handleImageFile,
+  onMeetUpScheduled,
+  enterChatRoom,
+}) {
   const [isClicked, setIsClicked] = useState(false);
   const [isScheduleClicked, setIsScheduleClicked] = useState(false);
   const [isPictureClicked, setIsPictureClicked] = useState(false);
@@ -50,8 +55,10 @@ function ChatOption({ isOptClicked, handleImageFile, enterChatRoom }) {
   };
 
   const onMeetUpId = (meetUpId) => {
-    console.log(meetUpId);
     setMeetUpId(meetUpId);
+    onMeetUpScheduled(meetUpId);
+    setIsMeetUpScheduled(true);
+    setIsClicked(false);
   };
 
   const ondeleteMeetUp = (meetUpId) => {

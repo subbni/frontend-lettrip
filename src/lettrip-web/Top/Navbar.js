@@ -10,7 +10,6 @@ import Modal from "react-modal";
 //overlay 라이브러리 사용하기
 
 import styles from "./Top.module.css";
-import ChatTemplate from "../Component/Chat/ChatTemplate";
 import ChatContainer from "../Component/Chat/ChatContainer";
 function Navbar() {
   const navigate = useNavigate();
@@ -122,13 +121,13 @@ function Navbar() {
             style={{
               content: {
                 maxWidth: "800px", // Modal의 최대 너비 설정
+                maxHeight: "700px",
                 margin: "auto", // 가운데 정렬
                 padding: "0", // 내용 패딩
               },
             }}
           >
-            <ChatContainer />
-            {/*    <ChatTemplate />*/}
+            <ChatContainer setShowChatTemplate={setShowChatTemplate} />
           </Modal>
         </div>
       </div>

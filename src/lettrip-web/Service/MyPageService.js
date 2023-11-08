@@ -1,5 +1,6 @@
-import { API_BASE_URL } from "../Constant/backendAPI";
-import { formRequest, request } from "./APIService";
+import axios from "axios";
+import { API_BASE_URL, ACCESS_TOKEN } from "../Constant/backendAPI";
+import { request } from "./APIService";
 
 export function getMyProfile() {
   return request({
@@ -7,14 +8,6 @@ export function getMyProfile() {
     method: "GET",
   });
 }
-
-export function getUserProfile(id) {
-  return request({
-    url: API_BASE_URL + "/api/user/profile" + id,
-    method: "GET",
-  });
-}
-
 export function getMyTravel(isVisited, pageForm) {
   return request({
     url:
@@ -46,13 +39,35 @@ export function getMyArticle(pageForm) {
   });
 }
 
-export function modifyMyImage(userForm) {
+export function modifyMyImage(imageForm) {
   return request({
     url: API_BASE_URL + "/api/user/update/image",
     method: "POST",
-    body: JSON.stringify(userForm),
+    body: JSON.stringify(imageForm),
   });
 } //마이페이지 프로필 사진 수정 요청
+
+export function modifyMyProfileImage(imageFile) {
+  const formData = new FormData();
+  formData.append("file", imageFile);
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+    },
+  };
+  return axios
+    .post(API_BASE_URL + "/api/user/update/image", formData, config)
+    .then((response) => {
+      console.log("이미지 업로드 성공", response);
+      return response.data; // 이 부분은 필요에 따라 수정할 수 있습니다.
+    })
+    .catch((error) => {
+      console.error("이미지 업로드 실패", error);
+      throw error; // 실패한 경우 예외를 throw할 수 있습니다.
+    });
+}
+//웹소켓 채팅방 사진 첨부
 
 export function modifyMyNickname(nickname) {
   return request({
