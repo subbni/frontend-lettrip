@@ -1,10 +1,9 @@
 import { useEffect, useCallback, useState } from "react";
 
 import MapForm from "./MapForm";
-import RecItem from "./RecItem";
-import RecPlace from "./RecPlace";
-
 import styles from "./Plan.module.css";
+import CoursePlanRecItem from "./CoursePlanRecItem";
+import CoursePlanRecPlace from "./CoursePlanRectPlace";
 
 const CoursePlanItem = ({
   onCourseInsert,
@@ -13,7 +12,6 @@ const CoursePlanItem = ({
   containerIdx,
   courseIdx,
   recommendationType,
-  recommendationResult,
   province,
   pageForm,
   setPageForm,
@@ -59,6 +57,7 @@ const CoursePlanItem = ({
         city: placeInfo.city,
         address: placeInfo.address,
       };
+      console.log(newPlace);
       setCourse({
         ...course,
         place: newPlace,
@@ -117,22 +116,38 @@ const CoursePlanItem = ({
             courseIdx={courseIdx}
           />
         ) : recommendationResponse === "리뷰" ? (
-          <RecItem
+          /*  <RecItem
             onPlaceSelect={onPlaceSelect}
             containerIdx={containerIdx}
             courseIdx={courseIdx}
-            recommendationResult={recommendationResult}
+            province={province}
+            pageForm={pageForm}
+            setPageForm={setPageForm}
+            planForm={planForm}
+          /> */
+          <CoursePlanRecItem
+            onPlaceSelect={onPlaceSelect}
+            containerIdx={containerIdx}
+            courseIdx={courseIdx}
             province={province}
             pageForm={pageForm}
             setPageForm={setPageForm}
             planForm={planForm}
           />
         ) : recommendationResponse === "장소" ? (
-          <RecPlace
+          /* <RecPlace
             onPlaceSelect={onPlaceSelect}
             containerIdx={containerIdx}
             courseIdx={courseIdx}
-            recommendationResult={recommendationResult}
+            province={province}
+            pageForm={pageForm}
+            setPageForm={setPageForm}
+            planForm={planForm}
+          />*/
+          <CoursePlanRecPlace
+            onPlaceSelect={onPlaceSelect}
+            containerIdx={containerIdx}
+            courseIdx={courseIdx}
             province={province}
             pageForm={pageForm}
             setPageForm={setPageForm}

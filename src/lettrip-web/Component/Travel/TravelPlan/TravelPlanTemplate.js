@@ -48,12 +48,12 @@ const TravelPlanTemplate = () => {
   const [showFormBtn, setShowFormBtn] = useState(false); //버튼 숨기기 및 보여주기
 
   const [inputPlace, setInputPlace] = useState("");
-  /*
+
   useEffect(() => {
     if (!checkIfLoggedIn()) {
       navigate("/login");
     }
-  }, []); */
+  }, []);
 
   // 행정구역 선택에 따른 지역 option 동적 처리
   useEffect(() => {

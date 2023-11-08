@@ -1,16 +1,15 @@
 /*global kakao*/
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { recommendItem } from "../../../Service/TravelService";
+import { recommendPlace } from "../../../Service/TravelService";
 import { MdRefresh } from "react-icons/md";
 import loading from "../../../../image/Plan_Spinner.gif";
 import styles from "./Rec.module.css";
 
-const RecItem = ({
+const CoursePlanRecPlace = ({
   onPlaceSelect,
   containerIdx,
   courseIdx,
-  recommendationResult,
   province,
   pageForm,
   setPageForm,
@@ -34,8 +33,6 @@ const RecItem = ({
   });
   const [selectedUrl, setSelectedUrl] = useState("");
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
-  const [searchResults, setSearchResults] = useState([]); //선택한 장소 결과
-
   const [courseResult, setCourseResult] = useState([]); //머신러닝 결과 받아오기
   const [isLoading, setIsLoading] = useState(true); //로딩중인지 아닌지
   const [isClick, setIsClick] = useState(false);
@@ -55,12 +52,8 @@ const RecItem = ({
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
-    setCourseResult(recommendationResult);
-    if (recommendationResult) {
-      setIsLoading(false);
-    }
-  }, [recommendationResult, courseResult]);
+    fetchItemResult();
+  }, []);
 
   useEffect(() => {
     if (isPlaceSelected || isClick) {
@@ -76,6 +69,22 @@ const RecItem = ({
   useEffect(() => {
     console.log(selectedPlace);
   }, [selectedPlace]);
+
+  const fetchItemResult = () => {
+    console.log(courseResult);
+    recommendPlace(planForm, pageForm)
+      .then((response) => {
+        console.log(response);
+        setCourseResult(response);
+        if (response) {
+          setIsLoading(false);
+        }
+      })
+      .catch((e) => {
+        alert("오류가 발생했습니다.");
+        console.log(e);
+      });
+  };
 
   const SearchResultClick = (place) => {
     if (map) {
@@ -125,7 +134,6 @@ const RecItem = ({
 
   const handlePlaceConfirmClick = (e) => {
     e.preventDefault();
-    setIsLoading(true); // 로딩 중 상태로 설정
     setCourseResult([]); // 기존 결과 초기화
     onPlaceSelect(selectedPlace);
     setIsPlaceSelected(true);
@@ -140,12 +148,11 @@ const RecItem = ({
 
   const itemRefreshBtn = (e) => {
     e.preventDefault(); //새로고침 버튼 누르기
-    setIsLoading(true); // 로딩 중 상태로 설정
     setCourseResult([]); // 기존 결과 초기화
     const newPageForm = { ...pageForm, page: pageForm.page + 1 };
     setPageForm(newPageForm);
     console.log(pageForm);
-    recommendItem(planForm, pageForm)
+    recommendPlace(planForm, pageForm)
       .then((response) => {
         console.log(response);
         setCourseResult(response);
@@ -161,41 +168,48 @@ const RecItem = ({
 
   return (
     <div className={styles.container}>
-      {isPlaceSelected && !isClick ? (
-        <div className={styles.selectResult}>
-          <div className={styles.reviewBox}>
-            <p className={styles.boxLabel01}>장소 선택</p>
-          </div>
-          <div className={styles.resultItem}>
-            <span className={styles.resultItemName}>{selectedPlace.name}</span>
-            <span className={styles.resultItemAddress}>
-              {selectedPlace.address}
-            </span>
-            <Link
-              to={selectedUrl}
-              target='_blank'
-              className={styles.resultItemLink}
-            >
-              Kakao Map으로 보기
-            </Link>
-            <div className={styles.btnContainer}>
-              <button
-                className={styles.btn02}
-                onClick={handlePlaceConfirmClick}
+      {isPlaceSelected ? (
+        !isClick ? (
+          <div className={styles.selectResult}>
+            <div className={styles.reviewBox}>
+              <p className={styles.boxLabel01}>장소 선택</p>
+            </div>
+            <div className={styles.resultItem}>
+              <span className={styles.resultItemName}>
+                {selectedPlace.name}
+              </span>
+              <span className={styles.resultItemAddress}>
+                {selectedPlace.address}
+              </span>
+              <Link
+                to={selectedUrl}
+                target='_blank'
+                className={styles.resultItemLink}
               >
-                확인
-              </button>
-              <button className={styles.btn02} onClick={handleBackButtonClick}>
-                취소
-              </button>
+                Kakao Map으로 보기
+              </Link>
+              <div className={styles.btnContainer}>
+                <button
+                  className={styles.btn02}
+                  onClick={handlePlaceConfirmClick}
+                >
+                  확인
+                </button>
+                <button
+                  className={styles.btn02}
+                  onClick={handleBackButtonClick}
+                >
+                  취소
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        ) : null
       ) : (
         <div>
           <div className={styles.box}>
             <div className={styles.reviewBox}>
-              <p className={styles.boxLabel01}>리뷰 기반 추천</p>
+              <p className={styles.boxLabel01}>장소 기반 추천</p>
             </div>
             <div className={styles.headerBox}>
               <p className={styles.headerLabel01}> {province} </p>
@@ -203,7 +217,7 @@ const RecItem = ({
               <p className={styles.headerLabel03}> 추천 점수</p>
             </div>
             <div className={styles.contentResult}>
-              {isLoading ? (
+              {courseResult.length === 0 ? (
                 // 로딩 중인 경우 "로딩 중" 메시지 표시
                 <img
                   src={loading}
@@ -212,7 +226,6 @@ const RecItem = ({
                   className={styles.Spinner}
                 />
               ) : (
-                courseResult &&
                 courseResult.map((result, index) => (
                   <div
                     key={index}
@@ -259,4 +272,4 @@ const RecItem = ({
   );
 };
 
-export default RecItem;
+export default CoursePlanRecPlace;
