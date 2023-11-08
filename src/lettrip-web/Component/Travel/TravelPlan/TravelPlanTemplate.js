@@ -85,7 +85,7 @@ const TravelPlanTemplate = () => {
       courses: courseList,
     }));
     //최소 2개 이상일 때, 장소 검색에 넣을 장소 추출
-    if (courses.length >= 2) {
+    if (courses.length >= 1) {
       const lastCourse = courses[courses.length - 1];
       setInputPlace(lastCourse.place.name);
     }
@@ -107,9 +107,6 @@ const TravelPlanTemplate = () => {
   const courseId = useRef(1);
   const onCourseInsert = useCallback(
     (courseInfo, placeInfo) => {
-      console.log(planForm.courses);
-      console.log(courses);
-      console.log(placeInfo);
       const newCourse = {
         id: courseInfo.id,
         arrivedTime:
@@ -227,7 +224,6 @@ const TravelPlanTemplate = () => {
       courses: courseList,
     }));
     console.log(planForm);
-
     createTravelPlan(planForm)
       .then((response) => {
         if (response.success) {

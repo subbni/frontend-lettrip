@@ -14,9 +14,9 @@ const CoursePlanRecItem = ({
   pageForm,
   setPageForm,
   planForm,
+  recommendationResult,
 }) => {
   const [mapVisible, setMapVisible] = useState(false);
-
   const [mapId, setMapId] = useState(containerIdx + "map" + courseIdx);
   const [map, setMap] = useState(null);
   const [infowindow, setInfowindow] = useState(null);
@@ -55,6 +55,10 @@ const CoursePlanRecItem = ({
   }, []);
 
   useEffect(() => {
+    setCourseResult(courseResult);
+  }, [courseResult]);
+
+  useEffect(() => {
     if (isPlaceSelected || isClick) {
       setMapVisible(true);
     } else {
@@ -71,6 +75,7 @@ const CoursePlanRecItem = ({
 
   const fetchItemResult = () => {
     console.log(courseResult);
+    console.log(recommendationResult);
     recommendItem(planForm, pageForm)
       .then((response) => {
         console.log(response);
@@ -134,6 +139,7 @@ const CoursePlanRecItem = ({
   const handlePlaceConfirmClick = (e) => {
     e.preventDefault();
     onPlaceSelect(selectedPlace);
+    console.log(selectedPlace);
     setCourseResult([]); // 기존 결과 초기화
     setIsPlaceSelected(true);
     setIsClick(true);
@@ -145,8 +151,7 @@ const CoursePlanRecItem = ({
     setIsPlaceSelected(false); // 뒤로 가기 버튼을 누르면 장소 선택 상태 초기화
   };
 
-  const itemRefreshBtn = (e) => {
-    e.preventDefault(); //새로고침 버튼 누르기
+  const itemRefreshBtn = () => {
     setCourseResult([]); // 기존 결과 초기화
     const newPageForm = { ...pageForm, page: pageForm.page + 1 };
     setPageForm(newPageForm);
@@ -205,58 +210,63 @@ const CoursePlanRecItem = ({
           </div>
         ) : null
       ) : (
-        <div>
-          <div className={styles.box}>
-            <div className={styles.reviewBox}>
-              <p className={styles.boxLabel01}>리뷰 기반 추천</p>
-            </div>
-            <div className={styles.headerBox}>
-              <p className={styles.headerLabel01}> {province} </p>
-              <p className={styles.headerLabel02}> 추천 장소</p>
-              <p className={styles.headerLabel03}> 추천 점수</p>
-            </div>
-            <div className={styles.contentResult}>
-              {courseResult.length === 0 ? (
-                // 로딩 중인 경우 "로딩 중" 메시지 표시
-                <img
-                  src={loading}
-                  alt='로딩'
-                  width='100px'
-                  className={styles.Spinner}
-                />
-              ) : (
-                courseResult.map((result, index) => (
-                  <div
-                    key={index}
-                    className={styles.contentItem}
-                    onClick={() => SearchResultClick(result)}
-                  >
-                    <div className={styles.itemHeader01}>
-                      <span className={styles.itemName}>
-                        {result.place_name}
-                      </span>
-                      <span className={styles.itemCategory}>
-                        {result.category}
-                      </span>
+        recommendationResult && (
+          <div>
+            <div className={styles.box}>
+              <div className={styles.reviewBox}>
+                <p className={styles.boxLabel01}>리뷰 기반 추천</p>
+              </div>
+              <div className={styles.headerBox}>
+                <p className={styles.headerLabel01}> {province} </p>
+                <p className={styles.headerLabel02}> 추천 장소</p>
+                <p className={styles.headerLabel03}> 추천 점수</p>
+              </div>
+              <div className={styles.contentResult}>
+                {courseResult.length === 0 ? (
+                  // 로딩 중인 경우 "로딩 중" 메시지 표시
+                  <img
+                    src={loading}
+                    alt='로딩'
+                    width='100px'
+                    className={styles.Spinner}
+                  />
+                ) : (
+                  courseResult.map((result, index) => (
+                    <div
+                      key={index}
+                      className={styles.contentItem}
+                      onClick={() => SearchResultClick(result)}
+                    >
+                      <div className={styles.itemHeader01}>
+                        <span className={styles.itemName}>
+                          {result.place_name}
+                        </span>
+                        <span className={styles.itemCategory}>
+                          {result.category}
+                        </span>
+                      </div>
+                      <div className={styles.itemHeader02}>
+                        <span className={styles.itemAddress}>
+                          {result.address}
+                        </span>
+                        <span className={styles.itemScore}>
+                          {result.percentage_score}% 일치
+                        </span>
+                      </div>
                     </div>
-                    <div className={styles.itemHeader02}>
-                      <span className={styles.itemAddress}>
-                        {result.address}
-                      </span>
-                      <span className={styles.itemScore}>
-                        {result.percentage_score}% 일치
-                      </span>
-                    </div>
-                  </div>
-                ))
-              )}
-              <div className={styles.refreshBox}>
-                <MdRefresh className={styles.icon01} onClick={itemRefreshBtn} />
-                <p className={styles.boxLabel02}>다시 추천 받기</p>
+                  ))
+                )}
+                <div className={styles.refreshBox}>
+                  <MdRefresh
+                    className={styles.icon01}
+                    onClick={itemRefreshBtn}
+                  />
+                  <p className={styles.boxLabel02}>다시 추천 받기</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )
       )}
       <div
         className={styles.map}

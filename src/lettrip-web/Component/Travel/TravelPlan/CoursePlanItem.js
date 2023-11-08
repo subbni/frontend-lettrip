@@ -16,6 +16,7 @@ const CoursePlanItem = ({
   pageForm,
   setPageForm,
   planForm,
+  recommendationResult,
 }) => {
   const [course, setCourse] = useState({
     id: courseIdx,
@@ -64,7 +65,7 @@ const CoursePlanItem = ({
       });
       setIsPlaceSelected((isPlaceSelected) => !isPlaceSelected);
     },
-    [course.place]
+    [course.courseIdx]
   );
   console.log(course);
 
@@ -133,6 +134,7 @@ const CoursePlanItem = ({
             pageForm={pageForm}
             setPageForm={setPageForm}
             planForm={planForm}
+            recommendationResult={recommendationResult}
           />
         ) : recommendationResponse === "장소" ? (
           /* <RecPlace
