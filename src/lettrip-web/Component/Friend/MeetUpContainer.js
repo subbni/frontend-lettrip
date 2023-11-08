@@ -18,7 +18,7 @@ function MeetUpContainer({ meetUpPostList }) {
   return (
     <div className={styles.container}>
       <div className={styles.box}>
-        {friendMatchingList &&
+        {friendMatchingList.length > 0 ? (
           friendMatchingList.map((post, index) => (
             <div
               key={index}
@@ -78,7 +78,12 @@ function MeetUpContainer({ meetUpPostList }) {
                 </div>
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <div className={styles.noReult}>
+            <p className={styles.noResultsText}>검색 결과가 없습니다.</p>
+          </div>
+        )}
       </div>
     </div>
   );

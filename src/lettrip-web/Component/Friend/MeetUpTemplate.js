@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Modal from "react-modal";
 import { checkIfLoggedIn } from "../../Service/AuthService";
 import {
   showMeetUpPostList,
@@ -8,9 +9,11 @@ import {
 import Pagination from "react-js-pagination";
 import styles from "./MeetUp.module.css";
 import { RiToggleFill, RiToggleLine } from "react-icons/ri"; // 지역 on/off 아이콘
+import { IoOptionsOutline } from "react-icons/io5";
 import { Provinces, Citys } from "../Travel/TravelData";
 import MeetUpContainer from "./MeetUpContainer";
 import MeetUpGPS from "./MeetUpGPS";
+import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 
 function MeetUpTemplate() {
   const navigate = useNavigate();
@@ -21,22 +24,24 @@ function MeetUpTemplate() {
     size: 8,
     sort: "id,DESC",
   });
-  const [searchAllForm, setSearchAllForm] = useState({
-    province: "all",
-    city: "all",
-    isGpsEnabled: false,
-  }); //친구 매칭 전체 글 불러오기 조회 리스트
-  const [searchOptionForm, setSearchOptionForm] = useState({
+  const [searchForm, setSearchForm] = useState({
     province: "all",
     city: "all",
     meetUpPostStatus: "UNSCHEDULED",
     isGpsEnabled: false,
   });
-
+  const [searchOptionForm, setSearchOptionForm] = useState({
+    province: "",
+    city: "",
+    meetUpPostStatus: "",
+    isGpsEnabled: false,
+  });
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [meetUpPostList, setMeetUpPostList] = useState([]); //매칭 글 리스트 저장할 곳
   const [isRegionBtnOn, setIsRegionBtnOn] = useState(false); // "지역" 버튼 상태
   const [address, setAddress] = useState(null);
   const [matchedCitys, setMatchedCitys] = useState([]);
+
   // 행정구역
   const provinces = Provinces;
   const provincesOptions = provinces.map((province, idx) => (
@@ -65,6 +70,15 @@ function MeetUpTemplate() {
     searchAllPosts();
   }, [pageForm.page]);
 
+  const openFilterModal = () => {
+    setIsFilterModalOpen(true);
+  };
+
+  // 필터 모달 닫기
+  const closeFilterModal = () => {
+    setIsFilterModalOpen(false);
+  };
+
   //////// event 핸들링
   const handlePostChange = (e) => {
     const changingField = e.target.name;
@@ -76,17 +90,35 @@ function MeetUpTemplate() {
 
   const onSearchBtnClick = (e) => {
     e.preventDefault();
-    console.log(searchOptionForm);
+    if (searchOptionForm.city === "") {
+      // city를 선택하지 않은 경우
+      alert("도시를 선택하세요.");
+      return;
+    }
+    if (searchOptionForm.province === "" && searchOptionForm.city === "") {
+      setSearchOptionForm({
+        ...searchOptionForm,
+        province: "all",
+        city: "all",
+      });
+      return;
+    }
+    // 모든 조건이 충족된 경우, 검색 실행
+    setIsFilterModalOpen(false);
     searchOptionPosts();
   };
 
+  const onSearchAllClick = (e) => {
+    e.preventDefault();
+    setIsFilterModalOpen(false);
+    searchAllPosts();
+  };
+
   const searchAllPosts = () => {
-    showMeetUpPostList(searchAllForm, pageForm)
+    showMeetUpPostList(searchForm, pageForm)
       .then((response) => {
         setMeetUpPostList(response.content);
         setTotalElements(response.totalElements);
-        console.log(response);
-        console.log(searchAllForm);
       })
       .catch((e) => {
         console.log(e);
@@ -99,6 +131,7 @@ function MeetUpTemplate() {
       .then((response) => {
         setMeetUpPostList(response.content);
         setTotalElements(response.totalElements);
+        console.log(searchOptionForm);
         console.log(response);
       })
       .catch((e) => {
@@ -145,62 +178,93 @@ function MeetUpTemplate() {
     <div className={styles.page}>
       <div className={styles.header}>
         <h3 className={styles.pageTitle}>친구매칭 글 목록</h3>
-        <div className={styles.isScheduledBtnBox}>
-          <select
-            className={styles.searchOpt}
-            name='meetUpPostStatus'
-            id='meetUpPostStatus'
-            value={searchOptionForm.meetUpPostStatus}
-            onChange={handlePostChange}
-            defaultValue='default'
-          >
-            <option value='default' disabled>
-              매칭여부
-            </option>
-            <option value='UNSCHEDULED'>매칭전</option>
-            <option value='SCHEDULED'>매칭완료</option>
-          </select>
-        </div>
-        <div className={styles.provinceBtnBox}>
-          <select
-            className={styles.searchOpt}
-            name='province'
-            id='province'
-            value={searchOptionForm.province}
-            onChange={handlePostChange}
-            disabled={address !== null}
-          >
-            <option value='' disabled>
-              시/도 선택
-            </option>
-            {provincesOptions}
-          </select>
-        </div>
-        <div className={styles.cityBtnBox}>
-          <select
-            className={styles.searchOpt}
-            name='city'
-            id='city'
-            value={searchOptionForm.city}
-            onChange={handlePostChange}
-            disabled={address !== null}
-          >
-            <option value='' disabled>
-              지역
-            </option>
-            {matchedCitys.map((city, idx) => (
-              <option key={idx}>{city}</option>
-            ))}
-          </select>
-        </div>
-        <div className={styles.gpsBtnBox} onClick={handleRegionBtnClick}>
-          {!isRegionBtnOn ? <p className={styles.gpsText}>GPS</p> : null}
-          {isRegionBtnOn && <MeetUpGPS onAddressUpdate={handleAddressUpdate} />}
-          <p className={styles.gpsBtn}>{regionIcon}</p>
-        </div>
-        <button className={styles.searchForm_button} onClick={onSearchBtnClick}>
-          검색
-        </button>
+        <IoOptionsOutline
+          onClick={openFilterModal}
+          className={styles.searchBtn}
+        />
+        <Modal
+          isOpen={isFilterModalOpen}
+          onRequestClose={closeFilterModal}
+          style={{
+            content: {
+              maxWidth: "480px",
+              maxHeight: "150px",
+              margin: "auto",
+              padding: "0px 35px",
+            },
+          }}
+        >
+          <div className={styles.searchPage}>
+            <div className={styles.searchHeader}>
+              <div className={styles.isScheduledBtnBox}>
+                <select
+                  className={styles.searchOpt}
+                  name='meetUpPostStatus'
+                  id='meetUpPostStatus'
+                  value={searchOptionForm.meetUpPostStatus}
+                  onChange={handlePostChange}
+                >
+                  <option value='' disabled>
+                    매칭여부
+                  </option>
+                  <option value='UNSCHEDULED'>매칭전</option>
+                  <option value='SCHEDULED'>매칭완료</option>
+                </select>
+              </div>
+              <div className={styles.provinceBtnBox}>
+                <select
+                  className={styles.searchOpt}
+                  name='province'
+                  id='province'
+                  value={searchOptionForm.province}
+                  onChange={handlePostChange}
+                >
+                  <option value='' disabled>
+                    지역선택
+                  </option>
+                  {provincesOptions}
+                </select>
+              </div>
+              <div className={styles.cityBtnBox}>
+                <select
+                  className={styles.searchOpt}
+                  name='city'
+                  id='city'
+                  value={searchOptionForm.city}
+                  onChange={handlePostChange}
+                >
+                  <option value='' disabled>
+                    도시선택
+                  </option>
+                  {matchedCitys.map((city, idx) => (
+                    <option key={idx}>{city}</option>
+                  ))}
+                </select>
+              </div>
+              <div className={styles.gpsBtnBox} onClick={handleRegionBtnClick}>
+                {!isRegionBtnOn ? <p className={styles.gpsText}>GPS</p> : null}
+                {isRegionBtnOn && (
+                  <MeetUpGPS onAddressUpdate={handleAddressUpdate} />
+                )}
+                <p className={styles.gpsBtn}>{regionIcon}</p>
+              </div>
+            </div>
+            <div className={styles.searchBtnContainer}>
+              <button
+                className={styles.searchAllBtn}
+                onClick={onSearchAllClick}
+              >
+                초기화
+              </button>
+              <button
+                className={styles.searchSubmitBtn}
+                onClick={onSearchBtnClick}
+              >
+                검색
+              </button>
+            </div>
+          </div>
+        </Modal>
       </div>
       <MeetUpContainer meetUpPostList={meetUpPostList} />
       <button className={styles.createBtn} onClick={handleCreatePage}>

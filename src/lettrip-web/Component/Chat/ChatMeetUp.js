@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment";
 import "moment/locale/ko";
 import {
   sendMeetUpCode, // 인증 번호를 요청하는 함수
   verifyMeetUp, // 인증 번호를 확인하는 함수
 } from "../../Service/MeetUpService";
-import { createMeetUpReview } from "../../Service/MeetUpReivewService";
 import styles from "./Chatting.module.css";
 
-function ChatMeetUp({ enterChatRoom, post, meetUp }) {
+function ChatMeetUp({ enterChatRoom, post, meetUp, onMeetUpSuccess }) {
   console.log(enterChatRoom, post);
   const [isRequestId, setIsRequestId] = useState(false);
   const [verificationCode, setVerificationCode] = useState(null);
@@ -52,6 +50,8 @@ function ChatMeetUp({ enterChatRoom, post, meetUp }) {
       .then((response) => {
         console.log(response);
         console.log(verifyForm);
+        onMeetUpSuccess(response.success);
+        alert("인증이 완료되었습니다. 즐거운 만남 되세요!");
       })
       .catch((error) => {
         console.error("인증 번호를 확인하지 못했습니다.", error);

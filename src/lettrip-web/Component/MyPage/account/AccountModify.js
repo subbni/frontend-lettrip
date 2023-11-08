@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN } from "../../../Constant/backendAPI";
 import {
   getMyProfile,
   modifyMyImage,
+  modifyMyProfileImage,
   modifyMyNickname,
   modifyMyPassword,
 } from "../../../Service/MyPageService";
@@ -48,19 +48,7 @@ const AccountModify = () => {
     }));
   };
 
-  //사진 수정하기
-  const modifyImage = () => {
-    setShowFileInput(true);
-  };
-  //닉네임 수정하기
-  const modifyNickname = () => {
-    setAccountForm({
-      ...accountForm,
-      nickname: profile.nickname !== null ? profile.nickname : "",
-    });
-  };
-
-  //파일 선택 시
+  // 파일 선택 시
   const handleFileSelect = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -77,30 +65,28 @@ const AccountModify = () => {
     }
   };
 
-  //프로필 변경 요청하기
-  const onModifySubmit = (e) => {
-    e.preventDefault();
-    if (window.confirm("정보를 수정하시겠습니까?")) {
-      //닉네임 변경하기
-      if (accountForm.nickname !== profile.nickname) {
-        const newNickname = {
-          nickname: accountForm.nickname,
-        };
-        modifyMyNickname(newNickname)
-          .then((response) => {
-            console.log(response);
-            console.log(newNickname);
-            console.log(modifyMyNickname);
-            alert("닉네임 수정이 완료되었습니다.");
-            navigate("/mypage");
-          })
-          .catch((e) => {
-            console.log(e);
-            console.log(newNickname);
-            alert("닉네임 수정에 실패하였습니다. 다시 시도해주세요.");
-          });
-      }
+  // 이미지 변경 요청하기
+  const onModifyImage = () => {
+    if (!accountForm.image) {
+      alert("이미지를 먼저 선택해주세요.");
+      return;
     }
+
+    // 이미지를 업로드하는 부분
+    const imageForm = {
+      file: accountForm.image,
+    };
+
+    modifyMyImage(imageForm)
+      .then((response) => {
+        console.log("이미지 업로드 성공", response);
+        alert("이미지가 성공적으로 업로드되었습니다.");
+        navigate("/mypage");
+      })
+      .catch((error) => {
+        console.error("이미지 업로드 실패", error);
+        alert("이미지 업로드 중 오류가 발생했습니다.");
+      });
   };
 
   return (
@@ -113,8 +99,8 @@ const AccountModify = () => {
             src={accountForm.image}
             alt='프로필 이미지'
           />
-          <p className='image-modify-button' onClick={modifyImage}>
-            <IoIosCamera />
+          <p className='image-modify-button' onClick={onModifyImage}>
+            변경하기
           </p>
         </div>
       ) : profile.imageUrl !== null ? (
@@ -124,8 +110,8 @@ const AccountModify = () => {
             src={profile.imageUrl}
             alt='프로필 이미지'
           />
-          <p className='image-modify-button' onClick={modifyImage}>
-            <IoIosCamera />
+          <p className='image-modify-button' onClick={onModifyImage}>
+            변경하기
           </p>
         </div>
       ) : (
@@ -135,12 +121,12 @@ const AccountModify = () => {
             src={anonymous_profile}
             alt='익명 프로필 이미지'
           />
-          <p className='image-modify-button' onClick={modifyImage}>
-            <IoIosCamera />
+          <p className='image-modify-button' onClick={onModifyImage}>
+            변경하기
           </p>
         </div>
       )}
-      {showFileInput && ( //사진 첨부 input
+      {showFileInput && (
         <input
           className='profile-image-upload'
           type='file'
@@ -151,36 +137,18 @@ const AccountModify = () => {
       )}
 
       <div className='profile_nickname-box'>
-        {accountForm.nickname ? (
-          <div>
-            <input
-              className='nickname-input'
-              type='text'
-              id='nickname'
-              name='nickname'
-              required
-              placeholder={profile.nickname}
-              value={accountForm.nickname}
-              onChange={onFormChange}
-            />
-            <p
-              className='nickname-modify-button-click'
-              onClick={modifyNickname}
-            >
-              <AiOutlineEdit />
-            </p>
-          </div>
-        ) : (
-          <div>
-            <p className='profile_nickname'>{profile.nickname}</p>
-            <p
-              className='nickname-modify-button-unclick'
-              onClick={modifyNickname}
-            >
-              <AiOutlineEdit />
-            </p>
-          </div>
-        )}
+        <div>
+          <input
+            className='nickname-input'
+            type='text'
+            id='nickname'
+            name='nickname'
+            required
+            placeholder={profile.nickname}
+            value={accountForm.nickname}
+            onChange={onFormChange}
+          />
+        </div>
       </div>
 
       <div className='profile_email'>{profile.email}</div>
@@ -216,9 +184,9 @@ const AccountModify = () => {
       <button
         className='profile-modify-submit'
         type='submit'
-        onClick={onModifySubmit}
+        onClick={onModifyImage}
       >
-        수정 완료
+        사진 변경 요청
       </button>
     </div>
   );

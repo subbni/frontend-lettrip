@@ -71,7 +71,7 @@ const MeetUpGPS = ({ onAddressUpdate }) => {
           className={styles.gpsSpinner}
         />
       ) : (
-        <p className={styles.gpsAddress}>{address}</p>
+        <p className={styles.gpsText}>GPS</p>
       )}
     </div>
   );

@@ -4,7 +4,7 @@ import "moment/locale/ko";
 import { createMeetUpReview } from "../../Service/MeetUpReivewService";
 import styles from "./Chatting.module.css";
 
-function ChatMeetUpReview({ chatParticipant, meetUp }) {
+function ChatMeetUpReview({ chatParticipant, meetUp, onReviewSuccess }) {
   const [reviewForm, setReviewForm] = useState({
     meetUpId: meetUp.id,
     objectUserId: chatParticipant.id,
@@ -25,7 +25,9 @@ function ChatMeetUpReview({ chatParticipant, meetUp }) {
       .then((response) => {
         console.log(response);
         console.log(reviewForm);
+
         alert("한줄평 작성이 완료되었습니다. 마이페이지에서 확인하세요!");
+        onReviewSuccess(response.success);
       })
       .catch((error) => {
         console.error("한줄평 남기기에 실패했습니다.", error);

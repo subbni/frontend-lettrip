@@ -334,6 +334,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px 25px;
+  overflow-y: auto;
 }
 .pokeItem {
   flex: 0 0 calc(50% - 55px); /* 4개씩, 간격 50px 제외한 너비 계산 */

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { uploadChatImage } from "../../Service/ChatService";
-import styles from "./Chat.module.css";
+import styles from "./Chatting.module.css";
 
 const ChatImageFileForm = ({ onImageFileUpload }) => {
   const [imageFile, setImageFile] = useState(null);
@@ -38,7 +38,7 @@ const ChatImageFileForm = ({ onImageFileUpload }) => {
   };
 
   return (
-    <div>
+    <div className={styles.imageBox}>
       <div className={styles.imageContainer}>
         <label className={styles.imageLabel01} htmlFor='image_upload'>
           + 사진
@@ -50,6 +50,9 @@ const ChatImageFileForm = ({ onImageFileUpload }) => {
           type='file'
           onChange={handleAddImage}
         />
+        <button className={styles.submitbtn} onClick={handleUploadImage}>
+          보내기
+        </button>
       </div>
       {imageFile ? (
         <div className={styles.imageContent}>
@@ -61,7 +64,6 @@ const ChatImageFileForm = ({ onImageFileUpload }) => {
           </div>
         </div>
       ) : null}
-      <button onClick={handleUploadImage}>보내기</button>
     </div>
   );
 };

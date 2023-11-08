@@ -2,9 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { recommendItem } from "../../../Service/TravelService";
-
 import { MdRefresh } from "react-icons/md";
-
+import loading from "../../../../image/Plan_Spinner.gif";
 import styles from "./Rec.module.css";
 
 const RecItem = ({
@@ -39,6 +38,7 @@ const RecItem = ({
 
   const [courseResult, setCourseResult] = useState([]); //머신러닝 결과 받아오기
   const [isLoading, setIsLoading] = useState(true); //로딩중인지 아닌지
+  const [isClick, setIsClick] = useState(false);
 
   useEffect(() => {
     //카카오 맵 API 초기화
@@ -55,25 +55,20 @@ const RecItem = ({
   }, []);
 
   useEffect(() => {
-    if (searchResults.length > 0 || isPlaceSelected) {
+    setSearchResults(recommendationResult);
+  }, []);
+
+  useEffect(() => {
+    if (searchResults.length > 0 || isPlaceSelected || isClick) {
       setMapVisible(true);
     } else {
       setMapVisible(false);
     }
-  }, [searchResults, isPlaceSelected]);
+  }, [searchResults, isPlaceSelected, isClick]);
 
   useEffect(() => {
     console.log(selectedPlace);
   }, [selectedPlace]);
-
-  useEffect(() => {
-    //결과 가져오기
-    setCourseResult(recommendationResult);
-    console.log(recommendationResult);
-    if (courseResult) {
-      setIsLoading(false);
-    }
-  }, [recommendationResult]);
 
   const SearchResultClick = (place) => {
     if (map) {
@@ -94,9 +89,7 @@ const RecItem = ({
               );
               map.panTo(position); // 검색된 장소의 위치로 지도 이동
 
-              // address를 동까지만 자르기
-              const addressParts = place.address_name.split(" ");
-              const address = `${addressParts[0]} ${addressParts[1]} ${addressParts[2]}`;
+              const address = place.address_name; // 주소를 그대로 설정
               console.log(address);
 
               setSelectedPlace({
@@ -125,8 +118,12 @@ const RecItem = ({
 
   const handlePlaceConfirmClick = (e) => {
     e.preventDefault();
+    setIsLoading(true); // 로딩 중 상태로 설정
+    setCourseResult([]); // 기존 결과 초기화
     onPlaceSelect(selectedPlace);
-    setIsPlaceSelected(false); // 장소 선택 상태 초기화
+    setIsPlaceSelected(true);
+    setIsClick(true);
+    setMapVisible(false);
   };
 
   const handleBackButtonClick = (e) => {
@@ -136,6 +133,8 @@ const RecItem = ({
 
   const itemRefreshBtn = (e) => {
     e.preventDefault(); //새로고침 버튼 누르기
+    setIsLoading(true); // 로딩 중 상태로 설정
+    setCourseResult([]); // 기존 결과 초기화
     const newPageForm = { ...pageForm, page: pageForm.page + 1 };
     setPageForm(newPageForm);
     console.log(pageForm);
@@ -143,6 +142,9 @@ const RecItem = ({
       .then((response) => {
         console.log(response);
         setCourseResult(response);
+        if (response) {
+          setIsLoading(false);
+        }
       })
       .catch((e) => {
         alert("오류가 발생했습니다.");
@@ -152,7 +154,7 @@ const RecItem = ({
 
   return (
     <div className={styles.container}>
-      {isPlaceSelected ? (
+      {isPlaceSelected && !isClick ? (
         <div className={styles.selectResult}>
           <div className={styles.reviewBox}>
             <p className={styles.boxLabel01}>장소 선택</p>
@@ -196,7 +198,12 @@ const RecItem = ({
             <div className={styles.contentResult}>
               {isLoading ? (
                 // 로딩 중인 경우 "로딩 중" 메시지 표시
-                <div className={styles.loading}>로딩 중...</div>
+                <img
+                  src={loading}
+                  alt='로딩'
+                  width='100px'
+                  className={styles.Spinner}
+                />
               ) : (
                 // 로딩이 완료된 경우 결과를 표시
                 courseResult.map((result, index) => (
@@ -218,19 +225,16 @@ const RecItem = ({
                         {result.address}
                       </span>
                       <span className={styles.itemScore}>
-                        {result.percentage_score}%일치
+                        {result.percentage_score}% 일치
                       </span>
-                    </div>
-                    <div className={styles.refreshBox}>
-                      <MdRefresh
-                        className={styles.icon01}
-                        onClick={itemRefreshBtn}
-                      />
-                      <p className={styles.boxLabel02}>다시 추천 받기</p>
                     </div>
                   </div>
                 ))
               )}
+              <div className={styles.refreshBox}>
+                <MdRefresh className={styles.icon01} onClick={itemRefreshBtn} />
+                <p className={styles.boxLabel02}>다시 추천 받기</p>
+              </div>
             </div>
           </div>
         </div>

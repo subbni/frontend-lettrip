@@ -9,7 +9,7 @@ import { RxCross2 } from "react-icons/rx";
 import anonymous_profile from "../../../image/lettrip_anonymous_profile.png"; //프로필 이미지
 import ChatOption from "./ChatOption";
 
-function Chatting({ enterChatRoom, chatHistory }) {
+function Chatting({ enterChatRoom, chatHistory, loadMeetUp }) {
   const client = useRef({});
   const [chatList, setChatList] = useState([]); //새로운 메시지
   const [chat, setChat] = useState(""); //입력하는 메시지
@@ -55,12 +55,21 @@ function Chatting({ enterChatRoom, chatHistory }) {
 
   //사진을 보낼 때
   const handleImageFile = (imageUrl) => {
-    console.log(imageUrl);
-    setStatus("true");
     if (imageUrl !== undefined) {
+      setStatus("true");
       publish(imageUrl, status);
+      setStatus("false");
+      setIsOptClicked(false);
     }
-    console.log(status);
+  };
+
+  const onMeetUpScheduled = (meetUpId) => {
+    loadMeetUp(meetUpId);
+    /* if (meetUpId !== null) {
+      publish("만남 일정이 등록되었습니다. 상단에서 확인하세요.", "false");
+
+      setIsOptClicked(false);
+    }*/
   };
 
   // 구독한 채널에서 메시지가 왔을 때 처리
@@ -152,7 +161,7 @@ function Chatting({ enterChatRoom, chatHistory }) {
                   </div>
                 ) : (
                   <div className={styles.myMessage}>
-                    <p className={styles.messageTime}>
+                    <p className={styles.MymessageTime}>
                       {formatDateTime(message.createdAt)}
                     </p>
                     {message.isImage === true ? (
@@ -197,7 +206,9 @@ function Chatting({ enterChatRoom, chatHistory }) {
                   </div>
                 ) : (
                   <div className={styles.myMessage}>
-                    <p className={styles.messageTime}>{newMessage.createdAt}</p>
+                    <p className={styles.MymessageTime}>
+                      {newMessage.createdAt}
+                    </p>
                     {newMessage.isImage === true ? (
                       <img
                         src={newMessage.message}
@@ -246,6 +257,7 @@ function Chatting({ enterChatRoom, chatHistory }) {
             isOptClicked={isOptClicked}
             handleImageFile={handleImageFile}
             enterChatRoom={enterChatRoom}
+            onMeetUpScheduled={onMeetUpScheduled}
           />
         ) : null}
       </div>

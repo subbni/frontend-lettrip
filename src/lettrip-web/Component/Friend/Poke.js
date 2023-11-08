@@ -203,6 +203,7 @@ function Poke({ id, isEditable, writerUserId }) {
         style={{
           content: {
             maxWidth: "630px",
+            maxHeight: "440px",
             margin: "auto",
             padding: "30px 35px",
           },
