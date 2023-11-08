@@ -25,7 +25,6 @@ function ChatMeetUpReview({ chatParticipant, meetUp, onReviewSuccess }) {
       .then((response) => {
         console.log(response);
         console.log(reviewForm);
-
         alert("한줄평 작성이 완료되었습니다. 마이페이지에서 확인하세요!");
         onReviewSuccess(response.success);
       })

@@ -17,6 +17,7 @@ import Poke from "./Poke";
 function PostDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
+  console.log(id);
   const [isEditable, setIsEditable] = useState(false);
   const [post, setPost] = useState([]);
   const [place, setPlace] = useState(null);
@@ -24,7 +25,7 @@ function PostDetail() {
 
   useEffect(() => {
     fetchMeetUpPost(); // 게시글 불러오기
-  }, []);
+  }, [id]);
 
   // 게시글 불러오기 완료 후 실행
   useEffect(() => {
