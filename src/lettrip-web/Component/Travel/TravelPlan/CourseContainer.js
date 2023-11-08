@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import CoursePlanItem from "./CoursePlanItem";
-
-import { recommendItem, recommendPlace } from "../../../Service/TravelService";
 import styles from "./Plan.module.css";
 
 const CourseContainer = ({
@@ -20,7 +18,6 @@ const CourseContainer = ({
     page: 1,
     input_place: "",
   });
-  const [recommendationResult, setRecommendationResult] = useState([]);
   const [recommendationType, setRecommendationType] = useState("");
 
   useEffect(() => {
@@ -57,7 +54,6 @@ const CourseContainer = ({
     setIsSearchClickedList([...isSearchClickedList, false]);
     courseId.current += 1;
     setRecommendationType("일반");
-    console.log(recommendationType);
   };
 
   //리뷰 기반 추천
@@ -72,15 +68,6 @@ const CourseContainer = ({
     setIsSearchClickedList([...isSearchClickedList, false]);
     courseId.current += 1;
     setRecommendationType("리뷰");
-    recommendItem(planForm, pageForm)
-      .then((response) => {
-        console.log(response);
-        setRecommendationResult(response);
-      })
-      .catch((e) => {
-        alert("오류가 발생했습니다.");
-        console.log(e);
-      });
   };
 
   // 장소 기반 추천 함수
@@ -94,21 +81,12 @@ const CourseContainer = ({
     ]);
     setIsSearchClickedList([...isSearchClickedList, false]);
     courseId.current += 1;
-    setRecommendationType("장소");
     // 장소 체크
     if (pageForm.input_place.trim() === "") {
-      alert("최소 2개의 장소 등록이 필요합니다! 장소 등록을 먼저 해주세요!");
+      setRecommendationType("장소");
+      alert("최소 1개의 장소 등록이 필요합니다! 장소 등록을 먼저 해주세요!");
       return;
     }
-    recommendPlace(planForm, pageForm)
-      .then((response) => {
-        console.log(response);
-        setRecommendationResult(response);
-      })
-      .catch((e) => {
-        alert("오류가 발생했습니다.");
-        console.log(e);
-      });
   };
 
   useEffect(() => {}, [departDate]);
@@ -125,7 +103,6 @@ const CourseContainer = ({
             containerIdx={containerIdx}
             courseIdx={course.courseId}
             recommendationType={recommendationType}
-            recommendationResult={recommendationResult}
             province={planForm.province}
             pageForm={pageForm}
             setPageForm={setPageForm}

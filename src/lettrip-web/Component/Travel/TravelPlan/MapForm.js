@@ -6,6 +6,8 @@ import { AiOutlineSearch } from "react-icons/ai";
 import styles from "./Map.module.css";
 
 const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
+  const [mapVisible, setMapVisible] = useState(false);
+
   const [mapId, setMapId] = useState(containerIdx + "map" + courseIdx);
   const [keyword, setKeyword] = useState("");
   const [markers, setMarkers] = useState([]);
@@ -24,6 +26,7 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   const [selectedUrl, setSelectedUrl] = useState("");
   const [isPlaceSelected, setIsPlaceSelected] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [isClick, setIsClick] = useState(false);
 
   useEffect(() => {
     //카카오 맵 API 초기화
@@ -38,6 +41,17 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
       setInfowindow(new kakao.maps.InfoWindow({ zIndex: 1 }));
     });
   }, []);
+
+  useEffect(() => {
+    if (isPlaceSelected || isClick) {
+      setMapVisible(true);
+    } else {
+      setMapVisible(false);
+    }
+    if (isPlaceSelected && isClick) {
+      setMapVisible(false);
+    }
+  }, [setSearchResults, isPlaceSelected, isClick]);
 
   useEffect(() => {
     console.log(selectedPlace);
@@ -85,12 +99,10 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
         console.log(place);
         const position = new kakao.maps.LatLng(place.y, place.x);
         map.panTo(position); // 해당 위치로 지도 이동
-
         // address를 동까지만 자르기
         const addressParts = place.address_name.split(" ");
         const address = `${addressParts[0]} ${addressParts[1]} ${addressParts[2]}`;
         console.log(address);
-
         setSelectedPlace({
           address,
           name: place.place_name,
@@ -115,12 +127,10 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
   const SearchResultClick = (place) => {
     const position = new kakao.maps.LatLng(place.y, place.x);
     map.panTo(position); // 해당 위치로 지도 이동
-
     // address를 동까지만 자르기
     const addressParts = place.address_name.split(" ");
     const address = `${addressParts[0]} ${addressParts[1]} ${addressParts[2]}`;
     console.log(address);
-
     setSelectedPlace({
       address,
       name: place.place_name,
@@ -163,12 +173,15 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
     setMarkers([]);
   };
 
-  const handlePlaceConfirmClick = () => {
+  const handlePlaceConfirmClick = (e) => {
+    e.preventDefault();
     onPlaceSelect(selectedPlace);
     setKeyword(""); // 검색어 초기화
     setSearchResults([]); //검색 목록 초기화
-    setIsPlaceSelected(false); // 장소 선택 상태 초기화
+    setIsPlaceSelected(true); // 장소 선택 상태 초기화
+    setIsClick(true);
     removeAllMarkers(); //마커 초기화
+    setMapVisible(true);
   };
 
   const handleBackButtonClick = () => {
@@ -189,36 +202,39 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
             <AiOutlineSearch className={styles.icon01} />
           </button>
         </div>
+
         {isPlaceSelected ? (
-          <div className={styles.contentResult}>
-            <div className={styles.contentItem}>
-              <span className={styles.itemName}>{selectedPlace.name}</span>
-              <span className={styles.itemAddress}>
-                {selectedPlace.address}
-              </span>
-              <Link
-                to={selectedUrl}
-                target='_blank'
-                className={styles.itemLink}
-              >
-                Kakao Map으로 보기
-              </Link>
-              <div className={styles.btnContainer}>
-                <button
-                  className={styles.btn02}
-                  onClick={handlePlaceConfirmClick}
+          !isClick ? (
+            <div className={styles.contentResult}>
+              <div className={styles.contentItem}>
+                <span className={styles.itemName}>{selectedPlace.name}</span>
+                <span className={styles.itemAddress}>
+                  {selectedPlace.address}
+                </span>
+                <Link
+                  to={selectedUrl}
+                  target='_blank'
+                  className={styles.itemLink}
                 >
-                  확인
-                </button>
-                <button
-                  className={styles.btn02}
-                  onClick={handleBackButtonClick}
-                >
-                  취소
-                </button>
+                  Kakao Map으로 보기
+                </Link>
+                <div className={styles.btnContainer}>
+                  <button
+                    className={styles.btn02}
+                    onClick={handlePlaceConfirmClick}
+                  >
+                    확인
+                  </button>
+                  <button
+                    className={styles.btn02}
+                    onClick={handleBackButtonClick}
+                  >
+                    취소
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          ) : null
         ) : (
           <div>
             <div className={styles.contentResult}>
@@ -241,7 +257,10 @@ const MapForm = ({ onPlaceSelect, containerIdx, courseIdx }) => {
       <div
         className={styles.map}
         id={`${containerIdx}map${courseIdx}`}
-        style={{ width: "580px", height: "720px" }}
+        style={{
+          width: "580px",
+          height: "720px",
+        }}
       />
     </div>
   );
