@@ -223,10 +223,11 @@ const TravelReviewTemplate = () => {
   //////// event 핸들링
   const onReviewFormChange = (e) => {
     const changingField = e.target.name;
-    setReviewForm((planForm) => ({
+    setReviewForm((reviewForm) => ({
       ...reviewForm,
       [changingField]: e.target.value,
     }));
+    console.log(reviewForm);
   };
 
   const onReviewDataSubmit = (e) => {
@@ -319,7 +320,7 @@ const TravelReviewTemplate = () => {
                     className={styles.content02}
                     name='city'
                     id='city'
-                    value={reviewForm.province}
+                    value={reviewForm.city}
                     onChange={onReviewFormChange}
                     disabled={isReviewDataSubmit}
                     required

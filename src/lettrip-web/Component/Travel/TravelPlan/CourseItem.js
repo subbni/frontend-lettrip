@@ -5,7 +5,7 @@ import styles from "./Plan.module.css";
 import CoursePlanRecItem from "./CoursePlanRecItem";
 import CoursePlanRecPlace from "./CoursePlanRectPlace";
 
-const CoursePlanItem = ({
+const CourseItem = ({
   onCourseInsert,
   onDeleteBtnClick,
   dayCount,
@@ -16,7 +16,6 @@ const CoursePlanItem = ({
   pageForm,
   setPageForm,
   planForm,
-  recommendationResult,
 }) => {
   const [course, setCourse] = useState({
     id: courseIdx,
@@ -65,7 +64,7 @@ const CoursePlanItem = ({
       });
       setIsPlaceSelected((isPlaceSelected) => !isPlaceSelected);
     },
-    [course.courseIdx]
+    [course.place]
   );
   console.log(course);
 
@@ -117,15 +116,6 @@ const CoursePlanItem = ({
             courseIdx={courseIdx}
           />
         ) : recommendationResponse === "리뷰" ? (
-          /*  <RecItem
-            onPlaceSelect={onPlaceSelect}
-            containerIdx={containerIdx}
-            courseIdx={courseIdx}
-            province={province}
-            pageForm={pageForm}
-            setPageForm={setPageForm}
-            planForm={planForm}
-          /> */
           <CoursePlanRecItem
             onPlaceSelect={onPlaceSelect}
             containerIdx={containerIdx}
@@ -134,18 +124,8 @@ const CoursePlanItem = ({
             pageForm={pageForm}
             setPageForm={setPageForm}
             planForm={planForm}
-            recommendationResult={recommendationResult}
           />
         ) : recommendationResponse === "장소" ? (
-          /* <RecPlace
-            onPlaceSelect={onPlaceSelect}
-            containerIdx={containerIdx}
-            courseIdx={courseIdx}
-            province={province}
-            pageForm={pageForm}
-            setPageForm={setPageForm}
-            planForm={planForm}
-          />*/
           <CoursePlanRecPlace
             onPlaceSelect={onPlaceSelect}
             containerIdx={containerIdx}
@@ -208,4 +188,4 @@ const CoursePlanItem = ({
   );
 };
 
-export default CoursePlanItem;
+export default CourseItem;

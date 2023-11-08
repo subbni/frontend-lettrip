@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { recommendItem } from "../../../Service/TravelService";
 import CoursePlanItem from "./CoursePlanItem";
 import styles from "./Plan.module.css";
 
@@ -13,12 +14,12 @@ const CourseContainer = ({
 }) => {
   const courseId = useRef(0);
   const [courseList, setCourseList] = useState([]);
-  const [isSearchClickedList, setIsSearchClickedList] = useState([]);
   const [pageForm, setPageForm] = useState({
     page: 1,
     input_place: "",
   });
   const [recommendationType, setRecommendationType] = useState("");
+  const [recommendationResult, setRecommendationReesult] = useState([]);
 
   useEffect(() => {
     console.log(courseList);
@@ -51,9 +52,8 @@ const CourseContainer = ({
         courseId: containerIdx + "-" + courseId.current,
       },
     ]);
-    setIsSearchClickedList([...isSearchClickedList, false]);
-    courseId.current += 1;
     setRecommendationType("일반");
+    courseId.current += 1;
   };
 
   //리뷰 기반 추천
@@ -65,9 +65,8 @@ const CourseContainer = ({
         courseId: containerIdx + "-" + courseId.current,
       },
     ]);
-    setIsSearchClickedList([...isSearchClickedList, false]);
-    courseId.current += 1;
     setRecommendationType("리뷰");
+    courseId.current += 1;
   };
 
   // 장소 기반 추천 함수
@@ -79,7 +78,6 @@ const CourseContainer = ({
         courseId: containerIdx + "-" + courseId.current,
       },
     ]);
-    setIsSearchClickedList([...isSearchClickedList, false]);
     courseId.current += 1;
     // 장소 체크
     if (pageForm.input_place.trim() === "") {
@@ -89,7 +87,6 @@ const CourseContainer = ({
     }
   };
 
-  useEffect(() => {}, [departDate]);
   return (
     <div className={styles.courseContainer}>
       <div className={styles.dayCount}>{dayCount}일차</div>
@@ -107,7 +104,7 @@ const CourseContainer = ({
             pageForm={pageForm}
             setPageForm={setPageForm}
             planForm={planForm}
-            courseList={courseList}
+            recommendationResult={recommendationResult}
           />
         </div>
       ))}
