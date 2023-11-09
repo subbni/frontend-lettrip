@@ -49,7 +49,7 @@ function PostTravelDetail({ writer, travelId }) {
 
   return (
     <div className={styles.planDetailContainer}>
-      {travel ? (
+      {travel.title ? (
         <div>
           <div className={styles.planDetailHeader}>
             {writer}님의 여행 계획이 궁금하세요? 플랜을 클릭해 확인해보세요.

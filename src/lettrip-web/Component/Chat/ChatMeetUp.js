@@ -50,6 +50,9 @@ function ChatMeetUp({ enterChatRoom, post, meetUp, onMeetUpSuccess }) {
       .then((response) => {
         console.log(response);
         console.log(verifyForm);
+        if (response.success === false) {
+          alert("인증번호를 다시 입력해주세요!");
+        }
         onMeetUpSuccess(response.success);
         alert("인증이 완료되었습니다. 즐거운 만남 되세요!");
       })
