@@ -143,6 +143,11 @@ function Poke({ id, isEditable, writerUserId }) {
   function calculateAge(birthDate) {
     const today = new Date();
     const birthDateDate = new Date(birthDate);
+
+    if (isNaN(birthDateDate)) {
+      return "정보 없음";
+    }
+
     let age = today.getFullYear() - birthDateDate.getFullYear();
     const monthDiff = today.getMonth() - birthDateDate.getMonth();
 
@@ -252,7 +257,9 @@ function Poke({ id, isEditable, writerUserId }) {
                       {person.userProfile.nickname}
                     </p>
                     <div className={styles.pokePeopleInfoContent02}>
-                      <p className={styles.pokeAge}>{person.birthDate}세</p>
+                      <p className={styles.pokeAge}>
+                        {calculateAge(person.userProfile.birthDate)}세
+                      </p>
                       <p className={styles.pokeSex}>
                         {person.userProfile.sex === "MALE" ? (
                           <PiGenderMaleBold className={styles.maleIcon} />
