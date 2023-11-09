@@ -19,9 +19,13 @@ export function showMyMeetUpReview(pageForm) {
   });
 } //본인 한줄평 조회
 
-export function showUserMeetUpReview(id) {
+export function showUserMeetUpReview(id, pageForm) {
   return request({
-    url: API_BASE_URL + "/api/meetUpReview/user/" + id,
+    url:
+      API_BASE_URL +
+      "/api/meetUpReview/user/" +
+      id +
+      `?meetUpStatus=${pageForm.meetUpStatus}&page=${pageForm.page}&size=${pageForm.size}&sort=${pageForm.sort}`,
     method: "GET",
   });
 } //특정 인물 한줄평 조회

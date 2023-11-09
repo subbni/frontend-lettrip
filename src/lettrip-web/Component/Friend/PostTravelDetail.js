@@ -25,6 +25,7 @@ function PostTravelDetail({ writer, travelId }) {
       .then((response) => {
         console.log(response);
         setTravel(response);
+        console.log(travel);
       })
       .catch((e) => {
         window.alert("오류가 발생했습니다.");
@@ -48,7 +49,7 @@ function PostTravelDetail({ writer, travelId }) {
 
   return (
     <div className={styles.planDetailContainer}>
-      {travel.length > 0 ? (
+      {travel ? (
         <div>
           <div className={styles.planDetailHeader}>
             {writer}님의 여행 계획이 궁금하세요? 플랜을 클릭해 확인해보세요.

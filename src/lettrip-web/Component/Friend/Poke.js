@@ -140,6 +140,22 @@ function Poke({ id, isEditable, writerUserId }) {
     }
   };
 
+  function calculateAge(birthDate) {
+    const today = new Date();
+    const birthDateDate = new Date(birthDate);
+    let age = today.getFullYear() - birthDateDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDateDate.getMonth();
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDateDate.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  }
+
   return (
     <div className={styles.pokeContainer}>
       {isPoked ? (
