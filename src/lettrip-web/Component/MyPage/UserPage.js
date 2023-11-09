@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { checkIfLoggedIn } from "../../Service/AuthService";
 import UserProfileContainer from "./profile/UserProfileContainer";
-import MeetUpReview from "./MeetUpReview/MeetUpReview";
+import UserMeetUpReview from "./MeetUpReview/UserMeetUpReview";
 import UserTravelPlan from "./myTravel/UserTravelPlan";
 import UserTravelReview from "./myTravel/UserTravelReview";
 import styles from "./MyPage.module.css";
@@ -81,7 +81,7 @@ const MyPage = () => {
             {content === "meetUpReview" && (
               <div className={styles.meetUpReviewContainer}>
                 {/* meetUpReview에 대한 내용 출력 */}
-                <MeetUpReview UserId={id} />
+                <UserMeetUpReview UserId={id} />
               </div>
             )}
 
