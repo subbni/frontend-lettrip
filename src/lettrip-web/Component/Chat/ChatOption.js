@@ -127,7 +127,11 @@ function ChatOption({
         </div>
       ) : null}
       {isScheduleClicked && !isMeetUpScheduled && (
-        <ChatShedule enterChatRoom={enterChatRoom} onMeetUpId={onMeetUpId} />
+        <ChatShedule
+          enterChatRoom={enterChatRoom}
+          onMeetUpId={onMeetUpId}
+          ondeleteMeetUp={ondeleteMeetUp}
+        />
       )}
       {isPictureClicked && (
         <ChatImageFileForm onImageFileUpload={onImageFileUpload} />
