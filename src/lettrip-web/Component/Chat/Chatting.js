@@ -27,7 +27,7 @@ function Chatting({ enterChatRoom, chatHistory, loadMeetUp }) {
 
   const connect = () => {
     client.current = new StompJs.Client({
-      brokerURL: "ws://3.36.64.137:8080/ws/chat",
+      brokerURL: "ws://52.78.196.86:8080/ws/chat",
       onConnect: () => {
         console.log("연결 성공");
         subscribe(); //연결 성공 시 채팅방 입장 (구독)
@@ -177,7 +177,7 @@ function Chatting({ enterChatRoom, chatHistory, loadMeetUp }) {
                 )}
               </div>
             ))}
-            <h3 className={styles.chatText}>새로운 메시지</h3>
+
             {chatList.map((newMessage, index) => (
               <div key={index} className={styles.messageBox}>
                 {newMessage.senderId !== enterChatRoom.currentUserId && (
