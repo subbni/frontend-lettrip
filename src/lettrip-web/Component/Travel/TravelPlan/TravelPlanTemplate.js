@@ -107,6 +107,9 @@ const TravelPlanTemplate = () => {
   const courseId = useRef(1);
   const onCourseInsert = useCallback(
     (courseInfo, placeInfo) => {
+      console.log(planForm.courses);
+      console.log(courses);
+      console.log(placeInfo);
       const newCourse = {
         id: courseInfo.id,
         arrivedTime:
@@ -224,6 +227,7 @@ const TravelPlanTemplate = () => {
       courses: courseList,
     }));
     console.log(planForm);
+
     createTravelPlan(planForm)
       .then((response) => {
         if (response.success) {

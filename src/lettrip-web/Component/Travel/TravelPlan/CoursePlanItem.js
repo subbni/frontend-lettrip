@@ -16,7 +16,7 @@ const CoursePlanItem = ({
   pageForm,
   setPageForm,
   planForm,
-  recommendationResult,
+  focusIndex,
 }) => {
   const [course, setCourse] = useState({
     id: courseIdx,
@@ -40,10 +40,19 @@ const CoursePlanItem = ({
 
   const [showContents, setShowContents] = useState(false); //내용 숨기기 및 보여주기
   const [recommendationResponse, setRecommendationResponse] = useState(""); //리뷰인지 장소인지
+  const [isFocus, setIsFocus] = useState(false);
+
+  // useEffect(() => {
+  //   setRecommendationResponse(recommendationType);
+  // }, [recommendationType]);
 
   useEffect(() => {
-    setRecommendationResponse(recommendationType);
-  }, [recommendationType]);
+    if (focusIndex === courseIdx) {
+      setIsFocus(true);
+    } else {
+      setIsFocus(false);
+    }
+  });
 
   // MapForm에 전달할 place 선택 함수
   const onPlaceSelect = useCallback(
@@ -65,9 +74,10 @@ const CoursePlanItem = ({
       });
       setIsPlaceSelected((isPlaceSelected) => !isPlaceSelected);
     },
-    [course.courseIdx]
+    [course.place]
   );
   console.log(course);
+  console.log("courseIdx: " + courseIdx);
 
   const onChange = (e) => {
     setCourse({
@@ -109,15 +119,16 @@ const CoursePlanItem = ({
 
   return (
     <div className={styles.itemContainer}>
-      <div className={styles.courseReviewMap}>
-        {recommendationResponse === "일반" ? (
-          <MapForm
-            onPlaceSelect={onPlaceSelect}
-            containerIdx={containerIdx}
-            courseIdx={courseIdx}
-          />
-        ) : recommendationResponse === "리뷰" ? (
-          /*  <RecItem
+      {isFocus ? (
+        <div className={styles.courseReviewMap}>
+          {recommendationType === "일반" ? (
+            <MapForm
+              onPlaceSelect={onPlaceSelect}
+              containerIdx={containerIdx}
+              courseIdx={courseIdx}
+            />
+          ) : recommendationType === "리뷰" ? (
+            /*  <RecItem
             onPlaceSelect={onPlaceSelect}
             containerIdx={containerIdx}
             courseIdx={courseIdx}
@@ -126,18 +137,17 @@ const CoursePlanItem = ({
             setPageForm={setPageForm}
             planForm={planForm}
           /> */
-          <CoursePlanRecItem
-            onPlaceSelect={onPlaceSelect}
-            containerIdx={containerIdx}
-            courseIdx={courseIdx}
-            province={province}
-            pageForm={pageForm}
-            setPageForm={setPageForm}
-            planForm={planForm}
-            recommendationResult={recommendationResult}
-          />
-        ) : recommendationResponse === "장소" ? (
-          /* <RecPlace
+            <CoursePlanRecItem
+              onPlaceSelect={onPlaceSelect}
+              containerIdx={containerIdx}
+              courseIdx={courseIdx}
+              province={province}
+              pageForm={pageForm}
+              setPageForm={setPageForm}
+              planForm={planForm}
+            />
+          ) : recommendationType === "장소" ? (
+            /* <RecPlace
             onPlaceSelect={onPlaceSelect}
             containerIdx={containerIdx}
             courseIdx={courseIdx}
@@ -146,17 +156,19 @@ const CoursePlanItem = ({
             setPageForm={setPageForm}
             planForm={planForm}
           />*/
-          <CoursePlanRecPlace
-            onPlaceSelect={onPlaceSelect}
-            containerIdx={containerIdx}
-            courseIdx={courseIdx}
-            province={province}
-            pageForm={pageForm}
-            setPageForm={setPageForm}
-            planForm={planForm}
-          />
-        ) : null}
-      </div>
+            <CoursePlanRecPlace
+              onPlaceSelect={onPlaceSelect}
+              containerIdx={containerIdx}
+              courseIdx={courseIdx}
+              province={province}
+              pageForm={pageForm}
+              setPageForm={setPageForm}
+              planForm={planForm}
+            />
+          ) : null}
+        </div>
+      ) : null}
+
       {isPlaceSelected ? (
         <div className={styles.itemContentBox}>
           <div className={styles.itemTitle}>
