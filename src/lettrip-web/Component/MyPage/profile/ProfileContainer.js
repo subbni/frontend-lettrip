@@ -30,6 +30,7 @@ const ProfileContainer = () => {
         <img className={styles.profileImg} src={anonymous_profile} />
       )}
       <p className={styles.profileNickname}>{profile.nickname}</p>
+
       <div className={styles.profileInfo}>
         <p className={styles.profileName}>{profile.name}</p>
         {profile.sex === "MALE" ? (

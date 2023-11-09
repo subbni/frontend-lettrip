@@ -61,6 +61,11 @@ function ChatOption({
     setIsClicked(false);
   };
 
+  const onMeetUpCancel = (status) => {
+    setIsMeetUpScheduled(true);
+    setIsClicked(false);
+  };
+
   const ondeleteMeetUp = (meetUpId) => {
     console.log(isMeetUpScheduled);
     const shouldCancel = window.confirm("만남을 취소하시겠습니까?");
@@ -69,6 +74,7 @@ function ChatOption({
       cancelMeetUp(meetUpId)
         .then((response) => {
           console.log(response);
+          onMeetUpCancel(response.success);
           // 취소된 약속인 경우 메시지 표시
           if (canceled === true) {
             window.alert("이미 취소된 약속입니다.");
@@ -121,7 +127,11 @@ function ChatOption({
         </div>
       ) : null}
       {isScheduleClicked && !isMeetUpScheduled && (
-        <ChatShedule enterChatRoom={enterChatRoom} onMeetUpId={onMeetUpId} />
+        <ChatShedule
+          enterChatRoom={enterChatRoom}
+          onMeetUpId={onMeetUpId}
+          ondeleteMeetUp={ondeleteMeetUp}
+        />
       )}
       {isPictureClicked && (
         <ChatImageFileForm onImageFileUpload={onImageFileUpload} />

@@ -77,6 +77,14 @@ export function modifyMyNickname(nickname) {
   });
 } //마이페이지 프로필 닉네임 수정 요청
 
+export function modifyMyProfile(profileForm) {
+  return request({
+    url: API_BASE_URL + "/api/user/update/profile",
+    method: "POST",
+    body: JSON.stringify(profileForm),
+  });
+} //마이페이지 프로필 닉네임 수정 요청
+
 export function modifyMyPassword(password) {
   return request({
     url: API_BASE_URL + "/api/user/update/password",

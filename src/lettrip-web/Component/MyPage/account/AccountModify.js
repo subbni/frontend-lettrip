@@ -5,6 +5,7 @@ import {
   modifyMyImage,
   modifyMyProfileImage,
   modifyMyNickname,
+  modifyMyProfile,
   modifyMyPassword,
 } from "../../../Service/MyPageService";
 
@@ -18,6 +19,12 @@ const AccountModify = () => {
   const [accountForm, setAccountForm] = useState({
     image: null,
     nickname: "",
+    password: "",
+  });
+  const [profileForm, setProfileForm] = useState({
+    nickname: "",
+    sex: "",
+    birthDate: "",
     password: "",
   });
   const [profile, setProfile] = useState({});
@@ -106,24 +113,6 @@ const AccountModify = () => {
     e.preventDefault();
     if (window.confirm("정보를 수정하시겠습니까?")) {
       //닉네임 변경하기
-      if (accountForm.nickname !== profile.nickname) {
-        const newNickname = {
-          nickname: accountForm.nickname,
-        };
-        modifyMyNickname(newNickname)
-          .then((response) => {
-            console.log(response);
-            console.log(newNickname);
-            console.log(modifyMyNickname);
-            alert("닉네임 수정이 완료되었습니다.");
-            navigate("/mypage");
-          })
-          .catch((e) => {
-            console.log(e);
-            console.log(newNickname);
-            alert("닉네임 수정에 실패하였습니다. 다시 시도해주세요.");
-          });
-      }
     }
   };
 

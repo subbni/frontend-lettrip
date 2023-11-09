@@ -15,7 +15,7 @@ function MeetUpPostCreate() {
   const navigate = useNavigate();
   const [meetUpPostForm, setMeetUpPostForm] = useState({
     title: "",
-    isGpsEnabled: true,
+    isGpsEnabled: false,
     meetUpDate: "",
     province: "",
     city: "",

@@ -51,6 +51,7 @@ import AccountWithdraw from "./lettrip-web/Component/MyPage/account/AccountWithd
 
 import PlaceReviewPage from "./lettrip-web/Component/PlaceReview/PlaceReviewPage";
 import MainSlider from "./lettrip-web/Component/MainSlider";
+import AccountUpdate from "./lettrip-web/Component/MyPage/account/AccountUpdate";
 
 function App() {
   return (
@@ -101,7 +102,7 @@ function App() {
 
           <Route path='/mypage/:id' element={<UserPage />} />
           <Route path='/mypage' element={<MyPage />} />
-          <Route path='/mypage/modify' element={<AccountModify />} />
+          <Route path='/mypage/modify' element={<AccountUpdate />} />
           <Route path='/mypage/confirm' element={<AccountConfirm />} />
           <Route path='/mypage/withdraw' element={<AccountWithdraw />} />
 

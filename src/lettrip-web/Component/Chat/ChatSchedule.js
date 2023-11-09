@@ -5,7 +5,7 @@ import { createMeetUp } from "../../Service/MeetUpService";
 import styles from "./Chat.module.css";
 import { AiOutlineClockCircle } from "react-icons/ai";
 
-function ChatShedule({ enterChatRoom, onMeetUpId }) {
+function ChatShedule({ enterChatRoom, onMeetUpId, ondeleteMeetUp }) {
   const [meetUpForm, setMeetUpForm] = useState({
     roomId: enterChatRoom.roomId,
     meetUpPostId: enterChatRoom.meetUpPostId,
@@ -44,6 +44,7 @@ function ChatShedule({ enterChatRoom, onMeetUpId }) {
       createMeetUp(meetUpForm)
         .then((response) => {
           onMeetUpId(response.data);
+          ondeleteMeetUp(response.data);
           console.log(response);
           window.alert("만남이 등록되었습니다.");
         })
