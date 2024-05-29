@@ -1,27 +1,27 @@
-import { useState } from "react";
-import RankingItem from "./RankingItem";
-import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
+import { useState } from 'react';
+import RankingItem from './RankingItem';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 SwiperCore.use([Navigation, Pagination, Autoplay]); // Swiper
 
 const RankingContainer = () => {
   const rankingNameList = [
-    "QR 미션 점수 🏆",
-    "즉흥 여행 미션 점수 🏃🏻‍♀️",
-    "음식점 다방문자 🍴",
-    "카페 다방문자 ☕️",
-    "다양한 지역 방문자 🚗",
+    '음식점 다방문자 🍴',
+    '카페 다방문자 ☕️',
+    '다양한 지역 방문자 🚗',
+    'QR 미션 점수 🏆',
+    '즉흥 여행 미션 점수 🏃🏻‍♀️',
   ];
   const rankingTypeList = [
-    "QR_MISSION",
-    "RANDOM_MISSION",
-    "REVIEW_RESTAURANT",
-    "REVIEW_CAFE",
-    "TRAVEL_CITY",
+    'REVIEW_RESTAURANT',
+    'REVIEW_CAFE',
+    'TRAVEL_CITY',
+    'QR_MISSION',
+    'RANDOM_MISSION',
   ];
 
   const getFirstDate = (date) => {
@@ -37,12 +37,12 @@ const RankingContainer = () => {
   const getFormattedDate = (date) => {
     let formattedDate =
       date.getFullYear() +
-      "-" +
+      '-' +
       (date.getMonth() + 1 < 9
-        ? "0" + (date.getMonth() + 1)
+        ? '0' + (date.getMonth() + 1)
         : date.getMonth() + 1) +
-      "-" +
-      (date.getDate() < 9 ? "0" + date.getDate() : date.getDate());
+      '-' +
+      (date.getDate() < 9 ? '0' + date.getDate() : date.getDate());
     return formattedDate;
   };
 
@@ -51,9 +51,9 @@ const RankingContainer = () => {
   const to = getLastDate(new Date());
 
   const swiperStyle = {
-    position: "relative",
-    height: "22em",
-    width: "58em",
+    position: 'relative',
+    height: '22em',
+    width: '58em',
   };
   return (
     <div>
